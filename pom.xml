@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.if7100</groupId>
-	<artifactId>Femicidios</artifactId>
+	<artifactId>femicidios</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-	<name>Femicidios</name>
+	<name>femicidios</name>
 	<description>Proyecto final del grupo 2023 UCR Sede Limon</description>
 	<properties>
 		<java.version>17</java.version>
