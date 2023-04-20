@@ -11,7 +11,7 @@
 	<groupId>com.if7100</groupId>
 	<artifactId>Femicidios</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 	<name>Femicidios</name>
 	<description>Proyecto final del grupo 2023 UCR Sede Limon</description>
 	<properties>

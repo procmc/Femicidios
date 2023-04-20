@@ -1,4 +1,5 @@
-FROM openjdk:17
-EXPOSE 8080
-ADD target/femicidios.jar femicidios.jar
-ENTRYPOINT ["java", "-jar", "/femicidios.jar"]
+FROM tomcat:8.5.47-jdk8-openjdk
+
+COPY ./femicidios.war /usr/local/tomcat/webapps
+
+CMD ["/usr/local/tomcat/bin/catalina.sh","run"]
