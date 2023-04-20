@@ -1,27 +1,7 @@
-FROM tomcat:9.0.38-jdk8-openjdk
-MAINTAINER Jonathan S Mendoza
+FROM tomcat:9.0.8-jre8-alpine
+LABEL maintainer="pro.cmc@gmail.com"
 
-ENV TZ=America/Caracas
-ENV JPDA_ADDRESS="8080"
-ENV JPDA_TRANSPORT="dt_socket"
-ENV JAVA_OPTS="-Xms1024m -Xmx2048m -XX:PermSize=512m -XX:MaxPermSize=1024m"
+ADD target/femicidios.war /usr/local/tomcat/webapps/
 
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
-RUN ["rm", "-fr", "/usr/local/tomcat/webapps/femicidios.war"]
-
-#RUN apt-get update \
-#    && apt-get install -y rng-tools \
-#    && echo "HRNGDEVICE=/dev/urandom" >> /etc/default/rng-tools \
-#    && /etc/init.d/rng-tools start
-
-COPY ./target/femicidios.war /usr/local/tomcat/webapps/femicidios.war
-COPY ./conf/* /usr/local/tomcat/conf/
-
-RUN cd /usr/local/tomcat \
-    && mkdir data \
-    && cd data \
-    && mkdir customer_documents \
-    && cd ../ \
-    && chmod -R 755 data
-
-ENTRYPOINT ["catalina.sh", "jpda", "run"]
+EXPOSE 8080
+CMD ["catalina.sh", "run"]
