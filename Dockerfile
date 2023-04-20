@@ -1,4 +1,11 @@
-FROM tomcat:8.5-jdk11-openjdk-slim
-ADD target/femicidios.war /usr/local/tomcat/webapps/
-EXPOSE 8080
-CMD ["catalina.sh", "run"]
+FROM eclipse-temurin:17-jdk-jammy
+
+WORKDIR /app
+
+COPY .mvn/ .mvn
+COPY mvnw pom.xml ./
+RUN ./mvnw dependency:go-offline
+
+COPY src ./src
+
+CMD ["./mvnw", "spring-boot:run"]
