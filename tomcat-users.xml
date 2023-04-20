@@ -1,9 +1,10 @@
-<tomcat-users>
-  <role rolename="admin-gui"/>
-  <role rolename="manager-gui"/>
-    <role rolename="manager-script"/>
-   <user username="admin" password="password" roles="admin-gui,manager-gui"/>
-   <user username="deployer" password="password" roles="manager-script"/>
-   <user username="tomcat" password="password" roles="admin-gui,manager-gui,manager-script"/>
-   <user username="pro.cmc@gmail.com" password="" roles="admin-gui,manager-gui,manager-script"/>
+<?xml version=’1.0' encoding=’utf-8'?>
+<tomcat-users xmlns=”http://tomcat.apache.org/xml"
+xmlns:xsi=”http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation=”http://tomcat.apache.org/xml tomcat-users.xsd”
+version=”1.0">
+<role rolename=”manager-gui”/>
+<user username=”admin” password=”admin” roles=”manager-gui”/>
+<user username=”Carlos Morales Castro” password=”admin” roles=”manager-gui”/>
+<user username=”pro.cmc@gmail.com” password=”admin” roles=”manager-gui”/>
 </tomcat-users>

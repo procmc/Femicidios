@@ -1,12 +1,4 @@
-FROM tomcat:9.0.74-jdk17-temurin-focal
-LABEL maintainer="pro.cmc@gmail.com"
-
-ADD target/femicidios.war /usr/local/tomcat/webapps/
-
-
-#copy the user configuration file into the container.
-#COPY tomcat-users.xml /usr/local/tomcat/conf/
-
-CMD ["catalina.sh", "run"]
-
-EXPOSE 8080
+FROM eclipse-temurin:17.0.6_10-jre-focal
+RUN mkdir /opt/app
+COPY target/femicidios.jar /opt/femicidios
+CMD ["java", "-jar", "/opt/app/femicidios.jar"]
