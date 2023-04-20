@@ -1,6 +1,9 @@
 <tomcat-users>
+  <role rolename="admin-gui"/>
+  <role rolename="manager-gui"/>
+    <role rolename="manager-script"/>
    <user username="admin" password="password" roles="admin-gui,manager-gui"/>
    <user username="deployer" password="password" roles="manager-script"/>
-   <user username="tomcat" password="password" roles="manager-gui"/>
-   <user username="pro.cmc@gmail.com" password="" roles="admin-gui,manager-gui"/>
+   <user username="tomcat" password="password" roles="admin-gui,manager-gui,manager-script"/>
+   <user username="pro.cmc@gmail.com" password="" roles="admin-gui,manager-gui,manager-script"/>
 </tomcat-users>
