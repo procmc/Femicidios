@@ -1,4 +1,7 @@
-FROM tomcat:8.5-jdk11-openjdk-slim
-ADD target/femicidios.war /usr/local/tomcat/webapps/
-EXPOSE 8080
-CMD ["catalina.sh", "run"]
+FROM openjdk:17-jdk-alpine
+
+WORKDIR /app
+
+COPY target/*.war femicidios.war
+
+ENTRYPOINT ["java","-war","/app/femicidios.war"]
