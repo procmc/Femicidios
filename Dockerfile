@@ -1,8 +1,4 @@
-FROM maven:3.5.2-jdk-8-alpine AS MAVEN_TOOL_CHAIN
-COPY pom.xml /tmp/
-COPY src /tmp/src/
-WORKDIR /tmp/
-RUN mvn package
-FROM tomcat:9.0-jre8-alpine
-COPY --from=MAVEN_TOOL_CHAIN /tmp/target/femicidios*.war $CATALINA_HOME/webapps/femicidios.war
-HEALTHCHECK --interval=1m --timeout=3s CMD wget --quiet --tries=1 --spider http://localhost:8080/femicidios/ || exit 1
+FROM openjdk:17
+EXPOSE 8080
+ADD target/femicidios.jar femicidios.jar
+ENTRYPOINT ["java", "-jar", "/femicidios.jar"]
