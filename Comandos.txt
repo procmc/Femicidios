@@ -1,0 +1,21 @@
+#para crear al red
+
+docker network create red-mysql-femicidios
+
+docker network ls
+
+docker container run --name mysqlFemicidios --network red-mysql-femicidios -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=femicidios -d mysql:8
+
+
+
+
+
+
+
+
+
+docker container run --network bridge --name PruebasFemicidios -d  procmc/femicidios
+
+#iniciar docker
+
+docker run --name PruebasFemicidios -p 8080:8080 procmc/femicidios
