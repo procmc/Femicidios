@@ -43,7 +43,7 @@ jobs:
     - name: copy file
       uses: canastro/copy-file-action@master
       with:
-        source: "/home/runner/work/Femicidios/Femicidios/target/femicidios-0.0.1-SNAPSHOT.jar"
+        source: "${{ github.workspace }}/target/femicidios-0.0.1-SNAPSHOT.jar"
         target: "target/"
           
     - name: Login to Docker Hub
