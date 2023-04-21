@@ -46,7 +46,8 @@ jobs:
         path: ${{ github.workspace }}/target/*.jar
         retention-days: 1
         
-    - name: Temporarily download jar artifact   
+    - name: Temporarily download jar artifact  
+    - uses: actions/checkout@v2   
     - uses: actions/download-artifact@v1
       with:
           name: jar-artifact
