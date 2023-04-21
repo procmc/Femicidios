@@ -4,18 +4,33 @@ docker network create red-mysql-femicidios
 
 docker network ls
 
-docker container run --name mysqlFemicidios --network red-mysql-femicidios -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=femicidios -p 3316:3316 -d mysql:8
+docker container run --name mysqlFemicidios --network red-mysql-femicidios -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=femicidios --env="MYSQL_TCP_PORT=3316" -d mysql:8
+
+
+-p 3306:3316
 
 
 
 
 
 
-
-
-
-docker container run --network host --name PruebasFemicidios -p 8080:8080 -d  procmc/femicidios
+docker container run --network red-mysql-femicidios --name PruebasFemicidios -p 8080:8080 -d  procmc/femicidios
 
 #iniciar docker
 
 docker run --name PruebasFemicidios -p 8080:8080 procmc/femicidios
+
+
+docker pull mysql/mysql-server:latest
+
+docker run -d -p 3316:3316 --name mysql-docker-container --network red-mysql-femicidios -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=femicidios -e MYSQL_USER=root -e MYSQL_PASSWORD=root mysql/mysql-server:latest
+
+docker exec -it mysql-docker-container bash
+
+mysql -u root -p
+
+CREATE USER 'new_user'@'localhost' IDENTIFIED BY 'helloworld';
+GRANT ALL PRIVILEGES ON *.* TO 'new_user'@'localhost';
+FLUSH PRIVILEGES;
+
+Deploy Spring Boot to Docker with mysql remote
