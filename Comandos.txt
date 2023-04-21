@@ -4,7 +4,7 @@ docker network create red-mysql-femicidios
 
 docker network ls
 
-docker container run --name mysqlFemicidios --network red-mysql-femicidios -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=femicidios -d mysql:8
+docker container run --name mysqlFemicidios --network red-mysql-femicidios -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=femicidios -p 3316:3316 -d mysql:8
 
 
 
