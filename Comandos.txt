@@ -14,7 +14,7 @@ docker container run --name mysqlFemicidios --network red-mysql-femicidios -e MY
 
 
 
-docker container run --network bridge --name PruebasFemicidios -d  procmc/femicidios
+docker container run --network host --name PruebasFemicidios -p 8080:8080 -d  procmc/femicidios
 
 #iniciar docker
 
