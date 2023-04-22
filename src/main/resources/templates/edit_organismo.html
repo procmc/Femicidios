@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Actualizar usuario</title>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous">
+</head>
+<body>
+<div class="row">
+		<div class="col-md-12">
+			<ul class="nav nav-pills flex-column flex-sm-row">
+				<li class="nav-item">
+					<a class="nav-link active" href="#">Inicio</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" th:href="@{/usuarios}">Organismos</a>
+				</li>
+		
+			</ul>
+		</div>
+	</div>
+<br>
+<br>
+	<div class = "container">
+		<div class = "row">
+			<div class ="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
+				<h1 class = "text-center"> Actualizar organismo </h1>
+				<div class = "card-body">
+					<form th:action="@{/organismos/{id} (id=${organismo.CI_Id})}" th:object = "${organismo}" method="POST">
+						<div class ="form-group">
+							<label>Nombre del organismo</label>
+							<input
+							type = "text"
+							name = "nombre"
+							th:field = "*{CVNombre}"
+							class = "form-control"
+							placeholder="Digite el nombre del Organismo" 
+							/>
+						</div>
+						
+						<div class ="form-group">
+							<label>Rol del usuario</label>
+							<input
+							type = "text"
+							name = "rol"
+							th:field = "*{CVRol}"
+							class = "form-control"
+							placeholder="Digite el rol del Usuario" 
+							/>
+						</div>
+						
+						<div class ="form-group">
+							<label>Rol del usuario</label>
+							<input
+							type = "text"
+							name = "rol"
+							th:field = "*{CVTipo_Organismo}"
+							class = "form-control"
+							placeholder="Digite el tipo de Organismo" 
+							/>
+						</div>
+						
+						
+						
+						<div class ="form-group">
+							<label>nacionalidad del organismo</label>
+							<input
+							type = "text"
+							name = "nacionalidad"
+							th:field = "*{CVNacionalidad}"
+							class = "form-control"
+							placeholder="Digite la nacionalidad del Organismo" 
+							/>
+						</div>
+						
+						<div class ="form-group">
+							<label>contacto del organismo</label>
+							<input
+							type = "text"
+							name = "contacto"
+							th:field = "*{CVContacto}"
+							class = "form-control"
+							placeholder="Digite el contacto del Organismo" 
+							/>
+						</div>
+						
+						<div class = "box-footer">
+							<button type="submit" class = "btn btn-primary">
+								Actualizar datos
+							</button>
+						</div>
+					</form>
+				
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

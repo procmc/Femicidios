@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Hechos</title>
+
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
+    <th th:include="header" th:fragment="header"></th>
+</head>
+
+
+<body>
+
+
+<div class="container-fluid">
+<!--    <div class="row">-->
+<!--        <div class="col-md-12">-->
+<!--            <ul class="nav nav-pills flex-column flex-sm-row">-->
+<!--                <li class="nav-item">-->
+<!--                    <a class="nav-link active" href="#">Inicio</a>-->
+<!--                </li>-->
+<!--                <li class="nav-item">-->
+<!--                    <a class="nav-link" th:href="@{/hechos}">Hechos</a>-->
+<!--                </li>-->
+
+<!--            </ul>-->
+<!--        </div>-->
+<!--    </div>-->
+
+<!--    <div class = "row"> <h1></h1> </div>-->
+<!--    <div class = "row"> <h1></h1> </div>-->
+
+    <div class="alert alert-primary" role="alert">
+        Hechos
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+
+            <a th:href = "@{/hechos/new}" class = "btn btn-primary btn-lg"> Agregar Hechos</a>
+
+            <div class = "row"> <h1></h1> </div>
+            <div class = "row"> <h1></h1> </div>
+
+            <table class="table table-striped table-sm">
+                <tr>
+                    <th> Lugar </th>
+                    <th> TipoVictima </th>
+                    <th> TipoRelacion </th>
+                    <th> Modalidad </th>
+
+                    <th> Acciones </th>
+                </tr>
+
+                <tbody>
+                <tr th:each = "hecho: ${hechos}">
+                    <td th:text = "${hecho.CVLugar}"></td>
+                    <td th:text = "${hecho.CVTipoVictima}"></td>
+                    <td th:text = "${hecho.CVTipoRelacion}"></td>
+                    <td th:text = "${hecho.CVModalidad}"></td>
+                    <td>
+                        <a th:href = "@{/hechos/edit/{id}(id=${hecho.CI_Id})}"
+                           class = "btn btn-primary">Actualizar</a>
+
+                        <a th:href = "@{/hechos/{id}(id=${hecho.CI_Id})}"
+                           class = "btn btn-danger">Eliminar</a>
+
+                    </td>
+                </tr>
+                </tbody>
+
+            </table>
+
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Actualizar imputado</title>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous">
+</head>
+<body>
+<div class="row">
+		<div class="col-md-12">
+			<ul class="nav nav-pills flex-column flex-sm-row">
+				<li class="nav-item">
+					<a class="nav-link active" href="#">Inicio</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" th:href="@{/imputados}">Imputados</a>
+				</li>
+		
+			</ul>
+		</div>
+	</div>
+<br>
+<br>
+	<div class = "container">
+		<div class = "row">
+			<div class ="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
+				<h1 class = "text-center"> Actualizar imputado </h1>
+				<div class = "card-body">
+					<form th:action="@{/imputados/{id} (id=${imputado.CI_Id})}" th:object = "${imputado}" method="POST">
+						<div class ="form-group">
+							<label>DNI del Imputado </label>
+							<input
+							type = "text"
+							name = "DNI"
+							th:field = "*{CVDni}"
+							class = "form-control"
+							placeholder="Digite el DNI del imputado" 
+							/>
+						</div>
+						
+						<div class ="form-group">
+							<label>Nombre del Imputado </label>
+							<input
+							type = "text"
+							name = "nombre"
+							th:field = "*{CVNombre}"
+							class = "form-control"
+							placeholder="Digite el nombre del imputado" 
+							/>
+						</div>
+						
+						
+						
+						<div class ="form-group">
+							<label>Genero del Imputado </label>
+							<input
+							type = "text"
+							name = "Género"
+							th:field = "*{CVGenero}"
+							class = "form-control"
+							placeholder="Digite el género del imputado" 
+							/>
+						</div>
+						
+						<div class ="form-group">
+							<label>Orientacion sexual del imputado</label>
+							<input
+							type = "text"
+							name = "Orientacion"
+							th:field = "*{CVOrientacionSexual}"
+							class = "form-control"
+							placeholder="Digite lla orientación sexual del Usuario" 
+							/>
+						</div>
+						
+						<div class ="form-group">
+							<label>Edad del Imputado </label>
+							<input
+							type = "text"
+							name = "Edad"
+							th:field = "*{CIEdad}"
+							class = "form-control"
+							placeholder="Digite la edad del imputado" 
+							/>
+						</div>
+						
+						<div class ="form-group">
+							<label>Lugar de nacimiento del Imputado </label>
+							<input
+							type = "text"
+							name = "Lugar de nacimiento"
+							th:field = "*{CVLugarNacimiento}"
+							class = "form-control"
+							placeholder="Digite el lugar de nacimiento del imputado" 
+							/>
+						</div>
+						
+						<div class = "box-footer">
+							<button type="submit" class = "btn btn-primary">
+								Actualizar datos
+							</button>
+						</div>
+					</form>
+				
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

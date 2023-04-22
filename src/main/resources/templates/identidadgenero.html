@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous">
+<meta charset="ISO-8859-1">
+<title>Identidad de Genero</title>
+</head>
+<body>
+	<div class="row">
+		<div class="col-md-12">
+			<a th:href="@{/identidadgenero/new}" class="btn btn-primary btn-lg">
+				Agregar Identidad Genero</a>
+
+			<div class="row">
+				<h1></h1>
+			</div>
+			<div class="row">
+				<h1></h1>
+			</div>
+			<table class="table table-striped table-sm">
+				<tr>
+					<th>Cedula</th>
+					<th>Genero</th>
+
+					<th>Acciones</th>
+				</tr>
+
+				<tbody>
+					<tr th:each="identidadgenero: ${identidadgenero}">
+						<td th:text="${identidadgenero.cedula}"></td>
+						<td th:text="${identidadgenero.genero}"></td>
+
+						<td><a
+							th:href="@{/identidadgenero/edit/{id}(id=${identidadgenero.Id})}"
+							class="btn btn-primary">Actualizar</a> <a
+							th:href="@{/identidadgenero/{id}(id=${identidadgenero.Id})}"
+							class="btn btn-danger">Eliminar</a>
+					</tr>
+				</tbody>
+
+			</table>
+		</div>
+	</div>
+</body>
+</html>

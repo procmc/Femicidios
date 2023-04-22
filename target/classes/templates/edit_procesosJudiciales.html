@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Actualizar procesoJudicial</title>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous">
+</head>
+<body>
+<div class="row">
+		<div class="col-md-12">
+			<ul class="nav nav-pills flex-column flex-sm-row">
+				<li class="nav-item">
+					<a class="nav-link" href="#">Inicio</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link active" th:href="@{/procesosJudiciales}">ProcesosJudiciales</a>
+				</li>
+		
+			</ul>
+		</div>
+	</div>
+<br>
+<br>
+	<div class = "container">
+		<div class = "row">
+			<div class ="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
+				<h1 class = "text-center"> Actualizar procesoJudicial </h1>
+				<div class = "card-body">
+					<form th:action="@{/procesosJudiciales/{id} (id=${procesoJudicial.CI_IdProceso})}" th:object = "${procesoJudicial}" method="POST">
+						<div class ="form-group">
+							<label>Estado del proceso judicial</label>
+							<input
+							type = "text"
+							name = "estado"
+							th:field = "*{CVEstado}"
+							class = "form-control"
+							placeholder="Digite el estado del proceso judicial" 
+							/>
+						</div>
+						
+						<div class ="form-group">
+							<label>DNI del denunciante</label>
+							<input
+							type = "number"
+							name = "denunciante"
+							th:field = "*{CIDenunciante}"
+							class = "form-control"
+							placeholder="Digite DNI del denunciante" 
+							/>
+						</div>
+						
+						<div class ="form-group">
+							<label>Personas imputadas</label>
+							<input
+							type = "number"
+							name = "imputados"
+							th:field = "*{CIPersonasImputadas}"
+							class = "form-control"
+							placeholder="Cantidad de personas imputadas" 
+							/>
+						</div>
+						
+						<div class ="form-group">
+							<label>Partes</label>
+							<input
+							type = "text"
+							name = "partes"
+							th:field = "*{CVPartes}"
+							class = "form-control"
+							placeholder="Partes intervenientes" 
+							/>
+						</div>
+						
+						<div class = "box-footer">
+							<button type="submit" class = "btn btn-primary">
+								Actualizar datos
+							</button>
+						</div>
+					</form>
+				
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

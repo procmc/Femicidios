@@ -2,7 +2,7 @@
 
 docker run --name PruebasFemicidios -p 8080:8080 procmc/femicidios
 
-docker run --name QAFemicidios -p 9090:9090 procmc/femicidios
+
 
 
 
