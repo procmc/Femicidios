@@ -17,111 +17,145 @@ public class Victima {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int CI_DNI;
+	private int CI_Id;
+
+	@Column(name="CV_Dni", nullable =false)
+	private int CVDNI;
 	
 	@Column(name="CV_Nombre", nullable =false)
-	private String CV_Nombre ;
+	private String CVNombre ;
 	
-	@Column(name="CV_ApellidoPaterno", nullable =false)
-	private String CV_ApellidoPaterno;
+	@Column(name="CV_Apellidopaterno", nullable =false)
+	private String CVApellidoPaterno;
 	
-	@Column(name="CV_ApellidoMaterno", nullable =false)
-	private String CV_ApellidoMaterno;
+	@Column(name="CV_Apellidomaterno", nullable =false)
+	private String CVApellidoMaterno;
 	
 	@Column(name="CV_Edad", nullable =false)
-	private int CV_Edad;
+	private int CVEdad;
 	
-	@Column(name="CV_Genero", nullable =false)
-	private int CV_Genero;
+	@Column(name="CV_Idgenero", nullable =false)
+	private int CVGenero;
 	
-	@Column(name="CV_LugarNac", nullable =false)
-	private String CV_LugarNac;
+	@Column(name="CV_Lugarnac", nullable =false)
+	private String CVLugarNac;
 	
-	@Column(name="CV_OrientaSex", nullable =false)
-	private int CV_OrientaSex;
+	@Column(name="CV_Orientasex", nullable =false)
+	private int CVOrientaSex;
 	
 	
 	public Victima() {
 		
 	}
 
-	public Victima(int cI_DNI, String cV_Nombre, String cV_ApellidoPaterno, String cV_ApellidoMaterno, int cV_Edad,
-			int cV_Genero, String cV_LugarNac, int cV_OrientaSex) {
+
+	public Victima(int cVDNI, String cVNombre, String cVApellidoPaterno, String cVApellidoMaterno,
+			int cVEdad, int cVGenero, String cVLugarNac, int cVOrientaSex) {
 		super();
-		CI_DNI = cI_DNI;
-		CV_Nombre = cV_Nombre;
-		CV_ApellidoPaterno = cV_ApellidoPaterno;
-		CV_ApellidoMaterno = cV_ApellidoMaterno;
-		CV_Edad = cV_Edad;
-		CV_Genero = cV_Genero;
-		CV_LugarNac = cV_LugarNac;
-		CV_OrientaSex = cV_OrientaSex;
+		
+		CVDNI = cVDNI;
+		CVNombre = cVNombre;
+		CVApellidoPaterno = cVApellidoPaterno;
+		CVApellidoMaterno = cVApellidoMaterno;
+		CVEdad = cVEdad;
+		CVGenero = cVGenero;
+		CVLugarNac = cVLugarNac;
+		CVOrientaSex = cVOrientaSex;
 	}
 
-	public int getCI_DNI() {
-		return CI_DNI;
+
+	public int getCI_Id() {
+		return CI_Id;
 	}
 
-	public void setCI_DNI(int cI_DNI) {
-		CI_DNI = cI_DNI;
+
+	public void setCI_Id(int cI_Id) {
+		CI_Id = cI_Id;
 	}
 
-	public String getCV_Nombre() {
-		return CV_Nombre;
+
+	public int getCVDNI() {
+		return CVDNI;
 	}
 
-	public void setCV_Nombre(String cV_Nombre) {
-		CV_Nombre = cV_Nombre;
+
+	public void setCVDNI(int cVDNI) {
+		CVDNI = cVDNI;
 	}
 
-	public String getCV_ApellidoPaterno() {
-		return CV_ApellidoPaterno;
+
+	public String getCVNombre() {
+		return CVNombre;
 	}
 
-	public void setCV_ApellidoPaterno(String cV_ApellidoPaterno) {
-		CV_ApellidoPaterno = cV_ApellidoPaterno;
+
+	public void setCVNombre(String cVNombre) {
+		CVNombre = cVNombre;
 	}
 
-	public String getCV_ApellidoMaterno() {
-		return CV_ApellidoMaterno;
+
+	public String getCVApellidoPaterno() {
+		return CVApellidoPaterno;
 	}
 
-	public void setCV_ApellidoMaterno(String cV_ApellidoMaterno) {
-		CV_ApellidoMaterno = cV_ApellidoMaterno;
+
+	public void setCVApellidoPaterno(String cVApellidoPaterno) {
+		CVApellidoPaterno = cVApellidoPaterno;
 	}
 
-	public int getCV_Edad() {
-		return CV_Edad;
+
+	public String getCVApellidoMaterno() {
+		return CVApellidoMaterno;
 	}
 
-	public void setCV_Edad(int cV_Edad) {
-		CV_Edad = cV_Edad;
+
+	public void setCVApellidoMaterno(String cVApellidoMaterno) {
+		CVApellidoMaterno = cVApellidoMaterno;
 	}
 
-	public int getCV_Genero() {
-		return CV_Genero;
+
+	public int getCVEdad() {
+		return CVEdad;
 	}
 
-	public void setCV_Genero(int cV_Genero) {
-		CV_Genero = cV_Genero;
+
+	public void setCVEdad(int cVEdad) {
+		CVEdad = cVEdad;
 	}
 
-	public String getCV_LugarNac() {
-		return CV_LugarNac;
+
+	public int getCVGenero() {
+		return CVGenero;
 	}
 
-	public void setCV_LugarNac(String cV_LugarNac) {
-		CV_LugarNac = cV_LugarNac;
+
+	public void setCVGenero(int cVGenero) {
+		CVGenero = cVGenero;
 	}
 
-	public int getCV_OrientaSex() {
-		return CV_OrientaSex;
+
+	public String getCVLugarNac() {
+		return CVLugarNac;
 	}
 
-	public void setCV_OrientaSex(int cV_OrientaSex) {
-		CV_OrientaSex = cV_OrientaSex;
+
+	public void setCVLugarNac(String cVLugarNac) {
+		CVLugarNac = cVLugarNac;
 	}
+
+
+	public int getCVOrientaSex() {
+		return CVOrientaSex;
+	}
+
+
+	public void setCVOrientaSex(int cVOrientaSex) {
+		CVOrientaSex = cVOrientaSex;
+	}
+
+
 	
+
 	
 
 }

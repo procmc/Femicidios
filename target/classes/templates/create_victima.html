@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Victima mantenimiento</title>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous">
+</head>
+<body>
+
+<div class="row">
+		<div class="col-md-14">
+			<ul class="nav nav-pills flex-column flex-sm-row">
+				<li class="nav-item">
+					<a class="nav-link active" href="#">Inicio</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" th:href="@{/victima}">Victima</a>
+				</li>
+		
+			</ul>
+		</div>
+	</div>
+	
+<br>
+<br>
+	<div class = "container">
+		<div class = "row">
+			<div class ="col-lg-8 col-md-8 col-sm-8 container justify-content-center card">
+				<h1 class = "text-center">Registrar Victima</h1>
+				<div class = "card-body">
+					<form th:action="@{/victima}" th:object = "${victima}" method="POST">
+						<div class ="form-group">
+							<label>Cedula</label>
+							<input
+							type = "text"
+							name = "cedula"
+							th:field = "*{CVDNI}"
+							class = "form-control"
+							placeholder="Digite la cedula de la victima" 
+							/>
+						</div>
+						
+					
+						<div class ="form-group">
+							<label>Nombre </label>
+							<input
+							type = "text"
+							name = "nombre"
+							th:field = "*{CVNombre}"
+							class = "form-control"
+							placeholder="Digite el nombre de la victima" 
+							/>
+						</div>
+						
+						<div class ="form-group">
+							<label>Apellido Paterno</label>
+							<input
+							type = "text"
+							name = "apellidoPaterno"
+							th:field = "*{CVApellidoPaterno}"
+							class = "form-control"
+							placeholder="Digite el apellido Paterno de la victima" 
+							/>
+						</div>
+						<div class ="form-group">
+							<label>Apellido Materno</label>
+							<input
+							type = "text"
+							name = "apellidoMaterno"
+							th:field = "*{CVApellidoMaterno}"
+							class = "form-control"
+							placeholder="Digite el apellido Materno de la victima" 
+							/>
+						</div>
+						
+						<div class ="form-group">
+							<label>Edad</label>
+							<input
+							type = "text"
+							name = "Edad"
+							th:field = "*{CVEdad}"
+							class = "form-control"
+							placeholder="Edad de la victima" 
+							/>
+						</div>
+						
+						<div class ="form-group"> 
+							<label>Identidad de Genero</label>
+							<select th:field="*{CVGenero}">
+   							 	<option th:value="'1'" th:text="CisHombre"></option>
+  							 	 <option th:value="'2'" th:text="CisMujer"></option>
+  							 	 <option th:value="'3'" th:text="NoBinario"></option>
+  							 	 <option th:value="'4'" th:text="Otro"></option>
+  							 	  <option th:value="'5'" th:text="SeDesconoce"></option>
+  							 	   <option th:value="'6'" th:text="MujerTrans"></option>
+  							 	    <option th:value="'7'" th:text="HombreTrans"></option>
+  							 	   
+							</select>
+						</div>
+		
+						
+						
+							
+						<div class ="form-group">
+							<label>Lugar de Nacimiento</label>
+							<input
+							type = "text"
+							name = "LugarNacimiento"
+							th:field = "*{CVLugarNac}"
+							class = "form-control"
+							placeholder="Lugar de Nacimiento de la victima" 
+							/>
+						</div>
+						
+							<div class ="form-group"> 
+								<label>Orientacion Sexual</label>
+							<select th:field="*{CVOrientaSex}">
+   							 	<option th:value="'1'" th:text="Lesbiana"></option>
+  							 	 <option th:value="'2'" th:text="Gay"></option>
+  							 	 <option th:value="'3'" th:text="Heterosexual"></option>
+  							 	 <option th:value="'4'" th:text="Bisexual"></option>
+  							 	  <option th:value="'5'" th:text="Asexual"></option>
+  							 	   <option th:value="'6'" th:text="Otro"></option>
+  							 	   
+  							 	   
+							</select>
+						</div>
+						
+						<div class = "box-footer">
+							<button type="submit" class = "btn btn-primary">
+								Agregar
+							</button>
+						</div>
+					</form>
+				
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

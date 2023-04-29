@@ -11,12 +11,14 @@ public interface VictimaService
 		
 	List<Victima> getAllVictima();
 	
-	Victima saveVictima(Victima usuario);
+	Victima saveVictima(Victima victima);
 	
 	Victima getVictimaById(Integer Id);
 	
-	Victima updateVictima(Victima usuario);
+	Victima updateVictima(Victima victima);
 	
 	void deleteVictimaById(Integer Id);
+
+	Victima getVictimaByCVNombre(String CVNombre);
 	
 }
