@@ -1,59 +1,54 @@
-/**
- * 
- */
 package com.if7100.service.impl;
 
-import java.util.List;
-
-import org.springframework.stereotype.Service;
 import com.if7100.entity.Modalidad;
 import com.if7100.repository.ModalidadRepository;
 import com.if7100.service.ModalidadService;
+import org.springframework.stereotype.Service;
 
-/**
- * @author tisha
- *Fecha 19 de abril 2023
- */
+import java.util.List;
 
 @Service
-public class ModalidadServiceImpl implements ModalidadService{
+public class ModalidadServiceImpl implements ModalidadService {
 
-	
-	private ModalidadRepository modalidadRepository;
-	
-	public ModalidadServiceImpl (ModalidadRepository modalidadRepository) {
-		super();
-		this.modalidadRepository= modalidadRepository;
-	}
+    private ModalidadRepository modalidadRepository;
 
-	@Override
-	public List<Modalidad> getAllModalidad() {
-	   return modalidadRepository.findAll();
-	}
-	
-	@Override
-	public Modalidad saveModalidad (Modalidad modalidad) {
-		return modalidadRepository.save(modalidad);
-	}
-	
-	@Override
-	public Modalidad getModalidadById(Integer codigo) {
-		return modalidadRepository.findById(codigo).get();
-	}
-	@Override
-	public Modalidad updateModalidad(Modalidad modalidad) {
-		return modalidadRepository.save(modalidad);
-	}
-	
-	@Override
-	public void deleteModalidadById(Integer codigo) {
-		modalidadRepository.deleteById(codigo);
-	}
-	
-	@Override
-	public Modalidad getModalidadByCVTitulo(String CVTitulo) {
-		return modalidadRepository.findByCVTitulo(CVTitulo);
-	}
-	
-	
+    public ModalidadServiceImpl(ModalidadRepository modalidadRepository) {
+        super();
+        this.modalidadRepository = modalidadRepository;
+    }
+
+    @Override
+    public List<Modalidad> getAllModalidades() {
+        return modalidadRepository.findAll();
+    }
+
+    @Override
+    public Modalidad saveModalidad(Modalidad modalidad) {
+        return modalidadRepository.save(modalidad);
+    }
+
+    @Override
+    public Modalidad getModalidadById(Integer Id) {
+        return modalidadRepository.findById(Id).get();
+    }
+
+    @Override
+    public Modalidad updateModalidad(Modalidad modalidad) {
+        return modalidadRepository.save(modalidad);
+    }
+
+    @Override
+    public void deleteModalidadById(Integer Id) {
+        modalidadRepository.deleteById(Id);
+    }
+
+    @Override
+    public Modalidad getModalidadByTitulo(String CVTitulo) {
+        return modalidadRepository.findByCVTitulo(CVTitulo);
+    }
+
+    @Override
+    public Modalidad getModalidadByDescripcion(String CVDescripcion) {
+        return modalidadRepository.findByCVDescripcion(CVDescripcion);
+    }
 }

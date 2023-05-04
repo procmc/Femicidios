@@ -16,12 +16,12 @@ public interface HechoService {
 
     void deleteHechoById(Integer Id);
 
-    Hecho getHechoByLugar(Integer CVLugar);
+    Hecho getHechoByPais(Integer CVPais);
 
-    Hecho getHechoByTipoVictima(Integer CVTipoVictima);
+    Hecho getHechoByTipoVictima(Integer CITipoVictima);
 
-    Hecho getHechoByTipoRelacion(Integer CVTipoRelacion);
+    Hecho getHechoByTipoRelacion(Integer CITipoRelacion);
 
-    Hecho getHechoByModalidad(Integer CVModalidad);
+    Hecho getHechoByModalidad(Integer CIModalidad);
 
 }

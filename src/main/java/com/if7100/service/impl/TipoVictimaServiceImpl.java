@@ -1,54 +1,54 @@
 package com.if7100.service.impl;
 
-import java.util.List;
-import org.springframework.stereotype.Service;
 import com.if7100.entity.TipoVictima;
 import com.if7100.repository.TipoVictimaRepository;
 import com.if7100.service.TipoVictimaService;
-/**
- * @author Liss
- * Fecha: 20 de abril del 2023
- */
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
 @Service
-public class TipoVictimaServiceImpl implements TipoVictimaService{
-	
-private TipoVictimaRepository TipoVictimaRepository;
-	
-	
-    public TipoVictimaServiceImpl(TipoVictimaRepository TipoVictimaRepository) {
-		super();
-		this.TipoVictimaRepository=TipoVictimaRepository;
-	}
-    
-    @Override
-    public List<TipoVictima> getAllTipoVictima(){
-    	return TipoVictimaRepository.findAll();
+public class TipoVictimaServiceImpl implements TipoVictimaService {
+
+    private TipoVictimaRepository tipoVictimaRepository;
+
+    public TipoVictimaServiceImpl(TipoVictimaRepository tipoVictimaRepository) {
+        super();
+        this.tipoVictimaRepository = tipoVictimaRepository;
     }
-     
+
     @Override
-    public TipoVictima saveTipoVictima(TipoVictima victima){
-    	return TipoVictimaRepository.save(victima);
+    public List<TipoVictima> getAllTipoVictimas() {
+        return tipoVictimaRepository.findAll();
     }
-    
+
     @Override
-    public void deleteTipoVictimaById(Integer Id){
-    	TipoVictimaRepository.deleteById(Id);
+    public TipoVictima saveTipoVictima(TipoVictima tipoVictima) {
+        return tipoVictimaRepository.save(tipoVictima);
     }
-    
+
     @Override
-    public TipoVictima getTipoVictimaById(Integer Id){
-    	return TipoVictimaRepository.findById(Id).get();
+    public TipoVictima getTipoVictimaById(Integer Id) {
+        return tipoVictimaRepository.findById(Id).get();
     }
-    
+
     @Override
-    public TipoVictima updateTipoVictima(TipoVictima tipV){
-    	return TipoVictimaRepository.save(tipV);
+    public TipoVictima updateTipoVictima(TipoVictima tipoVictima) {
+        return tipoVictimaRepository.save(tipoVictima);
     }
-    
-    /*
+
     @Override
-    public Usuario getUsuarioByCVNombre(String CV_Nombre){
-    	return usuarioRepository.findByCVNombre(CV_Nombre);
+    public void deleteTipoVictimaById(Integer Id) {
+    tipoVictimaRepository.deleteById(Id);
     }
-*/
+
+    @Override
+    public TipoVictima getTipoVictimaByTitulo(String CVTitulo) {
+        return tipoVictimaRepository.findByCVTitulo(CVTitulo);
+    }
+
+    @Override
+    public TipoVictima getTipoVictimaByDescripcion(String CVDescripcion) {
+        return tipoVictimaRepository.findByCVDescripcion(CVDescripcion);
+    }
 }

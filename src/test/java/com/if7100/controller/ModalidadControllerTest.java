@@ -1,60 +1,54 @@
-
 package com.if7100.controller;
 
+import com.if7100.entity.Modalidad;
+import com.if7100.repository.ModalidadRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.if7100.entity.Modalidad;
-import com.if7100.repository.ModalidadRepository;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
-
-@SpringBootTest (webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class ModalidadControllerTest {
 
-@Autowired
-private ModalidadRepository modalidadRepository;
+    @Autowired
+    private ModalidadRepository modalidadRepository;
 
-private String Titulo= "Golpazo";
-private String Descripcion= "Cuando le pegan";
+    private Integer codigo = 1;
 
-private Modalidad modalidad=new Modalidad(Titulo, "Apuñalazo");
-private Modalidad modalidadConsultado=new Modalidad();
+    private String titulo = "Golpes";
 
-@Test
-public void Test1() throws Exception {
-	
-	modalidadRepository.save(modalidad);
-	
-}
+    private String descripcion = "Asesinada por golpes";
 
-@Test
-public void Test2() throws Exception {
-	
-	modalidadConsultado = modalidadRepository.findByCVTitulo(Titulo);
-	 assertEquals(modalidadConsultado.getCVTitulo(), Titulo);
-	 assertNotEquals(modalidadConsultado.getCVDescripcion(), Titulo);
-}
+    private Modalidad modalidad = new Modalidad(2, "Disparo de bala", "Asesinada por disparo de bala");
 
+    private  Modalidad modalidadConsultada = new Modalidad();
 
-@Test
-public void Test3() throws Exception {
-	
-	modalidadConsultado = modalidadRepository.findByCVTitulo(Titulo);
-	modalidadConsultado.setCVDescripcion(Descripcion);
-	modalidadRepository.save(modalidadConsultado);
-	modalidadConsultado = modalidadRepository.findByCVTitulo(Titulo);
-	 assertEquals(modalidadConsultado.getCVDescripcion(), Descripcion);
-}
+    @Test
+    public void testUno() throws  Exception{
+        modalidadRepository.save(modalidad);
+    }
 
-@Test
-public void Test4() throws Exception {
-	
-	modalidadConsultado = modalidadRepository.findByCVTitulo(Titulo);
-	 modalidadRepository.deleteById(modalidadConsultado.getCI_Codigo());
-	 
-}
+    @Test
+    public void testDos() throws Exception{
+        testUno();
+        modalidadConsultada = modalidadRepository.findByCVTitulo(titulo);
+        assertEquals(modalidadConsultada.getCVTitulo(), titulo);
+        assertNotEquals(modalidadConsultada.getCVDescripcion(), descripcion);
+    }
+
+    @Test
+    public void testTres() throws Exception{
+        modalidadConsultada = modalidadRepository.findByCVTitulo(titulo);
+        modalidadConsultada.setCVDescripcion(descripcion);
+        modalidadRepository.save(modalidadConsultada);
+        assertEquals(modalidadConsultada.getCVDescripcion(), descripcion);
+    }
+
+    @Test
+    public void testCuatro() throws Exception{
+        modalidadConsultada = modalidadRepository.findByCVTitulo(titulo);
+        modalidadRepository.deleteById(modalidadConsultada.getCI_Codigo());
+    }
 
 }

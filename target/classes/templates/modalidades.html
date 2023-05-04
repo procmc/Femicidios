@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="ISO-8859-1">
+  <title>Modalidades</title>
+  <link rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+  <th th:include="header" th:fragment="header"></th>
+</head>
+
+
+<body>
+
+
+<div class="container-fluid">
+<!--  <div class="row">-->
+<!--    <div class="col-md-12">-->
+<!--      <ul class="nav nav-pills flex-column flex-sm-row">-->
+<!--        <li class="nav-item">-->
+<!--          <a class="nav-link active" href="#">Inicio</a>-->
+<!--        </li>-->
+<!--        <li class="nav-item">-->
+<!--          <a class="nav-link" th:href="@{/modalidades}">Modalidades</a>-->
+<!--        </li>-->
+
+<!--      </ul>-->
+<!--    </div>-->
+<!--  </div>-->
+
+<!--  <div class = "row"> <h1></h1> </div>-->
+<!--  <div class = "row"> <h1></h1> </div>-->
+
+  <div class="alert alert-primary" role="alert">
+    Modalidades
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+
+      <a th:href = "@{/modalidades/new}" class = "btn btn-primary btn-lg"> Agregar Modalidades</a>
+
+      <div class = "row"> <h1></h1> </div>
+      <div class = "row"> <h1></h1> </div>
+
+      <table class="table table-striped table-sm">
+        <tr>
+          <th> Titulo </th>
+          <th> Descripcion </th>
+
+          <th> Acciones </th>
+        </tr>
+
+        <tbody>
+        <tr th:each = "modalidad: ${modalidades}">
+          <td th:text = "${modalidad.CVTitulo}"></td>
+          <td th:text = "${modalidad.CVDescripcion}"></td>
+          <td>
+            <a th:href = "@{/modalidades/edit/{id}(id=${modalidad.CI_Codigo})}"
+               class = "btn btn-primary">Actualizar</a>
+
+            <a th:href = "@{/modalidades/{id}(id=${modalidad.CI_Codigo})}"
+               class = "btn btn-danger">Eliminar</a>
+
+          </td>
+        </tr>
+        </tbody>
+
+      </table>
+
+    </div>
+  </div>
+</div>
+</body>
+
+</html>

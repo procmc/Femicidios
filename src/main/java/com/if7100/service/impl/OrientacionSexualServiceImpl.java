@@ -1,11 +1,11 @@
 package com.if7100.service.impl;
 
-import java.util.List;
-import org.springframework.stereotype.Service;
-
 import com.if7100.entity.OrientacionSexual;
 import com.if7100.repository.OrientacionSexualRepository;
 import com.if7100.service.OrientacionSexualService;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class OrientacionSexualServiceImpl implements OrientacionSexualService {
@@ -26,7 +26,7 @@ public class OrientacionSexualServiceImpl implements OrientacionSexualService {
 
 
 	@Override
-	public OrientacionSexual saveOriencionSexual(OrientacionSexual orientacion) {
+	public OrientacionSexual saveOrientacionSexual(OrientacionSexual orientacion) {
 		// TODO Auto-generated method stub
 		return orientacionRepository.save(orientacion);
 	}
@@ -59,8 +59,13 @@ public class OrientacionSexualServiceImpl implements OrientacionSexualService {
 
 
 	@Override
-	public OrientacionSexual getOrientacionSexualByCVTitulo(String CV_Titulo) {
+	public OrientacionSexual getOrientacionSexualByCVTitulo(String CVTitulo) {
 		// TODO Auto-generated method stub
-		return null;
+		return orientacionRepository.findByCVTitulo(CVTitulo);
+	}
+
+	@Override
+	public OrientacionSexual getOrientacionSexualByCVDescripcion(String CVDescripcion){
+		return orientacionRepository.findByCVDescripcion(CVDescripcion);
 	}
 }

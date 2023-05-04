@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.if7100.service;
 
 import java.util.List;
@@ -11,22 +8,18 @@ import com.if7100.entity.Lugar;
  */
 
 public interface LugarService {
-	
-List<Lugar> getAllLugares(String palabraClave);
 
-Lugar saveLugar(Lugar lugar);
+    List<Lugar> getAllLugares(Integer CI_Hecho);
+//List<Lugar> getAllLugares(String palabraClave);
 
-Lugar getLugarById(Integer Id);
+    List<Lugar> getAllLugar();
 
-void deleteLugarById(Integer Id);
+    Lugar saveLugar(Lugar lugar);     //Bueno
 
-Lugar updateLugar(Lugar lugar);
+    Lugar getLugarById(Integer Id);   //Bueno
 
-//Usuario getUsuarioByCVNombre(String CV_Nombre);
+    void deleteLugarById(Integer Id);  //Bueno
 
-
-
+    Lugar updateLugar(Lugar lugar);   // Bueno
 
 }
-
-

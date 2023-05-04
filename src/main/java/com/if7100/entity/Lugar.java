@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.if7100.entity;
 
 /**
@@ -21,113 +18,113 @@ import jakarta.persistence.Transient;
 
 public class Lugar {
 
-	/**
-	 *  Esta es la clase para el JPA Entity de la tabla femicidios.TA_Usuarios
-	 */
-	@Id
-	@GeneratedValue (strategy= GenerationType.IDENTITY)
-	private int CI_Codigo;
-	
-	@Column (name="CIF_DNI_Victima", nullable=false)
-	private int CIF_DNI_Victima;
-	
-	@Column (name="CV_Descripcion", nullable=false)
-	private String CV_Descripcion;
-	
-	@Column (name="CIF_Tipo_Lugar", nullable=false)
-	private int CIF_Tipo_Lugar;
-	
-	@Column (name="CV_Direccion", nullable=false)
-	private String CV_Direccion;
-	
-	@Column (name="CV_Ciudad", nullable=false)
-	private String CV_Ciudad;
-	
-	@Column (name="CV_Pais", nullable=false)
-	private int CV_Pais;
-	
-	@Transient
-	private String Titulo;
-	
-	public Lugar() {
-	}
-	
-	public Lugar(int CIF_DNI_Victima, String CV_Descripcion, int CIF_Tipo_Lugar, String CV_Direccion, String CV_Ciudad, int CV_Pais, String Titulo) {
-		super();
-		this.CIF_DNI_Victima= CIF_DNI_Victima;
-		this.CV_Descripcion= CV_Descripcion;
-		this.CIF_Tipo_Lugar= CIF_Tipo_Lugar;
-		this.CV_Direccion= CV_Direccion;
-		this.CV_Ciudad= CV_Ciudad;
-		this.CV_Pais= CV_Pais;
-		this.Titulo=Titulo;
-	}
+    /**
+     *  Esta es la clase para el JPA Entity de la tabla femicidios.TA_Usuarios
+     */
+    @Id
+    @GeneratedValue (strategy= GenerationType.IDENTITY)
+    private int CI_Codigo;
 
-	public int getCI_Codigo() {
-		return CI_Codigo;
-	}
+    @Column (name="CI_Hecho", nullable=false)
+    private int CIHecho;
 
-	public void setCI_Codigo(int cI_Codigo) {
-		CI_Codigo = cI_Codigo;
-	}
+    @Column (name="CV_Descripcion", nullable=false)
+    private String CV_Descripcion;
 
-	public int getCIF_DNI_Victima() {
-		return CIF_DNI_Victima;
-	}
+    @Column (name="CI_Tipo_Lugar", nullable=false)
+    private int CI_Tipo_Lugar;
 
-	public void setCIF_DNI_Victima(int cIF_DNI_Victima) {
-		CIF_DNI_Victima = cIF_DNI_Victima;
-	}
+    @Column (name="CV_Direccion", nullable=false)
+    private String CV_Direccion;
 
-	public String getCV_Descripcion() {
-		return CV_Descripcion;
-	}
+    @Column (name="CV_Ciudad", nullable=false)
+    private String CV_Ciudad;
 
-	public void setCV_Descripcion(String cV_Descripcion) {
-		CV_Descripcion = cV_Descripcion;
-	}
+    @Column (name="CI_Pais", nullable=false)
+    private int CI_Pais;
 
-	public int getCIF_Tipo_Lugar() {
-		return CIF_Tipo_Lugar;
-	}
+    @Transient
+    private String Titulo;
 
-	public void setCIF_Tipo_Lugar(int cIF_Tipo_Lugar) {
-		CIF_Tipo_Lugar = cIF_Tipo_Lugar;
-	}
+    public Lugar() {
+    }
 
-	public String getCV_Direccion() {
-		return CV_Direccion;
-	}
+    public Lugar(int CI_Hecho, String CV_Descripcion, int CI_Tipo_Lugar, String CV_Direccion, String CV_Ciudad, int CI_Pais, String Titulo) {
+        super();
+        this.CIHecho= CI_Hecho;
+        this.CV_Descripcion= CV_Descripcion;
+        this.CI_Tipo_Lugar= CI_Tipo_Lugar;
+        this.CV_Direccion= CV_Direccion;
+        this.CV_Ciudad= CV_Ciudad;
+        this.CI_Pais= CI_Pais;
+        this.Titulo=Titulo;
+    }
 
-	public void setCV_Direccion(String cV_Direccion) {
-		CV_Direccion = cV_Direccion;
-	}
+    public int getCI_Codigo() {
+        return CI_Codigo;
+    }
 
-	public String getCV_Ciudad() {
-		return CV_Ciudad;
-	}
+    public void setCI_Codigo(int cI_Codigo) {
+        CI_Codigo = cI_Codigo;
+    }
 
-	public void setCV_Ciudad(String cV_Ciudad) {
-		CV_Ciudad = cV_Ciudad;
-	}
+    public int getCIHecho() {
+        return CIHecho;
+    }
 
-	public int getCV_Pais() {
-		return CV_Pais;
-	}
+    public void setCIHecho(int cI_Hecho) {
+        CIHecho = cI_Hecho;
+    }
 
-	public void setCV_Pais(int cV_Pais) {
-		CV_Pais = cV_Pais;
-	}
+    public String getCV_Descripcion() {
+        return CV_Descripcion;
+    }
 
-	public String getTitulo() {
-		return Titulo;
-	}
+    public void setCV_Descripcion(String cV_Descripcion) {
+        CV_Descripcion = cV_Descripcion;
+    }
 
-	public void setTitulo(String titulo) {
-		Titulo = titulo;
-	}
-	
-	
+    public int getCI_Tipo_Lugar() {
+        return CI_Tipo_Lugar;
+    }
 
-	
+    public void setCI_Tipo_Lugar(int cI_Tipo_Lugar) {
+        CI_Tipo_Lugar = cI_Tipo_Lugar;
+    }
+
+    public String getCV_Direccion() {
+        return CV_Direccion;
+    }
+
+    public void setCV_Direccion(String cV_Direccion) {
+        CV_Direccion = cV_Direccion;
+    }
+
+    public String getCV_Ciudad() {
+        return CV_Ciudad;
+    }
+
+    public void setCV_Ciudad(String cV_Ciudad) {
+        CV_Ciudad = cV_Ciudad;
+    }
+
+    public int getCI_Pais() {
+        return CI_Pais;
+    }
+
+    public void setCI_Pais(int cI_Pais) {
+        CI_Pais = cI_Pais;
+    }
+
+    public String getTitulo() {
+        return Titulo;
+    }
+
+    public void setTitulo(String titulo) {
+        Titulo = titulo;
+    }
+
+
+
+
 }

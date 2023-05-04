@@ -2,18 +2,15 @@
  * 
  */
 package com.if7100.entity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+
+import jakarta.persistence.*;
+
 /**
  * @author Ronny Salgado
  *
  */
 @Entity
-@Table(name="ta_orientacionsexual")
+@Table(name="ta_orientacionessexuales")
 public class OrientacionSexual {
 
 	/**

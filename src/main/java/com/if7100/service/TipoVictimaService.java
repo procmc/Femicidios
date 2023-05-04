@@ -1,28 +1,24 @@
 package com.if7100.service;
 
-import java.util.List;
 
 import com.if7100.entity.TipoVictima;
-/**
- * @author Liss
- * Fecha: 20 de abril del 2023
- */
+
+import java.util.List;
+
 public interface TipoVictimaService {
-	
-	List<TipoVictima> getAllTipoVictima();
 
-	TipoVictima saveTipoVictima(TipoVictima victima);
-	
-	void deleteTipoVictimaById(Integer Id);
-	
-	
-	TipoVictima getTipoVictimaById(Integer Id);
+    List<TipoVictima> getAllTipoVictimas();
 
-	
-	TipoVictima updateTipoVictima(TipoVictima victima);
+    TipoVictima saveTipoVictima(TipoVictima tipoVictima);
 
-	/*
+    TipoVictima getTipoVictimaById(Integer Id);
 
-	TipoVictima getTipoVictimaByCVNombre(String CV_Titulo);*/
+    TipoVictima updateTipoVictima(TipoVictima tipoVictima);
+
+    void deleteTipoVictimaById(Integer Id);
+
+    TipoVictima getTipoVictimaByTitulo(String CVTitulo);
+
+    TipoVictima getTipoVictimaByDescripcion(String CVDescripcion);
 
 }

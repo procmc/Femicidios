@@ -44,22 +44,22 @@ public class HechoServiceImpl implements HechoService {
     }
 
     @Override
-    public Hecho getHechoByLugar(Integer CVLugar) {
-        return hechoRepository.findByCVLugar(CVLugar);
+    public Hecho getHechoByPais(Integer CIPais) {
+        return hechoRepository.findByCIPais(CIPais);
     }
 
     @Override
-    public Hecho getHechoByTipoVictima(Integer CVTipoVictima) {
-        return hechoRepository.findByCVTipoVictima(CVTipoVictima);
+    public Hecho getHechoByTipoVictima(Integer CITipoVictima) {
+        return hechoRepository.findByCITipoVictima(CITipoVictima);
     }
 
     @Override
-    public Hecho getHechoByTipoRelacion(Integer CVTipoRelacion) {
-        return hechoRepository.findByCVTipoRelacion(CVTipoRelacion);
+    public Hecho getHechoByTipoRelacion(Integer CITipoRelacion) {
+        return hechoRepository.findByCITipoRelacion(CITipoRelacion);
     }
 
     @Override
-    public Hecho getHechoByModalidad(Integer CVModalidad) {
-        return hechoRepository.findByCVModalidad(CVModalidad);
+    public Hecho getHechoByModalidad(Integer CIModalidad) {
+        return hechoRepository.findByCIModalidad(CIModalidad);
     }
 }

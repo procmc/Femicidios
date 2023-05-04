@@ -3,7 +3,7 @@ package com.if7100.controller;
 import com.if7100.entity.Hecho;
 import com.if7100.service.HechoService;
 import com.if7100.service.ModalidadService;
-import com.if7100.service.RelacionService;
+import com.if7100.service.TipoRelacionService;
 import com.if7100.service.TipoVictimaService;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
@@ -19,14 +19,14 @@ public class HechoController {
     private HechoService hechoService;
     private ModalidadService modalidadService;
     private TipoVictimaService tipoVictimaService;
-    private RelacionService tipoRelacionService;
+    private TipoRelacionService tipoRelacionService;
 
 //    public HechoController(HechoService hechoService) {
 //        super();
 //        this.hechoService = hechoService;
 //    }
 
-    public HechoController(HechoService hechoService, ModalidadService modalidadService, TipoVictimaService tipoVictimaService, RelacionService tipoRelacionService) {
+    public HechoController(HechoService hechoService, ModalidadService modalidadService, TipoVictimaService tipoVictimaService, TipoRelacionService tipoRelacionService) {
         super();
         this.hechoService = hechoService;
         this.modalidadService = modalidadService;
@@ -44,9 +44,9 @@ public class HechoController {
     public String createHechoForm(Model model){
         Hecho hecho = new Hecho();
         model.addAttribute("hecho", hecho);
-        model.addAttribute("modalidad", modalidadService.getAllModalidad());
-        model.addAttribute("tipoVictima", tipoVictimaService.getAllTipoVictima());
-        model.addAttribute("tipoRelacion", tipoRelacionService.getAllTypeRelaciones());
+        model.addAttribute("modalidad", modalidadService.getAllModalidades());
+        model.addAttribute("tipoVictima", tipoVictimaService.getAllTipoVictimas());
+        model.addAttribute("tipoRelacion", tipoRelacionService.getAllTipoRelaciones());
         return "create_hecho";
     }
 
@@ -78,16 +78,20 @@ public class HechoController {
 
     @GetMapping("/hechos/{id}")
     public String deleteHecho(@PathVariable Integer id){
-        hechoService.deleteHechoById(id);
+        try {
+            hechoService.deleteHechoById(id);
+        } catch (DataIntegrityViolationException e) {
+            System.out.println("Error, No se puede eliminar un hecho si tiene lugares registrados en el");
+        }
         return "redirect:/hechos";
     }
 
     @GetMapping("/hechos/edit/{id}")
     public String editHechoForm(@PathVariable Integer id, Model model){
         model.addAttribute("hecho", hechoService.getHechoById(id));
-        model.addAttribute("modalidad", modalidadService.getAllModalidad());
-        model.addAttribute("tipoVictima", tipoVictimaService.getAllTipoVictima());
-        model.addAttribute("tipoRelacion", tipoRelacionService.getAllTypeRelaciones());
+        model.addAttribute("modalidad", modalidadService.getAllModalidades());
+        model.addAttribute("tipoVictima", tipoVictimaService.getAllTipoVictimas());
+        model.addAttribute("tipoRelacion", tipoRelacionService.getAllTipoRelaciones());
         return "edit_hecho";
     }
 
@@ -96,10 +100,10 @@ public class HechoController {
         try {
             Hecho existingHecho = hechoService.getHechoById(id);
             existingHecho.setCI_Id(id);
-            existingHecho.setCVLugar(hecho.getCVLugar());
-            existingHecho.setCVTipoVictima(hecho.getCVTipoVictima());
-            existingHecho.setCVTipoRelacion(hecho.getCVTipoRelacion());
-            existingHecho.setCVModalidad(hecho.getCVModalidad());
+            existingHecho.setCIPais(hecho.getCIPais());
+            existingHecho.setCITipoVictima(hecho.getCITipoVictima());
+            existingHecho.setCITipoRelacion(hecho.getCITipoRelacion());
+            existingHecho.setCIModalidad(hecho.getCIModalidad());
             hechoService.updateHecho(existingHecho);
             return "redirect:/hechos";
         } catch (DataIntegrityViolationException e){

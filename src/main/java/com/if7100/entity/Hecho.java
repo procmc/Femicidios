@@ -15,26 +15,26 @@ public class Hecho {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer CI_Id;
 
-    @Column(name = "CV_Lugar", nullable = false)
-    private Integer CVLugar;
+    @Column(name = "CI_Pais", nullable = false)
+    private Integer CIPais;
 
-    @Column(name = "CV_Tipo_Victima", nullable = false)
-    private Integer CVTipoVictima;
+    @Column(name = "CI_Tipo_Victima", nullable = false)
+    private Integer CITipoVictima;
 
-    @Column(name = "CV_Tipo_Relacion", nullable = false)
-    private Integer CVTipoRelacion;
+    @Column(name = "CI_Tipo_Relacion", nullable = false)
+    private Integer CITipoRelacion;
 
-    @Column(name = "CV_Modalidad", nullable = false)
-    private Integer CVModalidad;
+    @Column(name = "CI_Modalidad", nullable = false)
+    private Integer CIModalidad;
 
     public Hecho(){}
 
-    public Hecho(Integer CVLugar, Integer CVTipoVictima, Integer CVTipoRelacion, Integer CVModalidad) {
+    public Hecho(Integer CIPais, Integer CITipoVictima, Integer CITipoRelacion, Integer CIModalidad) {
         super();
-        this.CVLugar = CVLugar;
-        this.CVTipoVictima = CVTipoVictima;
-        this.CVTipoRelacion = CVTipoRelacion;
-        this.CVModalidad = CVModalidad;
+        this.CIPais = CIPais;
+        this.CITipoVictima = CITipoVictima;
+        this.CITipoRelacion = CITipoRelacion;
+        this.CIModalidad = CIModalidad;
     }
 
     public Integer getCI_Id() {
@@ -45,35 +45,35 @@ public class Hecho {
         this.CI_Id = CI_Id;
     }
 
-    public Integer getCVLugar() {
-        return CVLugar;
+    public Integer getCIPais() {
+        return CIPais;
     }
 
-    public void setCVLugar(Integer CVLugar) {
-        this.CVLugar = CVLugar;
+    public void setCIPais(Integer CVPais) {
+        this.CIPais = CVPais;
     }
 
-    public Integer getCVTipoVictima() {
-        return CVTipoVictima;
+    public Integer getCITipoVictima() {
+        return CITipoVictima;
     }
 
-    public void setCVTipoVictima(Integer CVTipoVictima) {
-        this.CVTipoVictima = CVTipoVictima;
+    public void setCITipoVictima(Integer CITipoVictima) {
+        this.CITipoVictima = CITipoVictima;
     }
 
-    public Integer getCVTipoRelacion() {
-        return CVTipoRelacion;
+    public Integer getCITipoRelacion() {
+        return CITipoRelacion;
     }
 
-    public void setCVTipoRelacion(Integer CVTipoRelacion) {
-        this.CVTipoRelacion = CVTipoRelacion;
+    public void setCITipoRelacion(Integer CITipoRelacion) {
+        this.CITipoRelacion = CITipoRelacion;
     }
 
-    public Integer getCVModalidad() {
-        return CVModalidad;
+    public Integer getCIModalidad() {
+        return CIModalidad;
     }
 
-    public void setCVModalidad(Integer CVModalidad) {
-        this.CVModalidad = CVModalidad;
+    public void setCIModalidad(Integer CIModalidad) {
+        this.CIModalidad = CIModalidad;
     }
 }

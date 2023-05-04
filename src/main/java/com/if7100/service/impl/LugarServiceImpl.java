@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.if7100.service.impl;
 
 import java.util.List;
@@ -21,19 +18,27 @@ import com.if7100.service.LugarService;
 @Service
 public class LugarServiceImpl implements LugarService{
 
-	@Autowired
-	private LugarRepository lugarRepository;
-	private TipoLugarRepository tipoLugarRepository;
-	
+    @Autowired
+    private LugarRepository lugarRepository;
+    private TipoLugarRepository tipoLugarRepository;
+
     public LugarServiceImpl(LugarRepository lugarRepository, TipoLugarRepository tipoLugarRepository) {
-		super();
-		this.lugarRepository=lugarRepository;
-		this.tipoLugarRepository=tipoLugarRepository;
-	}
-    
-    
-    
-    
+        super();
+        this.lugarRepository=lugarRepository;
+        this.tipoLugarRepository=tipoLugarRepository;
+    }
+
+
+
+
+
+
+
+
+
+    /*
+
+
     public List<Lugar> getAllLugares(String palabraClave){
     	List<Lugar> salida;
     	if(palabraClave!=null) {
@@ -43,48 +48,83 @@ public class LugarServiceImpl implements LugarService{
         salida = lugarRepository.findAll();
     	}
         for (Lugar lugar : salida) {
-            TipoLugar tipoLugar = tipoLugarRepository.findById(lugar.getCIF_Tipo_Lugar()).orElse(null);
+            TipoLugar tipoLugar = tipoLugarRepository.findById(lugar.getCI_Tipo_Lugar()).orElse(null);
             if (tipoLugar != null) {
                 lugar.setTitulo(tipoLugar.getCVTitulo());
             }
         }
         return salida;
     }
-    
+    */
+
+
+
+    public List<Lugar> getAllLugar(){
+        List<Lugar> salida= lugarRepository.findAll();
+
+        for (Lugar lugar : salida) {
+            TipoLugar tipoLugar = tipoLugarRepository.findById(lugar.getCI_Tipo_Lugar()).orElse(null);
+            if (tipoLugar != null) {
+                lugar.setTitulo(tipoLugar.getCVTitulo());
+            }
+        }
+        return salida;
+    }
+
+
+
+
+
+
+
+    public List<Lugar> getAllLugares(Integer CI_Hecho){
+        List<Lugar> salida= lugarRepository.findByCIHecho(CI_Hecho);
+
+        for (Lugar lugar : salida) {
+            TipoLugar tipoLugar = tipoLugarRepository.findById(lugar.getCI_Tipo_Lugar()).orElse(null);
+            if (tipoLugar != null) {
+                lugar.setTitulo(tipoLugar.getCVTitulo());
+            }
+        }
+        return salida;
+    }
+
+
+
    /* @Override
     public List<Lugar> getAllLugares(){
     	return lugarRepository.findAll();
-    	
+
     }*/
-    
-    
-    
+
+
+
     @Override
     public Lugar saveLugar(Lugar lugar){
-    	return lugarRepository.save(lugar);
+        return lugarRepository.save(lugar);
     }
-   
+
     @Override
     public Lugar getLugarById(Integer Id){
-    	return lugarRepository.findById(Id).get();
+        return lugarRepository.findById(Id).get();
     }
-    
+
     @Override
     public void deleteLugarById(Integer Id){
-    	lugarRepository.deleteById(Id);
+        lugarRepository.deleteById(Id);
     }
-    
+
     @Override
     public Lugar updateLugar(Lugar lugar){
-    	return lugarRepository.save(lugar);
+        return lugarRepository.save(lugar);
     }
-    
-    
+
+
    /* @Override
     public Usuario getUsuarioByCVNombre(String CV_Nombre){
     	return usuarioRepository.findByCVNombre(CV_Nombre);
     }*/
-    
 
-    
+
+
 }

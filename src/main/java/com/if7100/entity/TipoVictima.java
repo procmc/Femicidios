@@ -1,5 +1,4 @@
 package com.if7100.entity;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -8,65 +7,49 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name= "ta_tipovictima")
-
-
-/**
- * @author Liss
- * Fecha: 20 de abril del 2023
- */
+@Table(name = "TA_Tipovictima")
 public class TipoVictima {
 
-	/**
-	 *  Esta es la clase para el JPA Entity de la tabla femicidios.TA_Usuarios
-	 */
-	@Id
-	@GeneratedValue (strategy= GenerationType.IDENTITY)
-	private int CI_Codigo;
-	
-	@Column (name="CV_Titulo", nullable=false)
-	private String CVTitulo;
-	
-	@Column (name="CV_Descripcion", nullable=false)
-	private String CVDescripcion;
-	
-	
-	
-	public TipoVictima() {
-		
-	}
-	
-	
-	public TipoVictima(String CV_Titulo, String CV_Descripcion) {
-		super();
-		this.CVTitulo= CV_Titulo;
-		this.CVDescripcion= CV_Descripcion;
-	}
-	
-	
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer CI_Codigo;
 
-	public int getCI_Codigo() {
-		return CI_Codigo;
-	}
+    @Column(name = "CV_Titulo", nullable = false)
+    private String CVTitulo;
 
-	public void setCI_Codigo(int cI_Codigo) {
-		CI_Codigo = cI_Codigo;
-	}
+    @Column(name = "CV_Descripcion", nullable = false)
+    private String CVDescripcion;
 
-	public String getCVTitulo() {
-		return CVTitulo;
-	}
+    public TipoVictima() {
+    }
 
-	public void setCVTitulo(String cVTitulo) {
-		CVTitulo = cVTitulo;
-	}
+    public TipoVictima(Integer CI_Codigo, String CVTitulo, String CVDescripcion) {
+        this.CI_Codigo = CI_Codigo;
+        this.CVTitulo = CVTitulo;
+        this.CVDescripcion = CVDescripcion;
+    }
 
-	public String getCVDescripcion() {
-		return CVDescripcion;
-	}
+    public Integer getCI_Codigo() {
+        return CI_Codigo;
+    }
 
-	public void setCVDescripcion(String cVDescripcion) {
-		CVDescripcion = cVDescripcion;
-	}
-	
+    public void setCI_Codigo(Integer CI_Codigo) {
+        this.CI_Codigo = CI_Codigo;
+    }
+
+    public String getCVTitulo() {
+        return CVTitulo;
+    }
+
+    public void setCVTitulo(String CVTitulo) {
+        this.CVTitulo = CVTitulo;
+    }
+
+    public String getCVDescripcion() {
+        return CVDescripcion;
+    }
+
+    public void setCVDescripcion(String CVDescripcion) {
+        this.CVDescripcion = CVDescripcion;
+    }
 }

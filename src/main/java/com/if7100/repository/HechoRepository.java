@@ -7,12 +7,12 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface HechoRepository extends JpaRepository<Hecho, Integer> {
 
-    Hecho findByCVLugar(Integer CVLugar);
+    Hecho findByCIPais(Integer CIPais);
 
-    Hecho findByCVTipoVictima(Integer CVTipoVictima);
+    Hecho findByCITipoVictima(Integer CITipoVictima);
 
-    Hecho findByCVTipoRelacion(Integer CVTipoRelacion);
+    Hecho findByCITipoRelacion(Integer CITipoRelacion);
 
-    Hecho findByCVModalidad(Integer CVModalidad);
+    Hecho findByCIModalidad(Integer CIModalidad);
 
 }

@@ -3,9 +3,9 @@
  */
 package com.if7100.service;
 
-import java.util.List;
-
 import com.if7100.entity.OrientacionSexual;
+
+import java.util.List;
 
 /**
  * @author Ronny Salgado
@@ -14,7 +14,7 @@ import com.if7100.entity.OrientacionSexual;
 public interface OrientacionSexualService {
  List<OrientacionSexual> getAllOrientacionesSexuales();
 
- OrientacionSexual saveOriencionSexual(OrientacionSexual usuario);
+ OrientacionSexual saveOrientacionSexual(OrientacionSexual orientacionSexual);
  
  OrientacionSexual getOrientacionSexualByCodigo(int codigo);
 
@@ -22,6 +22,8 @@ public interface OrientacionSexualService {
  
  void deleteOrientacionSexualByCodigo(int codigo);
  
- OrientacionSexual getOrientacionSexualByCVTitulo(String CV_Titulo);
+ OrientacionSexual getOrientacionSexualByCVTitulo(String CVTitulo);
+
+ OrientacionSexual getOrientacionSexualByCVDescripcion(String CVDescripcion);
  
 }
