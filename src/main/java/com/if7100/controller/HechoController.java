@@ -8,6 +8,7 @@ import com.if7100.service.TipoVictimaService;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,7 +38,7 @@ public class HechoController {
     @GetMapping("/hechos")
     public String listHechos(Model model){
         model.addAttribute("hechos", hechoService.getAllHechos());
-        return "hechos";
+        return "hechos/hechos";
     }
 
     @GetMapping("/hechos/new")
@@ -47,7 +48,7 @@ public class HechoController {
         model.addAttribute("modalidad", modalidadService.getAllModalidades());
         model.addAttribute("tipoVictima", tipoVictimaService.getAllTipoVictimas());
         model.addAttribute("tipoRelacion", tipoRelacionService.getAllTipoRelaciones());
-        return "create_hecho";
+        return "hechos/create_hecho";
     }
 
 //    @PostMapping("/guardar")
@@ -92,7 +93,7 @@ public class HechoController {
         model.addAttribute("modalidad", modalidadService.getAllModalidades());
         model.addAttribute("tipoVictima", tipoVictimaService.getAllTipoVictimas());
         model.addAttribute("tipoRelacion", tipoRelacionService.getAllTipoRelaciones());
-        return "edit_hecho";
+        return "hechos/edit_hecho";
     }
 
     @PostMapping("/hechos/{id}")

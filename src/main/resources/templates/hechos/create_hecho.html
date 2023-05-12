@@ -33,7 +33,7 @@
         <div class ="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
             <h1 class = "text-center">Crear Hecho</h1>
             <div class = "card-body">
-                <form th:action="@{/hechos}"  th:object = "${hecho}" method="POST">
+                <form th:action="@{/hechos}" th:object = "${hecho}" method="POST">
 
 <!--                    <div class ="form-group">-->
 <!--                        <label>Tipo de victima del hecho</label>-->
@@ -94,12 +94,14 @@
                     <div class ="form-group">
                         <label>Pais del hecho</label>
                         <input
-                                type = "number"
+                                type = "text"
                                 name = "pais"
                                 th:field = "*{CIPais}"
                                 class = "form-control"
-                                pattern="[0-9]"
-                                placeholder="Digite el pais del hecho"
+                                pattern="[0-9]{1,4}"
+                                maxlength="4"
+                                required
+                                placeholder="Digite el Codigo del pais del hecho"
                                 onfocus="ocultarError()"
                         />
                     </div>

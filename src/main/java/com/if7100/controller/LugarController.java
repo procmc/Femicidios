@@ -5,7 +5,10 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.if7100.entity.Hecho;
+import com.if7100.service.HechoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -27,10 +30,13 @@ public class LugarController {
     private LugarService lugarService;
     private TipoLugarService tipoLugarService;
 
-    public LugarController(LugarService lugarService, TipoLugarService tipoLugarService) {
+    private HechoService hechoService;
+
+    public LugarController(LugarService lugarService, TipoLugarService tipoLugarService, HechoService hechoService) {
         super();
         this.lugarService=lugarService;
         this.tipoLugarService= tipoLugarService;
+        this.hechoService = hechoService;
     }
 
     //Mostrar todos lugares
@@ -39,7 +45,7 @@ public class LugarController {
         session.setAttribute("idLugarHecho", Id);
         List<Lugar> listaLugar=lugarService.getAllLugares(Id);
         model.addAttribute("lugar",listaLugar);
-        return "lugares";
+        return "lugares/lugares";
     }
 
     //Eliminar Lugar
@@ -56,24 +62,43 @@ public class LugarController {
     public String editLugarForm(@PathVariable Integer Id, Model model) {
         model.addAttribute("lugar", lugarService.getLugarById(Id));
         model.addAttribute("tipoLugar", tipoLugarService.getAllTipoLugares());
-        return "edit_lugar";
+        return "lugares/edit_lugar";
     }
 
-    @PostMapping("/lugar/{Id}")
-    public String updateLugar(@PathVariable Integer Id, @ModelAttribute("lugar") Lugar lugar) {
-        Lugar existingLugar=lugarService.getLugarById(Id);
-        existingLugar.setCI_Codigo(Id);
-        existingLugar.setCIHecho(existingLugar.getCIHecho());
-        existingLugar.setCV_Descripcion(lugar.getCV_Descripcion());
-        existingLugar.setCI_Tipo_Lugar(lugar.getCI_Tipo_Lugar());
-        existingLugar.setCV_Direccion(lugar.getCV_Direccion());
-        existingLugar.setCV_Ciudad(lugar.getCV_Ciudad());
-        existingLugar.setCI_Pais(lugar.getCI_Pais());
-        lugarService.updateLugar(existingLugar);
-        return "redirect:/lugar/"+ existingLugar.getCIHecho();
+//    @PostMapping("/lugar/{Id}")
+//    public String updateLugar(@PathVariable Integer Id, @ModelAttribute("lugar") Lugar lugar) {
+//        Lugar existingLugar=lugarService.getLugarById(Id);
+//        existingLugar.setCI_Codigo(Id);
+//        existingLugar.setCIHecho(existingLugar.getCIHecho());
+//        existingLugar.setCV_Descripcion(lugar.getCV_Descripcion());
+//        existingLugar.setCI_Tipo_Lugar(lugar.getCI_Tipo_Lugar());
+//        existingLugar.setCV_Direccion(lugar.getCV_Direccion());
+//        existingLugar.setCV_Ciudad(lugar.getCV_Ciudad());
+//        existingLugar.setCI_Pais(lugar.getCI_Pais());
+//        lugarService.updateLugar(existingLugar);
+//        return "redirect:/lugar/"+ existingLugar.getCIHecho();
+//    }
+
+    @PostMapping("/lugar/{id}")
+    public String updateLugar(@PathVariable Integer id, @ModelAttribute("lugar") Lugar lugar, Model model){
+        try {
+            Lugar existingLugar=lugarService.getLugarById(id);
+            existingLugar.setCI_Codigo(id);
+            existingLugar.setCIHecho(existingLugar.getCIHecho());
+            existingLugar.setCV_Descripcion(lugar.getCV_Descripcion());
+            existingLugar.setCI_Tipo_Lugar(lugar.getCI_Tipo_Lugar());
+            existingLugar.setCV_Direccion(lugar.getCV_Direccion());
+            existingLugar.setCV_Ciudad(lugar.getCV_Ciudad());
+            existingLugar.setCI_Pais(lugar.getCI_Pais());
+            lugarService.updateLugar(existingLugar);
+            return "redirect:/lugar/" + existingLugar.getCIHecho();
+        } catch (DataIntegrityViolationException e){
+            String mensaje = "No se puede guardar el hecho debido a un error de integridad de datos.";
+            model.addAttribute("error_message", mensaje);
+            model.addAttribute("error", true);
+            return editLugarForm(id, model);
+        }
     }
-
-
 
 
 
@@ -103,10 +128,23 @@ public class LugarController {
 
 
 
+//    @PostMapping("/lugar")
+//    public String saveLugar(@ModelAttribute("lugar") Lugar lugar) {
+//        lugarService.saveLugar(lugar);
+//        return "redirect:/lugar/"+lugar.getCIHecho();
+//    }
+
     @PostMapping("/lugar")
-    public String saveLugar(@ModelAttribute("lugar") Lugar lugar) {
-        lugarService.saveLugar(lugar);
-        return "redirect:/lugar/"+lugar.getCIHecho();
+    public String saveHecho(@ModelAttribute("lugar") Lugar lugar, Model model){
+        try {
+            lugarService.saveLugar(lugar);
+            return "redirect:/lugar/" + lugar.getCIHecho();
+        } catch (DataIntegrityViolationException e){
+            String mensaje = "No se puede guardar el hecho debido a un error de integridad de datos.";
+            model.addAttribute("error_message", mensaje);
+            model.addAttribute("error", true);
+            return createLugarForm(model, lugar.getCIHecho());
+        }
     }
 
 
@@ -118,7 +156,7 @@ public class LugarController {
             lugar.setCIHecho(Id);
 			model.addAttribute("lugar", lugar);
 			model.addAttribute("tipoLugar", tipoLugarService.getAllTipoLugares());
-			return "create_lugar";
+			return "lugares/create_lugar";
 		}
 
 //	@PostMapping("/lugar")
@@ -131,27 +169,28 @@ public class LugarController {
     public String listLugares(Model model) {
         List<Lugar> listaLugar=lugarService.getAllLugar();
         model.addAttribute("lugar",listaLugar);
-        return "lugares";
+        return "lugares/lugares";
     }
 
     @GetMapping("/lugar")
     public String listLugares(@RequestParam("id") Integer id,  Model model) {
         List<Lugar> listaLugar = lugarService.getAllLugares(id);
         model.addAttribute("lugar",listaLugar);
-        return "lugares";
+        return "lugares/lugares";
     }
 
 
     //Este Metodo esta bueno pero solo sirve si selecciona ver la lista de lugares de un hecho y desde la misma ventana de lugar se agrega un lugar de un hecho en especifico
 
 //Nuevo Lugar
-//    @GetMapping("/lugares/new")
-//    public String createHechoForm(Model model){
-//        Lugar lugar = new Lugar();
-//        model.addAttribute("lugar", lugar);
-//        model.addAttribute("tipoLugar", tipoLugarService.getAllTipoLugares());
-//        return "create_lugar";
-//    }
+    @GetMapping("/lugares/new")
+    public String createHechoForm(Model model){
+        Lugar lugar = new Lugar();
+        model.addAttribute("lugar", lugar);
+        model.addAttribute("hecho", hechoService.getAllHechos());
+        model.addAttribute("tipoLugar", tipoLugarService.getAllTipoLugares());
+        return "lugares/create_lugares";
+    }
 
 
 }

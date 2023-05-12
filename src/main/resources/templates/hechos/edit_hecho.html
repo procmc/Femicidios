@@ -91,12 +91,14 @@
                     <div class ="form-group">
                         <label>Pais del hecho</label>
                         <input
-                                type = "number"
+                                type = "text"
                                 name = "pais"
                                 th:field = "*{CIPais}"
                                 class = "form-control"
-                                pattern="[0-9]"
-                                placeholder="Digite el pais del hecho"
+                                pattern="[0-9]{1,4}"
+                                maxlength="4"
+                                required
+                                placeholder="Digite el Codigo del pais del hecho"
                                 onfocus="ocultarError()"
                         />
                     </div>
