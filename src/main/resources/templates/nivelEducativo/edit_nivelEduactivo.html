@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Actualizar nivel educativo</title>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous">
+</head>
+<body>
+<div class="row">
+		<div class="col-md-12">
+			<ul class="nav nav-pills flex-column flex-sm-row">
+				<li class="nav-item">
+					<a class="nav-link active" href="#">Inicio</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" th:href="@{/nivelEducativo}">Nivel Educativo</a>
+				</li>
+		
+			</ul>
+		</div>
+	</div>
+<br>
+<br>
+	<div class = "container">
+		<div class = "row">
+			<div class ="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
+				<h1 class = "text-center"> Actualizar nivel educativo </h1>
+				<div class = "card-body">
+					<form th:action="@{/nivelEducativo/{id} (id=${nivelEducativo.CI_Id})}" th:object = "${nivelEducativo}" method="POST">
+						<div class ="form-group">
+							<label>Nombre del nivel educativo</label>
+							<input
+							type = "text"
+							name = "nivel educativo"
+							th:field = "*{CV_Titulo}"
+							class = "form-control"
+							placeholder="Digite el nombre del nivel educativo" 
+							/>
+						</div>
+						
+						<div class ="form-group">
+							<label>Descripcion del nivel educativo</label>
+							<input
+							type = "text"
+							name = "Descripcion"
+							th:field = "*{CV_Descripcion}"
+							class = "form-control"
+							placeholder="Digite la descripcion del nivel educativo" 
+							/>
+						</div>
+						
+						<div class = "box-footer">
+							<button type="submit" class = "btn btn-primary">
+								Actualizar datos
+							</button>
+						</div>
+					</form>
+				
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
