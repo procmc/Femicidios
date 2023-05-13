@@ -7,7 +7,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface NivelEducativoRepository extends JpaRepository<NivelEducativo, Integer>{
-	NivelEduactivo findByCV_Titulo(String CV_Titulo);
+
+	NivelEducativo findByCV_Titulo(String CV_Titulo);
 
    NivelEducativo findByCV_Descripcion(String CV_Descripcion);
 }

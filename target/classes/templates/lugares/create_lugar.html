@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="ISO-8859-1">
+  <title>Lugar mantenimiento</title>
+  <link rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+</head>
+<body>
+
+<div class="row">
+  <div class="col-md-12">
+    <ul class="nav nav-pills flex-column flex-sm-row">
+      <li class="nav-item"><a class="nav-link active" href="#">Inicio</a>
+      </li>
+      <li class="nav-item"><a class="nav-link" th:href="@{/lugares}">Lugar</a>
+      </li>
+
+    </ul>
+  </div>
+</div>
+
+<br>
+<br>
+<div class="container">
+  <div class="row">
+    <div
+            class="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
+      <h1 class="text-center">Crear Lugar</h1>
+      <div class="card-body">
+        <form th:action="@{/lugar}" th:object="${lugar}" method="POST">
+          <div class="form-group">
+            <label>Id Hecho</label>
+            <input
+                    type="text"
+                    name="CIHecho"
+                    th:field="*{CIHecho}"
+                    class="form-control"
+                    placeholder="Digite el Id Hecho"
+                    readonly/>
+          </div>
+
+          <div class="form-group">
+            <label>Descripcion</label>
+            <input
+                    type="text"
+                    name="descripcion"
+                    th:field="*{CV_Descripcion}"
+                    class="form-control"
+                    placeholder="Ingrese una descripcion" />
+          </div>
+
+
+
+
+
+          <div class="form-group">
+            <label>Tipo de Lugar:</label>
+            <select name="CI_Tipo_Lugar" style="display: block;" class = "form-control">
+              <option value="" selected disabled >Selecciona un tipo de lugar</option>
+              <option
+                      th:each= "tipolugar: ${tipoLugar}"
+                      th:text= "${tipolugar.CVTitulo}"
+                      th:value="${tipolugar.CI_Codigo}"
+                      th:field="*{CI_Tipo_Lugar}" >
+              </option>
+            </select>
+          </div>
+
+
+
+          <div class="form-group">
+            <label>Direccion</label>
+            <input
+                    type="text"
+                    name="direccion"
+                    th:field="*{CV_Direccion}"
+                    class="form-control"
+                    placeholder="Ingrese la Direccion" />
+          </div>
+
+
+
+          <div class="form-group">
+            <label>Ciudad</label>
+            <input
+                    type="text"
+                    name="ciudad"
+                    th:field="*{CV_Ciudad}"
+                    class="form-control"
+                    placeholder="Ingrese una ciudad" />
+          </div>
+
+
+          <div class="form-group">
+            <label>Pais</label>
+            <input
+                    type="text"
+                    name="pais"
+                    th:field="*{CI_Pais}"
+                    pattern="[0-9]{1,4}"
+                    maxlength="4"
+                    required
+                    class="form-control"
+                    placeholder="Ingrese el codigo del pais" />
+          </div>
+
+
+          <div class="box-footer">
+            <button type="submit" class="btn btn-primary">Agregar</button>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
