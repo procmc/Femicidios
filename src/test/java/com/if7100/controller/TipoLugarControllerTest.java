@@ -1,56 +1,60 @@
 package com.if7100.controller;
 
 
-import com.if7100.entity.TipoLugar;
-import com.if7100.repository.TipoLugarRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.if7100.repository.TipoLugarRepository;
+import com.if7100.entity.TipoLugar;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
+
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class TipoLugarControllerTest {
-
+	
     @Autowired
-    private TipoLugarRepository tipoLugarRepository;
+	private TipoLugarRepository tipoLugarRepository;
+	
+	private String Titulo= "prueba 1";
+	private String Descripcion= "1";
+	
+	private TipoLugar tipoLugar = new TipoLugar(Titulo, "LOSSER");
+	private TipoLugar tipoLugarConsultado = new TipoLugar();
+	
+	@Test 
+	public void Test1() throws Exception{//agrega un tipo de lugar
+		tipoLugarRepository.save(tipoLugar);
+	}
+	
+	@Test 
+	public void Test2() throws Exception{//busca un tipoLugar por titulo
+		tipoLugarConsultado = tipoLugarRepository.findByCVTitulo(Titulo);
+		assertEquals(tipoLugarConsultado.getCVTitulo(), Titulo);	
+		assertNotEquals(tipoLugarConsultado.getCVDescripcion(), Descripcion);//busca si la descripcion es diferente	
 
-    private Integer codigo = 1;
+	}
+	
+	
+	@Test 
+	public void Test3() throws Exception{//busca un tipolugar por titulo cambia la Descripcion y pregunta si ahora la Descripcion son iguales
+		tipoLugarConsultado = tipoLugarRepository.findByCVTitulo(Titulo);
+		tipoLugarConsultado.setCVDescripcion(Descripcion);
+		tipoLugarRepository.save(tipoLugarConsultado);
+		
+		tipoLugarConsultado = tipoLugarRepository.findByCVTitulo(Titulo);
+		assertEquals(tipoLugarConsultado.getCVDescripcion(), Descripcion);	
 
-    private String titulo = "Domicilio Víctima";
-
-    private String descripcion = "Lugar de la residencia particular de la víctima";
-
-    private TipoLugar tipoLugar = new TipoLugar("Domicilio Víctimario", "Lugar de residencia particular del víctimario");
-
-    private TipoLugar tipoLugarConsultada = new TipoLugar();
-
-    @Test
-    public void testUno() throws  Exception{
-        tipoLugarRepository.save(tipoLugar);
-    }
-
-    @Test
-    public void testDos() throws Exception{
-        testUno();
-        tipoLugarConsultada = tipoLugarRepository.findByCVTitulo(titulo);
-        assertEquals(tipoLugarConsultada.getCVTitulo(), titulo);
-        assertNotEquals(tipoLugarConsultada.getCVDescripcion(), descripcion);
-    }
-
-    @Test
-    public void testTres() throws Exception{
-        tipoLugarConsultada = tipoLugarRepository.findByCVTitulo(titulo);
-        tipoLugarConsultada.setCVDescripcion(descripcion);
-        tipoLugarRepository.save(tipoLugarConsultada);
-        assertEquals(tipoLugarConsultada.getCVDescripcion(), descripcion);
-    }
-
-    @Test
-    public void testCuatro() throws Exception{
-        tipoLugarConsultada = tipoLugarRepository.findByCVTitulo(titulo);
-        tipoLugarRepository.deleteById(tipoLugarConsultada.getCI_Codigo());
-    }
-
+	}
+	
+	@Test 
+	public void Test4() throws Exception{//busca por titulo y lo elimina
+		tipoLugarConsultado = tipoLugarRepository.findByCVTitulo(Titulo);
+		
+		tipoLugarRepository.deleteById(tipoLugarConsultado.getCI_Codigo());
+	}
+	
+	
 }
