@@ -1,3 +1,6 @@
+/**
+ * 
+ */
 package com.if7100.controller;
 
 import org.springframework.stereotype.Controller;//para el controlador
@@ -17,56 +20,56 @@ import com.if7100.entity.TipoLugar;
 @Controller
 public class TipoLugarController {
 
-    private TipoLugarService tipoLugarService;
-
-    public TipoLugarController(TipoLugarService tipoLugarService) {
-        super();
-        this.tipoLugarService= tipoLugarService;
-    }
-    //consultar
-    @GetMapping("/tipolugares")//muestra el listado de usuarios
-    public String listTipoLugares(Model model) {
-        model.addAttribute("tipoLugares", tipoLugarService.getAllTipoLugares());
-        return "tipoLugares";
-    }
-
+	private TipoLugarService tipoLugarService;
+	
+	public TipoLugarController(TipoLugarService tipoLugarService) {
+	super();
+	this.tipoLugarService= tipoLugarService;
+}
+	//consultar
+	@GetMapping("/tipoLugar")//muestra el listado de usuarios
+	public String listStudents(Model model) {
+		model.addAttribute("tipoLugar", tipoLugarService.getAllTipoLugares());
+		return "tipoLugar/tipoLugar";
+	}
 	//agregar
-	@GetMapping("/tipolugares/new")// envia el modelo a la pagina de crear usuario
+	@GetMapping("/tipoLugar/new")// envia el modelo a la pagina de crear usuario
 	public String CreateTipoLugarForm (Model model) {
 		TipoLugar tipoLugar= new TipoLugar();
 		model.addAttribute("tipoLugar", tipoLugar);
-		return "create_tipoLugar";
+		return "tipoLugar/create_tipoLugar";	
 	}
-
-	@PostMapping("/tipolugares")// guarda el usuario y lo devuelve a la pagina usuarios con los datos nuevos
+	
+	@PostMapping("/tipoLugar")// guarda el usuario y lo devuelve a la pagina usuarios con los datos nuevos
 	public String saveTipoLugar (@ModelAttribute("tipoLugar") TipoLugar tipoLugar) {
 	    tipoLugarService.saveTipoLugar(tipoLugar);
-		return "redirect:/tipolugares";
+		return "redirect:/tipoLugar";	
 	}
-
+	
 	//eliminar
-	@GetMapping("/tipolugares/{Codigo}")// envia el modelo a la pagina de crear usuario
-	public String deleteTipoLugar(@PathVariable Integer Codigo) {
+	@GetMapping("/tipoLugar/{Codigo}")// envia el modelo a la pagina de crear usuario
+	public String deleteTipoLugarByCodigo (@PathVariable Integer Codigo) {
 		tipoLugarService.deleteTipoLugarByCodigo(Codigo);
-		return "redirect:/tipolugares";
+		return "redirect:/tipoLugar";	
 	}
-
+	
 	//modificar
-	@GetMapping("/tipolugares/edit/{Codigo}")// envia el modelo a la pagina de editar usuario
+	@GetMapping("/tipoLugar/edit/{Codigo}")// envia el modelo a la pagina de editar usuario
 	public String editTipoLugarForm (@PathVariable Integer Codigo,Model model) {
 		model.addAttribute("tipoLugar", tipoLugarService.getTipoLugarByCodigo(Codigo));
-		return "edit_tipoLugar";
+		return "tipoLugar/edit_tipoLugar";	
 	}
-
-	@PostMapping("/tipolugares/{Codigo}")// guarda el cambio y lo devuelve a la pagina usuarios con los datos nuevos
+	
+	@PostMapping("/tipoLugar/{Codigo}")// guarda el cambio y lo devuelve a la pagina usuarios con los datos nuevos
 	public String updateTipoLugar (@PathVariable Integer Codigo ,@ModelAttribute("tipoLugar") TipoLugar tipoLugar, Model model) {
-
+	   
 		TipoLugar existingTipoLugar = tipoLugarService.getTipoLugarByCodigo(Codigo);
 	    existingTipoLugar.setCI_Codigo(Codigo);
 	    existingTipoLugar.setCVTitulo(tipoLugar.getCVTitulo());
 	    existingTipoLugar.setCVDescripcion(tipoLugar.getCVDescripcion());
 		tipoLugarService.updateTipoLugar(existingTipoLugar);
-		return "redirect:/tipolugares";
+		return "redirect:/tipoLugar";	
 	}
-
+	
+	
 }
