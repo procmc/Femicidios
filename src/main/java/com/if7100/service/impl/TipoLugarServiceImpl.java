@@ -1,6 +1,9 @@
+/**
+ * 
+ */
+
 package com.if7100.service.impl;
 
-import com.if7100.entity.TipoRelacion;
 import org.springframework.stereotype.Service;// para el implements
 
 import java.util.List;
@@ -16,48 +19,43 @@ import com.if7100.repository.TipoLugarRepository;
 @Service
 public class TipoLugarServiceImpl implements TipoLugarService{
 
-    private TipoLugarRepository tipoLugarRepository;
-
-    public TipoLugarServiceImpl (TipoLugarRepository tipoLugarRepository) {
-        super();
-        this.tipoLugarRepository = tipoLugarRepository;
-    }
-
-    @Override
-    public List<TipoLugar> getAllTipoLugares(){
-        return tipoLugarRepository.findAll();
-    }
-
-    @Override
-    public TipoLugar saveTipoLugar(TipoLugar tipoLugar){
-        return tipoLugarRepository.save(tipoLugar);
-    }
-
-    @Override
+	private TipoLugarRepository tipoLugarRepository;
+	
+	public TipoLugarServiceImpl (TipoLugarRepository tipoLugarRepository) {
+		super();
+		this.tipoLugarRepository = tipoLugarRepository;
+	}
+	
+	@Override
+	public List<TipoLugar> getAllTipoLugares(){
+		return tipoLugarRepository.findAll();
+	}
+	
+	@Override
+	public TipoLugar saveTipoLugar(TipoLugar tipoLugar){
+		return tipoLugarRepository.save(tipoLugar);
+	}
+	
+	@Override
     public TipoLugar getTipoLugarByCodigo(Integer Codigo){
-        return tipoLugarRepository.findById(Codigo).get();
-    }
-
-    @Override
-    public TipoLugar updateTipoLugar(TipoLugar tipoLugar){
-        return tipoLugarRepository.save(tipoLugar);
-    }
-
-    @Override
-    public void deleteTipoLugarByCodigo(Integer Codigo){
-        tipoLugarRepository.deleteById(Codigo);
-    }
-
-    @Override
-    public TipoLugar getTipoLugarByTitulo(String CVTitulo) {
-        return tipoLugarRepository.findByCVTitulo(CVTitulo);
-    }
-
-    @Override
-    public TipoLugar getTipoLugarByDescripcion(String CVDescripcion) {
-        return tipoLugarRepository.findByCVDescripcion(CVDescripcion);
-    }
-
-
-
+		return tipoLugarRepository.findById(Codigo).get();
+	}
+ 	
+	@Override
+	public TipoLugar updateTipoLugar(TipoLugar tipoLugar){
+		return tipoLugarRepository.save(tipoLugar);
+	}
+	
+	@Override
+	public void deleteTipoLugarByCodigo(Integer Codigo){
+	   tipoLugarRepository.deleteById(Codigo);
+	}
+	
+	@Override
+	public TipoLugar getTipoLugarByCVTitulo(String CVTitulo){
+	   return tipoLugarRepository.findByCVTitulo(CVTitulo);
+	}
+	
+	
+	
 }
