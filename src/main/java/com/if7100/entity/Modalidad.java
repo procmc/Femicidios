@@ -9,6 +9,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "TA_Modalidades")
+//Esta es la clase de campos codificados
 public class Modalidad {
 
     @Id
