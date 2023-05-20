@@ -24,29 +24,20 @@ import com.if7100.service.TipoOrganismoService;
 public class OrganismoController {
 	
  private OrganismoService organismoService;
+ private TipoOrganismoService tipoOrganismoService;
+
 //instancias para control de acceso
  private UsuarioRepository usuarioRepository;
  private Perfil perfil;
  private PerfilService perfilService;
- private TipoOrganismoService tipoOrganismoService;
  
- public OrganismoController () {
- }
- 
- public OrganismoController (OrganismoService organismoService, PerfilService perfilService, UsuarioRepository usuarioRepository) {
-	 super();
-	 this.organismoService=organismoService;
-	 this.perfilService = perfilService;
-     this.usuarioRepository = usuarioRepository;
- }
-
  
  public OrganismoController (OrganismoService organismoService, TipoOrganismoService tipoOrganismoService, PerfilService perfilService, UsuarioRepository usuarioRepository) {
 	 super();
 	 this.organismoService=organismoService;
-	 this.tipoOrganismoService=tipoOrganismoService;
 	 this.perfilService = perfilService;
      this.usuarioRepository = usuarioRepository;
+     this.tipoOrganismoService=tipoOrganismoService;
  }
  
  private void validarPerfil() {
