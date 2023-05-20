@@ -1,9 +1,6 @@
 /**
  * 
  */
-/**
- * 
- */
 package com.if7100.entity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -19,9 +16,7 @@ import jakarta.persistence.Table;
 @Table(name="ta_organismos")
 public class Organismo {
 
-	/**
-	 * 
-	 */
+
 	public Organismo() {
 		// TODO Auto-generated constructor stub
 	}

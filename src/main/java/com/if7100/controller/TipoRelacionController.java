@@ -23,14 +23,14 @@ public class TipoRelacionController {
     @GetMapping("/tiporelaciones")
     public String listTipoRelaciones(Model model){
         model.addAttribute("tipoRelaciones", tipoRelacionService.getAllTipoRelaciones());
-        return "tipoRelaciones";
+        return "tipoRelacion/tipoRelaciones";
     }
 
     @GetMapping("/tiporelaciones/new")
     public String createTipoRelacionForm(Model model){
         TipoRelacion tipoRelacion = new TipoRelacion();
         model.addAttribute("tipoRelacion", tipoRelacion);
-        return "create_tipoRelacion";
+        return "tipoRelacion/create_tipoRelacion";
     }
 
     @PostMapping("/tiporelaciones")
@@ -48,7 +48,7 @@ public class TipoRelacionController {
     @GetMapping("/tiporelaciones/edit/{id}")
     public String editTipoRelacionForm(@PathVariable Integer id, Model model){
         model.addAttribute("tipoRelacion", tipoRelacionService.getTipoRelacionById(id));
-        return "edit_tipoRelacion";
+        return "tipoRelacion/edit_tipoRelacion";
     }
 
     @PostMapping("/tiporelaciones/{id}")
