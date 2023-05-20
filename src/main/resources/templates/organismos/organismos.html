@@ -29,8 +29,8 @@
 <!--		</div>-->
 <!--	</div>-->
 
-<div class = "row"> <h1></h1> </div>
-<div class = "row"> <h1></h1> </div>
+<!-- <div class = "row"> <h1></h1> </div> -->
+<!-- <div class = "row"> <h1></h1> </div> -->
 
 <div class="alert alert-primary" role="alert">
   Organismos
@@ -55,7 +55,7 @@
 				</tr>
 			
 			<tbody>
-				<tr th:each = "organismo: ${organismos}">
+				<tr th:each = "organismo: ${organismo}">
 					<td th:text = "${organismo.CVNombre}"></td>
 					<td th:text = "${organismo.CVRol}"></td>
 					<td th:text = "${organismo.CVTipo_Organismo}"></td>
