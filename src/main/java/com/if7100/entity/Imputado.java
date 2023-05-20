@@ -70,6 +70,9 @@ public class Imputado {
 	
 	@Column(name="cv_lugarnacimiento",nullable=false)
 	private String CVLugarNacimiento;
+	
+	@Column(name="cv_pais",nullable=false)
+	private String CVPais;
 
 	public String getCVDni() {
 		return CVDni;
@@ -128,6 +131,18 @@ public class Imputado {
 	public void setCVLugarNacimiento(String cVLugarNacimiento) {
 		CVLugarNacimiento = cVLugarNacimiento;
 	}
+
+
+	public String getCVPais() {
+		return CVPais;
+	}
+	
+
+	public void setCVPais(String cVPais) {
+		CVPais = cVPais;
+	}
+	
+	
 	
 	
 

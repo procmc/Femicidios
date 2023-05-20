@@ -124,6 +124,7 @@ public class ImputadoController {
 	 existingImputado.setCVOrientacionSexual(imputado.getCVOrientacionSexual());
 	 existingImputado.setCVLugarNacimiento(imputado.getCVLugarNacimiento());
 	 existingImputado.setCIEdad(imputado.getCIEdad());
+	 existingImputado.setCVPais(imputado.getCVPais());
 	 
 	 imputadoService.updateImputado(existingImputado);
 	 return "redirect:/imputados";

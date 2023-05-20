@@ -56,6 +56,8 @@
 					<th> Edad</th>
 		
 					<th> Lugar de nacimiento </th>
+					
+					<th> Codigo pais </th>
 
 					<th> Acciones</th>
 				</tr>
@@ -68,6 +70,7 @@
 					<td th:text = "${imputado.CVOrientacionSexual}"></td>
 					<td th:text = "${imputado.CIEdad}"></td>
 					<td th:text = "${imputado.CVLugarNacimiento}"></td>
+					<td th:text = "${imputado.CVPais}"></td>
 					<td>
 						<a th:href = "@{/imputados/edit/{id}(id=${imputado.CI_Id})}"
 						 class = "btn btn-primary">Actualizar</a>
