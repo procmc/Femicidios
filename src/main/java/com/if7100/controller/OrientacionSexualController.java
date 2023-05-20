@@ -85,8 +85,20 @@ public class OrientacionSexualController {
  
  @GetMapping("/orientacionesSexuales/new")
  public String createUsuarioForm(Model model) {
-	 model.addAttribute("orientacion",new OrientacionSexual());
-	 return "orientacionessexuales/create_orientacionesSexuales";
+	 
+	 try {
+			this.validarPerfil();
+			if(!this.perfil.getCVRol().equals("Consulta")) {
+				
+				model.addAttribute("orientacion",new OrientacionSexual());
+				return "orientacionessexuales/create_orientacionesSexuales";
+			}else {
+				return "SinAcceso";
+			}
+			
+		}catch (Exception e) {
+			return "SinAcceso";
+		}
  }
  
  @PostMapping("/orientacionesSexuales")

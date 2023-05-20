@@ -30,6 +30,9 @@ public class OrganismoController {
  private PerfilService perfilService;
  private TipoOrganismoService tipoOrganismoService;
  
+ public OrganismoController () {
+ }
+ 
  public OrganismoController (OrganismoService organismoService, PerfilService perfilService, UsuarioRepository usuarioRepository) {
 	 super();
 	 this.organismoService=organismoService;
@@ -38,10 +41,12 @@ public class OrganismoController {
  }
 
  
- public OrganismoController (OrganismoService organismoService, TipoOrganismoService tipoOrganismoService) {
+ public OrganismoController (OrganismoService organismoService, TipoOrganismoService tipoOrganismoService, PerfilService perfilService, UsuarioRepository usuarioRepository) {
 	 super();
 	 this.organismoService=organismoService;
 	 this.tipoOrganismoService=tipoOrganismoService;
+	 this.perfilService = perfilService;
+     this.usuarioRepository = usuarioRepository;
  }
  
  private void validarPerfil() {
@@ -62,7 +67,7 @@ public class OrganismoController {
  @GetMapping("/organismos")
  public String listOrganismos(Model model) {
 	 
-	 model.addAttribute("organismos",organismoService.getAllOrganismos());
+	 model.addAttribute("organismo",organismoService.getAllOrganismos());
 	 return "organismos/organismos";
  }
  
@@ -73,8 +78,8 @@ public class OrganismoController {
 			if(!this.perfil.getCVRol().equals("Consulta")) {
 				
 				model.addAttribute("organismo",new Organismo());
-				 model.addAttribute("tipoOrganismo", tipoOrganismoService.getAllTipoOrganismos());
-				 return "organismos/create_organismo";
+				model.addAttribute("tipoOrganismo", tipoOrganismoService.getAllTipoOrganismos());
+				return "organismos/create_organismo";
 			}else {
 				return "SinAcceso";
 			}
