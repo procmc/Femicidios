@@ -37,19 +37,22 @@
 						<div class="form-group">
 							<label>Cedula del Usuario </label> <input type="text"
 								name="cedula" th:field="*{cedula}" class="form-control"
-								placeholder="Digite el numero de la cedula" />
+								placeholder="Digite el numero de la cedula" maxlength="50"
+                                required/>
 						</div>
 
 						<div class="form-group">
 							<label>Identidad Genero del usuario</label> <input type="text"
 								name="genero" th:field="*{genero}" class="form-control"
-								placeholder="Digite la identidad Genero del Usuario" />
+								placeholder="Digite la identidad Genero del Usuario" maxlength="10"
+                                required/>
 						</div>
 
 						<div class="form-group">
 							<label>codigo del país</label> <input type="number"
-								name="codigoPais" th:field="*{codigoPais}" class="form-control"
-								placeholder="Digite el codigo país del Usuario" />
+								name="codigoPais" th:field="*{codigoPais}" class="form-control" 
+								placeholder="Digite el codigo país del Usuario" maxlength="10"
+                                required/>
 						</div>
 
 						<div class="box-footer">

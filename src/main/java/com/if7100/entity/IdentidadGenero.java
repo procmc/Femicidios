@@ -21,7 +21,7 @@ public class IdentidadGenero {
 	@Column(name = "genero", nullable = false)
 	private String genero;
 
-	@Column(name = "codigopais", nullable = false)
+	@Column(name = "codigoPais", nullable = false)
 	private Integer codigoPais;
 
 	public IdentidadGenero() {

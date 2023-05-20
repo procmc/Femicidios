@@ -4,23 +4,24 @@ CREATE Database femicidios;
 
 use femicidios; 
     create table identidadesGenerosEstandar(
-    id int	NOT NULL AUTO_INCREMENT,
+    Id int	NOT NULL AUTO_INCREMENT,
     nombre varchar(55) not null,
     descripcion varchar(255) not null,
-    primary key clustered (id ASC)
+    primary key clustered (Id ASC)
     );
     use femicidios; 
     
       /* Id	int	NOT NULL AUTO_INCREMEidentidadesgenerosestandaridentidadesgenerosestandarNT,*/
       /*primary key clustered (Id ASC)*/
     create table codigoPaises(
+    Id int	NOT NULL AUTO_INCREMENT,
     spanish	varchar (60) NOT NULL,
 	english varchar (60) NOT NULL,
     ISO2 varchar (3),
     ISO3 varchar (5),
-    telefonoPais varchar(5) 
+    telefonoPais varchar(5),
+    primary key clustered (Id ASC) 
     );
-ALTER TABLE codigoPaises ADD Id INT AUTO_INCREMENT PRIMARY KEY;
     use femcidios;
 
 create table identidadGenero(
@@ -30,7 +31,7 @@ create table identidadGenero(
     codigoPais int not null,
 	primary key clustered (Id ASC),
 	FOREIGN KEY (codigoPais) REFERENCES codigoPaises(Id),
-	FOREIGN KEY (genero) REFERENCES identidadesGenerosEstandar(id)
+	FOREIGN KEY (genero) REFERENCES identidadesGenerosEstandar(Id)
     );
  use femicidios; 
 
