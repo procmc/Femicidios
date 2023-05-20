@@ -65,9 +65,8 @@ public class RegistroPerfilController {
 		
 		Perfil existingUsuario = perfilService.getPerfilById(id);
 		existingUsuario.setCI_Id(id);
-		existingUsuario.setCVUsername(perfil.getCVUsername());
-		existingUsuario.setCVPassword(perfil.getCVPassword());
-		existingUsuario.setCVRole(perfil.getCVRole());
+		existingUsuario.setCVDescripcion(perfil.getCVDescripcion());
+		existingUsuario.setCVRol(perfil.getCVRol());
 		
 		perfilService.updatePerfil(existingUsuario);
 		return "redirect:/perfiles";

@@ -16,31 +16,31 @@ import jakarta.persistence.Id;
  */
 @Entity
 @Table(name = "TA_Perfil")
-
 public class Perfil {
 	
 	public Perfil() {
 		// TODO Auto-generated constructor stub
 	}
 
-    public Perfil(String CV_username, String CV_password, String CV_role) {
-        this.CVUsername = CV_username;
-        this.CVPassword = CV_password;
-        this.CVRole = CV_role;
+    public Perfil(String CV_Descripcion, String CV_rol) {
+        this.CVDescripcion = CV_Descripcion;
+        this.CVRol = CV_rol;
     }
+    
+    public Perfil(Perfil perfil) {
+    	this.CVDescripcion = perfil.CVDescripcion;
+        this.CVRol = perfil.CVRol;
+	}
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer CI_Id;
 
-    @Column(name = "CV_username", nullable = false, unique = true)
-    private String CVUsername;
+    @Column(name = "CV_Descripcion", nullable = false)
+    private String CVDescripcion;
 
-    @Column(name = "CV_password", nullable = false)
-    private String CVPassword;
-
-    @Column(name = "CV_role", nullable = false)
-    private String CVRole;
+    @Column(name = "CV_rol", nullable = false)
+    private String CVRol;
 
 	public Integer getCI_Id() {
 		return CI_Id;
@@ -50,28 +50,20 @@ public class Perfil {
 		CI_Id = cI_Id;
 	}
 
-	public String getCVUsername() {
-		return CVUsername;
+	public String getCVDescripcion() {
+		return CVDescripcion;
 	}
 
-	public void setCVUsername(String cVUsername) {
-		CVUsername = cVUsername;
+	public void setCVDescripcion(String cVDescripcion) {
+		CVDescripcion = cVDescripcion;
 	}
 
-	public String getCVPassword() {
-		return CVPassword;
+	public String getCVRol() {
+		return CVRol;
 	}
 
-	public void setCVPassword(String cVPassword) {
-		CVPassword = cVPassword;
-	}
-
-	public String getCVRole() {
-		return CVRole;
-	}
-
-	public void setCVRole(String cVRole) {
-		CVRole = cVRole;
+	public void setCVRol(String cVRol) {
+		CVRol = cVRol;
 	}
 
 

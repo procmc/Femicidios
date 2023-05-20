@@ -123,6 +123,52 @@ VALUES
 "Consultor"); 
 /*********************************************************************************************************/
 
+/*USUARIOS*/
+/*inicia sesion con la cedula y la clave desencriptada: 12345Jm# */
+use femicidios;
+DROP TABLE IF EXISTS femicidios.TA_Usuarios;
+CREATE table femicidios.TA_Usuarios(
+CI_Id int NOT NULL AUTO_INCREMENT,
+CV_Cedula varchar(20),
+CV_Nombre Varchar(50) NOT NULL,
+CV_Apellidos Varchar(50) NOT NULL,
+CI_Perfil int NOT NULL,
+Tc_Clave Varchar(60) NOT NULL,
+Primary key (CI_Id),
+foreign key(CI_Perfil) REFERENCES femicidios.TA_Perfil(CI_Id)
+);
+
+INSERT INTO `femicidios`.`ta_usuarios`
+(
+`CV_Cedula`,
+`CV_Nombre`,
+`CV_Apellidos`,
+`CI_Perfil`,
+`TC_Clave`)
+VALUES
+('702740601', 'David', 'vargas', '1', '$2a$10$5mZP.XO4VLMhqPaAldZ9ROB39W3.6p9uHZ.fDgoMVXVg0RhRmOyLS');
+
+INSERT INTO `femicidios`.`ta_usuarios`
+(
+`CV_Cedula`,
+`CV_Nombre`,
+`CV_Apellidos`,
+`CI_Perfil`,
+`TC_Clave`)
+VALUES
+('702740602', 'Ismael', 'Valverde', '2', '$2a$10$5mZP.XO4VLMhqPaAldZ9ROB39W3.6p9uHZ.fDgoMVXVg0RhRmOyLS');
+
+INSERT INTO `femicidios`.`ta_usuarios`
+(
+`CV_Cedula`,
+`CV_Nombre`,
+`CV_Apellidos`,
+`CI_Perfil`,
+`TC_Clave`)
+VALUES
+('702740603', 'Julio', 'Jarkin', '3', '$2a$10$5mZP.XO4VLMhqPaAldZ9ROB39W3.6p9uHZ.fDgoMVXVg0RhRmOyLS');
+
+
 /*HECHOS */
 use femicidios; 
 CREATE TABLE femicidios.TA_Hechos (  
