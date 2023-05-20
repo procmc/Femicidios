@@ -41,7 +41,9 @@
 							name = "estado"
 							th:field = "*{CVEstado}"
 							class = "form-control"
-							placeholder="Digite el estado del proceso judicial" 
+							placeholder="Digite el estado del proceso judicial"
+							maxlength="50"
+                    		required 
 							/>
 						</div>
 						
@@ -52,7 +54,9 @@
 							name = "denunciante"
 							th:field = "*{CIDenunciante}"
 							class = "form-control"
-							placeholder="Digite DNI del denunciante" 
+							placeholder="Digite DNI del denunciante"
+							maxlength="10"
+                    		required 
 							/>
 						</div>
 						
@@ -64,6 +68,8 @@
 							th:field = "*{CIPersonasImputadas}"
 							class = "form-control"
 							placeholder="Cantidad de personas imputadas" 
+							maxlength="10"
+                    		required
 							/>
 						</div>
 						
@@ -75,6 +81,8 @@
 							th:field = "*{CVPartes}"
 							class = "form-control"
 							placeholder="Partes intervenientes" 
+							maxlength="20"
+                    		required
 							/>
 						</div>
 						

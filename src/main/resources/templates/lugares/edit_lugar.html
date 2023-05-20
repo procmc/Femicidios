@@ -50,7 +50,9 @@
                     name="descripcion"
                     th:field="*{CV_Descripcion}"
                     class="form-control"
-                    placeholder="Ingrese una descripcion" />
+                    placeholder="Ingrese una descripcion"
+                    maxlength="100"
+                    required />
           </div>
 
 
@@ -79,7 +81,9 @@
                     name="direccion"
                     th:field="*{CV_Direccion}"
                     class="form-control"
-                    placeholder="Ingrese la Direccion" />
+                    placeholder="Ingrese la Direccion"
+                    maxlength="100"
+                    required />
           </div>
 
 
@@ -91,7 +95,9 @@
                     name="ciudad"
                     th:field="*{CV_Ciudad}"
                     class="form-control"
-                    placeholder="Ingrese una ciudad" />
+                    placeholder="Ingrese una ciudad"
+                    maxlength="50"
+                    required />
           </div>
 
 
@@ -105,7 +111,9 @@
                     maxlength="4"
                     required
                     class="form-control"
-                    placeholder="Ingrese el codigo del pais" />
+                    placeholder="Ingrese el codigo del pais" 
+                    maxlength="10"
+                    required/>
           </div>
 
           <div class = "box-footer">
