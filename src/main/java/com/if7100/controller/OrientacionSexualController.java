@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.if7100.entity.OrientacionSexual;
+import com.if7100.service.OrientacionSexualService;
+
 @Controller
 public class OrientacionSexualController {
 	
@@ -32,6 +35,7 @@ public class OrientacionSexualController {
      this.usuarioRepository = usuarioRepository;
  }
  
+
  private void validarPerfil() {
  	
 		try {
@@ -71,22 +75,35 @@ public class OrientacionSexualController {
 			return "SinAcceso";
 		}
  }
- 
- @PostMapping("/orientacionessexuales")
- public String saveOrientacion(@ModelAttribute("orientacionSexual") OrientacionSexual orientacion) {
-	 orientacionService.saveOrientacionSexual(orientacion);
-	 return "redirect:/orientacionessexuales";
+
+ @GetMapping("/orientacionesSexuales")
+ public String listStudents(Model model) {
+	 
+	 model.addAttribute("orientacionesSexuales",orientacionService.getAllOrientacionesSexuales());
+	 return "orientacionessexuales/orientacionesSexuales";
  }
  
- @GetMapping("/orientacionessexuales/{id}")
- public String deleteOrientacionSexual(@PathVariable int id) {
-	 
+ @GetMapping("/orientacionesSexuales/new")
+ public String createUsuarioForm(Model model) {
+	 model.addAttribute("orientacion",new OrientacionSexual());
+	 return "orientacionessexuales/create_orientacionesSexuales";
+ }
+ 
+ @PostMapping("/orientacionesSexuales")
+ public String saveOrientacion(@ModelAttribute("orientacion") OrientacionSexual orientacion) {
+	 orientacionService.saveOrientacionSexual(orientacion);
+	 return "redirect:/orientacionesSexuales";
+ }
+ 
+ @GetMapping("/orientacionesSexuales/{id}")
+ public String deleteOrientacion(@PathVariable int id) {
+
 	 try {
 			this.validarPerfil();
 			if(!this.perfil.getCVRol().equals("Consulta")) {
 				
 				orientacionService.deleteOrientacionSexualByCodigo(id);
-				return "redirect:/orientacionessexuales";
+				 return "redirect:/orientacionesSexuales";
 			}else {
 				return "SinAcceso";
 			}
@@ -96,15 +113,14 @@ public class OrientacionSexualController {
 		}
  }
  
- @GetMapping("/orientacionessexuales/edit/{id}")
+ @GetMapping("/orientacionesSexuales/edit/{id}")
  public String editOrientacionForm(Model model,@PathVariable int id) {
-	 
 	 try {
 			this.validarPerfil();
 			if(!this.perfil.getCVRol().equals("Consulta")) {
 				
-				model.addAttribute("orientacionSexual", orientacionService.getOrientacionSexualByCodigo(id));
-				return "orientacionesSexuales/edit_orientacionSexual";
+				model.addAttribute("orientacion", orientacionService.getOrientacionSexualByCodigo(id));
+				 return "orientacionessexuales/edit_orientacionesSexuales";
 			}else {
 				return "SinAcceso";
 			}
@@ -114,7 +130,7 @@ public class OrientacionSexualController {
 		}
  }
  
- @PostMapping("/orientacionessexuales/{id}")
+ @PostMapping("/orientacionesSexuales/{id}")
  public String updateOrientacionSexual(@PathVariable int id, @ModelAttribute("orientacion") OrientacionSexual orientacion, Model model) {
 	 OrientacionSexual existingOrientacion=orientacionService.getOrientacionSexualByCodigo(id);
 	 existingOrientacion.setCI_Codigo(id);
@@ -122,7 +138,7 @@ public class OrientacionSexualController {
 	 existingOrientacion.setCVDescripcion(orientacion.getCVDescripcion());
 	 
 	 orientacionService.updateOrientacionSexual(existingOrientacion);
-	 return "redirect:/orientacionessexuales";
+	 return "redirect:/orientacionesSexuales";
  }
  
  

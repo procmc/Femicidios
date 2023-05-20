@@ -17,6 +17,8 @@ import com.if7100.entity.Perfil;
 import com.if7100.repository.UsuarioRepository;
 import com.if7100.service.OrganismoService;
 import com.if7100.service.PerfilService;
+import com.if7100.service.TipoOrganismoService;
+
 
 @Controller
 public class OrganismoController {
@@ -26,12 +28,20 @@ public class OrganismoController {
  private UsuarioRepository usuarioRepository;
  private Perfil perfil;
  private PerfilService perfilService;
+ private TipoOrganismoService tipoOrganismoService;
  
  public OrganismoController (OrganismoService organismoService, PerfilService perfilService, UsuarioRepository usuarioRepository) {
 	 super();
 	 this.organismoService=organismoService;
 	 this.perfilService = perfilService;
      this.usuarioRepository = usuarioRepository;
+ }
+
+ 
+ public OrganismoController (OrganismoService organismoService, TipoOrganismoService tipoOrganismoService) {
+	 super();
+	 this.organismoService=organismoService;
+	 this.tipoOrganismoService=tipoOrganismoService;
  }
  
  private void validarPerfil() {
@@ -50,7 +60,7 @@ public class OrganismoController {
 	}
  
  @GetMapping("/organismos")
- public String listStudents(Model model) {
+ public String listOrganismos(Model model) {
 	 
 	 model.addAttribute("organismos",organismoService.getAllOrganismos());
 	 return "organismos/organismos";
@@ -58,13 +68,13 @@ public class OrganismoController {
  
  @GetMapping("/organismos/new")
  public String createOrganismoForm(Model model) {
-	 
 	 try {
 			this.validarPerfil();
 			if(!this.perfil.getCVRol().equals("Consulta")) {
 				
 				model.addAttribute("organismo",new Organismo());
-				return "organismos/create_organismo";
+				 model.addAttribute("tipoOrganismo", tipoOrganismoService.getAllTipoOrganismos());
+				 return "organismos/create_organismo";
 			}else {
 				return "SinAcceso";
 			}
@@ -108,12 +118,12 @@ public class OrganismoController {
  
  @GetMapping("/organismos/edit/{id}")
  public String editOrganismoForm(Model model,@PathVariable int id) {
-	 
 	 try {
 			this.validarPerfil();
 			if(!this.perfil.getCVRol().equals("Consulta")) {
 				
 				model.addAttribute("organismo", organismoService.getOrganismoById(id));
+				model.addAttribute("tipoOrganismo", tipoOrganismoService.getAllTipoOrganismos());
 				return "organismos/edit_organismo";
 			}else {
 				return "SinAcceso";
@@ -127,9 +137,8 @@ public class OrganismoController {
  @PostMapping("/organismos/{id}")
  public String updateOrganismo(@PathVariable int id, @ModelAttribute("organismo") Organismo organismo, Model model) {
 	 Organismo existingOrganismo=organismoService.getOrganismoById(id);
-	 if (!organismo.getCVNombre().equals("") && !organismo.getCVRol().equals("") && 
-			 !organismo.getCVNacionalidad().equals("") && !organismo.getCVContacto().equals("")&&
-			 !organismo.getCVTipo_Organismo().equals("")){
+	 model.addAttribute("tipoOrganismo", tipoOrganismoService.getAllTipoOrganismos());
+
 	 existingOrganismo.setCI_Id(id);
 	 existingOrganismo.setCVNombre(organismo.getCVNombre());
 	 existingOrganismo.setCVRol(organismo.getCVRol());
@@ -139,8 +148,7 @@ public class OrganismoController {
 
 	 
 	 organismoService.updateOrganismo(existingOrganismo);
-	 return "redirect:/organismos";
-	 }
+	
 	 return "redirect:/organismos";
  }
  

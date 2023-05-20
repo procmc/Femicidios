@@ -64,14 +64,14 @@ public class TipoRelacionController {
 				
 				TipoRelacion tipoRelacion = new TipoRelacion();
 		        model.addAttribute("tipoRelacion", tipoRelacion);
-		        return "tipoRelaciones/create_tipoRelacion";
+		        return "tipoRelacion/create_tipoRelacion";
 			}else {
 				return "SinAcceso";
 			}
 			
 		}catch (Exception e) {
 			return "SinAcceso";
-		}
+		}     
     }
 
     @PostMapping("/tiporelaciones")
@@ -100,13 +100,12 @@ public class TipoRelacionController {
 
     @GetMapping("/tiporelaciones/edit/{id}")
     public String editTipoRelacionForm(@PathVariable Integer id, Model model){
-    	
     	try {
 			this.validarPerfil();
 			if(!this.perfil.getCVRol().equals("Consulta")) {
 				
-				 model.addAttribute("tipoRelacion", tipoRelacionService.getTipoRelacionById(id));
-			     return "tipoRelaciones/edit_tipoRelacion";
+				model.addAttribute("tipoRelacion", tipoRelacionService.getTipoRelacionById(id));
+		        return "tipoRelacion/edit_tipoRelacion";
 			}else {
 				return "SinAcceso";
 			}

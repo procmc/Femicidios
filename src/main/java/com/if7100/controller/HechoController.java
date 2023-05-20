@@ -26,10 +26,12 @@ public class HechoController {
     private VictimaService victimaService;
 
     private ProcesoJudicialService procesoJudicialService;
+
   //instancias para control de acceso
     private UsuarioRepository usuarioRepository;
     private Perfil perfil;
     private PerfilService perfilService;
+
 
 //    public HechoController(HechoService hechoService) {
 //        super();
@@ -38,7 +40,7 @@ public class HechoController {
 
     public HechoController(HechoService hechoService, ModalidadService modalidadService,
                            TipoVictimaService tipoVictimaService, TipoRelacionService tipoRelacionService,
-                           VictimaService victimaService, ProcesoJudicialService procesoJudicialService, PerfilService perfilService, UsuarioRepository usuarioRepository) {
+                           VictimaService victimaService, ProcesoJudicialService procesoJudicialService, PerfilService perfilService, UsuarioRepository usuarioRepository){
         super();
         this.hechoService = hechoService;
         this.modalidadService = modalidadService;

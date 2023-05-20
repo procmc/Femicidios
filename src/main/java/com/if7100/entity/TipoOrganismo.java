@@ -66,5 +66,5 @@ public class TipoOrganismo {
 	public void setCVDescripcion(String cVDescripcion) {
 		CVDescripcion = cVDescripcion;
 	}
-
+	
 }

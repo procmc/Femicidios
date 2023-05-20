@@ -29,7 +29,7 @@
 			<div class ="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
 				<h1 class = "text-center"> Actualizar procesoJudicial </h1>
 				<div class = "card-body">
-					<form th:action="@{/procesosJudiciales/{id} (id=${procesoJudicial.CI_IdProceso})}" th:object = "${procesoJudicial}" method="POST">
+					<form th:action="@{/procesosJudiciales/{id} (id=${procesoJudicial.CI_Id})}" th:object = "${procesoJudicial}" method="POST">
 						<div class ="form-group">
 							<label>Estado del proceso judicial</label>
 							<input

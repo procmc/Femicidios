@@ -67,6 +67,4 @@ private TipoOrganismoService tipoOrganismoService;
 		tipoOrganismoService.updateTipoOrganismo(existingTipoOrganismo);
 		return "redirect:/tipoOrganismo";	
 	}
-	
-	
 }

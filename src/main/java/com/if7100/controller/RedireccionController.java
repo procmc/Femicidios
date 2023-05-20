@@ -48,7 +48,7 @@ public class RedireccionController {
                 return "redirect:/identidadgenero";
             }
             case "orientacionSexual" -> {
-                return "redirect:/orientacionessexuales";
+                return "redirect:/orientacionesSexuales";
             }
             case "modalidad" -> {
                 return "redirect:/modalidades";
