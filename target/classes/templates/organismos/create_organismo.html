@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Organismo mantenimiento</title>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous">
+</head>
+<body>
+
+	<div class="row">
+		<div class="col-md-12">
+			<ul class="nav nav-pills flex-column flex-sm-row">
+				<li class="nav-item"><a class="nav-link active" href="#">Inicio</a>
+				</li>
+				<li class="nav-item"><a class="nav-link"
+					th:href="@{/organismos}">Organismos</a></li>
+
+			</ul>
+		</div>
+	</div>
+
+	<br>
+	<br>
+	<div class="container">
+		<div class="row">
+			<div
+				class="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
+				<h1 class="text-center">Crear organismo</h1>
+				<div class="card-body">
+					<form th:action="@{/organismos}" th:object="${organismo}"
+						method="POST">
+						<div class="form-group">
+							<label>Nombre del Organismo</label> <input type="text"
+								name="nombre" th:field="*{CVNombre}" class="form-control"
+								placeholder="Digite el nombre del organismo" 
+								required="El campo nombre es requerido"
+								minlenght="1"
+								maxlength="50"/>
+								
+						</div>
+
+						<div class="form-group">
+							<label>Rol del Usuario</label> <input type="text" name="rol"
+								th:field="*{CVRol}" class="form-control"
+								placeholder="Digite el rol del usuario" 
+								required="El campo rol es requerido"
+								minlenght="1"
+								maxlength="50"/>
+						</div>
+
+						  <div class="form-group">
+						  
+						  	<label> Selecciona el tipo de organismo</label>
+						  	<select th:name="tipoOrganismo" th:field="*{CVTipo_Organismo}" class="form-control">
+						  	<option th:each="tipoOrganismo : ${tipoOrganismo}" 
+						  			th:value="${tipoOrganismo.CI_Codigo}" 
+						  			th:text="${tipoOrganismo.CI_Codigo} + ' - ' + ${tipoOrganismo.CVTitulo}">
+						  	</select>
+						  
+						  </div>
+
+						<div class="form-group">
+							<label>Nacionalidad del Organismo</label> <input type="text"
+								name="nacionalidad" th:field="*{CVNacionalidad}"
+								class="form-control"
+								placeholder="Digite la nacionalidad del organismo" 
+								required="El campo nacionalidad es requerido"
+								minlenght="1"
+								maxlength="50"/>
+						</div>
+
+						<div class="form-group">
+							<label>Contacto del Organismo</label> <input type="text"
+								name="nombre" th:field="*{CVContacto}" class="form-control"
+								placeholder="Digite el contacto del organismo" 
+								required="El campo contacto es requerido"
+								minlenght="1"
+								maxlength="50"/>
+						</div>
+
+						<div class="box-footer">
+
+							<button type="submit" class="btn btn-primary">Agregar</button>
+
+						</div>
+					</form>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

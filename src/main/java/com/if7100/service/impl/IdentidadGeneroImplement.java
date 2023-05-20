@@ -54,4 +54,10 @@ public class IdentidadGeneroImplement implements IdentidadGeneroService {
 		
 	}
 
+	@Override
+	public IdentidadGenero getIdentidadGeneroByCedula(String cedula) {
+		// TODO Auto-generated method stub
+		return identidadGeneroRepository.findByCedula(cedula);
+	}
+
 }

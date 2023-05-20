@@ -35,7 +35,7 @@
 							<input
 							type = "text"
 							name = "nivel educativo"
-							th:field = "*{CV_Titulo}"
+							th:field = "*{CVTitulo}"
 							class = "form-control"
 							placeholder="Digite el nombre del nivel educativo" 
 							/>
@@ -46,9 +46,20 @@
 							<input
 							type = "text"
 							name = "Descripcion"
-							th:field = "*{CV_Descripcion}"
+							th:field = "*{CVDescripcion}"
 							class = "form-control"
 							placeholder="Digite la descripcion del nivel educativo" 
+							/>
+						</div>
+
+						<div class ="form-group">
+							<label>Pais</label>
+							<input
+									type = "text"
+									name = "Pais"
+									th:field = "*{CI_Pais}"
+									class = "form-control"
+									placeholder="Digite el pais"
 							/>
 						</div>
 						

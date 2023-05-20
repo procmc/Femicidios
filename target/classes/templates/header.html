@@ -21,19 +21,40 @@
               <a class="nav-link active" href="#">Inicio</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" th:href="@{/hechos}">Hechos</a>
+
+              <div class="container">
+                <form th:action="@{/redireccionarEntidades}" method="post">
+                  <select class="form-control" name="opcion" onchange="this.form.submit()">
+                    <option value="" disabled selected>Entidades</option>
+                    <option value="hecho">Hechos</option>
+                    <option value="imputado">Imputados</option>
+                    <option value="lugar">Lugares</option>
+                    <option value="victima">Victimas</option>
+                  </select>
+                </form>
+              </div>
+
             </li>
             <li class="nav-item">
-              <a class="nav-link" th:href="@{/tipovictimas}">TipoVictimas</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" th:href="@{/tiporelaciones}">TipoRelaciones</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" th:href="@{/modalidades}">TipoModalidades</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" th:href="@{/lugares}">Lugares</a>
+
+              <div class="container">
+                <form th:action="@{/redireccionarCampos}" method="post">
+                  <select class="form-control" name="opcion" onchange="this.form.submit()">
+                    <option value="" disabled selected>Campos Codificados</option>
+                    <option value="identidadGenero">Identidades De Genero</option>
+                    <option value="organismo">Organismos</option>
+                    <option value="orientacionSexual">Orientaciones Sexuales</option>
+                    <option value="modalidad">Modalidades</option>
+                    <option value="nivelEducativo">Niveles Educativos</option>
+                    <option value="procesoJudicial">Procesos Judiciales</option>
+                    <option value="tipoLugar">Tipos De Lugares</option>
+                    <option value="tipoRelacion">Tipos De Relaciones</option>
+                    <option value="tipoVictima">Tipos De Victimas</option>
+
+                  </select>
+                </form>
+              </div>
+
             </li>
           </ul>
         </div>

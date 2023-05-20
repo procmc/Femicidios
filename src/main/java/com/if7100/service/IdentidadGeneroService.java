@@ -18,6 +18,7 @@ public interface IdentidadGeneroService {
 	IdentidadGenero getIdentidadGeneroById(Integer Id);
 
 	IdentidadGenero updateIdentidadGenero(IdentidadGenero identidadGenero);
+	IdentidadGenero getIdentidadGeneroByCedula(String  cedula);
 
 	void deleteIdentidadGeneroById(Integer Id);
 }

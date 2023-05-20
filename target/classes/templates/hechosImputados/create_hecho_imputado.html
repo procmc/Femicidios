@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="ISO-8859-1">
+  <title>Hecho Imputado mantenimiento</title>
+  <script th:src="@{/HechoScripts/HechoScript.js}"></script>
+  <link rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+
+</head>
+<body>
+
+<div class="row">
+  <div class="col-md-12">
+    <ul class="nav nav-pills flex-column flex-sm-row">
+      <li class="nav-item">
+        <a class="nav-link active" href="#">Inicio</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" th:href="@{/hechoimputado}">Hecho - Imputado</a>
+      </li>
+
+    </ul>
+  </div>
+</div>
+
+<br>
+<br>
+<div class = "container">
+  <div class = "row">
+    <div class ="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
+      <h1 class = "text-center">Crear Hecho Imputado</h1>
+      <div class = "card-body">
+        <form th:action="@{/hechoimputado}" th:object = "${hechoImputado}" method="POST">
+
+          <!--                    <div class ="form-group">-->
+          <!--                        <label>Tipo de victima del hecho</label>-->
+          <!--                        <input-->
+          <!--                                type = "text"-->
+          <!--                                name = "tipoVictima"-->
+          <!--                                th:field = "*{CVTipoVictima}"-->
+          <!--                                class = "form-control"-->
+          <!--                                placeholder="Digite el tipo de victima del hecho"-->
+          <!--                                onfocus="ocultarError()"-->
+          <!--                        />-->
+          <!--                    </div>-->
+
+          <div class ="form-group">
+            <label>Seleccione el hecho:</label>
+            <select th:name="hechos" th:field="*{CIHecho}" class = "form-control" onfocus="ocultarError()">
+              <option th:each="hechos: ${hechos}" th:value="${hechos.CI_Id}" th:text="${hechos.CI_Id}"></option>
+            </select>
+          </div>
+
+          <!--                    <div class ="form-group">-->
+          <!--                        <label>Tipo de relacion del hecho</label>-->
+          <!--                        <input-->
+          <!--                                type = "text"-->
+          <!--                                name = "tipoRelacion"-->
+          <!--                                th:field = "*{CVTipoRelacion}"-->
+          <!--                                class = "form-control"-->
+          <!--                                placeholder="Digite el tipo de relacion del hecho"-->
+          <!--                                onfocus="ocultarError()"-->
+          <!--                        />-->
+          <!--                    </div>-->
+
+          <div class ="form-group">
+            <label>Selecciona el imputado:</label>
+            <select th:name="imputados" th:field="*{CIImputado}" class = "form-control" onfocus="ocultarError()">
+              <option th:each="imputados: ${imputados}" th:value="${imputados.CI_Id}" th:text="${imputados.CI_Id}"></option>
+            </select>
+          </div>
+
+
+
+          <div id="error-message" th:if="${error}" class="alert alert-danger" role="alert">
+            <p th:text="${error_message}"></p>
+          </div>
+
+          <div class = "box-footer">
+            <button type="submit" class = "btn btn-primary">
+              Agregar
+            </button>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

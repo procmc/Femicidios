@@ -71,6 +71,12 @@
                         <a th:href = "@{/lugar/{id}(id=${hecho.CI_Id})}"
                            class = "btn btn-secondary">Mostrar Lugares del hecho</a>
 
+                        <a th:href = "@{/hechosimputado/new/{id}(id=${hecho.CI_Id})}"
+                           class = "btn btn-secondary">Agregar imputado del hecho</a>
+
+                        <a th:href = "@{/hechosimputado/{id}(id=${hecho.CI_Id})}"
+                           class = "btn btn-secondary">Mostrar imputados del hecho</a>
+
                         <a th:href = "@{/hechos/edit/{id}(id=${hecho.CI_Id})}"
                            class = "btn btn-primary">Actualizar</a>
 
