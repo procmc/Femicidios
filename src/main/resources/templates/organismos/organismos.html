@@ -67,6 +67,12 @@
 						
 						<a th:href = "@{/organismos/{id}(id=${organismo.CI_Id})}"
 						 class = "btn btn-danger">Eliminar</a>
+
+						<a th:href = "@{/hechoorganismos/new/{id}(id=${organismo.CI_Id})}"
+						   class = "btn btn-secondary">Agregar hecho</a>
+
+						<a th:href = "@{/hechoorganismos/{id}(id=${organismo.CI_Id})}"
+						   class = "btn btn-secondary">Mostrar hecho</a>
 					</td>
 				</tr>
 			</tbody>

@@ -1,10 +1,7 @@
 package com.if7100.controller;
 
 import com.if7100.entity.Hecho;
-import com.if7100.service.HechoService;
-import com.if7100.service.ModalidadService;
-import com.if7100.service.TipoRelacionService;
-import com.if7100.service.TipoVictimaService;
+import com.if7100.service.*;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,17 +19,25 @@ public class HechoController {
     private TipoVictimaService tipoVictimaService;
     private TipoRelacionService tipoRelacionService;
 
+    private VictimaService victimaService;
+
+    private ProcesoJudicialService procesoJudicialService;
+
 //    public HechoController(HechoService hechoService) {
 //        super();
 //        this.hechoService = hechoService;
 //    }
 
-    public HechoController(HechoService hechoService, ModalidadService modalidadService, TipoVictimaService tipoVictimaService, TipoRelacionService tipoRelacionService) {
+    public HechoController(HechoService hechoService, ModalidadService modalidadService,
+                           TipoVictimaService tipoVictimaService, TipoRelacionService tipoRelacionService,
+                           VictimaService victimaService, ProcesoJudicialService procesoJudicialService) {
         super();
         this.hechoService = hechoService;
         this.modalidadService = modalidadService;
         this.tipoVictimaService = tipoVictimaService;
         this.tipoRelacionService = tipoRelacionService;
+        this.victimaService = victimaService;
+        this.procesoJudicialService = procesoJudicialService;
     }
 
     @GetMapping("/hechos")
@@ -48,6 +53,8 @@ public class HechoController {
         model.addAttribute("modalidad", modalidadService.getAllModalidades());
         model.addAttribute("tipoVictima", tipoVictimaService.getAllTipoVictimas());
         model.addAttribute("tipoRelacion", tipoRelacionService.getAllTipoRelaciones());
+        model.addAttribute("victima", victimaService.getAllVictima());
+        model.addAttribute("proceso", procesoJudicialService.getAllProcesosJudiciales());
         return "hechos/create_hecho";
     }
 
@@ -93,6 +100,8 @@ public class HechoController {
         model.addAttribute("modalidad", modalidadService.getAllModalidades());
         model.addAttribute("tipoVictima", tipoVictimaService.getAllTipoVictimas());
         model.addAttribute("tipoRelacion", tipoRelacionService.getAllTipoRelaciones());
+        model.addAttribute("victima", victimaService.getAllVictima());
+        model.addAttribute("proceso", procesoJudicialService.getAllProcesosJudiciales());
         return "hechos/edit_hecho";
     }
 
@@ -105,6 +114,8 @@ public class HechoController {
             existingHecho.setCITipoVictima(hecho.getCITipoVictima());
             existingHecho.setCITipoRelacion(hecho.getCITipoRelacion());
             existingHecho.setCIModalidad(hecho.getCIModalidad());
+            existingHecho.setCIIdVictima(hecho.getCIIdVictima());
+            existingHecho.setCIIdProceso(hecho.getCIIdProceso());
             hechoService.updateHecho(existingHecho);
             return "redirect:/hechos";
         } catch (DataIntegrityViolationException e){

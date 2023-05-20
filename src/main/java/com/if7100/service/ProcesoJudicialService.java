@@ -16,11 +16,11 @@ public interface ProcesoJudicialService {
 
  ProcesoJudicial saveProcesoJudicial(ProcesoJudicial procesoJudicial);
  
- ProcesoJudicial getProcesoJudicialById(int CI_IdProceso);
+ ProcesoJudicial getProcesoJudicialById(int CI_Id);
 
  ProcesoJudicial updateProcesoJudicial(ProcesoJudicial procesoJudicial);
  
- void deleteProcesoJudicialById(int CI_IdProceso);
+ void deleteProcesoJudicialById(int CI_Id);
  
  ProcesoJudicial getProcesoJudicialByCIDenunciante(int CI_Denunciante);
  

@@ -23,7 +23,7 @@ public class HechoControllerTest {
 
     private Integer modalidad = 1;
 
-    private Hecho hecho = new Hecho(pais, 3, 3, 3);
+    private Hecho hecho = new Hecho();
 
     private Hecho hechoConsultado = new Hecho();
 

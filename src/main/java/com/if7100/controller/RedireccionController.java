@@ -18,6 +18,9 @@ public class RedireccionController {
             case "imputado" -> {
                 return "redirect:/imputados";
             }
+            case "organismo" -> {
+                return "redirect:/organismos";
+            }
             case "lugar" -> {
                 return "redirect:/lugares";
             }
@@ -37,9 +40,6 @@ public class RedireccionController {
         switch (opcion) {
             case "identidadGenero" -> {
                 return "redirect:/identidadgenero";
-            }
-            case "organismo" -> {
-                return "redirect:/organismos";
             }
             case "orientacionSexual" -> {
                 return "redirect:/orientacionesSexuales";

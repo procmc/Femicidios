@@ -56,7 +56,7 @@ public class ProcesoJudicialController {
  @PostMapping("/procesosJudiciales/{id}")
  public String updateProcesoJudicial(@PathVariable int id, @ModelAttribute("procesoJudicial") ProcesoJudicial procesoJudicial, Model model) {
 	 ProcesoJudicial existingProcesoJudicial=procesoJudicialService.getProcesoJudicialById(id);
-	 existingProcesoJudicial.setCI_IdProceso(id);
+	 existingProcesoJudicial.setCI_Id(id);
 	 existingProcesoJudicial.setCVEstado(procesoJudicial.getCVEstado());
 	 existingProcesoJudicial.setCIDenunciante(procesoJudicial.getCIDenunciante());
 	 //existingProcesoJudicial.setCDFechaApertura(procesoJudicial.getCDFechaApertura());

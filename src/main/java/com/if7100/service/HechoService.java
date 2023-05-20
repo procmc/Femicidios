@@ -24,4 +24,8 @@ public interface HechoService {
 
     Hecho getHechoByModalidad(Integer CIModalidad);
 
+    Hecho getHechoByCIIdVictima(Integer CIIdVictima);
+
+    Hecho getHechoByCIIdProceso(Integer CIIdProceso);
+
 }

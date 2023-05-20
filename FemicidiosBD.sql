@@ -129,7 +129,9 @@ CREATE TABLE femicidios.TA_Hechos (
 CI_Id INT NOT NULL AUTO_INCREMENT,  
 CI_Tipo_Victima INT NOT NULL,  
 CI_Tipo_Relacion INT NOT NULL,  
-CI_Modalidad INT NOT NULL,  
+CI_Modalidad INT NOT NULL,
+CI_Id_Victima INT NOT NULL,
+CI_Id_Proceso INT NOT NULL,
 CI_Pais	INT NOT NULL, 
 PRIMARY KEY (CI_Id)  
 ); 
@@ -137,14 +139,18 @@ INSERT INTO `femicidios`.`ta_hechos`
 (  
 `CI_Tipo_Victima`,  
 `CI_Tipo_Relacion`,  
-`CI_Modalidad` , 
+`CI_Modalidad` ,
+`CI_Id_Victima` ,
+`CI_Id_Proceso` ,
 `CI_Pais` 
 )  
 VALUES  
 (  
 1,  
 1,  
-1, 
+1,
+1,
+1,
 506);
 
 -- Creacion de la tabla relacional entre hechos e imputados
@@ -164,11 +170,48 @@ CREATE TABLE hechos_imputados (
                                   UNIQUE KEY unique_hechos_imputados (CI_Hecho, CI_Imputado)
 );
 
--- INSERT INTO hechos_imputados (CI_Hecho, Ci_Imputado) VALUES (1, 1);
--- INSERT INTO hechos_imputados (CI_Hecho, Ci_Imputado) VALUES (1, 2);
--- INSERT INTO hechos_imputados (CI_Hecho, Ci_Imputado) VALUES (4, 2);
--- INSERT INTO hechos_imputados (CI_Hecho, Ci_Imputado) VALUES (4, 1);
+INSERT INTO hechos_imputados (CI_Hecho, Ci_Imputado) VALUES (1, 1);
+INSERT INTO hechos_imputados (CI_Hecho, Ci_Imputado) VALUES (1, 2);
+INSERT INTO hechos_imputados (CI_Hecho, Ci_Imputado) VALUES (4, 2);
+INSERT INTO hechos_imputados (CI_Hecho, Ci_Imputado) VALUES (4, 1);
 /*********************************************************************************************************/
+
+DROP table if exists hechos_organismos;
+CREATE TABLE hechos_organismos (
+                                   CI_Id INT auto_increment,
+                                   CI_Hecho INT,
+                                   CI_Organismo INT,
+                                   FOREIGN KEY (CI_Hecho) REFERENCES ta_hechos(CI_Id)
+                                       ON DELETE CASCADE
+                                       ON UPDATE CASCADE,
+                                   FOREIGN KEY (CI_Organismo) REFERENCES ta_organismos(CI_Id)
+                                       ON DELETE CASCADE
+                                       ON UPDATE CASCADE,
+                                   PRIMARY KEY (CI_Id),
+                                   UNIQUE KEY unique_hechos_organismos (CI_Hecho, CI_Organismo)
+);
+
+INSERT INTO hechos_organismos (CI_Hecho, CI_Organismo) VALUES (1, 1);
+INSERT INTO hechos_organismos (CI_Hecho, CI_Organismo) VALUES (1, 2);
+INSERT INTO hechos_organismos (CI_Hecho, CI_Organismo) VALUES (2, 2);
+INSERT INTO hechos_organismos (CI_Hecho, CI_Organismo) VALUES (2, 1);
+
+/*********************************************************************************************************/
+
+DROP TABLE IF EXISTS ta_procesojudicial;
+CREATE TABLE ta_procesojudicial (
+                                      CI_Id int NOT NULL AUTO_INCREMENT,
+                                      CV_Estado varchar(50) NOT NULL,
+                                      CI_Denunciante int NOT NULL,
+                                      CD_Fecha_Apertura date NOT NULL,
+                                      CI_Personas_Imputadas int NOT NULL,
+                                      CV_Partes varchar(20) NOT NULL,
+                                      PRIMARY KEY (CI_Id)
+);
+
+INSERT INTO ta_procesojudicial VALUES (1,'Estado',700244,'2023-10-21',10,'Partes'),(2,'Estado',3345453,'2022-10-22',9,'Partes');
+
+
 
 /* CREACION DE LUGAR*/
 
