@@ -1,9 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
 	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
@@ -27,18 +24,14 @@
 				<tr>
 					<th>Cedula</th>
 					<th>Genero</th>
-					<th>Codigo País</th>
 
 					<th>Acciones</th>
 				</tr>
 
 				<tbody>
-					<tr th:each="identidadgenero,iterStat : ${identidadgenero}">
+					<tr th:each="identidadgenero: ${identidadgenero}">
 						<td th:text="${identidadgenero.cedula}"></td>
-						<td th:text="${generos[iterStat.index].nombre}"></td>
-
-						<td th:text="${paises[iterStat.index].spanish}"></td>
-
+						<td th:text="${identidadgenero.genero}"></td>
 
 						<td><a
 							th:href="@{/identidadgenero/edit/{id}(id=${identidadgenero.Id})}"
@@ -46,12 +39,10 @@
 							th:href="@{/identidadgenero/{id}(id=${identidadgenero.Id})}"
 							class="btn btn-danger">Eliminar</a>
 					</tr>
-
 				</tbody>
 
 			</table>
 		</div>
 	</div>
-
 </body>
 </html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+<title>Imputados</title>
+
+
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous">
+</head>
+
+
+<body>
+
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<ul class="nav nav-pills flex-column flex-sm-row">
+				<li class="nav-item">
+					<a class="nav-link active" href="#">Inicio</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" th:href="@{/imputados}">Imputados</a>
+				</li>
+		
+			</ul>
+		</div>
+	</div>
+	
+<div class = "row"> <h1></h1> </div>
+<div class = "row"> <h1></h1> </div>
+
+<div class="alert alert-primary" role="alert">
+  Imputados
+</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			 
+			 <a th:href = "@{/imputados/new}" class = "btn btn-primary btn-lg"> Agregar imputado</a>
+			 
+	<div class = "row"> <h1></h1> </div>
+<div class = "row"> <h1></h1> </div> 
+			
+			<table class="table table-striped table-sm">
+				<tr>
+					<th> DNI</th>
+					<th> Nombre</th>
+		
+					<th> Genero </th>
+					<th> Orientacion sexual</th>
+					<th> Edad</th>
+		
+					<th> Lugar de nacimiento </th>
+				</tr>
+			
+			<tbody>
+				<tr th:each = "imputado: ${imputados}">
+					<td th:text = "${imputado.CVDni}"></td>
+					<td th:text = "${imputado.CVNombre}"></td>
+					<td th:text = "${imputado.CVGenero}"></td>
+					<td th:text = "${imputado.CVOrientacionSexual}"></td>
+					<td th:text = "${imputado.CIEdad}"></td>
+					<td th:text = "${imputado.CVLugarNacimiento}"></td>
+					<td>
+						<a th:href = "@{/imputados/edit/{id}(id=${imputado.CI_Id})}"
+						 class = "btn btn-primary">Actualizar</a>
+						
+						<a th:href = "@{/imputados/{id}(id=${imputado.CI_Id})}"
+						 class = "btn btn-danger">Eliminar</a>
+					</td>
+				</tr>
+			</tbody>
+			</table> 
+		</div>
+	</div>
+</div>
+</body>
+</html>
