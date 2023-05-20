@@ -38,6 +38,9 @@
 							th:field = "*{CVTitulo}"
 							class = "form-control"
 							placeholder="Digite el nombre del nivel educativo" 
+							       required ="El campo nivel educativo es requerido."
+							minlength="1"
+							maxlength="30"
 							/>
 						</div>
 						
@@ -48,7 +51,8 @@
 							name = "Descripcion"
 							th:field = "*{CVDescripcion}"
 							class = "form-control"
-							placeholder="Digite la descripcion del nivel educativo" 
+							placeholder="Digite la descripcion del nivel educativo"
+							       maxlength="75"
 							/>
 						</div>
 
