@@ -31,11 +31,13 @@ public class HechoOrganismoController {
     private Perfil perfil;
     private PerfilService perfilService;
 
-    public HechoOrganismoController(HechoOrganismoService hechoOrganismoService, HechoService hechoService, OrganismoService organismoService){
+    public HechoOrganismoController(HechoOrganismoService hechoOrganismoService, HechoService hechoService, OrganismoService organismoService, PerfilService perfilService, UsuarioRepository usuarioRepository){
         super();
         this.hechoOrganismoService = hechoOrganismoService;
         this.hechoService = hechoService;
         this.organismoService = organismoService;
+        this.perfilService = perfilService;
+        this.usuarioRepository = usuarioRepository;
     }
     
     private void validarPerfil() {

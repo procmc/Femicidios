@@ -11,6 +11,11 @@
 <title>Identidad de Genero</title>
 </head>
 <body>
+
+<div class="alert alert-primary" role="alert">
+ Identidad de genero
+</div>
+
 	<div class="row">
 		<div class="col-md-12">
 			<a th:href="@{/identidadgenero/new}" class="btn btn-primary btn-lg">
@@ -26,7 +31,7 @@
 				<tr>
 					<th>Cedula</th>
 					<th>Genero</th>
-
+					<th>Codigo Pais</th>
 					<th>Acciones</th>
 				</tr>
 
@@ -34,6 +39,7 @@
 					<tr th:each="identidadgenero: ${identidadgenero}">
 						<td th:text="${identidadgenero.cedula}"></td>
 						<td th:text="${identidadgenero.genero}"></td>
+						<td th:text="${identidadgenero.codigoPais}"></td>
 
 						<td><a
 							th:href="@{/identidadgenero/edit/{id}(id=${identidadgenero.Id})}"
