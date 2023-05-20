@@ -3,7 +3,7 @@ package com.if7100.controller;
 import com.if7100.entity.HechoOrganismo;
 import com.if7100.service.HechoOrganismoService;
 import com.if7100.service.HechoService;
-import com.if7100.service.OrganismoService;
+import com.if7100.service.HechoOrganismoService;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

@@ -7,6 +7,7 @@ import com.if7100.entity.TipoLugar;
 import com.if7100.repository.HechoImputadoRepository;
 import com.if7100.repository.HechoRepository;
 import com.if7100.repository.ImputadoRepository;
+import com.if7100.repository.HechoImputadoRepository;
 import com.if7100.service.HechoImputadoService;
 import com.if7100.service.HechoService;
 import org.springframework.stereotype.Service;
