@@ -9,6 +9,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "identidadgenero")
+//que ganas
 public class IdentidadGenero {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
