@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="ISO-8859-1">
+  <title>Modalidad mantenimiento</title>
+  <link rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+</head>
+<body>
+
+<div class="row">
+  <div class="col-md-12">
+    <ul class="nav nav-pills flex-column flex-sm-row">
+      <li class="nav-item">
+        <a class="nav-link active" href="#">Inicio</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" th:href="@{/modalidades}">Modalidades</a>
+      </li>
+
+    </ul>
+  </div>
+</div>
+
+<br>
+<br>
+<div class = "container">
+  <div class = "row">
+    <div class ="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
+      <h1 class = "text-center">Crear Modalidad</h1>
+      <div class = "card-body">
+        <form th:action="@{/modalidades}" th:object = "${modalidad}" method="POST">
+
+          <div class ="form-group">
+            <label>Titulo de la modalidad</label>
+            <input
+                    type = "text"
+                    name = "titulo"
+                    th:field = "*{CVTitulo}"
+                    class = "form-control"
+                    placeholder="Digite el titulo de la modalidad"
+            />
+          </div>
+
+          <div class ="form-group">
+            <label>Descripcion de la modalidad</label>
+            <input
+                    type = "text"
+                    name = "descripcion"
+                    th:field = "*{CVDescripcion}"
+                    class = "form-control"
+                    placeholder="Digite la descripcion de la modalidad"
+            />
+          </div>
+
+
+
+          <div class = "box-footer">
+            <button type="submit" class = "btn btn-primary">
+              Agregar
+            </button>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
