@@ -4,6 +4,8 @@
 package com.if7100.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,11 +14,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.if7100.entity.Hecho;
+import com.if7100.entity.Perfil;
 /**
  * @author Liss
  * Fecha: 11 de abril del 2023
  */
 import com.if7100.entity.Usuario;
+import com.if7100.repository.UsuarioRepository;
+import com.if7100.service.PerfilService;
 import com.if7100.service.UsuarioService;
 import jakarta.validation.Valid;
    
@@ -25,29 +31,74 @@ import jakarta.validation.Valid;
 public class UsuarioController {
 	@Autowired
 	
-private UsuarioService usuarioService;
+	private UsuarioService usuarioService;
+	//instancias para control de acceso
+    private UsuarioRepository usuarioRepository;
+    private Perfil perfil;
+    private PerfilService perfilService;
 
 //prueba
 //private SessionRegistry sessionRegistry;
  
- public UsuarioController(UsuarioService usuarioService) {
+ public UsuarioController(UsuarioService usuarioService, PerfilService perfilService, UsuarioRepository usuarioRepository) {
 	 super();
 	 this.usuarioService=usuarioService;
+	 this.perfilService = perfilService;
+     this.usuarioRepository = usuarioRepository;
  }
+ 
+ private void validarPerfil() {
+ 	
+		try {
+			
+			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		    String username = authentication.getName();
+			
+			this.perfil = new Perfil(perfilService.getPerfilById(usuarioRepository.findByCVCedula(username).getCIPerfil()));
+			
+		}catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+	}
  
  @GetMapping("/usuarios")
  public String listStudents(Model model) {
-	 model.addAttribute("usuarios",usuarioService.getAllUsuarios());
-	 return "usuarios";
+	 
+	 try {
+			this.validarPerfil();
+			if(this.perfil.getCVRol().equals("Administrador")) {
+				
+				 model.addAttribute("usuarios",usuarioService.getAllUsuarios());
+				 return "usuarios/usuarios";
+			}else {
+				return "SinAcceso";
+			}
+			
+		}catch (Exception e) {
+			return "SinAcceso";
+		}
  }
  
  
  // creacion de un nuevo usuario
  @GetMapping("/usuarios/new")
  public String createUsuarioForm(Model model) {
-	 Usuario usuario=new Usuario();
-	 model.addAttribute("usuario", usuario);
-	 return "create_usuario";
+	 
+	 try {
+			this.validarPerfil();
+			if(this.perfil.getCVRol().equals("Administrador")) {
+				
+				Usuario usuario=new Usuario();
+				 model.addAttribute("usuario", usuario);
+				 return "usuarios/create_usuario";
+			}else {
+				return "SinAcceso";
+			}
+			
+		}catch (Exception e) {
+			return "SinAcceso";
+		}
  }
  
 
@@ -71,8 +122,20 @@ private UsuarioService usuarioService;
  //Eliminar Usuario
  @GetMapping("/usuarios/{Id}")
  public String deleteUsuario(@PathVariable Integer Id) {
-	 usuarioService.deleteUsuarioById(Id);
-	 return "redirect:/usuarios?Exito";
+	 
+	 try {
+			this.validarPerfil();
+			if(this.perfil.getCVRol().equals("Administrador")) {
+				
+				usuarioService.deleteUsuarioById(Id);
+				return "redirect:/usuarios?Exito";
+			}else {
+				return "SinAcceso";
+			}
+			
+		}catch (Exception e) {
+			return "SinAcceso";
+		}
  }
  
  
@@ -83,8 +146,20 @@ private UsuarioService usuarioService;
  //EditarUsuario
  @GetMapping("/usuarios/edit/{Id}")
  public String editUsuarioForm(@PathVariable Integer Id, Model model) {
-	 model.addAttribute("usuario", usuarioService.getUsuarioById(Id));
-	 return "edit_usuario";
+	 
+	 try {
+			this.validarPerfil();
+			if(this.perfil.getCVRol().equals("Administrador")) {
+				
+				model.addAttribute("usuario", usuarioService.getUsuarioById(Id));
+				return "usuarios/edit_usuario";
+			}else {
+				return "SinAcceso";
+			}
+			
+		}catch (Exception e) {
+			return "SinAcceso";
+		}
  }
  
  @PostMapping("/usuarios/{Id}")

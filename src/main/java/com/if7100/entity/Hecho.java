@@ -27,14 +27,38 @@ public class Hecho {
     @Column(name = "CI_Modalidad", nullable = false)
     private Integer CIModalidad;
 
+    @Column(name = "CI_Id_Victima", nullable = false)
+    private Integer CIIdVictima;
+
+    @Column(name = "CI_Id_Proceso", nullable = false)
+    private Integer CIIdProceso;
+
     public Hecho(){}
 
-    public Hecho(Integer CIPais, Integer CITipoVictima, Integer CITipoRelacion, Integer CIModalidad) {
+    public Hecho(Integer CIPais, Integer CITipoVictima, Integer CITipoRelacion, Integer CIModalidad, Integer CIIdVictima, Integer CIIdProceso) {
         super();
         this.CIPais = CIPais;
         this.CITipoVictima = CITipoVictima;
         this.CITipoRelacion = CITipoRelacion;
         this.CIModalidad = CIModalidad;
+        this.CIIdVictima = CIIdVictima;
+        this.CIIdProceso = CIIdProceso;
+    }
+
+    public Integer getCIIdVictima() {
+        return CIIdVictima;
+    }
+
+    public void setCIIdVictima(Integer CIIdVictima) {
+        this.CIIdVictima = CIIdVictima;
+    }
+
+    public Integer getCIIdProceso() {
+        return CIIdProceso;
+    }
+
+    public void setCIIdProceso(Integer CIIdProceso) {
+        this.CIIdProceso = CIIdProceso;
     }
 
     public Integer getCI_Id() {

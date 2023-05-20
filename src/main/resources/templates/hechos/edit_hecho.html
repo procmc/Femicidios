@@ -89,6 +89,20 @@
                     </div>
 
                     <div class ="form-group">
+                        <label>Selecciona la id de la victima:</label>
+                        <select name="victima" th:field="*{CIIdVictima}" class = "form-control" onfocus="ocultarError()">
+                            <option th:each="victima: ${victima}" th:value="${victima.CI_Id}" th:text="${victima.CI_Id} + ' - ' + ${victima.CVDNI}"></option>
+                        </select>
+                    </div>
+
+                    <div class ="form-group">
+                        <label>Selecciona la id del proceso judicial:</label>
+                        <select name="proceso" th:field="*{CIIdProceso}" class = "form-control" onfocus="ocultarError()">
+                            <option th:each="proceso: ${proceso}" th:value="${proceso.CI_Id}" th:text="${proceso.CI_Id} + ' - ' + ${proceso.CIDenunciante}"></option>
+                        </select>
+                    </div>
+
+                    <div class ="form-group">
                         <label>Pais del hecho</label>
                         <input
                                 type = "text"

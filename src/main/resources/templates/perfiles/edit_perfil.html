@@ -2,11 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
-<title>Actualizar usuario</title>
+<title>Actualizar perfil</title>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
 	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
 	crossorigin="anonymous">
+	<!--    <th th:include="header" th:fragment="header"></th>-->
+    <th th:insert="~{header}"></th>
 </head>
 <body>
 <div class="row">
@@ -16,7 +18,7 @@
 					<a class="nav-link active" href="#">Inicio</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" th:href="@{/usuarios}">Usuarios</a>
+					<a class="nav-link" th:href="@{/perfiles}">Perfiles</a>
 				</li>
 		
 			</ul>
@@ -27,30 +29,28 @@
 	<div class = "container">
 		<div class = "row">
 			<div class ="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
-				<h1 class = "text-center"> Actualizar usuario </h1>
+				<h1 class = "text-center"> Actualizar perfil </h1>
 				<div class = "card-body">
-					<form th:action="@{/usuarios/{id} (id=${usuario.CI_Id})}" th:object = "${usuario}" method="POST">
+					<form th:action="@{/perfiles/{id} (id=${perfil.CI_Id})}" th:object = "${perfil}" method="POST">
 						<div class ="form-group">
-							<label>Nombre del usuario</label>
+							<label>Descripcion del perfil</label>
 							<input
 							type = "text"
-							name = "nombre"
-							th:field = "*{CVNombre}"
+							name = "Descripcion"
+							th:field = "*{CVDescripcion}"
 							class = "form-control"
-							placeholder="Digite el nombre del usuario" 
+							placeholder="Digite la descripcion del perfil" 
 							/>
 						</div>
 						
-						<div class ="form-group">
-							<label>Apellidos del usuario</label>
-							<input
-							type = "text"
-							name = "apellidos"
-							th:field = "*{CVApellidos}"
-							class = "form-control"
-							placeholder="Digite los apellidos del Usuario" 
-							/>
-						</div>
+						<div class ="form-group">	
+						<label for="roles">Selecciona el Rol:</label>
+  							<select id="roles" name="roles" th:field = "*{CVRol}" class="btn btn-info dropdown-toggle">
+   						 		<option value="Administrador">Administrador</option>
+    							<option value="Convencional">Convencional</option>
+    							<option value="Consulta">Consulta</option>
+  							</select>
+  						</div>
 						
 						<div class = "box-footer">
 							<button type="submit" class = "btn btn-primary">

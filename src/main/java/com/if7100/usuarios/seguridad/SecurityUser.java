@@ -52,25 +52,7 @@ public class SecurityUser implements UserDetails {
 	
 	
 	
-	/*
-@Autowired
-private UsuarioRepository usuarioRepository;
 
-	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Usuario usuario=usuarioRepository.findByCVCedula(username);
-		UserBuilder builder=null;
-		
-		if(usuario!=null) {
-		builder=User.withUsername(username);
-		builder.disabled(false);
-		builder.password(usuario.getTCClave());
-		builder.authorities(new SimpleGrantedAuthority("ROLE_USER"));
-		}else {
-			throw new UsernameNotFoundException("Usuario o contraseña invalidos");
-		}
-		return builder.build();
-	}*/
 
 	
 }

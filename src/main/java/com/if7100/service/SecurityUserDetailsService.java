@@ -38,6 +38,4 @@ public class SecurityUserDetailsService implements UserDetailsService  {
 		return builder.build();
 	}
 	
-	
-	
 }

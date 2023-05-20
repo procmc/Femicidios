@@ -62,4 +62,14 @@ public class HechoServiceImpl implements HechoService {
     public Hecho getHechoByModalidad(Integer CIModalidad) {
         return hechoRepository.findByCIModalidad(CIModalidad);
     }
+
+    @Override
+    public Hecho getHechoByCIIdVictima(Integer CIIdVictima) {
+        return hechoRepository.findByCIIdVictima(CIIdVictima);
+    }
+
+    @Override
+    public Hecho getHechoByCIIdProceso(Integer CIIdProceso) {
+        return hechoRepository.findByCIIdProceso(CIIdProceso);
+    }
 }
