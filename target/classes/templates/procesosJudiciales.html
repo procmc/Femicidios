@@ -65,10 +65,10 @@
 					<td th:text = "${procesoJudicial.CIPersonasImputadas}"></td>
 					<td th:text = "${procesoJudicial.CVPartes}"></td>
 					<td>
-						<a th:href = "@{/procesosJudiciales/edit/{id}(id=${procesoJudicial.CI_IdProceso})}"
+						<a th:href = "@{/procesosJudiciales/edit/{id}(id=${procesoJudicial.CI_Id})}"
 						 class = "btn btn-primary">Actualizar</a>
 						
-						<a th:href = "@{/procesosJudiciales/{id}(id=${procesoJudicial.CI_IdProceso})}"
+						<a th:href = "@{/procesosJudiciales/{id}(id=${procesoJudicial.CI_Id})}"
 						 class = "btn btn-danger">Eliminar</a>
 					</td>
 				</tr>

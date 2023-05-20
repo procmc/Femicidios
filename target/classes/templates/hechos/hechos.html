@@ -52,6 +52,8 @@
                     <th> TipoVictima </th>
                     <th> TipoRelacion </th>
                     <th> Modalidad </th>
+                    <th> Victima </th>
+                    <th> Proceso </th>
                     <th> Pais </th>
 
                     <th> Acciones </th>
@@ -62,14 +64,28 @@
                     <td th:text = "${hecho.CITipoVictima}"></td>
                     <td th:text = "${hecho.CITipoRelacion}"></td>
                     <td th:text = "${hecho.CIModalidad}"></td>
+                    <td th:text = "${hecho.CIIdVictima}"></td>
+                    <td th:text = "${hecho.CIIdProceso}"></td>
                     <td th:text = "${hecho.CIPais}"></td>
                     <td>
 
                         <a th:href = "@{/lugar/new/{id}(id=${hecho.CI_Id})}"
-                           class = "btn btn-secondary">Agregar Lugar del hecho</a>
+                           class = "btn btn-secondary">Agregar Lugar</a>
 
                         <a th:href = "@{/lugar/{id}(id=${hecho.CI_Id})}"
-                           class = "btn btn-secondary">Mostrar Lugares del hecho</a>
+                           class = "btn btn-secondary">Mostrar Lugares</a>
+
+                        <a th:href = "@{/hechosimputado/new/{id}(id=${hecho.CI_Id})}"
+                           class = "btn btn-secondary">Agregar imputado</a>
+
+                        <a th:href = "@{/hechosimputado/{id}(id=${hecho.CI_Id})}"
+                           class = "btn btn-secondary">Mostrar imputados</a>
+
+                        <a th:href = "@{/hechosorganismo/new/{id}(id=${hecho.CI_Id})}"
+                           class = "btn btn-secondary">Agregar organismo</a>
+
+                        <a th:href = "@{/hechosorganismo/{id}(id=${hecho.CI_Id})}"
+                           class = "btn btn-secondary">Mostrar organismos</a>
 
                         <a th:href = "@{/hechos/edit/{id}(id=${hecho.CI_Id})}"
                            class = "btn btn-primary">Actualizar</a>
