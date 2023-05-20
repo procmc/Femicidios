@@ -22,14 +22,14 @@ public class ModalidadController {
     @GetMapping("/modalidades")
     public String listModalidades(Model model){
         model.addAttribute("modalidades", modalidadService.getAllModalidades());
-        return "modalidades";
+        return "modalidades/modalidades";
     }
 
     @GetMapping("/modalidades/new")
     public String createModalidadForm(Model model){
         Modalidad modalidad = new Modalidad();
         model.addAttribute("modalidad", modalidad);
-        return "create_modalidad";
+        return "modalidades/create_modalidad";
     }
 
     @PostMapping("/modalidades")
@@ -47,7 +47,7 @@ public class ModalidadController {
     @GetMapping("/modalidades/edit/{id}")
     public String editModalidadForm(@PathVariable Integer id, Model model){
         model.addAttribute("modalidad", modalidadService.getModalidadById(id));
-        return "edit_modalidad";
+        return "modalidades/edit_modalidad";
     }
 
     @PostMapping("/modalidades/{id}")
