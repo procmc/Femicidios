@@ -1,6 +1,5 @@
 package com.if7100.entity;
 
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,6 +9,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "identidadgenero")
+//que ganas
 public class IdentidadGenero {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,7 +19,7 @@ public class IdentidadGenero {
 	private String cedula;
 
 	@Column(name = "genero", nullable = false)
-	private Integer genero;
+	private String genero;
 
 	@Column(name = "codigopais", nullable = false)
 	private Integer codigoPais;
@@ -28,7 +28,7 @@ public class IdentidadGenero {
 		// TODO Auto-generated constructor stub
 	}
 
-	public IdentidadGenero(String cedula, Integer genero, int codigoPais) {
+	public IdentidadGenero(String cedula, String genero, int codigoPais) {
 		super();
 		this.cedula = cedula;
 		this.genero = genero;
@@ -51,11 +51,11 @@ public class IdentidadGenero {
 		this.cedula = cedula;
 	}
 
-	public Integer getGenero() {
+	public String getGenero() {
 		return genero;
 	}
 
-	public void setGenero(Integer genero) {
+	public void setGenero(String genero) {
 		this.genero = genero;
 	}
 
