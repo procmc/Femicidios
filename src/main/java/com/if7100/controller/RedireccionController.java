@@ -42,7 +42,7 @@ public class RedireccionController {
                 return "redirect:/organismos";
             }
             case "orientacionSexual" -> {
-                return "redirect:/orientacionessexuales";
+                return "redirect:/orientacionesSexuales";
             }
             case "modalidad" -> {
                 return "redirect:/modalidades";
