@@ -56,16 +56,16 @@ private void validarPerfil() {
     @GetMapping("/modalidades/new")
     public String createModalidadForm(Model model){
 
-        Modalidad modalidad = new Modalidad();
-        model.addAttribute("modalidad", modalidad);
-        return "modalidades/create_modalidad";
+        //Modalidad modalidad = new Modalidad();
+        //model.addAttribute("modalidad", modalidad);
+        //return "modalidades/create_modalidad";
 
     	
     	try {
 			this.validarPerfil();
 			if(!this.perfil.getCVRol().equals("Consulta")) {
 				
-				Modalidad modalidad = new Modalidad();
+				Modalidad modalidad= new Modalidad();
 		        model.addAttribute("modalidad", modalidad);
 		        return "modalidades/create_modalidad";
 			}else {
@@ -105,8 +105,8 @@ private void validarPerfil() {
     @GetMapping("/modalidades/edit/{id}")
     public String editModalidadForm(@PathVariable Integer id, Model model){
 
-        model.addAttribute("modalidad", modalidadService.getModalidadById(id));
-        return "modalidades/edit_modalidad";
+        //model.addAttribute("modalidad", modalidadService.getModalidadById(id));
+        //return "modalidades/edit_modalidad";
 
     	
     	try {
@@ -120,8 +120,10 @@ private void validarPerfil() {
 			}
 			
 		}catch (Exception e) {
-			return "SinAcceso" ;
+			return "SinAcceso";
+		}
     }
+    
 
     @PostMapping("/modalidades/{id}")
     public String updateModalidad(@PathVariable Integer id, @ModelAttribute("modalidad") Modalidad modalidad){
