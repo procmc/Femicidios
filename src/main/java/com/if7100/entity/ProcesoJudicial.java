@@ -18,7 +18,7 @@ import jakarta.persistence.TemporalType;
  *
  */
 @Entity
-@Table(name="TA_ProcesoJudicial")
+@Table(name="ta_procesojudicial")
 public class ProcesoJudicial {
 
 	/**
@@ -28,8 +28,9 @@ public class ProcesoJudicial {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public ProcesoJudicial(String CVEstado, int CIDenunciante, int CIPersonasImputadas, String CVPartes) {
+	public ProcesoJudicial(int CI_Id, String CVEstado, int CIDenunciante, int CIPersonasImputadas, String CVPartes) {
 		super();
+		this.CI_Id = CI_Id;
 		this.CVEstado=CVEstado;
 		this.CIDenunciante=CIDenunciante;
 		this.CIPersonasImputadas=CIPersonasImputadas;
@@ -38,7 +39,7 @@ public class ProcesoJudicial {
 	
 	@Id
 	@GeneratedValue (strategy=GenerationType.IDENTITY)
-	private int CI_IdProceso;
+	private int CI_Id;
 	
 	@Column(name="CV_Estado",nullable=false)
 	private String CVEstado;
@@ -47,10 +48,10 @@ public class ProcesoJudicial {
 	private int CIDenunciante;
 	
     @Temporal(TemporalType.TIMESTAMP)
-	@Column(name="CD_FechaApertura")
+	@Column(name="CD_Fecha_Apertura")
 	private Date CDFechaApertura;
 	
-	@Column(name="CI_PersonasImputadas",nullable=false)
+	@Column(name="CI_Personas_Imputadas",nullable=false)
 	private int CIPersonasImputadas;
 	
 	@Column(name="CV_Partes",nullable=false)
@@ -61,15 +62,15 @@ public class ProcesoJudicial {
 	/**
 	 * @return the cI_IdProceso
 	 */
-	public int getCI_IdProceso() {
-		return CI_IdProceso;
+	public int getCI_Id() {
+		return CI_Id;
 	}
 
 	/**
 	 * @param cI_IdProceso the cI_IdProceso to set
 	 */
-	public void setCI_IdProceso(int cI_IdProceso) {
-		CI_IdProceso = cI_IdProceso;
+	public void setCI_Id(int cI_IdProceso) {
+		CI_Id = cI_IdProceso;
 	}
 
 	/**

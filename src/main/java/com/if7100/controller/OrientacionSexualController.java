@@ -1,7 +1,14 @@
 package com.if7100.controller;
 
+import com.if7100.entity.Hecho;
 import com.if7100.entity.OrientacionSexual;
+import com.if7100.entity.Perfil;
+import com.if7100.repository.UsuarioRepository;
 import com.if7100.service.OrientacionSexualService;
+import com.if7100.service.PerfilService;
+
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,50 +16,133 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.if7100.entity.OrientacionSexual;
+import com.if7100.service.OrientacionSexualService;
+
 @Controller
 public class OrientacionSexualController {
 	
  private OrientacionSexualService orientacionService;
+//instancias para control de acceso
+ private UsuarioRepository usuarioRepository;
+ private Perfil perfil;
+ private PerfilService perfilService;
  
- public OrientacionSexualController(OrientacionSexualService orientacionService) {
+ public OrientacionSexualController(OrientacionSexualService orientacionService, PerfilService perfilService, UsuarioRepository usuarioRepository) {
 	 super();
 	 this.orientacionService=orientacionService;
+	 this.perfilService = perfilService;
+     this.usuarioRepository = usuarioRepository;
  }
+ 
+
+ private void validarPerfil() {
+ 	
+		try {
+			
+			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		    String username = authentication.getName();
+			
+			this.perfil = new Perfil(perfilService.getPerfilById(usuarioRepository.findByCVCedula(username).getCIPerfil()));
+			
+		}catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+	}
  
  @GetMapping("/orientacionessexuales")
  public String listOrientacionesSexuales(Model model) {
 	 
 	 model.addAttribute("orientacionesSexuales",orientacionService.getAllOrientacionesSexuales());
-	 return "orientacionesSexuales";
+	 return "orientacionesSexuales/orientacionesSexuales";
  }
  
  @GetMapping("/orientacionessexuales/new")
  public String createOrientacionSexualForm(Model model) {
-	 model.addAttribute("orientacionSexual",new OrientacionSexual());
-	 return "create_orientacionSexual";
+	 
+	 try {
+			this.validarPerfil();
+			if(!this.perfil.getCVRol().equals("Consulta")) {
+				
+				model.addAttribute("orientacionSexual",new OrientacionSexual());
+				return "orientacionesSexuales/create_orientacionSexual";
+			}else {
+				return "SinAcceso";
+			}
+			
+		}catch (Exception e) {
+			return "SinAcceso";
+		}
+ }
+
+ @GetMapping("/orientacionesSexuales")
+ public String listStudents(Model model) {
+	 
+	 model.addAttribute("orientacionesSexuales",orientacionService.getAllOrientacionesSexuales());
+	 return "orientacionessexuales/orientacionesSexuales";
  }
  
- @PostMapping("/orientacionessexuales")
- public String saveOrientacion(@ModelAttribute("orientacionSexual") OrientacionSexual orientacion) {
+ @GetMapping("/orientacionesSexuales/new")
+ public String createUsuarioForm(Model model) {
+	 
+	 try {
+			this.validarPerfil();
+			if(!this.perfil.getCVRol().equals("Consulta")) {
+				
+				model.addAttribute("orientacion",new OrientacionSexual());
+				return "orientacionessexuales/create_orientacionesSexuales";
+			}else {
+				return "SinAcceso";
+			}
+			
+		}catch (Exception e) {
+			return "SinAcceso";
+		}
+ }
+ 
+ @PostMapping("/orientacionesSexuales")
+ public String saveOrientacion(@ModelAttribute("orientacion") OrientacionSexual orientacion) {
 	 orientacionService.saveOrientacionSexual(orientacion);
-	 return "redirect:/orientacionessexuales";
+	 return "redirect:/orientacionesSexuales";
  }
  
- @GetMapping("/orientacionessexuales/{id}")
- public String deleteOrientacionSexual(@PathVariable int id) {
-	 
-	 orientacionService.deleteOrientacionSexualByCodigo(id);
-	 return "redirect:/orientacionessexuales";
+ @GetMapping("/orientacionesSexuales/{id}")
+ public String deleteOrientacion(@PathVariable int id) {
+
+	 try {
+			this.validarPerfil();
+			if(!this.perfil.getCVRol().equals("Consulta")) {
+				
+				orientacionService.deleteOrientacionSexualByCodigo(id);
+				 return "redirect:/orientacionesSexuales";
+			}else {
+				return "SinAcceso";
+			}
+			
+		}catch (Exception e) {
+			return "SinAcceso";
+		}
  }
  
- @GetMapping("/orientacionessexuales/edit/{id}")
+ @GetMapping("/orientacionesSexuales/edit/{id}")
  public String editOrientacionForm(Model model,@PathVariable int id) {
-	 
-	 model.addAttribute("orientacionSexual", orientacionService.getOrientacionSexualByCodigo(id));
-	 return "edit_orientacionSexual";
+	 try {
+			this.validarPerfil();
+			if(!this.perfil.getCVRol().equals("Consulta")) {
+				
+				model.addAttribute("orientacion", orientacionService.getOrientacionSexualByCodigo(id));
+				 return "orientacionessexuales/edit_orientacionesSexuales";
+			}else {
+				return "SinAcceso";
+			}
+			
+		}catch (Exception e) {
+			return "SinAcceso";
+		}
  }
  
- @PostMapping("/orientacionessexuales/{id}")
+ @PostMapping("/orientacionesSexuales/{id}")
  public String updateOrientacionSexual(@PathVariable int id, @ModelAttribute("orientacion") OrientacionSexual orientacion, Model model) {
 	 OrientacionSexual existingOrientacion=orientacionService.getOrientacionSexualByCodigo(id);
 	 existingOrientacion.setCI_Codigo(id);
@@ -60,7 +150,7 @@ public class OrientacionSexualController {
 	 existingOrientacion.setCVDescripcion(orientacion.getCVDescripcion());
 	 
 	 orientacionService.updateOrientacionSexual(existingOrientacion);
-	 return "redirect:/orientacionessexuales";
+	 return "redirect:/orientacionesSexuales";
  }
  
  

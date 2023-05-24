@@ -15,4 +15,8 @@ public interface HechoRepository extends JpaRepository<Hecho, Integer> {
 
     Hecho findByCIModalidad(Integer CIModalidad);
 
+    Hecho findByCIIdVictima(Integer CIIdVictima);
+
+    Hecho findByCIIdProceso(Integer CIIdProceso);
+
 }

@@ -18,11 +18,20 @@ public class RedireccionController {
             case "imputado" -> {
                 return "redirect:/imputados";
             }
+            case "organismo" -> {
+                return "redirect:/organismos";
+            }
             case "lugar" -> {
                 return "redirect:/lugares";
             }
             case "victima" -> {
                 return "redirect:/victima";
+            }
+            case "perfiles" -> {
+                return "redirect:/perfiles";
+            }
+            case "usuarios" -> {
+                return "redirect:/usuarios";
             }
             default -> {
                 return "redirect:/error";
@@ -38,11 +47,8 @@ public class RedireccionController {
             case "identidadGenero" -> {
                 return "redirect:/identidadgenero";
             }
-            case "organismo" -> {
-                return "redirect:/organismos";
-            }
             case "orientacionSexual" -> {
-                return "redirect:/orientacionessexuales";
+                return "redirect:/orientacionesSexuales";
             }
             case "modalidad" -> {
                 return "redirect:/modalidades";
@@ -51,7 +57,7 @@ public class RedireccionController {
                 return "redirect:/nivelEducativo";
             }
             case "procesoJudicial" -> {
-                return "redirect:/procesojudicial";
+                return "redirect:/procesosJudiciales";
             }
             case "tipoLugar" -> {
                 return "redirect:/tipolugares";
@@ -61,6 +67,9 @@ public class RedireccionController {
             }
             case "tipoVictima" -> {
                 return "redirect:/tipovictimas";
+            }
+            case "tipoOrganismo" -> {
+                return "redirect:/tipoOrganismo";
             }
             default -> {
                 return "redirect:/error";

@@ -1,7 +1,14 @@
 package com.if7100.controller;
 
+import com.if7100.entity.Hecho;
+import com.if7100.entity.Perfil;
 import com.if7100.entity.TipoVictima;
+import com.if7100.repository.UsuarioRepository;
+import com.if7100.service.PerfilService;
 import com.if7100.service.TipoVictimaService;
+
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,23 +20,56 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class TipoVictimaController {
 
     private TipoVictimaService tipoVictimaService;
+  //instancias para control de acceso
+    private UsuarioRepository usuarioRepository;
+    private Perfil perfil;
+    private PerfilService perfilService;
 
-    public TipoVictimaController(TipoVictimaService tipoVictimaService) {
+    public TipoVictimaController(TipoVictimaService tipoVictimaService, PerfilService perfilService, UsuarioRepository usuarioRepository) {
         super();
         this.tipoVictimaService = tipoVictimaService;
+        this.perfilService = perfilService;
+        this.usuarioRepository = usuarioRepository;
     }
+    
+    private void validarPerfil() {
+    	
+		try {
+			
+			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		    String username = authentication.getName();
+			
+			this.perfil = new Perfil(perfilService.getPerfilById(usuarioRepository.findByCVCedula(username).getCIPerfil()));
+			
+		}catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+	}
 
     @GetMapping("/tipovictimas")
     public String listTipoVictimas(Model model){
         model.addAttribute("tipoVictimas", tipoVictimaService.getAllTipoVictimas());
-        return "tipoVictimas";
+        return "tipoVictimas/tipoVictimas";
     }
 
     @GetMapping("/tipovictimas/new")
     public String createTipoVictimaForm(Model model){
-        TipoVictima tipoVictima = new TipoVictima();
-        model.addAttribute("tipoVictima", tipoVictima);
-        return "create_tipoVictima";
+    	
+    	try {
+			this.validarPerfil();
+			if(!this.perfil.getCVRol().equals("Consulta")) {
+				
+				TipoVictima tipoVictima = new TipoVictima();
+		        model.addAttribute("tipoVictima", tipoVictima);
+		        return "tipoVictimas/create_tipoVictima";
+			}else {
+				return "SinAcceso";
+			}
+			
+		}catch (Exception e) {
+			return "SinAcceso";
+		}
     }
 
     @PostMapping("/tipovictimas")
@@ -40,14 +80,38 @@ public class TipoVictimaController {
 
     @GetMapping("/tipovictimas/{id}")
     public String deleteTipoVictimas(@PathVariable Integer id){
-        tipoVictimaService.deleteTipoVictimaById(id);
-        return "redirect:/tipovictimas";
+    	
+    	try {
+			this.validarPerfil();
+			if(!this.perfil.getCVRol().equals("Consulta")) {
+				
+				tipoVictimaService.deleteTipoVictimaById(id);
+		        return "redirect:/tipovictimas";
+			}else {
+				return "SinAcceso";
+			}
+			
+		}catch (Exception e) {
+			return "SinAcceso";
+		}
     }
 
     @GetMapping("/tipovictimas/edit/{id}")
     public String editTipoVictimaForm(@PathVariable Integer id, Model model){
-        model.addAttribute("tipoVictima", tipoVictimaService.getTipoVictimaById(id));
-        return "edit_tipoVictima";
+    	
+    	try {
+			this.validarPerfil();
+			if(!this.perfil.getCVRol().equals("Consulta")) {
+				
+				model.addAttribute("tipoVictima", tipoVictimaService.getTipoVictimaById(id));
+		        return "tipoVictimas/edit_tipoVictima";
+			}else {
+				return "SinAcceso";
+			}
+			
+		}catch (Exception e) {
+			return "SinAcceso";
+		}
     }
 
     @PostMapping("/tipovictimas/{id}")

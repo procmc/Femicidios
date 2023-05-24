@@ -9,6 +9,8 @@ import com.if7100.entity.Hecho;
 import com.if7100.service.HechoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +20,10 @@ import org.springframework.web.bind.annotation.*;
  * Fecha: 20 de abril del 2023
  */
 import com.if7100.entity.Lugar;
+import com.if7100.entity.Perfil;
+import com.if7100.repository.UsuarioRepository;
 import com.if7100.service.LugarService;
+import com.if7100.service.PerfilService;
 import com.if7100.service.TipoLugarService;
 
 import jakarta.servlet.http.HttpSession;
@@ -29,15 +34,36 @@ public class LugarController {
     @Autowired
     private LugarService lugarService;
     private TipoLugarService tipoLugarService;
-
+    
     private HechoService hechoService;
+  //instancias para control de acceso
+    private UsuarioRepository usuarioRepository;
+    private Perfil perfil;
+    private PerfilService perfilService;
 
-    public LugarController(LugarService lugarService, TipoLugarService tipoLugarService, HechoService hechoService) {
+    public LugarController(LugarService lugarService, TipoLugarService tipoLugarService, HechoService hechoService, PerfilService perfilService, UsuarioRepository usuarioRepository) {
         super();
         this.lugarService=lugarService;
         this.tipoLugarService= tipoLugarService;
         this.hechoService = hechoService;
+        this.perfilService = perfilService;
+        this.usuarioRepository = usuarioRepository;
     }
+    
+    private void validarPerfil() {
+    	
+		try {
+			
+			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		    String username = authentication.getName();
+			
+			this.perfil = new Perfil(perfilService.getPerfilById(usuarioRepository.findByCVCedula(username).getCIPerfil()));
+			
+		}catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+	}
 
     //Mostrar todos lugares
     @GetMapping("/lugar/{Id}")
@@ -52,17 +78,40 @@ public class LugarController {
     @GetMapping("/lugar/eliminar/{Id}")
     public String deleteLugar(@PathVariable Integer Id, HttpSession session) {
         //Integer IdDelHecho = lugarService.getLugarById(Id).getCIHecho();
-        Integer idLugarHecho = (Integer) session.getAttribute("idLugarHecho");
-        lugarService.deleteLugarById(Id);
-        return "redirect:/lugar/"+ idLugarHecho;
+    	try {
+			this.validarPerfil();
+			if(!this.perfil.getCVRol().equals("Consulta")) {
+				
+				Integer idLugarHecho = (Integer) session.getAttribute("idLugarHecho");
+		        lugarService.deleteLugarById(Id);
+		        return "redirect:/lugar/"+ idLugarHecho;
+			}else {
+				return "SinAcceso";
+			}
+			
+		}catch (Exception e) {
+			return "SinAcceso";
+		}
     }
 
     //Editar Lugar
     @GetMapping("/lugar/edit/{Id}")
     public String editLugarForm(@PathVariable Integer Id, Model model) {
-        model.addAttribute("lugar", lugarService.getLugarById(Id));
-        model.addAttribute("tipoLugar", tipoLugarService.getAllTipoLugares());
-        return "lugares/edit_lugar";
+    	
+    	try {
+			this.validarPerfil();
+			if(!this.perfil.getCVRol().equals("Consulta")) {
+				
+				model.addAttribute("lugar", lugarService.getLugarById(Id));
+		        model.addAttribute("tipoLugar", tipoLugarService.getAllTipoLugares());
+		        return "lugares/edit_lugar";
+			}else {
+				return "SinAcceso";
+			}
+			
+		}catch (Exception e) {
+			return "SinAcceso";
+		}
     }
 
 //    @PostMapping("/lugar/{Id}")
@@ -152,11 +201,23 @@ public class LugarController {
     //Nuevo Lugar
     @GetMapping("/lugar/new/{Id}")
 		public String createLugarForm(Model model, @PathVariable Integer Id) {
-			Lugar lugar = new Lugar();
-            lugar.setCIHecho(Id);
-			model.addAttribute("lugar", lugar);
-			model.addAttribute("tipoLugar", tipoLugarService.getAllTipoLugares());
-			return "lugares/create_lugar";
+    	
+    	try {
+			this.validarPerfil();
+			if(!this.perfil.getCVRol().equals("Consulta")) {
+				
+				Lugar lugar = new Lugar();
+	            lugar.setCIHecho(Id);
+				model.addAttribute("lugar", lugar);
+				model.addAttribute("tipoLugar", tipoLugarService.getAllTipoLugares());
+				return "lugares/create_lugar";
+			}else {
+				return "SinAcceso";
+			}
+			
+		}catch (Exception e) {
+			return "SinAcceso";
+		}
 		}
 
 //	@PostMapping("/lugar")
@@ -185,11 +246,23 @@ public class LugarController {
 //Nuevo Lugar
     @GetMapping("/lugares/new")
     public String createHechoForm(Model model){
-        Lugar lugar = new Lugar();
-        model.addAttribute("lugar", lugar);
-        model.addAttribute("hecho", hechoService.getAllHechos());
-        model.addAttribute("tipoLugar", tipoLugarService.getAllTipoLugares());
-        return "lugares/create_lugares";
+    	
+    	try {
+			this.validarPerfil();
+			if(!this.perfil.getCVRol().equals("Consulta")) {
+				
+				Lugar lugar = new Lugar();
+		        model.addAttribute("lugar", lugar);
+		        model.addAttribute("hecho", hechoService.getAllHechos());
+		        model.addAttribute("tipoLugar", tipoLugarService.getAllTipoLugares());
+		        return "lugares/create_lugares";
+			}else {
+				return "SinAcceso";
+			}
+			
+		}catch (Exception e) {
+			return "SinAcceso";
+		}
     }
 
 

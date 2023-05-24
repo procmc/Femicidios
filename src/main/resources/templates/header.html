@@ -28,8 +28,11 @@
                     <option value="" disabled selected>Entidades</option>
                     <option value="hecho">Hechos</option>
                     <option value="imputado">Imputados</option>
+                    <option value="organismo">Organismos</option>
                     <option value="lugar">Lugares</option>
                     <option value="victima">Victimas</option>
+                    <option value="usuarios">Usuarios</option>
+                    <option value="perfiles">Perfiles</option>
                   </select>
                 </form>
               </div>
@@ -42,7 +45,6 @@
                   <select class="form-control" name="opcion" onchange="this.form.submit()">
                     <option value="" disabled selected>Campos Codificados</option>
                     <option value="identidadGenero">Identidades De Genero</option>
-                    <option value="organismo">Organismos</option>
                     <option value="orientacionSexual">Orientaciones Sexuales</option>
                     <option value="modalidad">Modalidades</option>
                     <option value="nivelEducativo">Niveles Educativos</option>
@@ -50,12 +52,16 @@
                     <option value="tipoLugar">Tipos De Lugares</option>
                     <option value="tipoRelacion">Tipos De Relaciones</option>
                     <option value="tipoVictima">Tipos De Victimas</option>
+                    <option value="tipoOrganismo">Tipos De Organismos</option>
 
                   </select>
                 </form>
               </div>
 
             </li>
+            <li class="nav-item ml-auto" sec:authorize="isAuthenticated()">
+					<a class="nav-link" th:href="@{/logout}">Cerrar sesion</a>
+			</li>
           </ul>
         </div>
       </div>

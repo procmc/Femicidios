@@ -1,5 +1,7 @@
 package com.if7100.controller;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;//para el controlador
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,35 +9,72 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.if7100.service.PerfilService;
 /**
  * @author kendall B
  * Fecha: 11 de abril del 2023
  */
 import com.if7100.service.TipoLugarService;
+import com.if7100.entity.Hecho;
+import com.if7100.entity.Perfil;
 import com.if7100.entity.TipoLugar;
+import com.if7100.repository.UsuarioRepository;
 
 @Controller
 public class TipoLugarController {
 
     private TipoLugarService tipoLugarService;
+  //instancias para control de acceso
+    private UsuarioRepository usuarioRepository;
+    private Perfil perfil;
+    private PerfilService perfilService;
 
-    public TipoLugarController(TipoLugarService tipoLugarService) {
+    public TipoLugarController(TipoLugarService tipoLugarService, PerfilService perfilService, UsuarioRepository usuarioRepository) {
         super();
         this.tipoLugarService= tipoLugarService;
+        this.perfilService = perfilService;
+        this.usuarioRepository = usuarioRepository;
     }
+    
+    private void validarPerfil() {
+    	
+		try {
+			
+			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		    String username = authentication.getName();
+			
+			this.perfil = new Perfil(perfilService.getPerfilById(usuarioRepository.findByCVCedula(username).getCIPerfil()));
+			
+		}catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+	}
     //consultar
     @GetMapping("/tipolugares")//muestra el listado de usuarios
     public String listTipoLugares(Model model) {
         model.addAttribute("tipoLugares", tipoLugarService.getAllTipoLugares());
-        return "tipoLugares";
+        return "tipoLugares/tipoLugares";
     }
 
 	//agregar
 	@GetMapping("/tipolugares/new")// envia el modelo a la pagina de crear usuario
 	public String CreateTipoLugarForm (Model model) {
-		TipoLugar tipoLugar= new TipoLugar();
-		model.addAttribute("tipoLugar", tipoLugar);
-		return "create_tipoLugar";
+		
+		try {
+			this.validarPerfil();
+			if(!this.perfil.getCVRol().equals("Consulta")) {
+				
+				TipoLugar tipoLugar= new TipoLugar();
+				model.addAttribute("tipoLugar", tipoLugar);
+				return "tipoLugares/create_tipoLugar";
+			}else {
+				return "SinAcceso";
+			}
+			
+		}catch (Exception e) {
+			return "SinAcceso";
+		}
 	}
 
 	@PostMapping("/tipolugares")// guarda el usuario y lo devuelve a la pagina usuarios con los datos nuevos
@@ -47,15 +86,39 @@ public class TipoLugarController {
 	//eliminar
 	@GetMapping("/tipolugares/{Codigo}")// envia el modelo a la pagina de crear usuario
 	public String deleteTipoLugar(@PathVariable Integer Codigo) {
-		tipoLugarService.deleteTipoLugarByCodigo(Codigo);
-		return "redirect:/tipolugares";
+		
+		try {
+			this.validarPerfil();
+			if(!this.perfil.getCVRol().equals("Consulta")) {
+				
+				tipoLugarService.deleteTipoLugarByCodigo(Codigo);
+				return "redirect:/tipolugares";
+			}else {
+				return "SinAcceso";
+			}
+			
+		}catch (Exception e) {
+			return "SinAcceso";
+		}
 	}
 
 	//modificar
 	@GetMapping("/tipolugares/edit/{Codigo}")// envia el modelo a la pagina de editar usuario
 	public String editTipoLugarForm (@PathVariable Integer Codigo,Model model) {
-		model.addAttribute("tipoLugar", tipoLugarService.getTipoLugarByCodigo(Codigo));
-		return "edit_tipoLugar";
+		
+		try {
+			this.validarPerfil();
+			if(!this.perfil.getCVRol().equals("Consulta")) {
+				
+				model.addAttribute("tipoLugar", tipoLugarService.getTipoLugarByCodigo(Codigo));
+				return "tipoLugares/edit_tipoLugar";
+			}else {
+				return "SinAcceso";
+			}
+			
+		}catch (Exception e) {
+			return "SinAcceso";
+		}
 	}
 
 	@PostMapping("/tipolugares/{Codigo}")// guarda el cambio y lo devuelve a la pagina usuarios con los datos nuevos

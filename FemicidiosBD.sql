@@ -93,43 +93,73 @@ VALUES
   
 
 INSERT INTO `femicidios`.`ta_perfil` 
-
-( 
-
-`CV_Nombre`, 
-
-`CV_rol`) 
-
+( `CV_Nombre`, `CV_rol`) 
 VALUES 
-
 ("David2", 
-
 "Convencional"); 
 
   
 
 INSERT INTO `femicidios`.`ta_perfil` 
-
 ( 
-
 `CV_Nombre`, 
-
 `CV_rol`) 
 
 VALUES 
-
 ("David3", 
-
-"Consultor"); 
+"Consulta"); 
 /*********************************************************************************************************/
+
+/*USUARIOS*/
+/*inicia sesion con la cedula y la clave desencriptada: 12345Jm# */
+use femicidios;
+DROP TABLE IF EXISTS femicidios.TA_Usuarios;
+CREATE table femicidios.TA_Usuarios(
+CI_Id int NOT NULL AUTO_INCREMENT,
+CV_Cedula varchar(20),
+CV_Nombre Varchar(50) NOT NULL,
+CV_Apellidos Varchar(50) NOT NULL,
+CI_Perfil int NOT NULL,
+Tc_Clave Varchar(60) NOT NULL,
+Primary key (CI_Id),
+foreign key(CI_Perfil) REFERENCES femicidios.TA_Perfil(CI_Id)
+);
+
+INSERT INTO `femicidios`.`ta_usuarios`
+(
+`CV_Cedula`,
+`CV_Nombre`,
+`CV_Apellidos`,
+`CI_Perfil`,
+`TC_Clave`)
+VALUES
+('702740601', 'David', 'vargas', '1', '$2a$10$5mZP.XO4VLMhqPaAldZ9ROB39W3.6p9uHZ.fDgoMVXVg0RhRmOyLS');
+
+INSERT INTO `femicidios`.`ta_usuarios`
+(`CV_Cedula`,`CV_Nombre`,`CV_Apellidos`,`CI_Perfil`,`TC_Clave`)
+VALUES ('702740602', 'Ismael', 'Valverde', '2', '$2a$10$5mZP.XO4VLMhqPaAldZ9ROB39W3.6p9uHZ.fDgoMVXVg0RhRmOyLS');
+
+INSERT INTO `femicidios`.`ta_usuarios`
+(
+`CV_Cedula`,
+`CV_Nombre`,
+`CV_Apellidos`,
+`CI_Perfil`,
+`TC_Clave`)
+VALUES
+('702740603', 'Julio', 'Jarkin', '3', '$2a$10$5mZP.XO4VLMhqPaAldZ9ROB39W3.6p9uHZ.fDgoMVXVg0RhRmOyLS');
+
 
 /*HECHOS */
 use femicidios; 
+DROP TABLE IF EXISTS femicidios.TA_Hechos;
 CREATE TABLE femicidios.TA_Hechos (  
 CI_Id INT NOT NULL AUTO_INCREMENT,  
 CI_Tipo_Victima INT NOT NULL,  
 CI_Tipo_Relacion INT NOT NULL,  
-CI_Modalidad INT NOT NULL,  
+CI_Modalidad INT NOT NULL,
+CI_Id_Victima INT NOT NULL,
+CI_Id_Proceso INT NOT NULL,
 CI_Pais	INT NOT NULL, 
 PRIMARY KEY (CI_Id)  
 ); 
@@ -137,18 +167,49 @@ INSERT INTO `femicidios`.`ta_hechos`
 (  
 `CI_Tipo_Victima`,  
 `CI_Tipo_Relacion`,  
-`CI_Modalidad` , 
+`CI_Modalidad` ,
+`CI_Id_Victima` ,
+`CI_Id_Proceso` ,
 `CI_Pais` 
 )  
 VALUES  
 (  
 1,  
 1,  
-1, 
+1,
+1,
+1,
 506);
 
 -- Creacion de la tabla relacional entre hechos e imputados
 
+/*********************************************************************************************************/
+/* IMPUTADOS */
+DROP TABLE IF EXISTS `ta_imputados`; 
+create table ta_imputados( 
+
+    ci_id int not null auto_increment, 
+
+    cv_dni varchar(50) not null, 
+
+    cv_nombre varchar (50) not null, 
+
+    cv_genero varchar (50) not null, 
+
+    cv_orientacionSexual varchar (50) not null, 
+
+    ci_edad int (50) not null, 
+
+    cv_lugarNacimiento varchar (50) not null, 
+
+    cv_pais varchar (20) not null, 
+
+    PRIMARY KEY(ci_id));
+    
+/*********************************************************************************************************/
+  
+  
+use femicidios; 
 DROP table if exists hechos_imputados;
 CREATE TABLE hechos_imputados (
                                   CI_Id INT auto_increment,
@@ -164,38 +225,45 @@ CREATE TABLE hechos_imputados (
                                   UNIQUE KEY unique_hechos_imputados (CI_Hecho, CI_Imputado)
 );
 
--- INSERT INTO hechos_imputados (CI_Hecho, Ci_Imputado) VALUES (1, 1);
--- INSERT INTO hechos_imputados (CI_Hecho, Ci_Imputado) VALUES (1, 2);
--- INSERT INTO hechos_imputados (CI_Hecho, Ci_Imputado) VALUES (4, 2);
--- INSERT INTO hechos_imputados (CI_Hecho, Ci_Imputado) VALUES (4, 1);
 /*********************************************************************************************************/
 
-/* CREACION DE LUGAR*/
+DROP table if exists hechos_organismos;
+CREATE TABLE hechos_organismos (
+                                   CI_Id INT auto_increment,
+                                   CI_Hecho INT,
+                                   CI_Organismo INT,
+                                   FOREIGN KEY (CI_Hecho) REFERENCES ta_hechos(CI_Id)
+                                       ON DELETE CASCADE
+                                       ON UPDATE CASCADE,
+                                   FOREIGN KEY (CI_Organismo) REFERENCES ta_organismos(CI_Id)
+                                       ON DELETE CASCADE
+                                       ON UPDATE CASCADE,
+                                   PRIMARY KEY (CI_Id),
+                                   UNIQUE KEY unique_hechos_organismos (CI_Hecho, CI_Organismo)
+);
 
--- CREATE table femicidios.TA_Lugar(
---
--- CI_Codigo int NOT NULL AUTO_INCREMENT,
---
--- CIF_idHecho int NOT NULL,
---
--- CV_Descripcion Varchar(100) NOT NULL,
---
--- CIF_Tipo_Lugar int NOT NULL,
---
--- CV_Direccion Varchar(100) NOT NULL,
---
--- CV_Ciudad Varchar(50) NOT NULL,
---
--- CV_Pais int NOT NULL,
---
--- Primary key (CI_Codigo),
---
--- foreign key(CIF_idHecho) REFERENCES femicidios.TA_Hechos(CI_Id)
---
--- );
+INSERT INTO hechos_organismos (CI_Hecho, CI_Organismo) VALUES (1, 1);
+INSERT INTO hechos_organismos (CI_Hecho, CI_Organismo) VALUES (1, 2);
+INSERT INTO hechos_organismos (CI_Hecho, CI_Organismo) VALUES (2, 2);
+INSERT INTO hechos_organismos (CI_Hecho, CI_Organismo) VALUES (2, 1);
+
+/*********************************************************************************************************/
+
+DROP TABLE IF EXISTS ta_procesojudicial;
+CREATE TABLE ta_procesojudicial (
+                                      CI_Id int NOT NULL AUTO_INCREMENT,
+                                      CV_Estado varchar(50) NOT NULL,
+                                      CI_Denunciante int NOT NULL,
+                                      CD_Fecha_Apertura date NOT NULL,
+                                      CI_Personas_Imputadas int NOT NULL,
+                                      CV_Partes varchar(20) NOT NULL,
+                                      PRIMARY KEY (CI_Id)
+);
+
+INSERT INTO ta_procesojudicial VALUES (1,'Estado',700244,'2023-10-21',10,'Partes'),(2,'Estado',3345453,'2022-10-22',9,'Partes');
+
 
 DROP TABLE IF EXISTS `ta_lugar`; 
-/*LUGAR*/
 CREATE TABLE `ta_lugar` ( 
 
   `CI_Codigo` int NOT NULL AUTO_INCREMENT, 
@@ -220,47 +288,13 @@ CREATE TABLE `ta_lugar` (
 
 ); 
 
-/*********************************************************************************************************/
-/* IMPUTADOS */
-create table ta_imputados( 
-
-    ci_id int not null auto_increment, 
-
-    cv_dni varchar(50) not null, 
-
-    cv_nombre varchar (50) not null, 
-
-    cv_genero varchar (50) not null, 
-
-    cv_orientacionSexual varchar (50) not null, 
-
-    ci_edad int (50) not null, 
-
-    cv_lugarNacimiento varchar (50) not null, 
-
-    cv_pais varchar (20) not null, 
-
-    PRIMARY KEY(ci_id));
-    
-/*********************************************************************************************************/
-    /*
+  /*
     VICTIMA    */
-    /*ORINTACION SEXUAL*/
-CREATE TABLE femicidios.TA_OrientacionSexual ( 
-
-CI_Codigo INT NOT NULL AUTO_INCREMENT, 
-
-CV_Titulo VARCHAR (20) NOT NULL, 
-
-CV_Descripcion VARCHAR (50) NOT NULL, 
-
-PRIMARY KEY (CI_Codigo) 
-
-); 
 
 /*********************************************************************************************************/
 /*VICTIMA*/
 
+DROP TABLE IF EXISTS `TA_Victima`; 
 CREATE TABLE femicidios.TA_Victima ( 
 
 CI_Id INT NOT NULL AUTO_INCREMENT, 
@@ -939,6 +973,4 @@ VALUES
 
 , ''),  
 
-('Se desconoce'  
-
-, ''); 
+('Se desconoce', ''); 

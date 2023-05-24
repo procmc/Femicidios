@@ -1,7 +1,14 @@
 package com.if7100.controller;
 
+
 import com.if7100.entity.Modalidad;
+import com.if7100.entity.Perfil;
+import com.if7100.repository.UsuarioRepository;
 import com.if7100.service.ModalidadService;
+import com.if7100.service.PerfilService;
+
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,11 +20,32 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class ModalidadController {
 
     private ModalidadService modalidadService;
+    //instancias para control de acceso
+    private UsuarioRepository usuarioRepository;
+    private Perfil perfil;
+    private PerfilService perfilService;
 
-    public ModalidadController(ModalidadService modalidadService) {
+    public ModalidadController(ModalidadService modalidadService, PerfilService perfilService, UsuarioRepository usuarioRepository) {
         super();
         this.modalidadService = modalidadService;
+        this.perfilService = perfilService;
+        this.usuarioRepository = usuarioRepository;
     }
+    
+private void validarPerfil() {
+    	
+		try {
+			
+			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		    String username = authentication.getName();
+			
+			this.perfil = new Perfil(perfilService.getPerfilById(usuarioRepository.findByCVCedula(username).getCIPerfil()));
+			
+		}catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+	}
 
     @GetMapping("/modalidades")
     public String listModalidades(Model model){
@@ -27,9 +55,27 @@ public class ModalidadController {
 
     @GetMapping("/modalidades/new")
     public String createModalidadForm(Model model){
+
         Modalidad modalidad = new Modalidad();
         model.addAttribute("modalidad", modalidad);
         return "modalidades/create_modalidad";
+
+    	
+    	try {
+			this.validarPerfil();
+			if(!this.perfil.getCVRol().equals("Consulta")) {
+				
+				Modalidad modalidad = new Modalidad();
+		        model.addAttribute("modalidad", modalidad);
+		        return "modalidades/create_modalidad";
+			}else {
+				return "SinAcceso";
+			}
+			
+		}catch (Exception e) {
+			return "SinAcceso";
+		}
+
     }
 
     @PostMapping("/modalidades")
@@ -40,14 +86,41 @@ public class ModalidadController {
 
     @GetMapping("/modalidades/{id}")
     public String deleteModalidad(@PathVariable Integer id){
-        modalidadService.deleteModalidadById(id);
-        return "redirect:/modalidades";
+    	
+    	try {
+			this.validarPerfil();
+			if(!this.perfil.getCVRol().equals("Consulta")) {
+				
+				modalidadService.deleteModalidadById(id);
+		        return "redirect:/modalidades";
+			}else {
+				return "SinAcceso";
+			}
+			
+		}catch (Exception e) {
+			return "SinAcceso";
+		}
     }
 
     @GetMapping("/modalidades/edit/{id}")
     public String editModalidadForm(@PathVariable Integer id, Model model){
+
         model.addAttribute("modalidad", modalidadService.getModalidadById(id));
         return "modalidades/edit_modalidad";
+
+    	
+    	try {
+			this.validarPerfil();
+			if(!this.perfil.getCVRol().equals("Consulta")) {
+				
+				model.addAttribute("modalidad", modalidadService.getModalidadById(id));
+		        return "modalidades/edit_modalidad";
+			}else {
+				return "SinAcceso";
+			}
+			
+		}catch (Exception e) {
+			return "SinAcceso" ;
     }
 
     @PostMapping("/modalidades/{id}")

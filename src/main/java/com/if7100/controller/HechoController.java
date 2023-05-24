@@ -1,11 +1,12 @@
 package com.if7100.controller;
 
 import com.if7100.entity.Hecho;
-import com.if7100.service.HechoService;
-import com.if7100.service.ModalidadService;
-import com.if7100.service.TipoRelacionService;
-import com.if7100.service.TipoVictimaService;
+import com.if7100.entity.Perfil;
+import com.if7100.repository.UsuarioRepository;
+import com.if7100.service.*;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -22,18 +23,49 @@ public class HechoController {
     private TipoVictimaService tipoVictimaService;
     private TipoRelacionService tipoRelacionService;
 
+    private VictimaService victimaService;
+
+    private ProcesoJudicialService procesoJudicialService;
+
+  //instancias para control de acceso
+    private UsuarioRepository usuarioRepository;
+    private Perfil perfil;
+    private PerfilService perfilService;
+
+
 //    public HechoController(HechoService hechoService) {
 //        super();
 //        this.hechoService = hechoService;
 //    }
 
-    public HechoController(HechoService hechoService, ModalidadService modalidadService, TipoVictimaService tipoVictimaService, TipoRelacionService tipoRelacionService) {
+    public HechoController(HechoService hechoService, ModalidadService modalidadService,
+                           TipoVictimaService tipoVictimaService, TipoRelacionService tipoRelacionService,
+                           VictimaService victimaService, ProcesoJudicialService procesoJudicialService, PerfilService perfilService, UsuarioRepository usuarioRepository){
         super();
         this.hechoService = hechoService;
         this.modalidadService = modalidadService;
         this.tipoVictimaService = tipoVictimaService;
         this.tipoRelacionService = tipoRelacionService;
+        this.victimaService = victimaService;
+        this.procesoJudicialService = procesoJudicialService;
+        this.perfilService = perfilService;
+        this.usuarioRepository = usuarioRepository;
     }
+    
+    private void validarPerfil() {
+     	
+		try {
+			
+			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		    String username = authentication.getName();
+			
+			this.perfil = new Perfil(perfilService.getPerfilById(usuarioRepository.findByCVCedula(username).getCIPerfil()));
+			
+		}catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+	}
 
     @GetMapping("/hechos")
     public String listHechos(Model model){
@@ -43,12 +75,26 @@ public class HechoController {
 
     @GetMapping("/hechos/new")
     public String createHechoForm(Model model){
-        Hecho hecho = new Hecho();
-        model.addAttribute("hecho", hecho);
-        model.addAttribute("modalidad", modalidadService.getAllModalidades());
-        model.addAttribute("tipoVictima", tipoVictimaService.getAllTipoVictimas());
-        model.addAttribute("tipoRelacion", tipoRelacionService.getAllTipoRelaciones());
-        return "hechos/create_hecho";
+    	
+    	try {
+			this.validarPerfil();
+			if(!this.perfil.getCVRol().equals("Consulta")) {
+				
+				Hecho hecho = new Hecho();
+		        model.addAttribute("hecho", hecho);
+		        model.addAttribute("modalidad", modalidadService.getAllModalidades());
+		        model.addAttribute("tipoVictima", tipoVictimaService.getAllTipoVictimas());
+		        model.addAttribute("tipoRelacion", tipoRelacionService.getAllTipoRelaciones());
+		        model.addAttribute("victima", victimaService.getAllVictima());
+		        model.addAttribute("proceso", procesoJudicialService.getAllProcesosJudiciales());
+		        return "hechos/create_hecho";
+			}else {
+				return "SinAcceso";
+			}
+			
+		}catch (Exception e) {
+			return "SinAcceso";
+		}
     }
 
 //    @PostMapping("/guardar")
@@ -79,21 +125,47 @@ public class HechoController {
 
     @GetMapping("/hechos/{id}")
     public String deleteHecho(@PathVariable Integer id){
-        try {
-            hechoService.deleteHechoById(id);
-        } catch (DataIntegrityViolationException e) {
-            System.out.println("Error, No se puede eliminar un hecho si tiene lugares registrados en el");
-        }
-        return "redirect:/hechos";
+    	
+    	try {
+			this.validarPerfil();
+			if(!this.perfil.getCVRol().equals("Consulta")) {
+				
+				try {
+		            hechoService.deleteHechoById(id);
+		        } catch (DataIntegrityViolationException e) {
+		            System.out.println("Error, No se puede eliminar un hecho si tiene lugares registrados en el");
+		        }
+		        return "redirect:/hechos";
+			}else {
+				return "SinAcceso";
+			}
+			
+		}catch (Exception e) {
+			return "SinAcceso";
+		}
     }
 
     @GetMapping("/hechos/edit/{id}")
     public String editHechoForm(@PathVariable Integer id, Model model){
-        model.addAttribute("hecho", hechoService.getHechoById(id));
-        model.addAttribute("modalidad", modalidadService.getAllModalidades());
-        model.addAttribute("tipoVictima", tipoVictimaService.getAllTipoVictimas());
-        model.addAttribute("tipoRelacion", tipoRelacionService.getAllTipoRelaciones());
-        return "hechos/edit_hecho";
+    	
+    	try {
+			this.validarPerfil();
+			if(!this.perfil.getCVRol().equals("Consulta")) {
+				
+				model.addAttribute("hecho", hechoService.getHechoById(id));
+		        model.addAttribute("modalidad", modalidadService.getAllModalidades());
+		        model.addAttribute("tipoVictima", tipoVictimaService.getAllTipoVictimas());
+		        model.addAttribute("tipoRelacion", tipoRelacionService.getAllTipoRelaciones());
+		        model.addAttribute("victima", victimaService.getAllVictima());
+		        model.addAttribute("proceso", procesoJudicialService.getAllProcesosJudiciales());
+		        return "hechos/edit_hecho";
+			}else {
+				return "SinAcceso";
+			}
+			
+		}catch (Exception e) {
+			return "SinAcceso";
+		}
     }
 
     @PostMapping("/hechos/{id}")
@@ -105,6 +177,8 @@ public class HechoController {
             existingHecho.setCITipoVictima(hecho.getCITipoVictima());
             existingHecho.setCITipoRelacion(hecho.getCITipoRelacion());
             existingHecho.setCIModalidad(hecho.getCIModalidad());
+            existingHecho.setCIIdVictima(hecho.getCIIdVictima());
+            existingHecho.setCIIdProceso(hecho.getCIIdProceso());
             hechoService.updateHecho(existingHecho);
             return "redirect:/hechos";
         } catch (DataIntegrityViolationException e){
