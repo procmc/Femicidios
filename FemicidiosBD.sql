@@ -93,7 +93,7 @@ VALUES
   
 
 INSERT INTO `femicidios`.`ta_perfil` 
-( `CV_Nombre`, `CV_rol`) 
+( `CV_Descripcion`, `CV_rol`) 
 VALUES 
 ("David2", 
 "Convencional"); 
@@ -102,7 +102,7 @@ VALUES
 
 INSERT INTO `femicidios`.`ta_perfil` 
 ( 
-`CV_Nombre`, 
+`CV_Descripcion`, 
 `CV_rol`) 
 
 VALUES 
