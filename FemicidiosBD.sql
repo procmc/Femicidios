@@ -3,6 +3,9 @@ CREATE Database femicidios;
 /*Identidad de Genero*/
 
 use femicidios; 
+
+
+
     create table identidadesGenerosEstandar(
     id int	NOT NULL AUTO_INCREMENT,
     nombre varchar(55) not null,
@@ -149,6 +152,20 @@ INSERT INTO `femicidios`.`ta_usuarios`
 VALUES
 ('702740603', 'Julio', 'Jarkin', '3', '$2a$10$5mZP.XO4VLMhqPaAldZ9ROB39W3.6p9uHZ.fDgoMVXVg0RhRmOyLS');
 
+
+/***********************************/
+
+/*BITACORA*/
+
+CREATE TABLE femicidios.TH_Bitacoras ( 
+CI_Id_Bitacora INTEGER NOT NULL AUTO_INCREMENT, 
+CI_Id int NOT NULL,
+CV_DNI_Usuario VARCHAR (50) NOT NULL, 
+CV_Descripcion VARCHAR (50) NOT NULL, 
+CT_Fecha timestamp,
+foreign key(CI_Id) REFERENCES femicidios.ta_perfil(CI_Id),
+PRIMARY KEY (CI_Id_Bitacora,CI_Id)
+);
 
 /*HECHOS */
 use femicidios; 
