@@ -9,6 +9,8 @@
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
 	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
 	crossorigin="anonymous">
+	<!--<th th:include="header" th:fragment="header"></th>-->
+    <th th:insert="~{header}"></th>
 </head>
 
 
@@ -16,22 +18,22 @@
 
 
 <div class="container-fluid">
-	<div class="row">
-		<div class="col-md-12">
-			<ul class="nav nav-pills flex-column flex-sm-row">
-				<li class="nav-item">
-					<a class="nav-link active" href="#">Inicio</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" th:href="@{/bitacoras}">Bitacoras</a>
-				</li>
-		
-			</ul>
-		</div>
-	</div>
-	
-<div class = "row"> <h1></h1> </div>
-<div class = "row"> <h1></h1> </div>
+	<<!--  <div class="row">-->
+<!--    <div class="col-md-12">-->
+<!--      <ul class="nav nav-pills flex-column flex-sm-row">-->
+<!--        <li class="nav-item">-->
+<!--          <a class="nav-link active" href="#">Inicio</a>-->
+<!--        </li>-->
+<!--        <li class="nav-item">-->
+<!--          <a class="nav-link" th:href="@{/bitacoras}">Bitacoras</a>-->
+<!--        </li>-->
+
+<!--      </ul>-->
+<!--    </div>-->
+<!--  </div>-->
+
+<!--  <div class = "row"> <h1></h1> </div>-->
+<!--  <div class = "row"> <h1></h1> </div>-->
 
 <div class="alert alert-primary" role="alert">
   Bitacoras
