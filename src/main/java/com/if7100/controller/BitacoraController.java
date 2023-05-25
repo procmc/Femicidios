@@ -33,14 +33,14 @@ public class BitacoraController {
 	@GetMapping("/bitacoras")
 	public String listStudents(Model model) {
 		model.addAttribute("bitacoras",bitacoraService.getAllBitacoras());
-		return "bitacoras";
+		return "bitacoras/bitacoras";
 	}
 	
 	@GetMapping("/bitacoras/new")
 	public String createBitacoraForm(Model model) {
 		Bitacora bitacora= new Bitacora();
 		model.addAttribute("bitacora",bitacora);
-		return "create_bitacora";
+		return "bitacoras/create_bitacora";
 	}
 	
 	@PostMapping("/bitacoras")
@@ -60,7 +60,7 @@ public class BitacoraController {
 	public String editBitacoraForm(@PathVariable Integer id, 
 			                      Model model) {
 		model.addAttribute("bitacoras",bitacoraService.getBitacoraById(id));
-		return "edit_bitacora";
+		return "bitacoras/edit_bitacora";
 	}
 	
 	@PostMapping("/bitacoras/{id}")
