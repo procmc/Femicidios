@@ -1,7 +1,6 @@
 CREATE Database femicidios;
 
 /*Identidad de Genero*/
-
 use femicidios; 
     create table identidadesGenerosEstandar(
     id int	NOT NULL AUTO_INCREMENT,
@@ -21,8 +20,8 @@ use femicidios;
     telefonoPais varchar(5) 
     );
 ALTER TABLE codigoPaises ADD Id INT AUTO_INCREMENT PRIMARY KEY;
-    use femcidios;
 
+use femicidios;
 create table identidadGenero(
 	Id	int	NOT NULL AUTO_INCREMENT,
     cedula	varchar (50) NOT NULL,
@@ -76,38 +75,29 @@ PRIMARY KEY (CI_Id)
 
 /*Insercion de roles*/ 
 
-INSERT INTO `femicidios`.`ta_perfil` 
-
-( 
-
-`CV_Descripcion`, 
-
-`CV_rol`) 
-
-VALUES 
-
-("david1", 
-
-"Administrador"); 
-
+INSERT INTO `femicidios`.`ta_perfil` (`CV_Descripcion`, `CV_rol`) 
+VALUES ("david1", "Administrador"); 
   
+INSERT INTO `femicidios`.`ta_perfil` ( `CV_Descripcion`, `CV_rol`) 
+VALUES ("David2", "Convencional"); 
 
-INSERT INTO `femicidios`.`ta_perfil` 
-( `CV_Nombre`, `CV_rol`) 
-VALUES 
-("David2", 
-"Convencional"); 
+INSERT INTO `femicidios`.`ta_perfil` ( `CV_Descripcion`, `CV_rol`) 
+VALUES ("David3", "Consulta"); 
 
-  
 
-INSERT INTO `femicidios`.`ta_perfil` 
-( 
-`CV_Nombre`, 
-`CV_rol`) 
+/*********************************************************************************************************/
 
-VALUES 
-("David3", 
-"Consulta"); 
+/*BITACORA*/
+use femicidios;
+CREATE TABLE femicidios.TH_Bitacoras ( 
+CI_Id_Bitacora INTEGER NOT NULL AUTO_INCREMENT, 
+CI_Id int NOT NULL,
+CV_DNI_Usuario VARCHAR (50) NOT NULL, 
+CV_Descripcion VARCHAR (50) NOT NULL, 
+CT_Fecha timestamp,
+foreign key(CI_Id) REFERENCES femicidios.ta_perfil(CI_Id),
+PRIMARY KEY (CI_Id_Bitacora,CI_Id)
+); 
 /*********************************************************************************************************/
 
 /*USUARIOS*/
@@ -507,29 +497,11 @@ VALUES
   
 
 ("Secundaria alta","Educaciòn secundaria alta",506),  
-
-  
-
 ("Postsecundaria no terciaria","Educaciòn postsecundaria no terciaria",506),  
-
-  
-
 ("Terciaria", "Educaciòn terciaria de ciclo corto", 506),  
-
-  
-
 ("Grado","Grado en educaciòn universitaria o nivel equivalente.",506),  
-
-  
-
 ("Maestria","Nivel de maestrìa especializaciòn o equivalente",506),  
-
-  
-
 ("Doctorado","Nivel de doctorado o equivalente", 506),  
-
-  
-
 ("Se desconoce","Se desconoce nivel eduactivo",506); 
 
 CREATE TABLE femicidios.TA_OrientacionesSexuales ( 
