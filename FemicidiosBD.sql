@@ -141,7 +141,7 @@ INSERT INTO `femicidios`.`ta_tiporelacion` ( `CV_titulo`, `CV_descripcion`) VALU
 ('Amante', 'Victimario es amante de la víctima.'),
 ('Pareja Anterior', 'Pareja o cónyuge anterior.'),
 ('Pariente', 'Victimario es pariente consanguíneo de la víctima.'), 
-('Laboral', 'Victimario es empleado/a o colega de la víctima.'); 
+('Laboral', 'Victimario es empleado/a o colega de la víctima.'),
 ('Conocido/a', 'Victimario es conocido/a de la víctima.'),
 ('Amigo/a', 'Amigo/a de la víctima.'),
 ('Otro Transgresor', 'Otro transgresor conocido por la víctima.'),
@@ -386,10 +386,7 @@ CREATE TABLE hechos_organismos (
                                    UNIQUE KEY unique_hechos_organismos (CI_Hecho, CI_Organismo)
 );
 
-INSERT INTO hechos_organismos (CI_Hecho, CI_Organismo) VALUES (1, 1);
-INSERT INTO hechos_organismos (CI_Hecho, CI_Organismo) VALUES (1, 2);
-INSERT INTO hechos_organismos (CI_Hecho, CI_Organismo) VALUES (2, 2);
-INSERT INTO hechos_organismos (CI_Hecho, CI_Organismo) VALUES (2, 1);
+INSERT INTO hechos_organismos (CI_Hecho, CI_Organismo) VALUES (1, 1),(1, 2),(2, 2),(2, 1);
 
 /*********************************************************************************************************/
 /*   LUGAR  */
