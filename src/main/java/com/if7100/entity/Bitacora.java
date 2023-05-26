@@ -3,8 +3,8 @@
  */
 package com.if7100.entity;
 
-import java.security.Timestamp;
 
+import java.sql.Timestamp;
 
 /**
  * @author tisha
@@ -35,7 +35,7 @@ public class Bitacora {
 		this.CVUsuario = CV_DNI_Usuario;
 		this.CVDescripcion = CV_Descripcion;
 	}
-	
+
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	private Integer CI_Id_Bitacora;
@@ -59,6 +59,18 @@ public class Bitacora {
 		return CI_Id_Bitacora;
 	}
 
+	
+	/*public Connection getConexionBD() {
+		return conexionBD;
+	}
+	public void setConexionBD(Connection conexionBD) {
+		this.conexionBD = conexionBD;
+	}
+	public void Conexion() throws ClassNotFoundException, SQLException {
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		java.sql.Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/femicidios","tishary","1234");
+		conexionBD= conexion;
+	}*/
 
 	public void setCI_Id_Bitacora(Integer cI_Id_Bitacora) {
 		CI_Id_Bitacora = cI_Id_Bitacora;
