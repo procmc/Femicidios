@@ -1,5 +1,9 @@
 package com.if7100.controller;
 
+import com.if7100.entity.Bitacora; 
+import com.if7100.entity.Usuario;
+import com.if7100.service.BitacoraService;
+
 import java.util.Iterator;
 
 import org.springframework.security.core.Authentication;
@@ -30,23 +34,32 @@ public class OrganismoController {
  private UsuarioRepository usuarioRepository;
  private Perfil perfil;
  private PerfilService perfilService;
+//instancias para control de bitacora
+private BitacoraService bitacoraService;
+private Usuario usuario;
+
  
  
- public OrganismoController (OrganismoService organismoService, TipoOrganismoService tipoOrganismoService, PerfilService perfilService, UsuarioRepository usuarioRepository) {
+ public OrganismoController (BitacoraService bitacoraService,
+OrganismoService organismoService, TipoOrganismoService tipoOrganismoService, PerfilService perfilService, UsuarioRepository usuarioRepository) {
 	 super();
 	 this.organismoService=organismoService;
 	 this.perfilService = perfilService;
      this.usuarioRepository = usuarioRepository;
      this.tipoOrganismoService=tipoOrganismoService;
+     this.bitacoraService= bitacoraService;
+
  }
  
  private void validarPerfil() {
  	
 		try {
-			
+			Usuario usuario=new Usuario();
 			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		    String username = authentication.getName();
-			
+		    
+		    this.usuario= new Usuario(usuarioRepository.findByCVCedula(username));
+
 			this.perfil = new Perfil(perfilService.getPerfilById(usuarioRepository.findByCVCedula(username).getCIPerfil()));
 			
 		}catch (Exception e) {
@@ -100,6 +113,8 @@ public class OrganismoController {
 	 try {
 			this.validarPerfil();
 			if(!this.perfil.getCVRol().equals("Consulta")) {
+				Bitacora bitacora=new Bitacora(this.usuario.getCI_Id(),this.usuario.getCVNombre(),this.perfil.getCVRol());
+				bitacoraService.saveBitacora(bitacora);
 				
 				organismoService.deleteOrganismoById(id);
 				 return "redirect:/organismos";
