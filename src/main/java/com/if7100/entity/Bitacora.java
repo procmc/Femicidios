@@ -40,8 +40,8 @@ public class Bitacora {
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	private Integer CI_Id_Bitacora;
 	
-	@Column (name = "CV_Cedula", nullable = false)
-	private String CVCedula;
+	@Column (name = "CI_Id", nullable = false)
+	private Integer CIId;
 	
 	@Column (name = "CV_DNI_Usuario", nullable = false)
 	private String CVUsuario;
@@ -64,13 +64,13 @@ public class Bitacora {
 	}
 
 
-	public String getCVCedula() {
-		return CVCedula;
+	public Integer getCIId() {
+		return CIId;
 	}
 
 
-	public void setCVCedula(String cVCedula) {
-		CVCedula = cVCedula;
+	public void setCIId(Integer cIId) {
+		CIId = cIId;
 	}
 
 
