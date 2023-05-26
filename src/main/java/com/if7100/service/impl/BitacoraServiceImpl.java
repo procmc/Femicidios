@@ -46,6 +46,12 @@ public class BitacoraServiceImpl implements BitacoraService{
 		return bitacoraRepository.save(bitacora);
 	}
 	
+	/*@Override
+	public Bitacora crearNuevaBitacora(Bitacora bitacora) {
+		return bitacoraRepository.save(bitacora);
+	}*/
+	
+	
 	@Override
 	public void deleteBitacoraById(Integer id) {
 		bitacoraRepository.deleteById(id);
