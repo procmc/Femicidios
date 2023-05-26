@@ -33,18 +33,7 @@
 				<div class = "card-body">
 					<form th:action="@{/bitacoras}" th:object = "${bitacora}" method="POST">
 						<div class ="form-group">
-						<label>Id del Usuario </label>
-							<input
-							type = "text"
-							name = "usuario"
-							th:field = "*{CIID}"
-							class = "form-control"
-							placeholder="Digite el id del usuario" 
-							minlength="1"
-                            maxlength="50"
-                            required= "El campo id de usuario es requerido"
-							/>
-					   </div>
+					
 						</div>
 							<label>Nombre del Usuario </label>
 							<input
