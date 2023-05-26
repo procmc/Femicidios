@@ -320,13 +320,12 @@ create table identidadGenero(
 use femicidios;
 DROP TABLE IF EXISTS femicidios.TA_Usuarios;
 CREATE table femicidios.TA_Usuarios(
-CI_Id int NOT NULL AUTO_INCREMENT,
 CV_Cedula varchar(20),
 CV_Nombre Varchar(50) NOT NULL,
 CV_Apellidos Varchar(50) NOT NULL,
 CI_Perfil int NOT NULL,
 Tc_Clave Varchar(60) NOT NULL,
-Primary key (CI_Id),
+Primary key (CV_Cedula),
 foreign key(CI_Perfil) REFERENCES femicidios.TA_Perfil(CI_Id)
 );
 
@@ -339,16 +338,16 @@ VALUES
 
 /*********************************************************************************************************/
 /*BITACORA*/
-
+use femicidios;
 CREATE TABLE femicidios.TH_Bitacoras ( 
 CI_Id_Bitacora INTEGER NOT NULL AUTO_INCREMENT, 
-CI_Id int NOT NULL,
+CV_Cedula  VARCHAR (20),
 CV_DNI_Usuario VARCHAR (50) NOT NULL, 
 CV_Descripcion VARCHAR (50) NOT NULL, 
 CT_Fecha timestamp,
-foreign key(CI_Id) REFERENCES femicidios.ta_perfil(CI_Id),
-PRIMARY KEY (CI_Id_Bitacora,CI_Id)
-);
+foreign key(CV_Cedula) REFERENCES femicidios.ta_usuarios(CV_Cedula),
+PRIMARY KEY (CI_Id_Bitacora,CV_Cedula));
+
 
 /*********************************************************************************************************/
 /*RELACION HECHOS CON IMPUTADO*/
