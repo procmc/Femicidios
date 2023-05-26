@@ -343,7 +343,6 @@ use femicidios;
 CREATE TABLE femicidios.TH_Bitacoras ( 
 CI_Id_Bitacora INTEGER NOT NULL AUTO_INCREMENT, 
 CI_Id INTEGER,
-CV_Cedula  VARCHAR (20),
 CV_DNI_Usuario VARCHAR (50), 
 CV_Descripcion VARCHAR (50), 
 CT_Fecha timestamp,
