@@ -58,6 +58,15 @@ public class Usuario{
 
 	}
 	
+	public Usuario(Usuario usuario) {
+		this.CI_Id = usuario.CI_Id;
+		this.CVCedula = usuario.CVCedula;
+		this.CVNombre = usuario.CVNombre;
+		this.CVApellidos = usuario.CVApellidos;
+		this.CIPerfil = usuario.CIPerfil;
+		this.TCClave = usuario.TCClave;
+	}
+	
 
 	public Usuario(String cVCedula, String cVNombre, String cVApellidos, int cIPerfil, String tCClave) {
 		super();

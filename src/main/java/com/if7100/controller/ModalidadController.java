@@ -10,7 +10,6 @@ import com.if7100.repository.UsuarioRepository;
 import com.if7100.service.BitacoraService;
 import com.if7100.service.ModalidadService;
 import com.if7100.service.PerfilService;
-import com.if7100.service.UsuarioService;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -29,18 +28,16 @@ public class ModalidadController {
     private UsuarioRepository usuarioRepository;
     private Perfil perfil;
     private PerfilService perfilService;
-    private Bitacora bitacora;
+    //instancias para control de bitacora
     private BitacoraService bitacoraService;
-    private UsuarioService usuarioService;
-    private BitacoraController bitacoraController;
     private Usuario usuario;
-    private Integer Id;
 
-    public ModalidadController(ModalidadService modalidadService, PerfilService perfilService, UsuarioRepository usuarioRepository) {
+    public ModalidadController(ModalidadService modalidadService, PerfilService perfilService, UsuarioRepository usuarioRepository, BitacoraService bitacoraService) {
         super();
         this.modalidadService = modalidadService;
         this.perfilService = perfilService;
         this.usuarioRepository = usuarioRepository;
+        this.bitacoraService = bitacoraService;
     }
     
 private void validarPerfil() {
@@ -48,10 +45,9 @@ private void validarPerfil() {
 		try {
 			Usuario usuario=new Usuario();
 			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		    //String username = authentication.getName();
 			String username = authentication.getName();
+			this.usuario = new Usuario(usuarioRepository.findByCVCedula(username));
 			this.perfil = new Perfil(perfilService.getPerfilById(usuarioRepository.findByCVCedula(username).getCIPerfil()));
-			 Id= this.usuarioRepository.findByCVCedula(username).getCI_Id();
 			
 		}catch (Exception e) {
 			// TODO: handle exception
@@ -102,18 +98,11 @@ private void validarPerfil() {
     	try {
 			this.validarPerfil();
 			if(!this.perfil.getCVRol().equals("Consulta")) {
-				/*bitacora.Conexion();
-				String query = "Insert into th_bitacoras "+ 
-				     "(`CI_Id`,`CV_DNI_Usuario`,`CV_Descripcion`,`CT_Fecha`) values "
-				     + "('"+ usuario.getCI_Id() +"')";
-				Statement stmt= bitacora.getConexionBD().createStatement();
-				stmt.executeUpdate(query);
-				*/
-				//bitacoraService.crearNuevaBitacora(bitacora);
 				
-				usuarioService.getUsuarioById(Id);
-				bitacoraController.saveBitacora(bitacora);
-				bitacoraService.updateBitacora(bitacora);
+				//INSERTAR EN BITACORA
+				Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol());
+				
+				bitacoraService.saveBitacora(bitacora);
 				modalidadService.deleteModalidadById(id);
 		        return "redirect:/modalidades";
 			}else {

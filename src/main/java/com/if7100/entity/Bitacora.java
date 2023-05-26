@@ -5,6 +5,7 @@ package com.if7100.entity;
 
 
 import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * @author tisha
@@ -30,10 +31,12 @@ public class Bitacora {
 	public Bitacora() {
 		
 	}
-	public Bitacora(String CV_DNI_Usuario, String CV_Descripcion) {
+	public Bitacora(Integer CIId, String CV_DNI_Usuario, String CV_Descripcion) {
 		super();
 		this.CVUsuario = CV_DNI_Usuario;
 		this.CVDescripcion = CV_Descripcion;
+		this.CIId = CIId;
+		this.CTFecha = new Date();
 	}
 
 	@Id
@@ -52,7 +55,7 @@ public class Bitacora {
 
 
 	@Column (name = "CT_Fecha", nullable = false)
-	private Timestamp CTFecha;
+	private Date CTFecha;
 
 
 	public Integer getCI_Id_Bitacora() {
@@ -107,12 +110,12 @@ public class Bitacora {
 	}
 
 
-	public Timestamp getCTFecha() {
+	public Date getCTFecha() {
 		return CTFecha;
 	}
 
 
-	public void setCTFecha(Timestamp cTFecha) {
+	public void setCTFecha(Date cTFecha) {
 		CTFecha = cTFecha;
 	}
 	
