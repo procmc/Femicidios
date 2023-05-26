@@ -24,6 +24,9 @@ public class RedireccionController {
             case "lugar" -> {
                 return "redirect:/lugares";
             }
+            case "bitacoras" -> {
+                return "redirect:/bitacoras";
+            }
             case "victima" -> {
                 return "redirect:/victima";
             }
