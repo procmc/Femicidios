@@ -343,12 +343,11 @@ use femicidios;
 CREATE TABLE femicidios.TH_Bitacoras ( 
 CI_Id_Bitacora INTEGER NOT NULL AUTO_INCREMENT, 
 CI_Id INTEGER,
-CV_Cedula  VARCHAR (20) NOT NULL,
-CV_DNI_Usuario VARCHAR (50) NOT NULL, 
-CV_Descripcion VARCHAR (50) NOT NULL, 
+CV_Cedula  VARCHAR (20),
+CV_DNI_Usuario VARCHAR (50), 
+CV_Descripcion VARCHAR (50), 
 CT_Fecha timestamp,
 foreign key(CI_Id) REFERENCES femicidios.ta_usuarios(CI_Id),
-foreign key(CV_Cedula) REFERENCES femicidios.ta_usuarios(CV_Cedula),
 PRIMARY KEY (CI_Id_Bitacora,CI_Id));
 
 
