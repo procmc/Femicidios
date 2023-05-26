@@ -71,10 +71,10 @@ public class BitacoraController {
 			                    Model model) {
 		Bitacora existingBitacora= bitacoraService.getBitacoraById(id);
 		existingBitacora.setCI_Id_Bitacora(id);
-		existingBitacora.setCIId(bitacora.getCIId());
+	//	existingBitacora.setCIId(bitacora.getCIId());
 		existingBitacora.setCVUsuario(bitacora.getCVUsuario());
 		existingBitacora.setCVDescripcion(bitacora.getCVDescripcion());
-		existingBitacora.setCTFecha(bitacora.getCTFecha());
+		//existingBitacora.setCTFecha(bitacora.getCTFecha());
 		bitacoraService.saveBitacora(existingBitacora);
 		return "redirect:/bitacoras";
 	}
