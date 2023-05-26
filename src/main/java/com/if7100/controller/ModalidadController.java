@@ -3,13 +3,14 @@ package com.if7100.controller;
 import com.if7100.entity.Bitacora;
 
 import com.if7100.entity.Usuario;
-
 import com.if7100.entity.Modalidad;
 import com.if7100.entity.Perfil;
+
 import com.if7100.repository.UsuarioRepository;
 import com.if7100.service.BitacoraService;
 import com.if7100.service.ModalidadService;
 import com.if7100.service.PerfilService;
+import com.if7100.service.UsuarioService;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -30,7 +31,10 @@ public class ModalidadController {
     private PerfilService perfilService;
     private Bitacora bitacora;
     private BitacoraService bitacoraService;
+    private UsuarioService usuarioService;
+    private BitacoraController bitacoraController;
     private Usuario usuario;
+    private Integer Id;
 
     public ModalidadController(ModalidadService modalidadService, PerfilService perfilService, UsuarioRepository usuarioRepository) {
         super();
@@ -47,7 +51,7 @@ private void validarPerfil() {
 		    //String username = authentication.getName();
 			String username = authentication.getName();
 			this.perfil = new Perfil(perfilService.getPerfilById(usuarioRepository.findByCVCedula(username).getCIPerfil()));
-			//this.usuarioRepository.findById(usuario.getCI_Id());
+			 Id= this.usuarioRepository.findByCVCedula(username).getCI_Id();
 			
 		}catch (Exception e) {
 			// TODO: handle exception
@@ -107,6 +111,9 @@ private void validarPerfil() {
 				*/
 				//bitacoraService.crearNuevaBitacora(bitacora);
 				
+				usuarioService.getUsuarioById(Id);
+				bitacoraController.saveBitacora(bitacora);
+				bitacoraService.updateBitacora(bitacora);
 				modalidadService.deleteModalidadById(id);
 		        return "redirect:/modalidades";
 			}else {
