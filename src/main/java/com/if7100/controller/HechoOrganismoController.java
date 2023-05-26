@@ -1,5 +1,9 @@
 package com.if7100.controller;
 
+import com.if7100.entity.Bitacora; 
+import com.if7100.entity.Usuario;
+import com.if7100.service.BitacoraService;
+
 import com.if7100.entity.Hecho;
 import com.if7100.entity.HechoOrganismo;
 import com.if7100.entity.Perfil;
@@ -29,23 +33,32 @@ public class HechoOrganismoController {
     private UsuarioRepository usuarioRepository;
     private Perfil perfil;
     private PerfilService perfilService;
+  //instancias para control de bitacora
+    private BitacoraService bitacoraService;
+    private Usuario usuario;
 
-    public HechoOrganismoController(HechoOrganismoService hechoOrganismoService, HechoService hechoService, OrganismoService organismoService, PerfilService perfilService, UsuarioRepository usuarioRepository){
+
+    public HechoOrganismoController(BitacoraService bitacoraService,
+HechoOrganismoService hechoOrganismoService, HechoService hechoService, OrganismoService organismoService, PerfilService perfilService, UsuarioRepository usuarioRepository){
         super();
         this.hechoOrganismoService = hechoOrganismoService;
         this.hechoService = hechoService;
         this.organismoService = organismoService;
         this.perfilService = perfilService;
         this.usuarioRepository = usuarioRepository;
+        this.bitacoraService= bitacoraService;
+
     }
     
     private void validarPerfil() {
      	
 		try {
-			
+			 Usuario usuario=new Usuario();
 			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		    String username = authentication.getName();
-			
+		   
+		    this.usuario= new Usuario(usuarioRepository.findByCVCedula(username));
+
 			this.perfil = new Perfil(perfilService.getPerfilById(usuarioRepository.findByCVCedula(username).getCIPerfil()));
 			
 		}catch (Exception e) {
@@ -143,6 +156,8 @@ public class HechoOrganismoController {
     	try {
 			this.validarPerfil();
 			if(!this.perfil.getCVRol().equals("Consulta")) {
+				Bitacora bitacora=new Bitacora(this.usuario.getCI_Id(),this.usuario.getCVNombre(),this.perfil.getCVRol());
+				bitacoraService.saveBitacora(bitacora);
 				
 				hechoOrganismoService.deleteHechoOrganismoById(id);
 		        return "redirect:/hechoorganismo";
