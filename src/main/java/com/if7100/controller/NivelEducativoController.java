@@ -1,4 +1,8 @@
 package com.if7100.controller;
+import com.if7100.entity.Bitacora; 
+import com.if7100.entity.Usuario;
+import com.if7100.service.BitacoraService;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -23,23 +27,31 @@ private NivelEducativoService nivelEducativoService;
 private UsuarioRepository usuarioRepository;
 private Perfil perfil;
 private PerfilService perfilService;
-	
-	public NivelEducativoController(NivelEducativoService nivelEducativoService, PerfilService perfilService, UsuarioRepository usuarioRepository) {
+//instancias para control de bitacora
+private BitacoraService bitacoraService;
+private Usuario usuario;
+
+	public NivelEducativoController(BitacoraService bitacoraService,
+NivelEducativoService nivelEducativoService, PerfilService perfilService, UsuarioRepository usuarioRepository) {
 	
 		super();
 		this.nivelEducativoService = nivelEducativoService;
 		this.perfilService = perfilService;
         this.usuarioRepository = usuarioRepository;
+        this.bitacoraService= bitacoraService;
+
 	
 }
 	
 private void validarPerfil() {
     	
 		try {
-			
+			Usuario usuario=new Usuario();
+
 			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		    String username = authentication.getName();
-			
+		    this.usuario= new Usuario(usuarioRepository.findByCVCedula(username));
+
 			this.perfil = new Perfil(perfilService.getPerfilById(usuarioRepository.findByCVCedula(username).getCIPerfil()));
 			
 		}catch (Exception e) {
@@ -84,6 +96,8 @@ public String deleteNivelEducativo(@PathVariable Integer id) {
 	try {
 		this.validarPerfil();
 		if(!this.perfil.getCVRol().equals("Consulta")) {
+			Bitacora bitacora=new Bitacora(this.usuario.getCI_Id(),this.usuario.getCVNombre(),this.perfil.getCVRol());
+			bitacoraService.saveBitacora(bitacora);
 			
 			nivelEducativoService.deleteNivelEducativoById(id);
 			return "redirect:/nivelEducativo";
