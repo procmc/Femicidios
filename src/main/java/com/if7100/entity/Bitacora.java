@@ -43,8 +43,6 @@ public class Bitacora {
 	@Column (name = "CI_Id", nullable = false)
 	private Integer CIId;
 	
-	@Column (name = "CV_Cedula", nullable = false)
-	private String CVCedula;
 	
 	@Column (name = "CV_DNI_Usuario", nullable = false)
 	private String CVUsuario;
@@ -76,12 +74,7 @@ public class Bitacora {
 		CIId = cIId;
 	}
 
-	public String getCVCedula() {
-		return CVCedula;
-	}
-	public void setCVCedula(String cVCedula) {
-		CVCedula = cVCedula;
-	}
+	
 	public String getCVUsuario() {
 		return CVUsuario;
 	}
