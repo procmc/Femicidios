@@ -47,8 +47,8 @@ public class BitacoraServiceImpl implements BitacoraService{
 	}
 	
 	/*@Override
-	public Bitacora crearNuevaBitacora(Bitacora bitacora) {
-		return bitacoraRepository.save(bitacora);
+	public void crearNuevaBitacora(Bitacora bitacora) {
+		bitacoraRepository.save(bitacora);
 	}*/
 	
 	
