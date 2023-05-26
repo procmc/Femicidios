@@ -1,7 +1,8 @@
 package com.if7100.controller;
 
-
+import com.if7100.entity.Bitacora;
 import com.if7100.entity.Modalidad;
+import com.if7100.entity.Usuario;
 import com.if7100.entity.Perfil;
 import com.if7100.repository.UsuarioRepository;
 import com.if7100.service.ModalidadService;
@@ -24,6 +25,8 @@ public class ModalidadController {
     private UsuarioRepository usuarioRepository;
     private Perfil perfil;
     private PerfilService perfilService;
+    public String username;
+    private Bitacora bitacora;
 
     public ModalidadController(ModalidadService modalidadService, PerfilService perfilService, UsuarioRepository usuarioRepository) {
         super();
@@ -35,11 +38,12 @@ public class ModalidadController {
 private void validarPerfil() {
     	
 		try {
-			
+			Usuario usuario=new Usuario();
 			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		    String username = authentication.getName();
-			
+		    //String username = authentication.getName();
+			username = authentication.getName();
 			this.perfil = new Perfil(perfilService.getPerfilById(usuarioRepository.findByCVCedula(username).getCIPerfil()));
+			//this.usuarioRepository.findById(usuario.get());
 			
 		}catch (Exception e) {
 			// TODO: handle exception
@@ -90,7 +94,7 @@ private void validarPerfil() {
     	try {
 			this.validarPerfil();
 			if(!this.perfil.getCVRol().equals("Consulta")) {
-				
+			//	bitacora.setCVCedula(username);
 				modalidadService.deleteModalidadById(id);
 		        return "redirect:/modalidades";
 			}else {
