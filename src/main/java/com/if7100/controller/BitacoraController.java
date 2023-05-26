@@ -77,5 +77,16 @@ public class BitacoraController {
 		return "redirect:/bitacoras";
 	}
 	
+	/*@PostMapping("/bitacoras/{id}")
+	public void crearNuevaBitacora(@PathVariable Integer id, 
+			                    @ModelAttribute ("bitacora") Bitacora bitacora, 
+			                    Model model) {
+		Bitacora existingBitacora= bitacoraService.getBitacoraById(id);
+		existingBitacora.setCI_Id_Bitacora(id);
+		existingBitacora.setCVUsuario("");
+		existingBitacora.setCVDescripcion("");
+		bitacoraService.saveBitacora(existingBitacora);
+	}*/
+	
 	
 }
