@@ -17,7 +17,7 @@ public interface BitacoraService {
 	Bitacora saveBitacora (Bitacora bitacora);
 	Bitacora getBitacoraById(Integer id);
 	Bitacora updateBitacora(Bitacora bitacora);
-	//Bitacora crearNuevaBitacora (Bitacora bitacora);
+    //	void crearNuevaBitacora (Bitacora bitacora);
 	void deleteBitacoraById(Integer id);
 	Bitacora getBitacoraByCVUsuario(String CVUsuario);
 	
