@@ -77,7 +77,7 @@ public class BitacoraController {
 		return "redirect:/bitacoras";
 	}
 	
-	/*@PostMapping("/bitacoras/{id}")
+	/*@GetMapping("/bitacoras/{id}")
 	public void crearNuevaBitacora(@PathVariable Integer id, 
 			                    @ModelAttribute ("bitacora") Bitacora bitacora, 
 			                    Model model) {
@@ -86,7 +86,7 @@ public class BitacoraController {
 		existingBitacora.setCVUsuario("");
 		existingBitacora.setCVDescripcion("");
 		bitacoraService.saveBitacora(existingBitacora);
-	}*/
-	
+	}
+	*/
 	
 }
