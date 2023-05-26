@@ -1,7 +1,12 @@
 package com.if7100.controller;
 
 import com.if7100.entity.Hecho;
+
 import com.if7100.entity.Perfil;
+import com.if7100.entity.Usuario;
+import com.if7100.entity.Bitacora;
+import com.if7100.service.BitacoraService;
+
 import com.if7100.repository.UsuarioRepository;
 import com.if7100.service.*;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -31,6 +36,9 @@ public class HechoController {
     private UsuarioRepository usuarioRepository;
     private Perfil perfil;
     private PerfilService perfilService;
+  //instancias para control de bitacora
+    private BitacoraService bitacoraService;
+    private Usuario usuario;
 
 
 //    public HechoController(HechoService hechoService) {
@@ -40,7 +48,9 @@ public class HechoController {
 
     public HechoController(HechoService hechoService, ModalidadService modalidadService,
                            TipoVictimaService tipoVictimaService, TipoRelacionService tipoRelacionService,
-                           VictimaService victimaService, ProcesoJudicialService procesoJudicialService, PerfilService perfilService, UsuarioRepository usuarioRepository){
+                           VictimaService victimaService, ProcesoJudicialService procesoJudicialService, PerfilService perfilService, UsuarioRepository usuarioRepository,
+                           BitacoraService bitacoraService)
+{
         super();
         this.hechoService = hechoService;
         this.modalidadService = modalidadService;
@@ -50,15 +60,16 @@ public class HechoController {
         this.procesoJudicialService = procesoJudicialService;
         this.perfilService = perfilService;
         this.usuarioRepository = usuarioRepository;
+        this.bitacoraService= bitacoraService;
     }
     
     private void validarPerfil() {
      	
 		try {
-			
+			Usuario usuario=new Usuario();
 			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		    String username = authentication.getName();
-			
+		    this.usuario= new Usuario(usuarioRepository.findByCVCedula(username));
 			this.perfil = new Perfil(perfilService.getPerfilById(usuarioRepository.findByCVCedula(username).getCIPerfil()));
 			
 		}catch (Exception e) {
@@ -131,6 +142,11 @@ public class HechoController {
 			if(!this.perfil.getCVRol().equals("Consulta")) {
 				
 				try {
+					
+					Bitacora bitacora=new Bitacora(this.usuario.getCI_Id(),this.usuario.getCVNombre(),this.perfil.getCVRol());
+					bitacoraService.saveBitacora(bitacora);
+					
+					
 		            hechoService.deleteHechoById(id);
 		        } catch (DataIntegrityViolationException e) {
 		            System.out.println("Error, No se puede eliminar un hecho si tiene lugares registrados en el");
