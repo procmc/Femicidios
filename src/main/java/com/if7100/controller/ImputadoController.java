@@ -1,9 +1,5 @@
 package com.if7100.controller;
 
-import com.if7100.entity.Bitacora; 
-import com.if7100.entity.Usuario;
-import com.if7100.service.BitacoraService;
-
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -13,16 +9,18 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.if7100.entity.Hecho;
+import com.if7100.entity.Bitacora;
 import com.if7100.entity.Imputado;
 import com.if7100.entity.Perfil;
+import com.if7100.entity.Usuario;
 import com.if7100.repository.UsuarioRepository;
+import com.if7100.service.BitacoraService;
 import com.if7100.service.ImputadoService;
 import com.if7100.service.PerfilService;
 
 @Controller
 public class ImputadoController {
-	
+
  private ImputadoService imputadoService;
 //instancias para control de acceso
  private UsuarioRepository usuarioRepository;
@@ -32,7 +30,7 @@ public class ImputadoController {
 private BitacoraService bitacoraService;
 private Usuario usuario;
 
- 
+
  public ImputadoController (BitacoraService bitacoraService,
 ImputadoService imputadoService, PerfilService perfilService, UsuarioRepository usuarioRepository) {
 	 super();
@@ -42,9 +40,9 @@ ImputadoService imputadoService, PerfilService perfilService, UsuarioRepository 
      this.bitacoraService= bitacoraService;
 
  }
- 
+
  private void validarPerfil() {
- 	
+
 		try {
 			Usuario usuario=new Usuario();
 
@@ -53,83 +51,83 @@ ImputadoService imputadoService, PerfilService perfilService, UsuarioRepository 
 		    this.usuario= new Usuario(usuarioRepository.findByCVCedula(username));
 
 			this.perfil = new Perfil(perfilService.getPerfilById(usuarioRepository.findByCVCedula(username).getCIPerfil()));
-			
+
 		}catch (Exception e) {
 			// TODO: handle exception
 		}
-		
+
 	}
- 
+
  @GetMapping("/imputados")
  public String ListImputados(Model model) {
-	 
+
 	 model.addAttribute("imputados",imputadoService.getAllUsuarios());
 	 return "imputados/imputados";
  }
- 
+
  @GetMapping("/imputados/new")
  public String CreateUsuarioForm(Model model) {
-	 
+
 	 try {
 			this.validarPerfil();
 			if(!this.perfil.getCVRol().equals("Consulta")) {
-				
+
 				model.addAttribute("imputado",new Imputado());
 				return "imputados/create_imputado";
 			}else {
 				return "SinAcceso";
 			}
-			
+
 		}catch (Exception e) {
 			return "SinAcceso";
 		}
  }
- 
+
  @PostMapping("/imputados")
  public String SaveImputado(@ModelAttribute("usuario") Imputado imputado) {
 	 imputadoService.saveImputado(imputado);
 	 return "redirect:/imputados";
  }
- 
+
  @GetMapping("/imputados/{id}")
  public String deleteUsuario(@PathVariable int id) {
-	 
+
 	 try {
 			this.validarPerfil();
 			if(!this.perfil.getCVRol().equals("Consulta")) {
 				Bitacora bitacora=new Bitacora(this.usuario.getCI_Id(),this.usuario.getCVNombre(),this.perfil.getCVRol());
 				bitacoraService.saveBitacora(bitacora);
-				
+
 				imputadoService.deleteImputadoById(id);
 				 return "redirect:/imputados";
 			}else {
 				return "SinAcceso";
 			}
-			
+
 		}catch (Exception e) {
 			return "SinAcceso";
 		}
  }
- 
+
  @GetMapping("/imputados/edit/{id}")
  public String editImputadosForm(Model model,@PathVariable int id) {
-	 
+
 	 try {
 			this.validarPerfil();
 			if(!this.perfil.getCVRol().equals("Consulta")) {
-				
+
 				model.addAttribute("imputado", imputadoService.getImputadoById(id));
 				return "imputados/edit_imputado";
 			}else {
 				return "SinAcceso";
 			}
-			
+
 		}catch (Exception e) {
 			return "SinAcceso";
 		}
-	 
+
  }
- 
+
  @PostMapping("/imputados/{id}")
  public String updateUsuario(@PathVariable int id, @ModelAttribute("imputado") Imputado imputado, Model model) {
 	 Imputado existingImputado=imputadoService.getImputadoById(id);
@@ -140,12 +138,12 @@ ImputadoService imputadoService, PerfilService perfilService, UsuarioRepository 
 	 existingImputado.setCVLugarNacimiento(imputado.getCVLugarNacimiento());
 	 existingImputado.setCIEdad(imputado.getCIEdad());
 	 existingImputado.setCVPais(imputado.getCVPais());
-	 
+
 	 imputadoService.updateImputado(existingImputado);
 	 return "redirect:/imputados";
  }
- 
- 
- 
- 
+
+
+
+
 }
