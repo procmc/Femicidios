@@ -12,4 +12,3 @@ import com.if7100.entity.OrientacionSexual;
 public interface OrientacionSexualRepository extends JpaRepository<OrientacionSexual, Integer> {
 	 OrientacionSexual findByCVTitulo(String CV_Titulo);
 }
- 
