@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.if7100.entity;
 import jakarta.persistence.Column;
@@ -13,20 +13,20 @@ import jakarta.persistence.Table;
  *
  */
 @Entity
-@Table(name="ta_imputados") 
+@Table(name="ta_imputados")
 public class Imputado {
 
 	/**
-	 * 
+	 *
 	 */
 	public Imputado() {
 		// TODO Auto-generated constructor stub
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 	public Imputado(String cV_DNI, String cVNombre, String cVGenero, String cVOrientacionSexual, String cIEdad,
 			String cVLugarNacimiento) {
 		super();
@@ -44,7 +44,7 @@ public class Imputado {
 	@Id
 	@GeneratedValue (strategy=GenerationType.IDENTITY)
 	private int CI_Id;
-	
+
 	public int getCI_Id() {
 		return CI_Id;
 	}
@@ -52,25 +52,25 @@ public class Imputado {
 	public void setCI_Id(int cI_Id) {
 		CI_Id = cI_Id;
 	}
-	
+
 	@Column(name="cv_dni",nullable=false)
 	private String CVDni;
-	
+
 	@Column(name="cv_nombre",nullable=false)
 	private String CVNombre;
-	
+
 	@Column(name="cv_genero",nullable=false)
 	private String CVGenero;
-	
+
 	@Column(name="cv_orientacionsexual",nullable=false)
 	private String CVOrientacionSexual;
-	
+
 	@Column(name="ci_edad",nullable=false)
 	private String CIEdad;
-	
+
 	@Column(name="cv_lugarnacimiento",nullable=false)
 	private String CVLugarNacimiento;
-	
+
 	@Column(name="cv_pais",nullable=false)
 	private String CVPais;
 
@@ -136,18 +136,18 @@ public class Imputado {
 	public String getCVPais() {
 		return CVPais;
 	}
-	
+
 
 	public void setCVPais(String cVPais) {
 		CVPais = cVPais;
 	}
-	
-	
-	
-	
 
-	
-	
-	
+
+
+
+
+
+
+
 
 }
