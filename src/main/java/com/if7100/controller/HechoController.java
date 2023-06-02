@@ -1,24 +1,28 @@
 package com.if7100.controller;
 
-import com.if7100.entity.Hecho;
-
-import com.if7100.entity.Perfil;
-import com.if7100.entity.Usuario;
-import com.if7100.entity.Bitacora;
-import com.if7100.service.BitacoraService;
-
-import com.if7100.repository.UsuarioRepository;
-import com.if7100.service.*;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import com.if7100.entity.Bitacora;
+import com.if7100.entity.Hecho;
+import com.if7100.entity.Perfil;
+import com.if7100.entity.Usuario;
+import com.if7100.repository.UsuarioRepository;
+import com.if7100.service.BitacoraService;
+import com.if7100.service.HechoService;
+import com.if7100.service.ModalidadService;
+import com.if7100.service.PerfilService;
+import com.if7100.service.ProcesoJudicialService;
+import com.if7100.service.TipoRelacionService;
+import com.if7100.service.TipoVictimaService;
+import com.if7100.service.VictimaService;
 
 @Controller
 public class HechoController {
@@ -62,20 +66,20 @@ public class HechoController {
         this.usuarioRepository = usuarioRepository;
         this.bitacoraService= bitacoraService;
     }
-    
+
     private void validarPerfil() {
-     	
+
 		try {
 			Usuario usuario=new Usuario();
 			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		    String username = authentication.getName();
 		    this.usuario= new Usuario(usuarioRepository.findByCVCedula(username));
 			this.perfil = new Perfil(perfilService.getPerfilById(usuarioRepository.findByCVCedula(username).getCIPerfil()));
-			
+
 		}catch (Exception e) {
 			// TODO: handle exception
 		}
-		
+
 	}
 
     @GetMapping("/hechos")
@@ -86,11 +90,11 @@ public class HechoController {
 
     @GetMapping("/hechos/new")
     public String createHechoForm(Model model){
-    	
+
     	try {
 			this.validarPerfil();
 			if(!this.perfil.getCVRol().equals("Consulta")) {
-				
+
 				Hecho hecho = new Hecho();
 		        model.addAttribute("hecho", hecho);
 		        model.addAttribute("modalidad", modalidadService.getAllModalidades());
@@ -102,7 +106,7 @@ public class HechoController {
 			}else {
 				return "SinAcceso";
 			}
-			
+
 		}catch (Exception e) {
 			return "SinAcceso";
 		}
@@ -136,17 +140,17 @@ public class HechoController {
 
     @GetMapping("/hechos/{id}")
     public String deleteHecho(@PathVariable Integer id){
-    	
+
     	try {
 			this.validarPerfil();
 			if(!this.perfil.getCVRol().equals("Consulta")) {
-				
+
 				try {
-					
+
 					Bitacora bitacora=new Bitacora(this.usuario.getCI_Id(),this.usuario.getCVNombre(),this.perfil.getCVRol());
 					bitacoraService.saveBitacora(bitacora);
-					
-					
+
+
 		            hechoService.deleteHechoById(id);
 		        } catch (DataIntegrityViolationException e) {
 		            System.out.println("Error, No se puede eliminar un hecho si tiene lugares registrados en el");
@@ -155,7 +159,7 @@ public class HechoController {
 			}else {
 				return "SinAcceso";
 			}
-			
+
 		}catch (Exception e) {
 			return "SinAcceso";
 		}
@@ -163,11 +167,11 @@ public class HechoController {
 
     @GetMapping("/hechos/edit/{id}")
     public String editHechoForm(@PathVariable Integer id, Model model){
-    	
+
     	try {
 			this.validarPerfil();
 			if(!this.perfil.getCVRol().equals("Consulta")) {
-				
+
 				model.addAttribute("hecho", hechoService.getHechoById(id));
 		        model.addAttribute("modalidad", modalidadService.getAllModalidades());
 		        model.addAttribute("tipoVictima", tipoVictimaService.getAllTipoVictimas());
@@ -178,7 +182,7 @@ public class HechoController {
 			}else {
 				return "SinAcceso";
 			}
-			
+
 		}catch (Exception e) {
 			return "SinAcceso";
 		}
