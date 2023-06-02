@@ -1,28 +1,24 @@
 package com.if7100.controller;
 
+import com.if7100.entity.Hecho;
+
+import com.if7100.entity.Perfil;
+import com.if7100.entity.Usuario;
+import com.if7100.entity.Bitacora;
+import com.if7100.service.BitacoraService;
+
+import com.if7100.repository.UsuarioRepository;
+import com.if7100.service.*;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-
-import com.if7100.entity.Bitacora;
-import com.if7100.entity.Hecho;
-import com.if7100.entity.Perfil;
-import com.if7100.entity.Usuario;
-import com.if7100.repository.UsuarioRepository;
-import com.if7100.service.BitacoraService;
-import com.if7100.service.HechoService;
-import com.if7100.service.ModalidadService;
-import com.if7100.service.PerfilService;
-import com.if7100.service.ProcesoJudicialService;
-import com.if7100.service.TipoRelacionService;
-import com.if7100.service.TipoVictimaService;
-import com.if7100.service.VictimaService;
 
 @Controller
 public class HechoController {
@@ -36,6 +32,8 @@ public class HechoController {
 
     private ProcesoJudicialService procesoJudicialService;
 
+    private OrganismoService organismoService;
+
   //instancias para control de acceso
     private UsuarioRepository usuarioRepository;
     private Perfil perfil;
@@ -43,8 +41,6 @@ public class HechoController {
   //instancias para control de bitacora
     private BitacoraService bitacoraService;
     private Usuario usuario;
-    private Bitacora bitacora1;
-
 
 
 //    public HechoController(HechoService hechoService) {
@@ -52,9 +48,9 @@ public class HechoController {
 //        this.hechoService = hechoService;
 //    }
 
-    public HechoController(Bitacora bitacora1,HechoService hechoService, ModalidadService modalidadService,
+    public HechoController(HechoService hechoService, ModalidadService modalidadService,
                            TipoVictimaService tipoVictimaService, TipoRelacionService tipoRelacionService,
-                           VictimaService victimaService, ProcesoJudicialService procesoJudicialService, PerfilService perfilService, UsuarioRepository usuarioRepository,
+                           VictimaService victimaService, ProcesoJudicialService procesoJudicialService, OrganismoService organismoService, PerfilService perfilService, UsuarioRepository usuarioRepository,
                            BitacoraService bitacoraService)
 {
         super();
@@ -64,41 +60,46 @@ public class HechoController {
         this.tipoRelacionService = tipoRelacionService;
         this.victimaService = victimaService;
         this.procesoJudicialService = procesoJudicialService;
+        this.organismoService = organismoService;
         this.perfilService = perfilService;
         this.usuarioRepository = usuarioRepository;
         this.bitacoraService= bitacoraService;
-        this.bitacora1 = bitacora1;
-
     }
-
+    
     private void validarPerfil() {
-
+     	
 		try {
 			Usuario usuario=new Usuario();
 			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		    String username = authentication.getName();
 		    this.usuario= new Usuario(usuarioRepository.findByCVCedula(username));
 			this.perfil = new Perfil(perfilService.getPerfilById(usuarioRepository.findByCVCedula(username).getCIPerfil()));
-
+			
 		}catch (Exception e) {
 			// TODO: handle exception
 		}
-
+		
 	}
 
     @GetMapping("/hechos")
     public String listHechos(Model model){
+        model.addAttribute("modalidades", hechoService.getAllModalidades());
+        model.addAttribute("organismos", hechoService.getAllOrganismos());
+        model.addAttribute("tipoVictimas", hechoService.getAllTipoVictimas());
+        model.addAttribute("tipoRelaciones", hechoService.getAllTipoRelaciones());
+        model.addAttribute("victimas", hechoService.getAllVictimas());
+        model.addAttribute("procesosJudiciales", hechoService.getAllProcesosJudiciales());
         model.addAttribute("hechos", hechoService.getAllHechos());
         return "hechos/hechos";
     }
 
     @GetMapping("/hechos/new")
     public String createHechoForm(Model model){
-
+    	
     	try {
 			this.validarPerfil();
 			if(!this.perfil.getCVRol().equals("Consulta")) {
-
+				
 				Hecho hecho = new Hecho();
 		        model.addAttribute("hecho", hecho);
 		        model.addAttribute("modalidad", modalidadService.getAllModalidades());
@@ -106,11 +107,12 @@ public class HechoController {
 		        model.addAttribute("tipoRelacion", tipoRelacionService.getAllTipoRelaciones());
 		        model.addAttribute("victima", victimaService.getAllVictima());
 		        model.addAttribute("proceso", procesoJudicialService.getAllProcesosJudiciales());
+                model.addAttribute("organismo", organismoService.getAllOrganismos());
 		        return "hechos/create_hecho";
 			}else {
 				return "SinAcceso";
 			}
-
+			
 		}catch (Exception e) {
 			return "SinAcceso";
 		}
@@ -144,17 +146,17 @@ public class HechoController {
 
     @GetMapping("/hechos/{id}")
     public String deleteHecho(@PathVariable Integer id){
-
+    	
     	try {
 			this.validarPerfil();
 			if(!this.perfil.getCVRol().equals("Consulta")) {
-
+				
 				try {
-
-					bitacora1.setCVDescripcion("Se ha eliminado un dato de la entidad Hechos");
-					Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), bitacora1.getCVDescripcion(),bitacora1.getCTFecha());
-
-
+					
+					String descripcion = "Elimino un hecho";
+					Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), descripcion, this.perfil.getCVRol());
+					bitacoraService.saveBitacora(bitacora);
+					
 		            hechoService.deleteHechoById(id);
 		        } catch (DataIntegrityViolationException e) {
 		            System.out.println("Error, No se puede eliminar un hecho si tiene lugares registrados en el");
@@ -163,7 +165,7 @@ public class HechoController {
 			}else {
 				return "SinAcceso";
 			}
-
+			
 		}catch (Exception e) {
 			return "SinAcceso";
 		}
@@ -171,22 +173,23 @@ public class HechoController {
 
     @GetMapping("/hechos/edit/{id}")
     public String editHechoForm(@PathVariable Integer id, Model model){
-
+    	
     	try {
 			this.validarPerfil();
 			if(!this.perfil.getCVRol().equals("Consulta")) {
-
+				
 				model.addAttribute("hecho", hechoService.getHechoById(id));
 		        model.addAttribute("modalidad", modalidadService.getAllModalidades());
 		        model.addAttribute("tipoVictima", tipoVictimaService.getAllTipoVictimas());
 		        model.addAttribute("tipoRelacion", tipoRelacionService.getAllTipoRelaciones());
 		        model.addAttribute("victima", victimaService.getAllVictima());
 		        model.addAttribute("proceso", procesoJudicialService.getAllProcesosJudiciales());
+                model.addAttribute("organismo", organismoService.getAllOrganismos());
 		        return "hechos/edit_hecho";
 			}else {
 				return "SinAcceso";
 			}
-
+			
 		}catch (Exception e) {
 			return "SinAcceso";
 		}
@@ -203,6 +206,11 @@ public class HechoController {
             existingHecho.setCIModalidad(hecho.getCIModalidad());
             existingHecho.setCIIdVictima(hecho.getCIIdVictima());
             existingHecho.setCIIdProceso(hecho.getCIIdProceso());
+            existingHecho.setCIIdGenerador(hecho.getCIIdGenerador());
+            existingHecho.setCVAgresionSexual(hecho.getCVAgresionSexual());
+            existingHecho.setCVDenunciaPrevia(hecho.getCVDenunciaPrevia());
+            existingHecho.setCDFecha(hecho.getCDFecha());
+            existingHecho.setCVDetalles(hecho.getCVDetalles());
             hechoService.updateHecho(existingHecho);
             return "redirect:/hechos";
         } catch (DataIntegrityViolationException e){

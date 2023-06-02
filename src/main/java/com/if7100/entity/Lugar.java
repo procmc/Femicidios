@@ -49,6 +49,16 @@ public class Lugar {
     public Lugar() {
     }
 
+    public Lugar(int CI_Hecho, String CV_Descripcion, int CI_Tipo_Lugar, String CV_Direccion, String CV_Ciudad, int CI_Pais) {
+		super();
+		this.CIHecho= CI_Hecho;
+		this.CV_Descripcion= CV_Descripcion;
+		this.CI_Tipo_Lugar= CI_Tipo_Lugar;
+		this.CV_Direccion= CV_Direccion;
+		this.CV_Ciudad= CV_Ciudad;
+		this.CI_Pais= CI_Pais;
+	}
+    
     public Lugar(int CI_Hecho, String CV_Descripcion, int CI_Tipo_Lugar, String CV_Direccion, String CV_Ciudad, int CI_Pais, String Titulo) {
         super();
         this.CIHecho= CI_Hecho;

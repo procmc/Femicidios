@@ -1,13 +1,13 @@
 package com.if7100.controller;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-
+import com.if7100.entity.Modalidad;
+import com.if7100.entity.TipoVictima;
+import com.if7100.repository.TipoVictimaRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.if7100.entity.TipoVictima;
-import com.if7100.repository.TipoVictimaRepository;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class TipoVictimaControllerTest {
 

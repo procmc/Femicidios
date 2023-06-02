@@ -1,12 +1,11 @@
 package com.if7100.service.impl;
 
-import java.util.List;
-
-import org.springframework.stereotype.Service;
-
 import com.if7100.entity.NivelEducativo;
 import com.if7100.repository.NivelEducativoRepository;
 import com.if7100.service.NivelEducativoService;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 
 @Service

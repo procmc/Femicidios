@@ -1,5 +1,5 @@
 /**
- *
+ * 
  */
 package com.if7100.service.impl;
 
@@ -19,9 +19,9 @@ import com.if7100.service.BitacoraService;
 @Service
 public class BitacoraServiceImpl implements BitacoraService{
 
-
+	
 	private BitacoraRepository bitacoraRepository;
-
+	
 	public BitacoraServiceImpl (BitacoraRepository bitacoraRepository) {
 		super();
 		this.bitacoraRepository= bitacoraRepository;
@@ -31,12 +31,12 @@ public class BitacoraServiceImpl implements BitacoraService{
 	public List<Bitacora> getAllBitacoras() {
 	   return bitacoraRepository.findAll();
 	}
-
+	
 	@Override
 	public Bitacora saveBitacora (Bitacora bitacora) {
 		return bitacoraRepository.save(bitacora);
 	}
-
+	
 	@Override
 	public Bitacora getBitacoraById(Integer id) {
 		return bitacoraRepository.findById(id).get();
@@ -45,22 +45,22 @@ public class BitacoraServiceImpl implements BitacoraService{
 	public Bitacora updateBitacora(Bitacora bitacora) {
 		return bitacoraRepository.save(bitacora);
 	}
-
+	
 	/*@Override
 	public void crearNuevaBitacora(Bitacora bitacora) {
 		bitacoraRepository.save(bitacora);
 	}*/
-
-
+	
+	
 	@Override
 	public void deleteBitacoraById(Integer id) {
 		bitacoraRepository.deleteById(id);
 	}
-
+	
 	@Override
 	public Bitacora getBitacoraByCVUsuario(String CVUsuario) {
 		return bitacoraRepository.findByCVUsuario(CVUsuario);
 	}
-
-
+	
+	
 }

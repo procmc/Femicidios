@@ -13,30 +13,12 @@
 
 </head>
 
-
 <body>
 
-
 <div class="container-fluid">
-  <!--    <div class="row">-->
-  <!--        <div class="col-md-12">-->
-  <!--            <ul class="nav nav-pills flex-column flex-sm-row">-->
-  <!--                <li class="nav-item">-->
-  <!--                    <a class="nav-link active" href="#">Inicio</a>-->
-  <!--                </li>-->
-  <!--                <li class="nav-item">-->
-  <!--                    <a class="nav-link" th:href="@{/hechos}">Hechos</a>-->
-  <!--                </li>-->
-
-  <!--            </ul>-->
-  <!--        </div>-->
-  <!--    </div>-->
-
-  <!--    <div class = "row"> <h1></h1> </div>-->
-  <!--    <div class = "row"> <h1></h1> </div>-->
 
   <div class="alert alert-primary" role="alert">
-    Hechos
+    Hechos - Organismos
   </div>
 
   <div class="row">
@@ -64,7 +46,8 @@
 
             <a th:href = "@{/hechoorganismo/{id}(id=${hechoOrganismo.CI_Id})}"
                class = "btn btn-danger">Eliminar</a>
-
+            <a th:href = "@{/hechoorganismo/edit/{id}(id=${hechoOrganismo.CI_Id})}"
+               class = "btn btn-primary">Actualizar</a>
           </td>
         </tr>
         </tbody>

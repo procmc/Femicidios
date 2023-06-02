@@ -1,53 +1,58 @@
 package com.if7100.entity;
 import jakarta.persistence.Column;
+
 import jakarta.persistence.Entity;
+
 import jakarta.persistence.GeneratedValue;
+
 import jakarta.persistence.GenerationType;
+
 import jakarta.persistence.Id;
+
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name="TA_Victima")
 public class Victima {
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int CI_Id;
 
 	@Column(name="CV_Dni", nullable =false)
 	private int CVDNI;
-
+	
 	@Column(name="CV_Nombre", nullable =false)
 	private String CVNombre ;
-
+	
 	@Column(name="CV_Apellidopaterno", nullable =false)
 	private String CVApellidoPaterno;
-
+	
 	@Column(name="CV_Apellidomaterno", nullable =false)
 	private String CVApellidoMaterno;
-
+	
 	@Column(name="CV_Edad", nullable =false)
 	private int CVEdad;
-
+	
 	@Column(name="CV_Idgenero", nullable =false)
 	private int CVGenero;
-
+	
 	@Column(name="CV_Lugarnac", nullable =false)
 	private String CVLugarNac;
-
+	
 	@Column(name="CV_Orientasex", nullable =false)
 	private int CVOrientaSex;
-
-
+	
+	
 	public Victima() {
-
+		
 	}
 
 
 	public Victima(int cVDNI, String cVNombre, String cVApellidoPaterno, String cVApellidoMaterno,
 			int cVEdad, int cVGenero, String cVLugarNac, int cVOrientaSex) {
 		super();
-
+		
 		CVDNI = cVDNI;
 		CVNombre = cVNombre;
 		CVApellidoPaterno = cVApellidoPaterno;
@@ -149,8 +154,8 @@ public class Victima {
 	}
 
 
+	
 
-
-
+	
 
 }

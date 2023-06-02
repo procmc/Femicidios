@@ -1,5 +1,5 @@
 /**
- *
+ * 
  */
 package com.if7100.entity;
 import jakarta.persistence.Column;
@@ -20,7 +20,7 @@ public class Organismo {
 	public Organismo() {
 		// TODO Auto-generated constructor stub
 	}
-
+	
 	public Organismo(String CVNombre, String CVRol, String CVTipo_Organismo , String CVNacionalidad, String CVContacto) {
 		super();
 		this.CVNombre=CVNombre;
@@ -28,36 +28,36 @@ public class Organismo {
 		this.CVTipo_Organismo=CVTipo_Organismo;
 		this.CVNacionalidad=CVNacionalidad;
 		this.CVContacto=CVContacto;
-
+		
 	}
-
+	
 	@Id
 	@GeneratedValue (strategy=GenerationType.IDENTITY)
 	private int CI_Id;
-
+	
 	@Column(name="CV_Nombre",nullable=false)
 	private String CVNombre;
-
+	
 	@Column(name="CV_Rol",nullable=false)
 	private String CVRol;
-
+	
 	@Column(name="CV_Tipo_Organismo",nullable=false)
 	private String CVTipo_Organismo;
-
+	
 	@Column(name="CV_Nacionalidad",nullable=false)
 	private String CVNacionalidad;
-
+	
 	@Column(name="CV_Contacto",nullable=false)
 	private String CVContacto;
-
-
+	
+	
 	public int getCI_Id() {
 		return CI_Id;
 	}
 	public void setCI_Id(int cI_Id) {
 		CI_Id = cI_Id;
 	}
-
+	
 	public String getCVNombre() {
 		return CVNombre;
 	}
@@ -72,7 +72,7 @@ public class Organismo {
 	public void setCVRol(String cVRol) {
 		CVRol = cVRol;
 	}
-
+	
 	public String getCVTipo_Organismo() {
 		return CVTipo_Organismo;
 	}
@@ -97,6 +97,7 @@ public class Organismo {
 	public void setCVContacto(String cVContacto) {
 		CVContacto = cVContacto;
 	}
-
+	
 }
-
+	
+	

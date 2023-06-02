@@ -1,5 +1,5 @@
 /**
- *
+ * 
  */
 package com.if7100.entity;
 import java.util.Date;
@@ -22,42 +22,49 @@ import jakarta.persistence.TemporalType;
 public class ProcesoJudicial {
 
 	/**
-	 *
+	 * 
 	 */
 	public ProcesoJudicial() {
 		// TODO Auto-generated constructor stub
 	}
-
-	public ProcesoJudicial(int CI_Id, String CVEstado, int CIDenunciante, int CIPersonasImputadas, String CVPartes) {
+	
+	public ProcesoJudicial(int CI_Id, String CVEstado, int CIDenunciante, int CIPersonasImputadas, String CVAgravantes, String CVPartes, String CVTipoDelito) {
 		super();
 		this.CI_Id = CI_Id;
 		this.CVEstado=CVEstado;
 		this.CIDenunciante=CIDenunciante;
 		this.CIPersonasImputadas=CIPersonasImputadas;
+		this.CVAgravantes=CVAgravantes;
 		this.CVPartes=CVPartes;
+		this.CVTipoDelito=CVTipoDelito;
 	}
-
+	
 	@Id
 	@GeneratedValue (strategy=GenerationType.IDENTITY)
 	private int CI_Id;
-
+	
 	@Column(name="CV_Estado",nullable=false)
 	private String CVEstado;
-
+	
 	@Column(name="CI_Denunciante",nullable=false)
 	private int CIDenunciante;
-
+	
     @Temporal(TemporalType.TIMESTAMP)
 	@Column(name="CD_Fecha_Apertura")
 	private Date CDFechaApertura;
-
+	
 	@Column(name="CI_Personas_Imputadas",nullable=false)
 	private int CIPersonasImputadas;
-
+	
+	@Column(name="CV_Agravantes",nullable=false)
+	private String CVAgravantes;
+	
 	@Column(name="CV_Partes",nullable=false)
 	private String CVPartes;
 
-
+	@Column(name="CV_Tipo_Delito",nullable=false)
+	private String CVTipoDelito;
+	
 
 	/**
 	 * @return the cI_IdProceso
@@ -142,11 +149,28 @@ public class ProcesoJudicial {
 	public void setCVPartes(String cVPartes) {
 		CVPartes = cVPartes;
 	}
+	
+	public String getCVAgravantes() {
+		return CVAgravantes;
+	}
 
+	public void setCVAgravantes(String cVAgravantes) {
+		CVAgravantes = cVAgravantes;
+	}
+
+	public String getCVTipoDelito() {
+		return CVTipoDelito;
+	}
+
+	public void setCVTipoDelito(String cVTipoDelito) {
+		CVTipoDelito = cVTipoDelito;
+	}
+	
 	@PrePersist
     protected void onCreate() {
 		CDFechaApertura = new Date();
     }
 
-
+	
+	
 }

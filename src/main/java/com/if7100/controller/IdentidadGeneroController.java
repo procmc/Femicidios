@@ -1,25 +1,34 @@
 /**
- *
+ * 
  */
 package com.if7100.controller;
+
+import com.if7100.entity.Bitacora;
+import com.if7100.entity.Usuario;
+import com.if7100.entity.Paises;
+import com.if7100.service.BitacoraService;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+
+import com.if7100.entity.Usuario;
+import com.if7100.repository.UsuarioRepository;
+import com.if7100.entity.Hecho;
+import com.if7100.entity.IdentidadGenero;
+import com.if7100.entity.Perfil;
+import com.if7100.service.IdentidadGeneroService;
+import com.if7100.service.GenerosService;
+import com.if7100.service.PaisesService;
+
+import com.if7100.service.PerfilService;
+
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 //import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-
-import com.if7100.entity.IdentidadGenero;
-import com.if7100.entity.Perfil;
-import com.if7100.entity.Usuario;
-import com.if7100.repository.UsuarioRepository;
-import com.if7100.service.BitacoraService;
-import com.if7100.service.IdentidadGeneroService;
-import com.if7100.service.PerfilService;
 
 /**
  * @author michael arauz torrez
@@ -29,46 +38,54 @@ import com.if7100.service.PerfilService;
 public class IdentidadGeneroController {
 
 	/**
-	 *
+	 * 
 	 */
 	private IdentidadGeneroService identidadGeneroService;
-	//instancias para control de acceso
-    private UsuarioRepository usuarioRepository;
-    private Perfil perfil;
-    private PerfilService perfilService;
-  //instancias para control de bitacora
-    private BitacoraService bitacoraService;
-    private Usuario usuario;
+	// instancias para control de acceso
+	private UsuarioRepository usuarioRepository;
+	private Perfil perfil;
+	private PerfilService perfilService;
+	// instancias para control de bitacora
+	private BitacoraService bitacoraService;
+	private Usuario usuario;
+	private PaisesService paisesService;
+	private GenerosService generoService;
 
-	public IdentidadGeneroController(BitacoraService bitacoraService,
-IdentidadGeneroService identidadGeneroService, PerfilService perfilService, UsuarioRepository usuarioRepository) {
+	public IdentidadGeneroController(BitacoraService bitacoraService, IdentidadGeneroService identidadGeneroService,
+			PerfilService perfilService, UsuarioRepository usuarioRepository, PaisesService paisesService,
+			GenerosService generoService) {
 		super();
 		this.identidadGeneroService = identidadGeneroService;
 		this.perfilService = perfilService;
-        this.usuarioRepository = usuarioRepository;
-        this.bitacoraService= bitacoraService;
-
+		this.usuarioRepository = usuarioRepository;
+		this.bitacoraService = bitacoraService;
+		this.paisesService = paisesService;
+		this.generoService = generoService;
 	}
 
-	 private void validarPerfil() {
+	private void validarPerfil() {
 
-			try {
-				Usuario usuario=new Usuario();
-				Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-			    String username = authentication.getName();
-			    this.usuario= new Usuario(usuarioRepository.findByCVCedula(username));
+		try {
+			Usuario usuario = new Usuario();
+			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+			String username = authentication.getName();
+			this.usuario = new Usuario(usuarioRepository.findByCVCedula(username));
 
-				this.perfil = new Perfil(perfilService.getPerfilById(usuarioRepository.findByCVCedula(username).getCIPerfil()));
+			this.perfil = new Perfil(
+					perfilService.getPerfilById(usuarioRepository.findByCVCedula(username).getCIPerfil()));
 
-			}catch (Exception e) {
-				// TODO: handle exception
-			}
-
+		} catch (Exception e) {
+			// TODO: handle exception
 		}
+
+	}
 
 	@GetMapping("/identidadgenero")
 	public String listStudents(Model model) {
 		model.addAttribute("identidadgenero", identidadGeneroService.getAllIdentidadGenero());
+		model.addAttribute("generos", generoService.obtencionGeneros(identidadGeneroService.getAllIdentidadGenero()));
+		model.addAttribute("paises",
+				paisesService.obtencionPaisesRelacionados(identidadGeneroService.getAllIdentidadGenero()));
 		return "identidadGeneros/identidadgenero";
 	}
 
@@ -77,16 +94,20 @@ IdentidadGeneroService identidadGeneroService, PerfilService perfilService, Usua
 
 		try {
 			this.validarPerfil();
-			if(!this.perfil.getCVRol().equals("Consulta")) {
+			if (!this.perfil.getCVRol().equals("Consulta")) {
 
 				IdentidadGenero identidadgenero = new IdentidadGenero();
+				Paises paises = new Paises();
+
 				model.addAttribute("identidadgenero", identidadgenero);
+				model.addAttribute("paises", paisesService.getAllPaises());
+				model.addAttribute("generos", generoService.getAllGeneros());
 				return "identidadGeneros/crear_identidad";
-			}else {
+			} else {
 				return "SinAcceso";
 			}
 
-		}catch (Exception e) {
+		} catch (Exception e) {
 			return "SinAcceso";
 		}
 	}
@@ -103,21 +124,25 @@ IdentidadGeneroService identidadGeneroService, PerfilService perfilService, Usua
 
 		try {
 			this.validarPerfil();
-			if(!this.perfil.getCVRol().equals("Consulta")) {
+			if (!this.perfil.getCVRol().equals("Consulta")) {
 
 				model.addAttribute("identidadgenero", identidadGeneroService.getIdentidadGeneroById(id));
+				model.addAttribute("paises", paisesService.getAllPaises());
+				model.addAttribute("generos", generoService.getAllGeneros());
 				return "identidadGeneros/edit_identidadgenero";
-			}else {
+			} else {
 				return "SinAcceso";
 			}
 
-		}catch (Exception e) {
+		} catch (Exception e) {
 			return "SinAcceso";
 		}
 	}
+
 	@PostMapping("/identidadgenero/{id}")
-	public String updateUsuario(@PathVariable Integer id,@ModelAttribute("identidadgenero") IdentidadGenero identidadgenero, Model model) {
-		IdentidadGenero existingIdentidadGenero= identidadGeneroService.getIdentidadGeneroById(id);
+	public String updateUsuario(@PathVariable Integer id,
+			@ModelAttribute("identidadgenero") IdentidadGenero identidadgenero, Model model) {
+		IdentidadGenero existingIdentidadGenero = identidadGeneroService.getIdentidadGeneroById(id);
 		existingIdentidadGenero.setId(id);
 		existingIdentidadGenero.setCedula(identidadgenero.getCedula());
 		existingIdentidadGenero.setGenero(identidadgenero.getGenero());
@@ -126,22 +151,26 @@ IdentidadGeneroService identidadGeneroService, PerfilService perfilService, Usua
 		identidadGeneroService.updateIdentidadGenero(identidadgenero);
 		return "redirect:/identidadgenero";
 	}
+
 	@GetMapping("/identidadgenero/{Id}")
 	public String deleteidentidadgenero(@PathVariable Integer Id) {
 
 		try {
 			this.validarPerfil();
-			if(!this.perfil.getCVRol().equals("Consulta")) {
-				//Bitacora bitacora=new Bitacora(this.usuario.getCI_Id(),this.usuario.getCVNombre(),this.perfil.getCVRol());
-				//bitacoraService.saveBitacora(bitacora);
+			if (!this.perfil.getCVRol().equals("Consulta")) {
+
+				String descripcion = "Elimino una identidad de genero";
+				Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), descripcion,
+						this.perfil.getCVRol());
+				bitacoraService.saveBitacora(bitacora);
 
 				identidadGeneroService.deleteIdentidadGeneroById(Id);
 				return "redirect:/identidadgenero";
-			}else {
+			} else {
 				return "SinAcceso";
 			}
 
-		}catch (Exception e) {
+		} catch (Exception e) {
 			return "SinAcceso";
 		}
 	}

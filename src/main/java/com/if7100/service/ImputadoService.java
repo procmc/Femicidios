@@ -1,5 +1,5 @@
 /**
- *
+ * 
  */
 package com.if7100.service;
 
@@ -15,13 +15,13 @@ public interface ImputadoService {
  List<Imputado> getAllUsuarios();
 
  Imputado saveImputado(Imputado imputado);
-
+ 
  Imputado getImputadoById(int id);
 
  Imputado updateImputado(Imputado imputado);
-
+ 
  void deleteImputadoById(int id);
-
+ 
  Imputado getImputadoByCVNombre(String CV_Nombre);
-
+ 
 }

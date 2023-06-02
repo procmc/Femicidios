@@ -59,8 +59,7 @@ public class LugarServiceImpl implements LugarService{
 
 
 
-    @Override
-	public List<Lugar> getAllLugar(){
+    public List<Lugar> getAllLugar(){
         List<Lugar> salida= lugarRepository.findAll();
 
         for (Lugar lugar : salida) {
@@ -78,8 +77,7 @@ public class LugarServiceImpl implements LugarService{
 
 
 
-    @Override
-	public List<Lugar> getAllLugares(Integer CI_Hecho){
+    public List<Lugar> getAllLugares(Integer CI_Hecho){
         List<Lugar> salida= lugarRepository.findByCIHecho(CI_Hecho);
 
         for (Lugar lugar : salida) {

@@ -1,5 +1,16 @@
 package com.if7100.controller;
 
+import com.if7100.entity.Bitacora; 
+import com.if7100.entity.Usuario;
+import com.if7100.service.BitacoraService;
+
+import com.if7100.entity.Hecho;
+import com.if7100.entity.Perfil;
+import com.if7100.entity.TipoRelacion;
+import com.if7100.repository.UsuarioRepository;
+import com.if7100.service.PerfilService;
+import com.if7100.service.TipoRelacionService;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -8,14 +19,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-
-import com.if7100.entity.Perfil;
-import com.if7100.entity.TipoRelacion;
-import com.if7100.entity.Usuario;
-import com.if7100.repository.UsuarioRepository;
-import com.if7100.service.BitacoraService;
-import com.if7100.service.PerfilService;
-import com.if7100.service.TipoRelacionService;
 
 @Controller
 public class TipoRelacionController {
@@ -40,9 +43,9 @@ TipoRelacionService tipoRelacionService, PerfilService perfilService, UsuarioRep
         this.bitacoraService= bitacoraService;
 
     }
-
+    
     private void validarPerfil() {
-
+    	
 		try {
 			Usuario usuario=new Usuario();
 			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -50,37 +53,37 @@ TipoRelacionService tipoRelacionService, PerfilService perfilService, UsuarioRep
 		    this.usuario= new Usuario(usuarioRepository.findByCVCedula(username));
 
 			this.perfil = new Perfil(perfilService.getPerfilById(usuarioRepository.findByCVCedula(username).getCIPerfil()));
-
+			
 		}catch (Exception e) {
 			// TODO: handle exception
 		}
-
+		
 	}
 
     @GetMapping("/tiporelaciones")
     public String listTipoRelaciones(Model model){
-
+    	
         model.addAttribute("tipoRelaciones", tipoRelacionService.getAllTipoRelaciones());
         return "tipoRelaciones/tipoRelaciones";
     }
 
     @GetMapping("/tiporelaciones/new")
     public String createTipoRelacionForm(Model model){
-
+    	
     	try {
 			this.validarPerfil();
 			if(!this.perfil.getCVRol().equals("Consulta")) {
-
+				
 				TipoRelacion tipoRelacion = new TipoRelacion();
 		        model.addAttribute("tipoRelacion", tipoRelacion);
 		        return "tipoRelacion/create_tipoRelacion";
 			}else {
 				return "SinAcceso";
 			}
-
+			
 		}catch (Exception e) {
 			return "SinAcceso";
-		}
+		}     
     }
 
     @PostMapping("/tiporelaciones")
@@ -91,19 +94,21 @@ TipoRelacionService tipoRelacionService, PerfilService perfilService, UsuarioRep
 
     @GetMapping("/tiporelaciones/{id}")
     public String deleteTipoRelaciones(@PathVariable Integer id){
-
+    	
     	try {
 			this.validarPerfil();
 			if(!this.perfil.getCVRol().equals("Consulta")) {
-				//Bitacora bitacora=new Bitacora(this.usuario.getCI_Id(),this.usuario.getCVNombre(),this.perfil.getCVRol());
-				//bitacoraService.saveBitacora(bitacora);
-
+				
+				String descripcion = "Elimino un tipo de relacion";
+				Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), descripcion, this.perfil.getCVRol());
+				bitacoraService.saveBitacora(bitacora);
+				
 				tipoRelacionService.deleteTipoRelacionById(id);
 		        return "redirect:/tiporelaciones";
 			}else {
 				return "SinAcceso";
 			}
-
+			
 		}catch (Exception e) {
 			return "SinAcceso";
 		}
@@ -114,13 +119,13 @@ TipoRelacionService tipoRelacionService, PerfilService perfilService, UsuarioRep
     	try {
 			this.validarPerfil();
 			if(!this.perfil.getCVRol().equals("Consulta")) {
-
+				
 				model.addAttribute("tipoRelacion", tipoRelacionService.getTipoRelacionById(id));
 		        return "tipoRelacion/edit_tipoRelacion";
 			}else {
 				return "SinAcceso";
 			}
-
+			
 		}catch (Exception e) {
 			return "SinAcceso";
 		}

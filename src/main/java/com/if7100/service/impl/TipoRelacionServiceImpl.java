@@ -1,12 +1,11 @@
 package com.if7100.service.impl;
 
-import java.util.List;
-
-import org.springframework.stereotype.Service;
-
 import com.if7100.entity.TipoRelacion;
 import com.if7100.repository.TipoRelacionRepository;
 import com.if7100.service.TipoRelacionService;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class TipoRelacionServiceImpl implements TipoRelacionService {

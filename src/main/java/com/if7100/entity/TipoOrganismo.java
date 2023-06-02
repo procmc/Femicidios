@@ -1,5 +1,5 @@
 /**
- *
+ * 
  */
 package com.if7100.entity;
 
@@ -22,27 +22,27 @@ public class TipoOrganismo {
 	public TipoOrganismo() {
 		// TODO Auto-generated constructor stub
 	}
-
-
+	
+	
 	public TipoOrganismo( String CVTitulo, String CVDescripcion) {
 		super();
 		this.CVTitulo = CVTitulo;
 		this.CVDescripcion = CVDescripcion;
 	}
-
-
+	
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer CI_Codigo;
-
+	
 	@Column (name = "CV_Titulo", nullable = false)
 	private String CVTitulo;
-
+	
 	@Column (name = "CV_Descripcion", nullable = false)
 	private String CVDescripcion;
-
-
-
+	
+	
+	
 	public Integer getCI_Codigo() {
 		return CI_Codigo;
 	}
@@ -66,5 +66,5 @@ public class TipoOrganismo {
 	public void setCVDescripcion(String cVDescripcion) {
 		CVDescripcion = cVDescripcion;
 	}
-
+	
 }

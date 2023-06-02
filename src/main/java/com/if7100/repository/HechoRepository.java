@@ -1,9 +1,8 @@
 package com.if7100.repository;
 
+import com.if7100.entity.Hecho;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
-import com.if7100.entity.Hecho;
 
 @Repository
 public interface HechoRepository extends JpaRepository<Hecho, Integer> {
@@ -19,5 +18,13 @@ public interface HechoRepository extends JpaRepository<Hecho, Integer> {
     Hecho findByCIIdVictima(Integer CIIdVictima);
 
     Hecho findByCIIdProceso(Integer CIIdProceso);
+
+    Hecho findByCVAgresionSexual(String CVAgresionSexual);
+
+    Hecho findByCVDenunciaPrevia(String CVDenunciaPrevia);
+
+    Hecho findByCIIdGenerador(Integer CIIdGenerador);
+
+    Hecho findByCDFecha(String CDFecha);
 
 }

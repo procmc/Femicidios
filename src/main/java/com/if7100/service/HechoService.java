@@ -1,12 +1,24 @@
 package com.if7100.service;
 
-import java.util.List;
+import com.if7100.entity.*;
 
-import com.if7100.entity.Hecho;
+import java.util.List;
 
 public interface HechoService {
 
     List<Hecho> getAllHechos();
+
+    List<Modalidad> getAllModalidades();
+
+    List<TipoRelacion> getAllTipoRelaciones();
+
+    List<TipoVictima> getAllTipoVictimas();
+
+    List<Organismo> getAllOrganismos();
+
+    List<Victima> getAllVictimas();
+
+    List<ProcesoJudicial> getAllProcesosJudiciales();
 
     Hecho saveHecho(Hecho hecho);
 
@@ -27,5 +39,13 @@ public interface HechoService {
     Hecho getHechoByCIIdVictima(Integer CIIdVictima);
 
     Hecho getHechoByCIIdProceso(Integer CIIdProceso);
+
+    Hecho getHechoByCVAgresionSexual(String CVAgresionSexual);
+
+    Hecho getHechoByCVDenunciaPrevia(String CVDenunciaPrevia);
+
+    Hecho getHechoByCIIdGenerador(Integer CIIdGenerador);
+
+    Hecho getHechoByCDFecha(String CDFecha);
 
 }

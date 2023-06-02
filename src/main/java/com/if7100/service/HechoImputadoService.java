@@ -1,8 +1,8 @@
 package com.if7100.service;
 
-import java.util.List;
-
 import com.if7100.entity.HechoImputado;
+
+import java.util.List;
 
 public interface HechoImputadoService {
 

@@ -1,5 +1,5 @@
 /**
- *
+ * 
  */
 package com.if7100.entity;
 
@@ -36,28 +36,28 @@ public class Usuario{
 
 	@Column(name = "CV_Apellidos", nullable = false)
 	private String CVApellidos;
-
+	
 	@Column(name = "CI_Perfil", nullable = false)
 	private int CIPerfil;
-
+	
 	@Column(name = "TC_Clave", nullable = false)
 	private String TCClave;
-
-
-
+	
+	
+	
 	/*@ManyToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
 	@JoinTable(
 			name="TA_Usuarios_Perfiles",
 			joinColumns= @JoinColumn(name="CI_Usuario_Id", referencedColumnName= "CI_Id"),
 			inverseJoinColumns=@JoinColumn(name="CI_Perfil_Id", referencedColumnName= "CI_Id")
 			)
-
+	
 	private Collection<Perfil> perfil;*/
 
 	public Usuario() {
 
 	}
-
+	
 	public Usuario(Usuario usuario) {
 		this.CI_Id = usuario.CI_Id;
 		this.CVCedula = usuario.CVCedula;
@@ -66,7 +66,7 @@ public class Usuario{
 		this.CIPerfil = usuario.CIPerfil;
 		this.TCClave = usuario.TCClave;
 	}
-
+	
 
 	public Usuario(String cVCedula, String cVNombre, String cVApellidos, int cIPerfil, String tCClave) {
 		super();
@@ -125,6 +125,6 @@ public class Usuario{
 	public void setCIPerfil(int cIPerfil) {
 		CIPerfil = cIPerfil;
 	}
-
+	
 }
 

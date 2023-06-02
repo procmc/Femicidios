@@ -33,16 +33,79 @@ public class Hecho {
     @Column(name = "CI_Id_Proceso", nullable = false)
     private Integer CIIdProceso;
 
+    @Column(name = "CV_Agresion_Sexual", nullable = false)
+    private String CVAgresionSexual;
+
+    @Column(name = "CV_Denuncia_Previa", nullable = false)
+    private String CVDenunciaPrevia;
+
+    @Column(name = "CI_Id_Generador", nullable = false)
+    private Integer CIIdGenerador;
+
+    @Column(name = "CD_Fecha", nullable = false)
+    private String CDFecha;
+
+    @Column(name = "CV_Detalles", nullable = false)
+    private String CVDetalles;
+
     public Hecho(){}
 
-    public Hecho(Integer CIPais, Integer CITipoVictima, Integer CITipoRelacion, Integer CIModalidad, Integer CIIdVictima, Integer CIIdProceso) {
-        super();
+    public Hecho(Integer CI_Id, Integer CITipoVictima, Integer CITipoRelacion, Integer CIModalidad,
+                 Integer CIIdVictima, Integer CIIdProceso, String CVAgresionSexual,
+                 String CVDenunciaPrevia, Integer CIIdGenerador, Integer CIPais,
+                 String CDFecha, String CVDetalles) {
+        this.CI_Id = CI_Id;
         this.CIPais = CIPais;
         this.CITipoVictima = CITipoVictima;
         this.CITipoRelacion = CITipoRelacion;
         this.CIModalidad = CIModalidad;
         this.CIIdVictima = CIIdVictima;
         this.CIIdProceso = CIIdProceso;
+        this.CVAgresionSexual = CVAgresionSexual;
+        this.CVDenunciaPrevia = CVDenunciaPrevia;
+        this.CIIdGenerador = CIIdGenerador;
+        this.CDFecha = CDFecha;
+        this.CVDetalles = CVDetalles;
+    }
+
+    public String getCVDetalles() {
+        return CVDetalles;
+    }
+
+    public void setCVDetalles(String CVDetalles) {
+        this.CVDetalles = CVDetalles;
+    }
+
+    public String getCDFecha() {
+        return CDFecha;
+    }
+
+    public void setCDFecha(String CDFecha) {
+        this.CDFecha = CDFecha;
+    }
+
+    public String getCVAgresionSexual() {
+        return CVAgresionSexual;
+    }
+
+    public void setCVAgresionSexual(String CVAgresionSexual) {
+        this.CVAgresionSexual = CVAgresionSexual;
+    }
+
+    public String getCVDenunciaPrevia() {
+        return CVDenunciaPrevia;
+    }
+
+    public void setCVDenunciaPrevia(String CVDenunciaPrevia) {
+        this.CVDenunciaPrevia = CVDenunciaPrevia;
+    }
+
+    public Integer getCIIdGenerador() {
+        return CIIdGenerador;
+    }
+
+    public void setCIIdGenerador(Integer CIIdGenerador) {
+        this.CIIdGenerador = CIIdGenerador;
     }
 
     public Integer getCIIdVictima() {

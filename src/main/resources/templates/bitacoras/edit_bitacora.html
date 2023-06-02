@@ -11,19 +11,19 @@
 </head>
 
 <body>
-<div class="row">
-		<div class="col-md-12">
-			<ul class="nav nav-pills flex-column flex-sm-row">
-				<li class="nav-item">
-					<a class="nav-link active" href="#">Inicio</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" th:href="@{bitacoras/bitacoras}">Bitacora</a>
-				</li>
-		
-			</ul>
-		</div>
-	</div>
+<!--<div class="row">-->
+<!--		<div class="col-md-12">-->
+<!--			<ul class="nav nav-pills flex-column flex-sm-row">-->
+<!--				<li class="nav-item">-->
+<!--					<a class="nav-link active" href="#">Inicio</a>-->
+<!--				</li>-->
+<!--				<li class="nav-item">-->
+<!--					<a class="nav-link" th:href="@{bitacoras/bitacoras}">Bitacora</a>-->
+<!--				</li>-->
+<!--		-->
+<!--			</ul>-->
+<!--		</div>-->
+<!--	</div>-->
 <br>
 <br>
 	<div class = "container">
@@ -31,7 +31,7 @@
 			<div class ="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
 				<h1 class = "text-center"> Actualizar bitacora </h1>
 				<div class = "card-body">
-					<form th:action="@{/bitacoras/{id} (id=${bitacora.CI_Id_Bitacora})}" th:object = "${bitacora}" method="POST">
+					<form th:action="@{/bitacoras/{id} (id=${bitacoras.CI_Id_Bitacora})}" th:object = "${bitacoras}" method="POST">
 						<div class ="form-group">
 							<label>Nombre del usuario</label>
 							<input
@@ -50,13 +50,27 @@
 							<label>Rol del usuario</label>
 							<input
 							type = "text"
-							name = "descripcion"
-							th:field = "*{CVDescripcion}"
+							name = "rol"
+							th:field = "*{CVRol}"
 							class = "form-control"
-							placeholder="Digite el del Usuario" 
+							placeholder="Digite el rol del Usuario" 
 							minlength="1"
                             maxlength="50"
                             required= "El campo rol del usuario es requerido"
+							/>
+						</div>
+						
+						<div class ="form-group">
+							<label>Descripcion del usuario</label>
+							<input
+							type = "text"
+							name = "descripcion"
+							th:field = "*{CVDescripcion}"
+							class = "form-control"
+							placeholder="Digite la descripcion de la accion del Usuario" 
+							minlength="1"
+                            maxlength="50"
+                            required= "El campo descripcion de la accion del usuario es requerido"
 							/>
 						</div>
 						

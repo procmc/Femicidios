@@ -1,14 +1,14 @@
 /**
- *
+ * 
  */
 package com.if7100.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 
 /**
  * @author David
@@ -17,7 +17,7 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "TA_Perfil")
 public class Perfil {
-
+	
 	public Perfil() {
 		// TODO Auto-generated constructor stub
 	}
@@ -26,12 +26,12 @@ public class Perfil {
         this.CVDescripcion = CV_Descripcion;
         this.CVRol = CV_rol;
     }
-
+    
     public Perfil(Perfil perfil) {
     	this.CVDescripcion = perfil.CVDescripcion;
         this.CVRol = perfil.CVRol;
 	}
-
+	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer CI_Id;

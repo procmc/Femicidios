@@ -1,16 +1,20 @@
 package com.if7100.service.impl;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
-import org.springframework.stereotype.Service;
-
+import com.if7100.entity.Hecho;
 import com.if7100.entity.HechoImputado;
+import com.if7100.entity.Lugar;
+import com.if7100.entity.TipoLugar;
 import com.if7100.repository.HechoImputadoRepository;
 import com.if7100.repository.HechoRepository;
 import com.if7100.repository.ImputadoRepository;
+import com.if7100.repository.HechoImputadoRepository;
 import com.if7100.service.HechoImputadoService;
+import com.if7100.service.HechoService;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class HechoImputadoServiceImpl implements HechoImputadoService {

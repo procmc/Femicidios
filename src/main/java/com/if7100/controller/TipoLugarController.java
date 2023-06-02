@@ -1,6 +1,11 @@
 package com.if7100.controller;
 
+import com.if7100.entity.Bitacora; 
+import com.if7100.entity.Usuario;
+import com.if7100.service.BitacoraService;
+
 import org.springframework.security.core.Authentication;
+
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;//para el controlador
 import org.springframework.ui.Model;
@@ -9,17 +14,16 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.if7100.entity.Perfil;
-import com.if7100.entity.TipoLugar;
-import com.if7100.entity.Usuario;
-import com.if7100.repository.UsuarioRepository;
-import com.if7100.service.BitacoraService;
 import com.if7100.service.PerfilService;
 /**
  * @author kendall B
  * Fecha: 11 de abril del 2023
  */
 import com.if7100.service.TipoLugarService;
+import com.if7100.entity.Hecho;
+import com.if7100.entity.Perfil;
+import com.if7100.entity.TipoLugar;
+import com.if7100.repository.UsuarioRepository;
 
 @Controller
 public class TipoLugarController {
@@ -43,9 +47,9 @@ TipoLugarService tipoLugarService, PerfilService perfilService, UsuarioRepositor
         this.bitacoraService= bitacoraService;
 
     }
-
+    
     private void validarPerfil() {
-
+    	
 		try {
 			Usuario usuario=new Usuario();
 
@@ -54,11 +58,11 @@ TipoLugarService tipoLugarService, PerfilService perfilService, UsuarioRepositor
 		    this.usuario= new Usuario(usuarioRepository.findByCVCedula(username));
 
 			this.perfil = new Perfil(perfilService.getPerfilById(usuarioRepository.findByCVCedula(username).getCIPerfil()));
-
+			
 		}catch (Exception e) {
 			// TODO: handle exception
 		}
-
+		
 	}
     //consultar
     @GetMapping("/tipolugares")//muestra el listado de usuarios
@@ -70,18 +74,18 @@ TipoLugarService tipoLugarService, PerfilService perfilService, UsuarioRepositor
 	//agregar
 	@GetMapping("/tipolugares/new")// envia el modelo a la pagina de crear usuario
 	public String CreateTipoLugarForm (Model model) {
-
+		
 		try {
 			this.validarPerfil();
 			if(!this.perfil.getCVRol().equals("Consulta")) {
-
+				
 				TipoLugar tipoLugar= new TipoLugar();
 				model.addAttribute("tipoLugar", tipoLugar);
 				return "tipoLugares/create_tipoLugar";
 			}else {
 				return "SinAcceso";
 			}
-
+			
 		}catch (Exception e) {
 			return "SinAcceso";
 		}
@@ -96,19 +100,21 @@ TipoLugarService tipoLugarService, PerfilService perfilService, UsuarioRepositor
 	//eliminar
 	@GetMapping("/tipolugares/{Codigo}")// envia el modelo a la pagina de crear usuario
 	public String deleteTipoLugar(@PathVariable Integer Codigo) {
-
+		
 		try {
 			this.validarPerfil();
 			if(!this.perfil.getCVRol().equals("Consulta")) {
-				//Bitacora bitacora=new Bitacora(this.usuario.getCI_Id(),this.usuario.getCVNombre(),this.perfil.getCVRol());
-				//bitacoraService.saveBitacora(bitacora);
-
+				
+				String descripcion = "Elimino un tipoLugar";
+				Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), descripcion, this.perfil.getCVRol());
+				bitacoraService.saveBitacora(bitacora);
+				
 				tipoLugarService.deleteTipoLugarByCodigo(Codigo);
 				return "redirect:/tipolugares";
 			}else {
 				return "SinAcceso";
 			}
-
+			
 		}catch (Exception e) {
 			return "SinAcceso";
 		}
@@ -117,17 +123,17 @@ TipoLugarService tipoLugarService, PerfilService perfilService, UsuarioRepositor
 	//modificar
 	@GetMapping("/tipolugares/edit/{Codigo}")// envia el modelo a la pagina de editar usuario
 	public String editTipoLugarForm (@PathVariable Integer Codigo,Model model) {
-
+		
 		try {
 			this.validarPerfil();
 			if(!this.perfil.getCVRol().equals("Consulta")) {
-
+				
 				model.addAttribute("tipoLugar", tipoLugarService.getTipoLugarByCodigo(Codigo));
 				return "tipoLugares/edit_tipoLugar";
 			}else {
 				return "SinAcceso";
 			}
-
+			
 		}catch (Exception e) {
 			return "SinAcceso";
 		}

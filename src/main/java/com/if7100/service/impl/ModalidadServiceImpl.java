@@ -1,12 +1,11 @@
 package com.if7100.service.impl;
 
-import java.util.List;
-
-import org.springframework.stereotype.Service;
-
 import com.if7100.entity.Modalidad;
 import com.if7100.repository.ModalidadRepository;
 import com.if7100.service.ModalidadService;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ModalidadServiceImpl implements ModalidadService {

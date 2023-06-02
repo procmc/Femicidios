@@ -1,8 +1,8 @@
 package com.if7100.service;
 
 import java.util.List;
-
 import com.if7100.entity.TipoLugar; //se debe importar para trabajar el usuario
+import com.if7100.entity.TipoRelacion;
 
 /**
  * @author kendall B
