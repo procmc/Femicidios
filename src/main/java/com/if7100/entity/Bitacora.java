@@ -1,10 +1,9 @@
 /**
- * 
+ *
  */
 package com.if7100.entity;
 
 
-import java.sql.Timestamp;
 import java.util.Date;
 
 /**
@@ -13,8 +12,6 @@ import java.util.Date;
  */
 
 import jakarta.persistence.Column;
-
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,9 +24,9 @@ import jakarta.persistence.Table;
 /**
  * Clase para el JPA Entity de la tabla femicidio.th_bitacora*/
 public class Bitacora {
-    
+
 	public Bitacora() {
-		
+
 	}
 	public Bitacora(Integer CIId, String CV_DNI_Usuario, String CV_Descripcion) {
 		super();
@@ -42,14 +39,14 @@ public class Bitacora {
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	private Integer CI_Id_Bitacora;
-	
+
 	@Column (name = "CI_Id", nullable = false)
 	private Integer CIId;
-	
-	
+
+
 	@Column (name = "CV_DNI_Usuario", nullable = false)
 	private String CVUsuario;
-	
+
 	@Column (name = "CV_Descripcion", nullable = false)
 	private String CVDescripcion;
 
@@ -62,7 +59,7 @@ public class Bitacora {
 		return CI_Id_Bitacora;
 	}
 
-	
+
 	/*public Connection getConexionBD() {
 		return conexionBD;
 	}
@@ -89,7 +86,7 @@ public class Bitacora {
 		CIId = cIId;
 	}
 
-	
+
 	public String getCVUsuario() {
 		return CVUsuario;
 	}
@@ -118,6 +115,6 @@ public class Bitacora {
 	public void setCTFecha(Date cTFecha) {
 		CTFecha = cTFecha;
 	}
-	
+
 
 }
