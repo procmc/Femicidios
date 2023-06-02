@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.if7100.entity;
 import jakarta.persistence.Column;
@@ -17,7 +17,7 @@ import jakarta.persistence.Table;
 public class OrientacionSexual {
 
 	/**
-	 * 
+	 *
 	 */
 	public OrientacionSexual() {
 		// TODO Auto-generated constructor stub
@@ -26,16 +26,16 @@ public class OrientacionSexual {
 		super();
 		this.CVTitulo = CVTitulo;
 		this.CVDescripcion = CVDescripcion;
-		
+
 	}
-	
+
 	@Id
 	@GeneratedValue (strategy=GenerationType.IDENTITY)
 	private int CI_Codigo;
-	
+
 	@Column(name="CV_Titulo",nullable=false)
 	private String CVTitulo;
-	
+
 	@Column(name="CV_Descripcion",nullable=false)
 	private String CVDescripcion;
 
@@ -57,8 +57,8 @@ public class OrientacionSexual {
 	public void setCVDescripcion(String cVDescripcion) {
 		CVDescripcion = cVDescripcion;
 	}
-	
-	
-	
+
+
+
 
 }
