@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.if7100.service;
 
@@ -14,14 +14,14 @@ import com.if7100.entity.Perfil;
 public interface PerfilService {
 
 	List<Perfil> getAllPerfiles();
-	
+
 	Perfil savePerfil (Perfil perfil);
-	
+
 	Perfil getPerfilById(Integer id);
-	
+
 	Perfil updatePerfil(Perfil perfil);
-	
+
 	void deletePerfilById(Integer id);
 
-	
+
 }

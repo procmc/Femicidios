@@ -1,11 +1,12 @@
 package com.if7100.service.impl;
 
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
 import com.if7100.entity.TipoVictima;
 import com.if7100.repository.TipoVictimaRepository;
 import com.if7100.service.TipoVictimaService;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class TipoVictimaServiceImpl implements TipoVictimaService {

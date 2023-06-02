@@ -1,12 +1,12 @@
 package com.if7100.service.impl;
 
-import com.if7100.entity.TipoRelacion;
+import java.util.List;
+
 import org.springframework.stereotype.Service;// para el implements
 
-import java.util.List;
-import com.if7100.service.TipoLugarService;
 import com.if7100.entity.TipoLugar;
 import com.if7100.repository.TipoLugarRepository;
+import com.if7100.service.TipoLugarService;
 
 /**
  * @author kendall B

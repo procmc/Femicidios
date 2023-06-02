@@ -1,13 +1,14 @@
 package com.if7100.controller;
 
-import com.if7100.entity.TipoRelacion;
-import com.if7100.repository.TipoRelacionRepository;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import com.if7100.entity.TipoRelacion;
+import com.if7100.repository.TipoRelacionRepository;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 
 public class TipoRelacionControllerTest {
@@ -52,5 +53,5 @@ public class TipoRelacionControllerTest {
         tipoRelacionConsultada = tipoRelacionRepository.findByCVTitulo(titulo);
         tipoRelacionRepository.deleteById(tipoRelacionConsultada.getCI_Codigo());
     }
-    
+
 }

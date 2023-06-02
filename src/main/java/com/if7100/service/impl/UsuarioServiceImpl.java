@@ -1,11 +1,12 @@
 /**
- * 
+ *
  */
 package com.if7100.service.impl;
 import java.util.List;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import com.if7100.entity.Usuario;
 import com.if7100.repository.UsuarioRepository;
 import com.if7100.service.UsuarioService;
@@ -17,38 +18,38 @@ import com.if7100.service.UsuarioService;
 @Service
 public class UsuarioServiceImpl implements UsuarioService{
 
-	
+
 
 	private UsuarioRepository usuarioRepository;
-	
-	
+
+
     public UsuarioServiceImpl(UsuarioRepository usuarioRepository) {
 		super();
 		this.usuarioRepository=usuarioRepository;
 	}
-    
+
     @Override
     public List<Usuario> getAllUsuarios(){
     	return usuarioRepository.findAll();
     }
-    
+
     @Override
     public Usuario saveUsuario(Usuario usuario){
     	usuario.setTCClave(new BCryptPasswordEncoder().encode(usuario.getTCClave()));
     	return usuarioRepository.save(usuario);
     }
-    
+
     @Override
     public Usuario getUsuarioById(Integer Id){
     	return usuarioRepository.findById(Id).get();
     }
-    
+
     @Override
     public Usuario updateUsuario(Usuario usuario){
     	usuario.setTCClave(new BCryptPasswordEncoder().encode(usuario.getTCClave()));
     	return usuarioRepository.save(usuario);
     }
-    
+
     @Override
     public void deleteUsuarioById(Integer Id){
     	 usuarioRepository.deleteById(Id);

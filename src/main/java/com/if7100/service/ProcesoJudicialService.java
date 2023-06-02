@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.if7100.service;
 
@@ -15,13 +15,13 @@ public interface ProcesoJudicialService {
  List<ProcesoJudicial> getAllProcesosJudiciales();
 
  ProcesoJudicial saveProcesoJudicial(ProcesoJudicial procesoJudicial);
- 
+
  ProcesoJudicial getProcesoJudicialById(int CI_Id);
 
  ProcesoJudicial updateProcesoJudicial(ProcesoJudicial procesoJudicial);
- 
+
  void deleteProcesoJudicialById(int CI_Id);
- 
+
  ProcesoJudicial getProcesoJudicialByCIDenunciante(int CI_Denunciante);
- 
+
 }

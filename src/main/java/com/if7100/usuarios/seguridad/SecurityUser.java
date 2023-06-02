@@ -1,16 +1,18 @@
 package com.if7100.usuarios.seguridad;
 
 import java.util.Collection;
-import lombok.AllArgsConstructor;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.if7100.entity.Usuario;
+
+import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class SecurityUser implements UserDetails {
 
 	private Usuario user;
-	
+
 	@Override
 	public String getUsername() {
 		return user.getCVCedula();
@@ -19,7 +21,7 @@ public class SecurityUser implements UserDetails {
 	public String getPassword() {
 		return user.getTCClave();
 	}
-	
+
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		// TODO Auto-generated method stub
@@ -49,10 +51,10 @@ public class SecurityUser implements UserDetails {
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
-	
-	
 
 
-	
+
+
+
+
 }

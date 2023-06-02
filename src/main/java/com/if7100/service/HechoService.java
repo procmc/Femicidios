@@ -1,8 +1,8 @@
 package com.if7100.service;
 
-import com.if7100.entity.Hecho;
-
 import java.util.List;
+
+import com.if7100.entity.Hecho;
 
 public interface HechoService {
 

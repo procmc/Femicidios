@@ -1,11 +1,12 @@
 package com.if7100.service.impl;
 
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
 import com.if7100.entity.Hecho;
 import com.if7100.repository.HechoRepository;
 import com.if7100.service.HechoService;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class HechoServiceImpl implements HechoService {

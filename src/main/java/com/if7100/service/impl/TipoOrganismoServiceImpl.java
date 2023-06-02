@@ -1,15 +1,16 @@
 /**
- * 
+ *
  */
 
 package com.if7100.service.impl;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import com.if7100.service.TipoOrganismoService;
 import com.if7100.entity.TipoOrganismo;
 import com.if7100.repository.TipoOrganismoRepository;
+import com.if7100.service.TipoOrganismoService;
 
 /**
  * @author Adam Smasher
@@ -19,7 +20,7 @@ import com.if7100.repository.TipoOrganismoRepository;
 public class TipoOrganismoServiceImpl implements TipoOrganismoService{
 
 	private TipoOrganismoRepository tipoOrganismoRepository;
-	
+
 	public TipoOrganismoServiceImpl (TipoOrganismoRepository tipoOrganismoRepository) {
 		super();
 		this.tipoOrganismoRepository = tipoOrganismoRepository;
@@ -48,14 +49,14 @@ public class TipoOrganismoServiceImpl implements TipoOrganismoService{
 	@Override
 	public void deleteTipoOrganismoByCodigo(Integer Codigo) {
 		tipoOrganismoRepository.deleteById(Codigo);
-		
+
 	}
 
 	@Override
 	public TipoOrganismo getTipoOrganismoByCVTitulo(String CVTitulo) {
 		return tipoOrganismoRepository.findByCVTitulo(CVTitulo);
 	}
- 	
-	
-	
+
+
+
 }

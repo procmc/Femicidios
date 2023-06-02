@@ -11,7 +11,7 @@ import com.if7100.repository.IdentidadGeneroRepository;
 import com.if7100.service.IdentidadGeneroService;
 
 /**
- * 
+ *
  * @author Michael Arauz Torrez
  * @since 21/04/2023
  */
@@ -33,7 +33,7 @@ public class IdentidadGeneroImplement implements IdentidadGeneroService {
 
 	@Override
 	public IdentidadGenero saveIdentidadGenero(IdentidadGenero identidadGenero) {
-	
+
 		return identidadGeneroRepository.save(identidadGenero);
 	}
 
@@ -51,7 +51,7 @@ public class IdentidadGeneroImplement implements IdentidadGeneroService {
 	@Override
 	public void deleteIdentidadGeneroById(Integer Id) {
 		identidadGeneroRepository.deleteById(Id);
-		
+
 	}
 
 }

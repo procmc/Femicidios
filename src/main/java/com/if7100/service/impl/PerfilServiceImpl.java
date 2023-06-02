@@ -14,9 +14,9 @@ import com.if7100.service.PerfilService;
  */
 @Service
 public class PerfilServiceImpl implements PerfilService{
-	
+
 	private PerfilRepository perfilRepository;
-	
+
 	public PerfilServiceImpl(PerfilRepository perfilRepository) {
 		super();
 		this.perfilRepository = perfilRepository;
@@ -45,7 +45,7 @@ public class PerfilServiceImpl implements PerfilService{
 	@Override
 	public void deletePerfilById(Integer id) {
 		perfilRepository.deleteById(id);
-		
+
 	}
-	
+
 }

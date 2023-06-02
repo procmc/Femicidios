@@ -1,8 +1,8 @@
 package com.if7100.service;
 
-import com.if7100.entity.TipoRelacion;
-
 import java.util.List;
+
+import com.if7100.entity.TipoRelacion;
 
 public interface TipoRelacionService {
 
