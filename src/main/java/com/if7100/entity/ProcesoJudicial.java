@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.if7100.entity;
 import java.util.Date;
@@ -22,12 +22,12 @@ import jakarta.persistence.TemporalType;
 public class ProcesoJudicial {
 
 	/**
-	 * 
+	 *
 	 */
 	public ProcesoJudicial() {
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	public ProcesoJudicial(int CI_Id, String CVEstado, int CIDenunciante, int CIPersonasImputadas, String CVPartes) {
 		super();
 		this.CI_Id = CI_Id;
@@ -36,28 +36,28 @@ public class ProcesoJudicial {
 		this.CIPersonasImputadas=CIPersonasImputadas;
 		this.CVPartes=CVPartes;
 	}
-	
+
 	@Id
 	@GeneratedValue (strategy=GenerationType.IDENTITY)
 	private int CI_Id;
-	
+
 	@Column(name="CV_Estado",nullable=false)
 	private String CVEstado;
-	
+
 	@Column(name="CI_Denunciante",nullable=false)
 	private int CIDenunciante;
-	
+
     @Temporal(TemporalType.TIMESTAMP)
 	@Column(name="CD_Fecha_Apertura")
 	private Date CDFechaApertura;
-	
+
 	@Column(name="CI_Personas_Imputadas",nullable=false)
 	private int CIPersonasImputadas;
-	
+
 	@Column(name="CV_Partes",nullable=false)
 	private String CVPartes;
 
-	
+
 
 	/**
 	 * @return the cI_IdProceso
@@ -142,11 +142,11 @@ public class ProcesoJudicial {
 	public void setCVPartes(String cVPartes) {
 		CVPartes = cVPartes;
 	}
-	
+
 	@PrePersist
     protected void onCreate() {
 		CDFechaApertura = new Date();
     }
-	
-	
+
+
 }
