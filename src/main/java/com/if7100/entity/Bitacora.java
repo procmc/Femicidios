@@ -50,7 +50,7 @@ public class Bitacora {
 
 	@Column (name = "CV_Rol", nullable = false)
 	private String CVRol;
-	
+
 	@Column (name = "CV_Descripcion", nullable = false)
 	private String CVDescripcion;
 

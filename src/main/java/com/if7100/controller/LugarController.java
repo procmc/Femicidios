@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.if7100.entity.Bitacora;
 /**
  * @author Julio Jarquin
  * Fecha: 20 de abril del 2023

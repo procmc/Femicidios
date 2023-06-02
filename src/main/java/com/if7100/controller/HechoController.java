@@ -1,6 +1,5 @@
 package com.if7100.controller;
 
-import com.if7100.entity.Bitacora;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

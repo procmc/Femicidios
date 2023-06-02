@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.if7100.entity.Bitacora;
 import com.if7100.entity.Perfil;
 import com.if7100.entity.TipoLugar;
 import com.if7100.entity.Usuario;

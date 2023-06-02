@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.if7100.entity.Bitacora;
 import com.if7100.entity.Perfil;
 import com.if7100.entity.ProcesoJudicial;
 import com.if7100.entity.Usuario;
@@ -96,7 +95,7 @@ private Usuario usuario;
 			if(!this.perfil.getCVRol().equals("Consulta")) {
 				//Bitacora bitacora=new Bitacora(this.usuario.getCI_Id(),this.usuario.getCVNombre(),this.perfil.getCVRol());
 				//bitacoraService.saveBitacora(bitacora);
-				
+
 				procesoJudicialService.deleteProcesoJudicialById(id);
 				return "redirect:/procesosJudiciales";
 			}else {
