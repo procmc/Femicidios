@@ -95,8 +95,8 @@ ImputadoService imputadoService, PerfilService perfilService, UsuarioRepository 
 	 try {
 			this.validarPerfil();
 			if(!this.perfil.getCVRol().equals("Consulta")) {
-				Bitacora bitacora=new Bitacora(this.usuario.getCI_Id(),this.usuario.getCVNombre(),this.perfil.getCVRol());
-				bitacoraService.saveBitacora(bitacora);
+				//Bitacora bitacora=new Bitacora(this.usuario.getCI_Id(),this.usuario.getCVNombre(),this.perfil.getCVRol());
+				//bitacoraService.saveBitacora(bitacora);
 
 				imputadoService.deleteImputadoById(id);
 				 return "redirect:/imputados";

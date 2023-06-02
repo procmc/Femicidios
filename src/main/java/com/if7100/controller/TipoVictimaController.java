@@ -95,8 +95,8 @@ TipoVictimaService tipoVictimaService, PerfilService perfilService, UsuarioRepos
     	try {
 			this.validarPerfil();
 			if(!this.perfil.getCVRol().equals("Consulta")) {
-				Bitacora bitacora=new Bitacora(this.usuario.getCI_Id(),this.usuario.getCVNombre(),this.perfil.getCVRol());
-				bitacoraService.saveBitacora(bitacora);
+				//Bitacora bitacora=new Bitacora(this.usuario.getCI_Id(),this.usuario.getCVNombre(),this.perfil.getCVRol());
+				//bitacoraService.saveBitacora(bitacora);
 
 				tipoVictimaService.deleteTipoVictimaById(id);
 		        return "redirect:/tipovictimas";

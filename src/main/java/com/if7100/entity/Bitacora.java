@@ -28,9 +28,10 @@ public class Bitacora {
 	public Bitacora() {
 
 	}
-	public Bitacora(Integer CIId, String CV_DNI_Usuario, String CV_Descripcion) {
+	public Bitacora(Integer CIId, String CV_DNI_Usuario, String CVRol, String CV_Descripcion, Date CTFecha) {
 		super();
 		this.CVUsuario = CV_DNI_Usuario;
+		this.CVRol= CVRol;
 		this.CVDescripcion = CV_Descripcion;
 		this.CIId = CIId;
 		this.CTFecha = new Date();
@@ -47,6 +48,9 @@ public class Bitacora {
 	@Column (name = "CV_DNI_Usuario", nullable = false)
 	private String CVUsuario;
 
+	@Column (name = "CV_Rol", nullable = false)
+	private String CVRol;
+	
 	@Column (name = "CV_Descripcion", nullable = false)
 	private String CVDescripcion;
 
@@ -58,19 +62,6 @@ public class Bitacora {
 	public Integer getCI_Id_Bitacora() {
 		return CI_Id_Bitacora;
 	}
-
-
-	/*public Connection getConexionBD() {
-		return conexionBD;
-	}
-	public void setConexionBD(Connection conexionBD) {
-		this.conexionBD = conexionBD;
-	}
-	public void Conexion() throws ClassNotFoundException, SQLException {
-		Class.forName("com.mysql.cj.jdbc.Driver");
-		java.sql.Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/femicidios","tishary","1234");
-		conexionBD= conexion;
-	}*/
 
 	public void setCI_Id_Bitacora(Integer cI_Id_Bitacora) {
 		CI_Id_Bitacora = cI_Id_Bitacora;
@@ -97,6 +88,13 @@ public class Bitacora {
 	}
 
 
+	public String getCVRol() {
+		return CVRol;
+	}
+
+	public void setCVRol(String cVRol) {
+		CVRol = cVRol;
+	}
 	public String getCVDescripcion() {
 		return CVDescripcion;
 	}

@@ -96,8 +96,8 @@ TipoRelacionService tipoRelacionService, PerfilService perfilService, UsuarioRep
     	try {
 			this.validarPerfil();
 			if(!this.perfil.getCVRol().equals("Consulta")) {
-				Bitacora bitacora=new Bitacora(this.usuario.getCI_Id(),this.usuario.getCVNombre(),this.perfil.getCVRol());
-				bitacoraService.saveBitacora(bitacora);
+				//Bitacora bitacora=new Bitacora(this.usuario.getCI_Id(),this.usuario.getCVNombre(),this.perfil.getCVRol());
+				//bitacoraService.saveBitacora(bitacora);
 
 				tipoRelacionService.deleteTipoRelacionById(id);
 		        return "redirect:/tiporelaciones";

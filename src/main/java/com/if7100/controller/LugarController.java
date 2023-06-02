@@ -92,8 +92,8 @@ LugarService lugarService, TipoLugarService tipoLugarService, HechoService hecho
     	try {
 			this.validarPerfil();
 			if(!this.perfil.getCVRol().equals("Consulta")) {
-				Bitacora bitacora=new Bitacora(this.usuario.getCI_Id(),this.usuario.getCVNombre(),this.perfil.getCVRol());
-				bitacoraService.saveBitacora(bitacora);
+				//Bitacora bitacora=new Bitacora(this.usuario.getCI_Id(),this.usuario.getCVNombre(),this.perfil.getCVRol());
+				//bitacoraService.saveBitacora(bitacora);
 
 				Integer idLugarHecho = (Integer) session.getAttribute("idLugarHecho");
 		        lugarService.deleteLugarById(Id);

@@ -107,8 +107,8 @@ PerfilService perfilService, UsuarioRepository usuarioRepository) {
 		try {
 			this.validarPerfil();
 			if(this.perfil.getCVRol().equals("Administrador")) {
-				Bitacora bitacora=new Bitacora(this.usuario.getCI_Id(),this.usuario.getCVNombre(),this.perfil.getCVRol());
-				bitacoraService.saveBitacora(bitacora);
+				//Bitacora bitacora=new Bitacora(this.usuario.getCI_Id(),this.usuario.getCVNombre(),this.perfil.getCVRol());
+				//bitacoraService.saveBitacora(bitacora);
 
 				perfilService.deletePerfilById(id);
 				return "redirect:/perfiles";

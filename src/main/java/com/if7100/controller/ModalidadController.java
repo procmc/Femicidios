@@ -1,6 +1,7 @@
 package com.if7100.controller;
 
 import org.springframework.security.core.Authentication;
+
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,13 +30,15 @@ public class ModalidadController {
     //instancias para control de bitacora
     private BitacoraService bitacoraService;
     private Usuario usuario;
+    private Bitacora bitacora1;
 
-    public ModalidadController(ModalidadService modalidadService, PerfilService perfilService, UsuarioRepository usuarioRepository, BitacoraService bitacoraService) {
+    public ModalidadController(Bitacora bitacora1,ModalidadService modalidadService, PerfilService perfilService, UsuarioRepository usuarioRepository, BitacoraService bitacoraService) {
         super();
         this.modalidadService = modalidadService;
         this.perfilService = perfilService;
         this.usuarioRepository = usuarioRepository;
         this.bitacoraService = bitacoraService;
+        this.bitacora1 = bitacora1;
     }
 
 private void validarPerfil() {
@@ -94,7 +97,8 @@ private void validarPerfil() {
 			if(!this.perfil.getCVRol().equals("Consulta")) {
 
 				//INSERTAR EN BITACORA
-				Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol());
+				bitacora1.setCVDescripcion("Se ha eliminado un dato de la entidad Modalidad");
+				Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), bitacora1.getCVDescripcion(),bitacora1.getCTFecha());
 
 				bitacoraService.saveBitacora(bitacora);
 				modalidadService.deleteModalidadById(id);

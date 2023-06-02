@@ -1,5 +1,6 @@
 package com.if7100.controller;
 
+import com.if7100.entity.Bitacora;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -43,6 +44,8 @@ public class HechoController {
   //instancias para control de bitacora
     private BitacoraService bitacoraService;
     private Usuario usuario;
+    private Bitacora bitacora1;
+
 
 
 //    public HechoController(HechoService hechoService) {
@@ -50,7 +53,7 @@ public class HechoController {
 //        this.hechoService = hechoService;
 //    }
 
-    public HechoController(HechoService hechoService, ModalidadService modalidadService,
+    public HechoController(Bitacora bitacora1,HechoService hechoService, ModalidadService modalidadService,
                            TipoVictimaService tipoVictimaService, TipoRelacionService tipoRelacionService,
                            VictimaService victimaService, ProcesoJudicialService procesoJudicialService, PerfilService perfilService, UsuarioRepository usuarioRepository,
                            BitacoraService bitacoraService)
@@ -65,6 +68,8 @@ public class HechoController {
         this.perfilService = perfilService;
         this.usuarioRepository = usuarioRepository;
         this.bitacoraService= bitacoraService;
+        this.bitacora1 = bitacora1;
+
     }
 
     private void validarPerfil() {
@@ -147,8 +152,8 @@ public class HechoController {
 
 				try {
 
-					Bitacora bitacora=new Bitacora(this.usuario.getCI_Id(),this.usuario.getCVNombre(),this.perfil.getCVRol());
-					bitacoraService.saveBitacora(bitacora);
+					bitacora1.setCVDescripcion("Se ha eliminado un dato de la entidad Hechos");
+					Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), bitacora1.getCVDescripcion(),bitacora1.getCTFecha());
 
 
 		            hechoService.deleteHechoById(id);

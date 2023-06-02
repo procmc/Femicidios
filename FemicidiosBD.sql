@@ -344,6 +344,7 @@ CREATE TABLE femicidios.TH_Bitacoras (
 CI_Id_Bitacora INTEGER NOT NULL AUTO_INCREMENT, 
 CI_Id INTEGER,
 CV_DNI_Usuario VARCHAR (50), 
+CV_Rol VARCHAR (50),
 CV_Descripcion VARCHAR (50), 
 CT_Fecha timestamp,
 foreign key(CI_Id) REFERENCES femicidios.ta_usuarios(CI_Id),
