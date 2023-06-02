@@ -1,17 +1,5 @@
 package com.if7100.controller;
 
-import com.if7100.entity.Bitacora; 
-import com.if7100.entity.Usuario;
-import com.if7100.service.BitacoraService;
-
-import com.if7100.entity.Hecho;
-import com.if7100.entity.HechoOrganismo;
-import com.if7100.entity.Perfil;
-import com.if7100.repository.UsuarioRepository;
-import com.if7100.service.HechoService;
-import com.if7100.service.OrganismoService;
-import com.if7100.service.PerfilService;
-import com.if7100.service.HechoOrganismoService;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,6 +9,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import com.if7100.entity.Bitacora;
+import com.if7100.entity.HechoOrganismo;
+import com.if7100.entity.Perfil;
+import com.if7100.entity.Usuario;
+import com.if7100.repository.UsuarioRepository;
+import com.if7100.service.BitacoraService;
+import com.if7100.service.HechoOrganismoService;
+import com.if7100.service.HechoService;
+import com.if7100.service.OrganismoService;
+import com.if7100.service.PerfilService;
 
 @Controller
 public class HechoOrganismoController {
@@ -49,22 +48,22 @@ HechoOrganismoService hechoOrganismoService, HechoService hechoService, Organism
         this.bitacoraService= bitacoraService;
 
     }
-    
+
     private void validarPerfil() {
-     	
+
 		try {
 			 Usuario usuario=new Usuario();
 			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		    String username = authentication.getName();
-		   
+
 		    this.usuario= new Usuario(usuarioRepository.findByCVCedula(username));
 
 			this.perfil = new Perfil(perfilService.getPerfilById(usuarioRepository.findByCVCedula(username).getCIPerfil()));
-			
+
 		}catch (Exception e) {
 			// TODO: handle exception
 		}
-		
+
 	}
 
     @GetMapping("/hechoorganismo")
@@ -87,11 +86,11 @@ HechoOrganismoService hechoOrganismoService, HechoService hechoService, Organism
 
     @GetMapping("hechoorganismo/new")
     public String createHechoOrganismoForm(Model model){
-    	
+
     	try {
 			this.validarPerfil();
 			if(!this.perfil.getCVRol().equals("Consulta")) {
-				
+
 				 HechoOrganismo hechoOrganismo = new HechoOrganismo();
 			     model.addAttribute("hechoOrganismo", hechoOrganismo);
 			     model.addAttribute("hechos", hechoService.getAllHechos());
@@ -100,7 +99,7 @@ HechoOrganismoService hechoOrganismoService, HechoService hechoService, Organism
 			}else {
 				return "SinAcceso";
 			}
-			
+
 		}catch (Exception e) {
 			return "SinAcceso";
 		}
@@ -108,11 +107,11 @@ HechoOrganismoService hechoOrganismoService, HechoService hechoService, Organism
 
     @GetMapping("/hechosorganismo/new/{Id}")
     public String createHechosOrganismoForm(Model model, @PathVariable Integer Id) {
-    	
+
     	try {
 			this.validarPerfil();
 			if(!this.perfil.getCVRol().equals("Consulta")) {
-				
+
 				 HechoOrganismo hechoOrganismo = new HechoOrganismo();
 			     hechoOrganismo.setCIHecho(Id);
 			     model.addAttribute("hechoOrganismo", hechoOrganismo);
@@ -122,7 +121,7 @@ HechoOrganismoService hechoOrganismoService, HechoService hechoService, Organism
 			}else {
 				return "SinAcceso";
 			}
-			
+
 		}catch (Exception e) {
 			return "SinAcceso";
 		}
@@ -130,11 +129,11 @@ HechoOrganismoService hechoOrganismoService, HechoService hechoService, Organism
 
     @GetMapping("/hechoorganismos/new/{Id}")
     public String createHechoOrganismosForm(Model model, @PathVariable Integer Id){
-    	
+
     	try {
 			this.validarPerfil();
 			if(!this.perfil.getCVRol().equals("Consulta")) {
-				
+
 				 HechoOrganismo hechoOrganismo = new HechoOrganismo();
 			        hechoOrganismo.setCIOrganismo(Id);
 			        model.addAttribute("hechoOrganismo", hechoOrganismo);
@@ -144,7 +143,7 @@ HechoOrganismoService hechoOrganismoService, HechoService hechoService, Organism
 			}else {
 				return "SinAcceso";
 			}
-			
+
 		}catch (Exception e) {
 			return "SinAcceso";
 		}
@@ -152,19 +151,19 @@ HechoOrganismoService hechoOrganismoService, HechoService hechoService, Organism
 
     @GetMapping("/hechoorganismo/{id}")
     public String deleteHecho(@PathVariable Integer id){
-    	
+
     	try {
 			this.validarPerfil();
 			if(!this.perfil.getCVRol().equals("Consulta")) {
 				Bitacora bitacora=new Bitacora(this.usuario.getCI_Id(),this.usuario.getCVNombre(),this.perfil.getCVRol());
 				bitacoraService.saveBitacora(bitacora);
-				
+
 				hechoOrganismoService.deleteHechoOrganismoById(id);
 		        return "redirect:/hechoorganismo";
 			}else {
 				return "SinAcceso";
 			}
-			
+
 		}catch (Exception e) {
 			return "SinAcceso";
 		}
