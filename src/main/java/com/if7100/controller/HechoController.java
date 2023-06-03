@@ -161,7 +161,7 @@ public class HechoController {
 		            hechoService.deleteHechoById(id);
 		        } catch (DataIntegrityViolationException e) {
 
-		            String mensaje = "Error, No se puede eliminar un hecho si tiene lugares registrados en el";
+		            String mensaje = "Error, No se puede eliminar un hecho si tiene un lugar registrado";
                     model.addAttribute("error_message", mensaje);
                     model.addAttribute("error", true);
                     return listHechos(model);
