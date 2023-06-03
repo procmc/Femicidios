@@ -26,12 +26,12 @@ public class NivelEducativo {
 	public NivelEducativo() {
 		// TODO Auto-generated constructor stub
 	}
-	public NivelEducativo(String CV_Titulo, String CV_Descripcion, Integer CI_Pais) {
+	public NivelEducativo(String CV_Titulo, String CV_Descripcion) {
 		
 		super();
 		this.CVTitulo = CV_Titulo;
 		this.CVDescripcion = CV_Descripcion;
-		this.CI_Pais = CI_Pais;
+		
 		
 	}
 	@Id
@@ -43,9 +43,7 @@ public class NivelEducativo {
 	
 	@Column (name = "CV_Descripcion", nullable = false)
 	private String CVDescripcion;
-	
-	@Column (name = "CI_Pais", nullable = false)
-	private Integer CI_Pais ;
+
 	
 	public Integer getCI_Id() {
 		return CI_Id;
@@ -65,12 +63,8 @@ public class NivelEducativo {
 	public void setCVDescripcion(String cV_Descripcion) {
 		CVDescripcion = cV_Descripcion;
 	}
-	public Integer getCI_Pais() {
-		return CI_Pais;
-	}
-	public void setCI_Pais(Integer cI_Pais) {
-		CI_Pais = cI_Pais;
-	}
+	
+	
 		
 		
 	}

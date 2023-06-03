@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="ISO-8859-1">
-  <title>Actualizar TipoLugares</title>
+  <title>Actualizar tipo de lugar</title>
   <link rel="stylesheet"
         href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
@@ -11,25 +11,25 @@
     <th th:insert="~{header}"></th>
 </head>
 <body>
-<div class="row">
-  <div class="col-md-12">
-    <ul class="nav nav-pills flex-column flex-sm-row">
-      <li class="nav-item">
-        <a class="nav-link active" href="#">Inicio</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" th:href="@{/tipolugares}">TipoLugares</a>
-      </li>
+<!--<div class="row">-->
+<!--  <div class="col-md-12">-->
+<!--    <ul class="nav nav-pills flex-column flex-sm-row">-->
+<!--      <li class="nav-item">-->
+<!--        <a class="nav-link active" href="#">Inicio</a>-->
+<!--      </li>-->
+<!--      <li class="nav-item">-->
+<!--        <a class="nav-link" th:href="@{/tipolugares}">TipoLugares</a>-->
+<!--      </li>-->
 
-    </ul>
-  </div>
-</div>
+<!--    </ul>-->
+<!--  </div>-->
+<!--</div>-->
 <br>
 <br>
 <div class = "container">
   <div class = "row">
     <div class ="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
-      <h1 class = "text-center"> Actualizar TipoRelacion </h1>
+      <h1 class = "text-center"> Actualizar tipo de lugar </h1>
       <div class = "card-body">
         <form th:action="@{/tipolugares/{id} (id=${tipoLugar.CI_Codigo})}" th:object = "${tipoLugar}" method="POST">
           <div class ="form-group">
@@ -53,7 +53,7 @@
                     class = "form-control"
                     placeholder="Digite la descripcion del tipo de lugar"
                     maxlength="80"
-                    required 
+                   
             />
           </div>
 

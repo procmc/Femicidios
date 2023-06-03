@@ -3,6 +3,10 @@
  */
 package com.if7100.controller;
 
+import com.if7100.entity.Bitacora; 
+import com.if7100.entity.Usuario;
+import com.if7100.service.BitacoraService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -36,24 +40,33 @@ public class UsuarioController {
     private UsuarioRepository usuarioRepository;
     private Perfil perfil;
     private PerfilService perfilService;
+  //instancias para control de bitacora
+    private BitacoraService bitacoraService;
+    private Usuario usuario;
+
 
 //prueba
 //private SessionRegistry sessionRegistry;
  
- public UsuarioController(UsuarioService usuarioService, PerfilService perfilService, UsuarioRepository usuarioRepository) {
+ public UsuarioController(BitacoraService bitacoraService,
+UsuarioService usuarioService, PerfilService perfilService, UsuarioRepository usuarioRepository) {
 	 super();
 	 this.usuarioService=usuarioService;
 	 this.perfilService = perfilService;
      this.usuarioRepository = usuarioRepository;
+     this.bitacoraService= bitacoraService;
+
  }
  
  private void validarPerfil() {
  	
 		try {
-			
+			Usuario usuario=new Usuario();
+
 			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		    String username = authentication.getName();
-			
+		    this.usuario= new Usuario(usuarioRepository.findByCVCedula(username));
+
 			this.perfil = new Perfil(perfilService.getPerfilById(usuarioRepository.findByCVCedula(username).getCIPerfil()));
 			
 		}catch (Exception e) {
@@ -126,6 +139,10 @@ public class UsuarioController {
 	 try {
 			this.validarPerfil();
 			if(this.perfil.getCVRol().equals("Administrador")) {
+				
+				String descripcion = "Elimino un usuario";
+				Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), descripcion, this.perfil.getCVRol());
+				bitacoraService.saveBitacora(bitacora);
 				
 				usuarioService.deleteUsuarioById(Id);
 				return "redirect:/usuarios?Exito";

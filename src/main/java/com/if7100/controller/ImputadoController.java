@@ -1,5 +1,8 @@
 package com.if7100.controller;
 
+import com.if7100.entity.*;
+import com.if7100.service.*;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -9,12 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.if7100.entity.Hecho;
-import com.if7100.entity.Imputado;
-import com.if7100.entity.Perfil;
 import com.if7100.repository.UsuarioRepository;
-import com.if7100.service.ImputadoService;
-import com.if7100.service.PerfilService;
 
 @Controller
 public class ImputadoController {
@@ -24,21 +22,39 @@ public class ImputadoController {
  private UsuarioRepository usuarioRepository;
  private Perfil perfil;
  private PerfilService perfilService;
+//instancias para control de bitacora
+private BitacoraService bitacoraService;
+private Usuario usuario;
+
+private OrientacionSexualService orientacionSexualService;
+
+private OrientacionSexual orientacionSexual;
+private IdentidadGeneroService identidadGeneroService;
+
+private IdentidadGenero identidadGenero;
  
- public ImputadoController (ImputadoService imputadoService, PerfilService perfilService, UsuarioRepository usuarioRepository) {
+ public ImputadoController (BitacoraService bitacoraService,
+ImputadoService imputadoService, PerfilService perfilService, UsuarioRepository usuarioRepository,
+							IdentidadGeneroService identidadGeneroService,OrientacionSexualService orientacionSexualService) {
 	 super();
 	 this.imputadoService=imputadoService;
 	 this.perfilService = perfilService;
      this.usuarioRepository = usuarioRepository;
+     this.bitacoraService= bitacoraService;
+	 this.identidadGeneroService= identidadGeneroService;
+	 this.orientacionSexualService= orientacionSexualService;
+
  }
  
  private void validarPerfil() {
  	
 		try {
-			
+			Usuario usuario=new Usuario();
+
 			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		    String username = authentication.getName();
-			
+		    this.usuario= new Usuario(usuarioRepository.findByCVCedula(username));
+
 			this.perfil = new Perfil(perfilService.getPerfilById(usuarioRepository.findByCVCedula(username).getCIPerfil()));
 			
 		}catch (Exception e) {
@@ -49,8 +65,8 @@ public class ImputadoController {
  
  @GetMapping("/imputados")
  public String ListImputados(Model model) {
-	 
-	 model.addAttribute("imputados",imputadoService.getAllUsuarios());
+
+	 model.addAttribute("imputados",imputadoService.getAllImputados());
 	 return "imputados/imputados";
  }
  
@@ -60,7 +76,8 @@ public class ImputadoController {
 	 try {
 			this.validarPerfil();
 			if(!this.perfil.getCVRol().equals("Consulta")) {
-				
+				model.addAttribute("orientacionSexual",orientacionSexualService.getAllOrientacionesSexuales());
+				model.addAttribute("identidadGenero",identidadGeneroService.getAllIdentidadGenero());
 				model.addAttribute("imputado",new Imputado());
 				return "imputados/create_imputado";
 			}else {
@@ -85,6 +102,10 @@ public class ImputadoController {
 			this.validarPerfil();
 			if(!this.perfil.getCVRol().equals("Consulta")) {
 				
+				String descripcion = "Elimino un imputados";
+				Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), descripcion, this.perfil.getCVRol());
+				bitacoraService.saveBitacora(bitacora);
+				
 				imputadoService.deleteImputadoById(id);
 				 return "redirect:/imputados";
 			}else {
@@ -102,7 +123,8 @@ public class ImputadoController {
 	 try {
 			this.validarPerfil();
 			if(!this.perfil.getCVRol().equals("Consulta")) {
-				
+				model.addAttribute("orientacionSexual",orientacionSexualService.getAllOrientacionesSexuales());
+				model.addAttribute("identidadGenero",identidadGeneroService.getAllIdentidadGenero());
 				model.addAttribute("imputado", imputadoService.getImputadoById(id));
 				return "imputados/edit_imputado";
 			}else {

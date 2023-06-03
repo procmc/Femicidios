@@ -7,22 +7,23 @@
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
 	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
 	crossorigin="anonymous">
+	<th th:insert="~{header}"></th>
 </head>
 <body>
 
-<div class="row">
-		<div class="col-md-12">
-			<ul class="nav nav-pills flex-column flex-sm-row">
-				<li class="nav-item">
-					<a class="nav-link active" href="#">Inicio</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" th:href="@{/nivelEducativo}">Nivel educativo</a>
-				</li>
-		
-			</ul>
-		</div>
-	</div>
+<!--<div class="row">-->
+<!--		<div class="col-md-12">-->
+<!--			<ul class="nav nav-pills flex-column flex-sm-row">-->
+<!--				<li class="nav-item">-->
+<!--					<a class="nav-link active" href="#">Inicio</a>-->
+<!--				</li>-->
+<!--				<li class="nav-item">-->
+<!--					<a class="nav-link" th:href="@{/nivelEducativo}">Nivel educativo</a>-->
+<!--				</li>-->
+<!--		-->
+<!--			</ul>-->
+<!--		</div>-->
+<!--	</div>-->
 	
 <br>
 <br>
@@ -42,7 +43,7 @@
 							placeholder="Digite el nombre de nivel educativo" 
 							 required="El campo nivel educativo es requerido." 
 							 min="1" maxlength="50" />
-							/>
+							
 						</div>
 						
 						<div class ="form-group">
@@ -55,16 +56,7 @@
 							placeholder="Digite la descripcion del nivel educativo" 
 							 maxlength="75"
 							/>
-						</div>
-							<div class ="form-group">
-							<label>Pais</label>
-							<input
-							type = "text"
-							name = "Pais"
-							th:field = "*{CI_Pais}"
-							class = "form-control"
-							placeholder="Digite el pais" 
-							/>
+						
 						</div>
 				
 						

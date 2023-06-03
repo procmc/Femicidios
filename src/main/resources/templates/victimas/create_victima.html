@@ -12,19 +12,19 @@
 </head>
 <body>
 
-<div class="row">
-		<div class="col-md-14">
-			<ul class="nav nav-pills flex-column flex-sm-row">
-				<li class="nav-item">
-					<a class="nav-link active" href="#">Inicio</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" th:href="@{/victima}">Victima</a>
-				</li>
-		
-			</ul>
-		</div>
-	</div>
+<!--<div class="row">-->
+<!--		<div class="col-md-14">-->
+<!--			<ul class="nav nav-pills flex-column flex-sm-row">-->
+<!--				<li class="nav-item">-->
+<!--					<a class="nav-link active" href="#">Inicio</a>-->
+<!--				</li>-->
+<!--				<li class="nav-item">-->
+<!--					<a class="nav-link" th:href="@{/victima}">Victima</a>-->
+<!--				</li>-->
+<!--		-->
+<!--			</ul>-->
+<!--		</div>-->
+<!--	</div>-->
 	
 <br>
 <br>
@@ -115,7 +115,7 @@
 		
 						
 						
-							
+							'
 						<div class ="form-group">
 							<label>Lugar de Nacimiento</label>
 							<input
@@ -133,14 +133,167 @@
 								<label>Orientacion Sexual</label>
 							<select th:field="*{CVOrientaSex}">
    							 	<option th:value="'1'" th:text="Lesbiana"></option>
-  							 	 <option th:value="'2'" th:text="Gay"></option>
-  							 	 <option th:value="'3'" th:text="Heterosexual"></option>
-  							 	 <option th:value="'4'" th:text="Bisexual"></option>
-  							 	  <option th:value="'5'" th:text="Asexual"></option>
-  							 	   <option th:value="'6'" th:text="Otro"></option>
-  							 	   
-  							 	   
+  							 	<option th:value="'2'" th:text="Gay"></option>
+  							 	<option th:value="'3'" th:text="Heterosexual"></option>
+  							 	<option th:value="'4'" th:text="Bisexual"></option>
+  							 	<option th:value="'5'" th:text="Asexual"></option>
+  							    <option th:value="'6'" th:text="Otro"></option>     
 							</select>
+						</div>
+						
+						<div class ="form-group">
+							<label>Nacionalidad</label>
+							<input
+							type = "text"
+							name = "nacionalidad"
+							th:field = "*{CVNacionalidad}"
+							class = "form-control"
+							placeholder="Digite la nacionalidad de la victima" 
+							maxlength="50"
+                   		 	required
+							/>
+						</div>
+						
+<!--						<div class ="form-group"> -->
+<!--								<label>Educación</label>-->
+<!--							<select th:field="*{CVOrientaSex}">-->
+<!--   							 	<option th:value="'1'" th:text="Primera Infancia"></option>-->
+<!--  							 	<option th:value="'2'" th:text="Preescolar"></option>-->
+<!--  							 	<option th:value="'3'" th:text="Primaria"></option>-->
+<!--  							 	<option th:value="'4'" th:text="Secundaria baja"></option>-->
+<!--  							 	<option th:value="'5'" th:text="Secundaria alta"></option>-->
+<!--  							    <option th:value="'6'" th:text="Postsecundaria no terciaria"></option>-->
+<!--  							    <option th:value="'3'" th:text="Terciaria"></option>-->
+<!--  							 	<option th:value="'4'" th:text="Grado"></option>-->
+<!--  							 	<option th:value="'5'" th:text="Maestria"></option>-->
+<!--  							    <option th:value="'6'" th:text="Doctorado"></option>  -->
+<!--  							    <option th:value="'6'" th:text="Se desconoce"></option>   -->
+<!--							</select>-->
+<!--						</div>-->
+						
+						<div class ="form-group">
+							<label>Ocupación</label>
+							<input
+							type = "text"
+							name = "Ocupacion"
+							th:field = "*{CVOcupacion}"
+							class = "form-control"
+							placeholder="Digite la ocupacion de la victima" 
+							maxlength="50"
+                   		 	required
+							/>
+						</div>
+						
+						<div class ="form-group">
+							<label>Domicilio</label>
+							<input
+							type = "text"
+							name = "domicilio"
+							th:field = "*{CVDomicilio}"
+							class = "form-control"
+							placeholder="Digite el domicilio de la victima" 
+							maxlength="100"
+                   		 	required
+							/>
+						</div>
+						
+						<div class ="form-group">
+							<label>Lugar de residencia</label>
+							<input
+							type = "text"
+							name = "lugarResidencia"
+							th:field = "*{CVLugarResidencia}"
+							class = "form-control"
+							placeholder="Digite el lugar de residencia de la victima" 
+							maxlength="100"
+                   		 	required
+							/>
+						</div>
+						
+						<div class ="form-group">
+							<label>Discapacidad</label>
+							<input
+							type = "text"
+							name = "discapacidad"
+							th:field = "*{CVDiscapacidad}"
+							class = "form-control"
+							placeholder="Digite si la victima tiene alguna discapacidad" 
+							maxlength="50"
+                   		 	required
+							/>
+						</div>
+						
+						<div class ="form-group">
+							<label>Condicion migratoria</label>
+							<input
+							type = "text"
+							name = "condicionMigratoria"
+							th:field = "*{CVCondicionMigratoria}"
+							class = "form-control"
+							placeholder="Digite la condicion migratoria de la victima" 
+							maxlength="50"
+                   		 	required
+							/>
+						</div>
+						
+						<div class ="form-group">
+							<label>Etnia</label>
+							<input
+							type = "text"
+							name = "etnia"
+							th:field = "*{CVEtnia}"
+							class = "form-control"
+							placeholder="Digite la etnia de la victima" 
+							maxlength="50"
+                   		 	required
+							/>
+						</div>
+						
+						<div class ="form-group">
+							<label>Medidas de protección</label>
+							<input
+							type = "text"
+							name = "medidasProteccion"
+							th:field = "*{CVMedidasProteccion}"
+							class = "form-control"
+							placeholder="Digite las medidas de proteccion de la victima" 
+							maxlength="50"
+                   		 	required
+							/>
+						</div>
+						
+						<div class ="form-group">
+							<label>Denuncias previas</label>
+							<input
+							type = "text"
+							name = "denunciaPrevias"
+							th:field = "*{CVDenunciasPrevias}"
+							class = "form-control"
+							placeholder="Digite si la victima posee denuncias previas" 
+							maxlength="50"
+                   		 	required
+							/>
+						</div>
+						
+						<div class ="form-group"> 
+								<label>Hijos</label>
+							<select th:field="*{CIHijos}">
+   							 	<option th:value="'1'" th:text="Si"></option>
+  							 	<option th:value="'2'" th:text="No"></option>
+  							 	</select>
+						</div>
+						
+						<div class ="form-group">
+							<label>Generador</label>
+							<input
+							type = "text"
+							name = "generador"
+							th:field = "*{CVGenerador}"
+							class = "form-control"
+							placeholder="Digite información para identificar al organismo que genera los datos de la victima" 
+							maxlength="50"
+                   		 	required
+							/>
 						</div>
 						
 						<div class = "box-footer">

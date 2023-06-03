@@ -28,7 +28,7 @@ public class Imputado {
 	
 	
 	public Imputado(String cV_DNI, String cVNombre, String cVGenero, String cVOrientacionSexual, String cIEdad,
-			String cVLugarNacimiento) {
+			String cVLugarNacimiento, String CVPais) {
 		super();
 		this.CVDni = cV_DNI;
 		this.CVNombre = cVNombre;
@@ -36,6 +36,7 @@ public class Imputado {
 		this.CVOrientacionSexual = cVOrientacionSexual;
 		this.CIEdad = cIEdad;
 		this.CVLugarNacimiento = cVLugarNacimiento;
+		this.CVPais = CVPais;
 	}
 
 

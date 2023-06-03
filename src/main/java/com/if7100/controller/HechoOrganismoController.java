@@ -1,8 +1,8 @@
 package com.if7100.controller;
 
-import com.if7100.entity.Hecho;
-import com.if7100.entity.HechoOrganismo;
-import com.if7100.entity.Perfil;
+import com.if7100.entity.*;
+import com.if7100.service.BitacoraService;
+
 import com.if7100.repository.UsuarioRepository;
 import com.if7100.service.HechoService;
 import com.if7100.service.OrganismoService;
@@ -29,23 +29,32 @@ public class HechoOrganismoController {
     private UsuarioRepository usuarioRepository;
     private Perfil perfil;
     private PerfilService perfilService;
+  //instancias para control de bitacora
+    private BitacoraService bitacoraService;
+    private Usuario usuario;
 
-    public HechoOrganismoController(HechoOrganismoService hechoOrganismoService, HechoService hechoService, OrganismoService organismoService, PerfilService perfilService, UsuarioRepository usuarioRepository){
+
+    public HechoOrganismoController(BitacoraService bitacoraService,
+HechoOrganismoService hechoOrganismoService, HechoService hechoService, OrganismoService organismoService, PerfilService perfilService, UsuarioRepository usuarioRepository){
         super();
         this.hechoOrganismoService = hechoOrganismoService;
         this.hechoService = hechoService;
         this.organismoService = organismoService;
         this.perfilService = perfilService;
         this.usuarioRepository = usuarioRepository;
+        this.bitacoraService= bitacoraService;
+
     }
     
     private void validarPerfil() {
      	
 		try {
-			
+			 Usuario usuario=new Usuario();
 			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		    String username = authentication.getName();
-			
+		   
+		    this.usuario= new Usuario(usuarioRepository.findByCVCedula(username));
+
 			this.perfil = new Perfil(perfilService.getPerfilById(usuarioRepository.findByCVCedula(username).getCIPerfil()));
 			
 		}catch (Exception e) {
@@ -105,7 +114,7 @@ public class HechoOrganismoController {
 			     model.addAttribute("hechoOrganismo", hechoOrganismo);
 			     model.addAttribute("hechos", hechoService.getAllHechos());
 			     model.addAttribute("organismos", organismoService.getAllOrganismos());
-			     return "hechosOrganismos/create_hechos_Organismo";
+			     return "hechosOrganismos/create_hechos_organismo";
 			}else {
 				return "SinAcceso";
 			}
@@ -143,6 +152,10 @@ public class HechoOrganismoController {
     	try {
 			this.validarPerfil();
 			if(!this.perfil.getCVRol().equals("Consulta")) {
+				
+				String descripcion = "Elimino en hecho de organismo";
+				Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), descripcion, this.perfil.getCVRol());
+				bitacoraService.saveBitacora(bitacora);
 				
 				hechoOrganismoService.deleteHechoOrganismoById(id);
 		        return "redirect:/hechoorganismo";
@@ -191,6 +204,43 @@ public class HechoOrganismoController {
             model.addAttribute("error_message", mensaje);
             model.addAttribute("error", true);
             return createHechoOrganismosForm(model, hechoOrganismo.getCIOrganismo());
+        }
+    }
+
+    @GetMapping("/hechoorganismo/edit/{id}")
+    public String editHechoOrganismoForm(@PathVariable Integer id, Model model){
+
+        try {
+            this.validarPerfil();
+            if(!this.perfil.getCVRol().equals("Consulta")) {
+
+                model.addAttribute("hechoorganismo", hechoOrganismoService.getHechoOrganismoById(id));
+                model.addAttribute("hechos", hechoService.getAllHechos());
+                model.addAttribute("organismos", organismoService.getAllOrganismos());
+                return "hechosOrganismos/edit_hecho_organismo";
+            }else {
+                return "SinAcceso";
+            }
+
+        }catch (Exception e) {
+            return "SinAcceso";
+        }
+    }
+
+    @PostMapping("/hechoorganismo/{id}")
+    public String updateHechoImputado(@PathVariable Integer id, @ModelAttribute("hechoorganismo") HechoOrganismo hechoOrganismo, Model model){
+        try {
+            HechoOrganismo existingHechoOrganismo = hechoOrganismoService.getHechoOrganismoById(id);
+            existingHechoOrganismo.setCI_Id(id);
+            existingHechoOrganismo.setCIHecho(hechoOrganismo.getCIHecho());
+            existingHechoOrganismo.setCIOrganismo(hechoOrganismo.getCIOrganismo());
+            hechoOrganismoService.updateHechoOrganismo(existingHechoOrganismo);
+            return "redirect:/hechoorganismo";
+        } catch (DataIntegrityViolationException e){
+            String mensaje = "No se puede guardar el hecho - organismo debido a un error de integridad de datos.";
+            model.addAttribute("error_message", mensaje);
+            model.addAttribute("error", true);
+            return editHechoOrganismoForm(id, model);
         }
     }
 

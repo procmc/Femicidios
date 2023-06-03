@@ -9,7 +9,6 @@ public class RedireccionController {
 
     @PostMapping("/redireccionarEntidades")
     public String redireccionarEntidades(@RequestParam("opcion") String opcion) {
-//
 
         switch (opcion) {
             case "hecho" -> {
@@ -23,6 +22,12 @@ public class RedireccionController {
             }
             case "lugar" -> {
                 return "redirect:/lugares";
+            }
+            case "procesoJudicial" -> {
+                return "redirect:/procesosJudiciales";
+            }
+            case "bitacoras" -> {
+                return "redirect:/bitacoras";
             }
             case "victima" -> {
                 return "redirect:/victima";
@@ -56,9 +61,6 @@ public class RedireccionController {
             case "nivelEducativo" -> {
                 return "redirect:/nivelEducativo";
             }
-            case "procesoJudicial" -> {
-                return "redirect:/procesosJudiciales";
-            }
             case "tipoLugar" -> {
                 return "redirect:/tipolugares";
             }
@@ -78,4 +80,57 @@ public class RedireccionController {
         }
 
     }
+
+    @PostMapping("/redireccionarAccionesHecho")
+    public String redireccionarAccionesHecho(@RequestParam("opcion") String opcion) {
+
+        String[] prueba = opcion.split("-");
+        String accion = prueba[1];
+        String id = prueba[0];
+
+        switch (accion) {
+            case "agregarLugar" -> {
+                return "redirect:/lugar/new/" + id;
+            }
+            case "agregarImputado" -> {
+                return "redirect:/hechosimputado/new/" + id;
+            }
+            case "agregarOrganismo" -> {
+                return "redirect:/hechosorganismo/new/" + id;
+            }
+            case "mostrarLugar" -> {
+                return "redirect:/lugar/" + id;
+            }
+            case "mostrarImputado" -> {
+                return "redirect:/hechosimputado/" + id;
+            }
+            case "mostrarOrganismo" -> {
+                return "redirect:/hechosorganismo/" + id;
+            }
+            default -> {
+                return "redirect:/error";
+            }
+
+        }
+
+    }
+
+    @PostMapping("/redireccionarRelaciones")
+    public String redireccionarRelaciones(@RequestParam("opcion") String opcion) {
+
+        switch (opcion) {
+            case "hechoimputado" -> {
+                return "redirect:/hechoimputado";
+            }
+            case "hechoorganismo" -> {
+                return "redirect:/hechoorganismo";
+            }
+            default -> {
+                return "redirect:/error";
+            }
+
+        }
+
+    }
+
 }

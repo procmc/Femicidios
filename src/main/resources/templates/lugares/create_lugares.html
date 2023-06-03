@@ -12,17 +12,17 @@
 </head>
 <body>
 
-<div class="row">
-  <div class="col-md-12">
-    <ul class="nav nav-pills flex-column flex-sm-row">
-      <li class="nav-item"><a class="nav-link active" href="#">Inicio</a>
-      </li>
-      <li class="nav-item"><a class="nav-link" th:href="@{/lugares}">Lugar</a>
-      </li>
+<!--<div class="row">-->
+<!--  <div class="col-md-12">-->
+<!--    <ul class="nav nav-pills flex-column flex-sm-row">-->
+<!--      <li class="nav-item"><a class="nav-link active" href="#">Inicio</a>-->
+<!--      </li>-->
+<!--      <li class="nav-item"><a class="nav-link" th:href="@{/lugares}">Lugar</a>-->
+<!--      </li>-->
 
-    </ul>
-  </div>
-</div>
+<!--    </ul>-->
+<!--  </div>-->
+<!--</div>-->
 
 <br>
 <br>
@@ -58,7 +58,10 @@
                     name="descripcion"
                     th:field="*{CV_Descripcion}"
                     class="form-control"
-                    placeholder="Ingrese una descripcion" />
+                    placeholder="Ingrese una descripcion" 
+                    maxlength="100"
+                    minlength="1"
+                    required/>
           </div>
 
 
@@ -67,7 +70,7 @@
 
           <div class="form-group">
             <label>Tipo de Lugar:</label>
-            <select name="CI_Tipo_Lugar" style="display: block;" class = "form-control">
+            <select name="CI_Tipo_Lugar" style="display: block;" class = "form-control" required>
               <option value="" selected disabled >Selecciona un tipo de lugar</option>
               <option
                       th:each= "tipolugar: ${tipoLugar}"
@@ -87,7 +90,10 @@
                     name="direccion"
                     th:field="*{CV_Direccion}"
                     class="form-control"
-                    placeholder="Ingrese la Direccion" />
+                    placeholder="Ingrese la Direccion" 
+                    maxlength="100"
+                    minlength="1"
+                    required/>
           </div>
 
 
@@ -99,7 +105,10 @@
                     name="ciudad"
                     th:field="*{CV_Ciudad}"
                     class="form-control"
-                    placeholder="Ingrese una ciudad" />
+                    placeholder="Ingrese una ciudad" 
+                    maxlength="50"
+                    minlength="1"
+                    required/>
           </div>
 
 

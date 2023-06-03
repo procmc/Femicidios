@@ -3,7 +3,7 @@ package com.if7100.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "hechos_imputados")
+@Table(name = "ta_hechos_imputados")
 public class HechoImputado {
 
     @Id

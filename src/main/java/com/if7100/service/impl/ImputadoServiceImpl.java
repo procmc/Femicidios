@@ -19,7 +19,7 @@ public class ImputadoServiceImpl implements ImputadoService {
 	
 	
 	@Override
-	public List<Imputado> getAllUsuarios(){
+	public List<Imputado> getAllImputados(){
 		return imputadoRepository.findAll();
 	}
 

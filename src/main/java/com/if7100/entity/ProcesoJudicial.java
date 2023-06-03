@@ -28,13 +28,15 @@ public class ProcesoJudicial {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public ProcesoJudicial(int CI_Id, String CVEstado, int CIDenunciante, int CIPersonasImputadas, String CVPartes) {
+	public ProcesoJudicial(int CI_Id, String CVEstado, int CIDenunciante, int CIPersonasImputadas, String CVAgravantes, String CVPartes, String CVTipoDelito) {
 		super();
 		this.CI_Id = CI_Id;
 		this.CVEstado=CVEstado;
 		this.CIDenunciante=CIDenunciante;
 		this.CIPersonasImputadas=CIPersonasImputadas;
+		this.CVAgravantes=CVAgravantes;
 		this.CVPartes=CVPartes;
+		this.CVTipoDelito=CVTipoDelito;
 	}
 	
 	@Id
@@ -54,9 +56,14 @@ public class ProcesoJudicial {
 	@Column(name="CI_Personas_Imputadas",nullable=false)
 	private int CIPersonasImputadas;
 	
+	@Column(name="CV_Agravantes",nullable=false)
+	private String CVAgravantes;
+	
 	@Column(name="CV_Partes",nullable=false)
 	private String CVPartes;
 
+	@Column(name="CV_Tipo_Delito",nullable=false)
+	private String CVTipoDelito;
 	
 
 	/**
@@ -143,10 +150,27 @@ public class ProcesoJudicial {
 		CVPartes = cVPartes;
 	}
 	
+	public String getCVAgravantes() {
+		return CVAgravantes;
+	}
+
+	public void setCVAgravantes(String cVAgravantes) {
+		CVAgravantes = cVAgravantes;
+	}
+
+	public String getCVTipoDelito() {
+		return CVTipoDelito;
+	}
+
+	public void setCVTipoDelito(String cVTipoDelito) {
+		CVTipoDelito = cVTipoDelito;
+	}
+	
 	@PrePersist
     protected void onCreate() {
 		CDFechaApertura = new Date();
     }
+
 	
 	
 }
