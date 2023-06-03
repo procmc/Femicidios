@@ -41,7 +41,6 @@
 
 	<div class="row">
 		<div class="col-md-12">
-			 
 			 <a th:href = "@{/bitacoras/new}" class = "btn btn-primary btn-lg"> 
 			 Agregar Bitacora</a>
 			 
@@ -53,6 +52,7 @@
 				    <th> Id Usuario</th>
 					<th> Usuario</th>
 					<th> Rol</th>
+					<th> Descripcion</th>
 					<th> Fecha</th>
 					
 					<th> Acciones </th>
@@ -67,10 +67,10 @@
 					<td th:text = "${bitacora.CTFecha}"></td>
 				
 					<td>
-						<a th:href = "@{/bitacoras/edit/{id}(id=${bitacora.CI_Id_Bitacora})}"
+						<a th:href = "@{/bitacoras/edit/{id}(id=${bitacora.CIIdBitacora})}"
 						 class = "btn btn-primary">Actualizar</a>
 						
-						<a th:href = "@{/bitacoras/{id}(id=${bitacora.CI_Id_Bitacora})}"
+						<a th:href = "@{/bitacoras/{id}(id=${bitacora.CIIdBitacora})}"
 						 class = "btn btn-danger">Eliminar</a>
 						 
 					</td>
