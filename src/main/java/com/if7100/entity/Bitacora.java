@@ -28,10 +28,18 @@ public class Bitacora {
 	}
 	public Bitacora(Integer CIId, String CV_DNI_Usuario, String CV_Rol, String CV_Descripcion) {
 		super();
+		this.CIId = CIId; 
 		this.CVUsuario = CV_DNI_Usuario;
-		this.CVRol= CV_Rol; 
+		this.CVRol= CV_Rol;
 		this.CVDescripcion = CV_Descripcion;
-		this.CIId = CIId;
+		this.CTFecha = new Date();
+	}
+	public Bitacora(Integer CIId, String CV_DNI_Usuario, String CV_Rol, String CV_Descripcion, Date CT_Fecha) {
+		super();
+		this.CIId = CIId; 
+		this.CVUsuario = CV_DNI_Usuario;
+		this.CVRol= CV_Rol;
+		this.CVDescripcion = CV_Descripcion;
 		this.CTFecha = new Date();
 	}
 
