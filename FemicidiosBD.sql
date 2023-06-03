@@ -293,8 +293,9 @@ CREATE TABLE femicidios.TA_Victima (
                                        CV_Generador VARCHAR (50) NOT NULL,
                                        PRIMARY KEY (CI_Id) );
 
-insert into TA_Victima( CV_DNI, CV_Nombre, CV_ApellidoPaterno, CV_ApellidoMaterno, CV_Edad , CV_IDGenero, CV_LugarNac, CV_OrientaSex)
-values("601123245","Albertina","Alvarado","Casas",34,7,"La comarca",1);
+insert into TA_Victima( CV_DNI, CV_Nombre, CV_ApellidoPaterno, CV_ApellidoMaterno, CV_Edad , CV_IDGenero, CV_LugarNac, CV_OrientaSex,  CV_Nacionalidad, CI_Educacion, CV_Ocupacion, CV_Domicilio, CV_LugarResidencia, CV_Discapacidad, CV_CondicionMigratoria,  CV_Etnia, CV_MedidasProteccion, CV_DenunciasPrevias, CI_Hijos, CV_Generador)  
+values(203450876,"Albertina","Chill","Pepper", 30,2, "Cartago", 3, "Costarricense", 2, "Cruz Rojista", "Limon centro", "Limon", "Ninguna", "Todo bien", "Mestizo", "Ninguna", "Ninguna", 0, "Nada")
+
 
 
 /*********************************************************************************************************/

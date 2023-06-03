@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 @SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class VictimaControllerTest {
-	private Victima victima = new Victima (203450876,"Albertina","Chill","Pepper", 30,2, "Cartago", 3);
+	private Victima victima = new Victima (203450876,"Albertina","Chill","Pepper", 30,2, "Cartago", 3, "Costarricense", 2, "Cruz Rojista", "Limon centro", "Limon", "Ninguna", "Todo bien", "Mestizo", "Ninguna", "Ninguna", 0, "Nada");
 	
 	
 	@Autowired
