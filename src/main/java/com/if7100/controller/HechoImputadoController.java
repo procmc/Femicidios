@@ -172,6 +172,10 @@ public class HechoImputadoController {
     @PostMapping("/hechoimputado")
     public String saveHechoImputado(@ModelAttribute("hechoImputado") HechoImputado hechoImputado, Model model){
         try {
+        	String descripcion="Creo en Hechos Imputado";
+		    Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),this.perfil.getCVRol(),descripcion);
+            bitacoraService.saveBitacora(bitacora);
+            
             hechoImputadoService.saveHechoImputado(hechoImputado);
             return "redirect:/hechoimputado";
         }catch (DataIntegrityViolationException e){
