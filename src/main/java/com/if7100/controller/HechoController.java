@@ -99,7 +99,6 @@ public class HechoController {
     	try {
 			this.validarPerfil();
 			if(!this.perfil.getCVRol().equals("Consulta")) {
-				
 				Hecho hecho = new Hecho();
 		        model.addAttribute("hecho", hecho);
 		        model.addAttribute("modalidad", modalidadService.getAllModalidades());
@@ -134,6 +133,10 @@ public class HechoController {
     @PostMapping("/hechos")
     public String saveHecho(@ModelAttribute("hecho") Hecho hecho, Model model){
         try {
+        	String descripcion="Creo en Hechos";
+		    Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),this.perfil.getCVRol(),descripcion);
+            bitacoraService.saveBitacora(bitacora);
+            
             hechoService.saveHecho(hecho);
             return "redirect:/hechos";
         } catch (DataIntegrityViolationException e){
@@ -203,6 +206,10 @@ public class HechoController {
     @PostMapping("/hechos/{id}")
     public String updateHecho(@PathVariable Integer id, @ModelAttribute("hecho") Hecho hecho, Model model){
         try {
+        	String descripcion="Actualizo en Hechos";
+		    Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),this.perfil.getCVRol(),descripcion);
+            bitacoraService.saveBitacora(bitacora);
+            
             Hecho existingHecho = hechoService.getHechoById(id);
             existingHecho.setCI_Id(id);
             existingHecho.setCIPais(hecho.getCIPais());
