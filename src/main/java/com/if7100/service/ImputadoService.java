@@ -12,7 +12,7 @@ import com.if7100.entity.Imputado;
  *
  */
 public interface ImputadoService {
- List<Imputado> getAllUsuarios();
+ List<Imputado> getAllImputados();
 
  Imputado saveImputado(Imputado imputado);
  

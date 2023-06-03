@@ -92,7 +92,7 @@ public class HechoImputadoController {
 				HechoImputado hechoImputado = new HechoImputado();
 		        model.addAttribute("hechoImputado", hechoImputado);
 		        model.addAttribute("hechos", hechoService.getAllHechos());
-		        model.addAttribute("imputados", imputadoService.getAllUsuarios());
+		        model.addAttribute("imputados", imputadoService.getAllImputados());
 		        return "hechosImputados/create_hecho_imputado";
 			}else {
 				return "SinAcceso";
@@ -114,7 +114,7 @@ public class HechoImputadoController {
 		        hechoImputado.setCIHecho(Id);
 		        model.addAttribute("hechoImputado", hechoImputado);
 		        model.addAttribute("hechos", hechoService.getAllHechos());
-		        model.addAttribute("imputados", imputadoService.getAllUsuarios());
+		        model.addAttribute("imputados", imputadoService.getAllImputados());
 		        return "hechosImputados/create_hechos_imputado";
 			}else {
 				return "SinAcceso";
@@ -136,7 +136,7 @@ public class HechoImputadoController {
 			     hechoImputado.setCIImputado(Id);
 			     model.addAttribute("hechoImputado", hechoImputado);
 			     model.addAttribute("hechos", hechoService.getAllHechos());
-			     model.addAttribute("imputados", imputadoService.getAllUsuarios());
+			     model.addAttribute("imputados", imputadoService.getAllImputados());
 			     return "hechosImputados/create_hecho_imputados";
 			}else {
 				return "SinAcceso";
@@ -217,7 +217,7 @@ public class HechoImputadoController {
 
                 model.addAttribute("hechoimputado", hechoImputadoService.getHechoImputadoById(id));
                 model.addAttribute("hechos", hechoService.getAllHechos());
-                model.addAttribute("imputados", imputadoService.getAllUsuarios());
+                model.addAttribute("imputados", imputadoService.getAllImputados());
                 return "hechosImputados/edit_hecho_imputado";
             }else {
                 return "SinAcceso";

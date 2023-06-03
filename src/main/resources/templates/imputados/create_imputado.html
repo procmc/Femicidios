@@ -58,33 +58,21 @@
                             required 
 							/>
 						</div>
-						
-						
-						
+
+
+
 						<div class ="form-group">
-							<label>Genero del Imputado </label>
-							<input
-							type = "text"
-							name = "Género"
-							th:field = "*{CVGenero}"
-							class = "form-control"
-							placeholder="Digite el género del imputado" 
-							maxlength="50"
-                            required 
-							/>
+							<label>Seleccione la identidad de genero del imputado:</label>
+							<select name="identidad" th:field="*{CVGenero}" class = "form-control" onfocus="ocultarError()">
+								<option th:each="identidad: ${identidadGenero}" th:value="${identidad.id}" th:text="${identidad.genero}"></option>
+							</select>
 						</div>
-						
+
 						<div class ="form-group">
-							<label>Orientacion sexual del imputado</label>
-							<input
-							type = "text"
-							name = "Orientacion"
-							th:field = "*{CVOrientacionSexual}"
-							class = "form-control"
-							placeholder="Digite lla orientación sexual del Usuario" 
-							maxlength="50"
-                            required 
-							/>
+							<label>Seleccione la orientacion sexual del imputado:</label>
+							<select name="orientacionSexual" th:field="*{CVOrientacionSexual}" class = "form-control" onfocus="ocultarError()">
+								<option th:each="orientacionSexual: ${orientacionSexual}" th:value="${orientacionSexual.CI_Codigo}" th:text="${orientacionSexual.CVTitulo}"></option>
+							</select>
 						</div>
 						
 						<div class ="form-group">

@@ -1,8 +1,7 @@
 package com.if7100.controller;
 
-import com.if7100.entity.Bitacora; 
-import com.if7100.entity.Usuario;
-import com.if7100.service.BitacoraService;
+import com.if7100.entity.*;
+import com.if7100.service.*;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,12 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.if7100.entity.Hecho;
-import com.if7100.entity.Imputado;
-import com.if7100.entity.Perfil;
 import com.if7100.repository.UsuarioRepository;
-import com.if7100.service.ImputadoService;
-import com.if7100.service.PerfilService;
 
 @Controller
 public class ImputadoController {
@@ -32,14 +26,23 @@ public class ImputadoController {
 private BitacoraService bitacoraService;
 private Usuario usuario;
 
+private OrientacionSexualService orientacionSexualService;
+
+private OrientacionSexual orientacionSexual;
+private IdentidadGeneroService identidadGeneroService;
+
+private IdentidadGenero identidadGenero;
  
  public ImputadoController (BitacoraService bitacoraService,
-ImputadoService imputadoService, PerfilService perfilService, UsuarioRepository usuarioRepository) {
+ImputadoService imputadoService, PerfilService perfilService, UsuarioRepository usuarioRepository,
+							IdentidadGeneroService identidadGeneroService,OrientacionSexualService orientacionSexualService) {
 	 super();
 	 this.imputadoService=imputadoService;
 	 this.perfilService = perfilService;
      this.usuarioRepository = usuarioRepository;
      this.bitacoraService= bitacoraService;
+	 this.identidadGeneroService= identidadGeneroService;
+	 this.orientacionSexualService= orientacionSexualService;
 
  }
  
@@ -62,8 +65,8 @@ ImputadoService imputadoService, PerfilService perfilService, UsuarioRepository 
  
  @GetMapping("/imputados")
  public String ListImputados(Model model) {
-	 
-	 model.addAttribute("imputados",imputadoService.getAllUsuarios());
+
+	 model.addAttribute("imputados",imputadoService.getAllImputados());
 	 return "imputados/imputados";
  }
  
@@ -73,7 +76,8 @@ ImputadoService imputadoService, PerfilService perfilService, UsuarioRepository 
 	 try {
 			this.validarPerfil();
 			if(!this.perfil.getCVRol().equals("Consulta")) {
-				
+				model.addAttribute("orientacionSexual",orientacionSexualService.getAllOrientacionesSexuales());
+				model.addAttribute("identidadGenero",identidadGeneroService.getAllIdentidadGenero());
 				model.addAttribute("imputado",new Imputado());
 				return "imputados/create_imputado";
 			}else {
@@ -119,7 +123,8 @@ ImputadoService imputadoService, PerfilService perfilService, UsuarioRepository 
 	 try {
 			this.validarPerfil();
 			if(!this.perfil.getCVRol().equals("Consulta")) {
-				
+				model.addAttribute("orientacionSexual",orientacionSexualService.getAllOrientacionesSexuales());
+				model.addAttribute("identidadGenero",identidadGeneroService.getAllIdentidadGenero());
 				model.addAttribute("imputado", imputadoService.getImputadoById(id));
 				return "imputados/edit_imputado";
 			}else {
