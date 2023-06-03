@@ -134,7 +134,7 @@ public String updateNivelEducativo (@PathVariable Integer id, @ModelAttribute ("
 	existingNivelEducativo.setCI_Id(id);
 	existingNivelEducativo.setCVTitulo(nivelEducativo.getCVTitulo());
 	existingNivelEducativo.setCVDescripcion(nivelEducativo.getCVDescripcion());
-	existingNivelEducativo.setCI_Pais(nivelEducativo.getCI_Pais());
+	
 	
 	nivelEducativoService.updateNivelEducativo(existingNivelEducativo);
 	return "redirect:/nivelEducativo";
