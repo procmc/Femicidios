@@ -62,7 +62,7 @@
 
           <div class="form-group">
             <label>Tipo de Lugar:</label>
-            <select name="CI_Tipo_Lugar" style="display: block;" class = "form-control">
+            <select name="CI_Tipo_Lugar" style="display: block;" class = "form-control" required>
               <option value="" selected disabled >Selecciona un tipo de lugar</option>
               <option
                       th:each= "tipolugar: ${tipoLugar}"
@@ -84,6 +84,7 @@
                     class="form-control"
                     placeholder="Ingrese la Direccion"
                     maxlength="100"
+                    minlength="1"
                     required />
           </div>
 
@@ -98,7 +99,8 @@
                     class="form-control"
                     placeholder="Ingrese una ciudad"
                     maxlength="50"
-                    required />
+                    minlength="1"
+                    required/>
           </div>
 
 
