@@ -63,21 +63,20 @@ CREATE TABLE femicidios.TA_NivelEducativo(
                                              CI_Id INT NOT NULL AUTO_INCREMENT,
                                              CV_Titulo VARCHAR (50) NOT NULL,
                                              CV_Descripcion VARCHAR (75) NOT NULL,
-                                             CI_Pais INT NOT NULL,
-                                             PRIMARY KEY(CI_Id) );
+                                              PRIMARY KEY(CI_Id) );
 
-INSERT INTO ta_niveleducativo ( `CV_Titulo`, `CV_Descripcion`, `CI_Pais`) VALUES
-                                                                              ("Primera infancia","Eduacion de la primera infancia.",506),
-                                                                              ( "Preescolar","Menos que primaria.",506),
-                                                                              ("Primaria","Educaciòn primaria",506),
-                                                                              ("Secundaria baja","Educaciòn secundaria baja", 506),
-                                                                              ("Secundaria alta","Educaciòn secundaria alta",506),
-                                                                              ("Postsecundaria no terciaria","Educaciòn postsecundaria no terciaria",506),
-                                                                              ("Terciaria", "Educaciòn terciaria de ciclo corto", 506),
-                                                                              ("Grado","Grado en educaciòn universitaria o nivel equivalente.",506),
-                                                                              ("Maestria","Nivel de maestrìa especializaciòn o equivalente",506),
-                                                                              ("Doctorado","Nivel de doctorado o equivalente", 506),
-                                                                              ("Se desconoce","Se desconoce nivel eduactivo",506);
+INSERT INTO ta_niveleducativo ( `CV_Titulo`, `CV_Descripcion`) VALUES
+                                                                              ("Primera infancia","Eduacion de la primera infancia."),
+                                                                              ( "Preescolar","Menos que primaria."),
+                                                                              ("Primaria","Educaciòn primaria"),
+                                                                              ("Secundaria baja","Educaciòn secundaria baja"),
+                                                                              ("Secundaria alta","Educaciòn secundaria alta"),
+                                                                              ("Postsecundaria no terciaria","Educaciòn postsecundaria no terciaria"),
+                                                                              ("Terciaria", "Educaciòn terciaria de ciclo corto"),
+                                                                              ("Grado","Grado en educaciòn universitaria o nivel equivalente."),
+                                                                              ("Maestria","Nivel de maestrìa especializaciòn o equivalente"),
+                                                                              ("Doctorado","Nivel de doctorado o equivalente"),
+                                                                              ("Se desconoce","Se desconoce nivel eduactivo");
 
 
 /*********************************************************************************************************/
