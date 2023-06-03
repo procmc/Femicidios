@@ -13,30 +13,12 @@
 
 </head>
 
-
 <body>
 
-
 <div class="container-fluid">
-  <!--    <div class="row">-->
-  <!--        <div class="col-md-12">-->
-  <!--            <ul class="nav nav-pills flex-column flex-sm-row">-->
-  <!--                <li class="nav-item">-->
-  <!--                    <a class="nav-link active" href="#">Inicio</a>-->
-  <!--                </li>-->
-  <!--                <li class="nav-item">-->
-  <!--                    <a class="nav-link" th:href="@{/hechos}">Hechos</a>-->
-  <!--                </li>-->
-
-  <!--            </ul>-->
-  <!--        </div>-->
-  <!--    </div>-->
-
-  <!--    <div class = "row"> <h1></h1> </div>-->
-  <!--    <div class = "row"> <h1></h1> </div>-->
 
   <div class="alert alert-primary" role="alert">
-    Hechos
+    Hechos - Imputados
   </div>
 
   <div class="row">
@@ -64,6 +46,9 @@
 
           <a th:href = "@{/hechoimputado/{id}(id=${hechoImputado.CI_Id})}"
              class = "btn btn-danger">Eliminar</a>
+
+            <a th:href = "@{/hechoimputado/edit/{id}(id=${hechoImputado.CI_Id})}"
+               class = "btn btn-primary">Actualizar</a>
 
           </td>
         </tr>

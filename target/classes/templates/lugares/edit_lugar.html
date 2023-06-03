@@ -11,19 +11,19 @@
     <th th:insert="~{header}"></th>
 </head>
 <body>
-<div class="row">
-  <div class="col-md-12">
-    <ul class="nav nav-pills flex-column flex-sm-row">
-      <li class="nav-item">
-        <a class="nav-link active" href="#">Inicio</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" th:href="@{/lugares}">Lugar</a>
-      </li>
+<!--<div class="row">-->
+<!--  <div class="col-md-12">-->
+<!--    <ul class="nav nav-pills flex-column flex-sm-row">-->
+<!--      <li class="nav-item">-->
+<!--        <a class="nav-link active" href="#">Inicio</a>-->
+<!--      </li>-->
+<!--      <li class="nav-item">-->
+<!--        <a class="nav-link" th:href="@{/lugares}">Lugar</a>-->
+<!--      </li>-->
 
-    </ul>
-  </div>
-</div>
+<!--    </ul>-->
+<!--  </div>-->
+<!--</div>-->
 <br>
 <br>
 <div class = "container">
@@ -108,8 +108,6 @@
                     name="pais"
                     th:field="*{CI_Pais}"
                     pattern="[0-9]{1,4}"
-                    maxlength="4"
-                    required
                     class="form-control"
                     placeholder="Ingrese el codigo del pais" 
                     maxlength="10"

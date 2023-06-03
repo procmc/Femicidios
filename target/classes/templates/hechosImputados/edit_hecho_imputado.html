@@ -2,13 +2,15 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="ISO-8859-1">
-  <title>Hecho Organismos mantenimiento</title>
+  <title>Hecho Imputado mantenimiento</title>
   <script th:src="@{/HechoScripts/HechoScript.js}"></script>
   <link rel="stylesheet"
         href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
         crossorigin="anonymous">
+  <!--    <th th:include="header" th:fragment="header"></th>-->
   <th th:insert="~{header}"></th>
+
 </head>
 <body>
 
@@ -18,26 +20,22 @@
 <div class = "container">
   <div class = "row">
     <div class ="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
-      <h1 class = "text-center">Crear Hecho Organismo</h1>
+      <h1 class = "text-center">Actualizar Hecho Imputado</h1>
       <div class = "card-body">
-        <form th:action="@{/hechoorganismos}" th:object = "${hechoOrganismo}" method="POST">
+        <form th:action="@{/hechoimputado/{id} (id=${hechoimputado.CI_Id})}" th:object = "${hechoimputado}" method="POST">
 
           <div class ="form-group">
-            <label>Selecciona el hecho:</label>
+            <label>Seleccione el hecho:</label>
             <select th:name="hechos" th:field="*{CIHecho}" class = "form-control" onfocus="ocultarError()">
-              <option th:each="hechos: ${hechos}" th:value="${hechos.CI_Id}" th:text="${hechos.CI_Id}"></option>
+              <option th:each="hecho: ${hechos}" th:value="${hecho.CI_Id}" th:text="${hecho.CI_Id}"></option>
             </select>
           </div>
 
-          <div class="form-group">
-            <label>Id Organismo</label>
-            <input
-                    type="text"
-                    name="organismos"
-                    th:field="*{CIOrganismo}"
-                    class="form-control"
-                    placeholder="Digite el Id Organismo"
-                    readonly/>
+          <div class ="form-group">
+            <label>Selecciona el imputado:</label>
+            <select th:name="imputados" th:field="*{CIImputado}" class = "form-control" onfocus="ocultarError()">
+              <option th:each="imputado: ${imputados}" th:value="${imputado.CI_Id}" th:text="${imputado.CI_Id} + ' - '+ ${imputado.CVNombre}"></option>
+            </select>
           </div>
 
           <div id="error-message" th:if="${error}" class="alert alert-danger" role="alert">
@@ -46,7 +44,7 @@
 
           <div class = "box-footer">
             <button type="submit" class = "btn btn-primary">
-              Agregar
+              Actualizar
             </button>
           </div>
         </form>

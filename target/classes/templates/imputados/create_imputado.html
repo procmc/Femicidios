@@ -7,22 +7,23 @@
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
 	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
 	crossorigin="anonymous">
+	<th th:insert="~{header}"></th>
 </head>
 <body>
 
-<div class="row">
-		<div class="col-md-12">
-			<ul class="nav nav-pills flex-column flex-sm-row">
-				<li class="nav-item">
-					<a class="nav-link active" href="#">Inicio</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" th:href="@{/usuarios}">Imputados</a>
-				</li>
-		
-			</ul>
-		</div>
-	</div>
+<!--<div class="row">-->
+<!--		<div class="col-md-12">-->
+<!--			<ul class="nav nav-pills flex-column flex-sm-row">-->
+<!--				<li class="nav-item">-->
+<!--					<a class="nav-link active" href="#">Inicio</a>-->
+<!--				</li>-->
+<!--				<li class="nav-item">-->
+<!--					<a class="nav-link" th:href="@{/usuarios}">Imputados</a>-->
+<!--				</li>-->
+<!--		-->
+<!--			</ul>-->
+<!--		</div>-->
+<!--	</div>-->
 	
 <br>
 <br>
@@ -40,6 +41,7 @@
 							th:field = "*{CVDni}"
 							class = "form-control"
 							placeholder="Digite el DNI del imputado"
+							minlength="1"
 							maxlength="50"
                             required 
 							/>
@@ -52,38 +54,27 @@
 							name = "nombre"
 							th:field = "*{CVNombre}"
 							class = "form-control"
-							placeholder="Digite el nombre del imputado" 
+							placeholder="Digite el nombre del imputado"
+							minlength="1"
 							maxlength="50"
                             required 
 							/>
 						</div>
-						
-						
-						
+
+
+
 						<div class ="form-group">
-							<label>Genero del Imputado </label>
-							<input
-							type = "text"
-							name = "Género"
-							th:field = "*{CVGenero}"
-							class = "form-control"
-							placeholder="Digite el género del imputado" 
-							maxlength="50"
-                            required 
-							/>
+							<label>Seleccione la identidad de genero del imputado:</label>
+							<select name="identidad" th:field="*{CVGenero}" class = "form-control" onfocus="ocultarError()">
+								<option th:each="identidad: ${identidadGenero}" th:value="${identidad.id}" th:text="${identidad.genero}"></option>
+							</select>
 						</div>
-						
+
 						<div class ="form-group">
-							<label>Orientacion sexual del imputado</label>
-							<input
-							type = "text"
-							name = "Orientacion"
-							th:field = "*{CVOrientacionSexual}"
-							class = "form-control"
-							placeholder="Digite lla orientación sexual del Usuario" 
-							maxlength="50"
-                            required 
-							/>
+							<label>Seleccione la orientacion sexual del imputado:</label>
+							<select name="orientacionSexual" th:field="*{CVOrientacionSexual}" class = "form-control" onfocus="ocultarError()">
+								<option th:each="orientacionSexual: ${orientacionSexual}" th:value="${orientacionSexual.CI_Codigo}" th:text="${orientacionSexual.CVTitulo}"></option>
+							</select>
 						</div>
 						
 						<div class ="form-group">
@@ -93,7 +84,8 @@
 							name = "Edad"
 							th:field = "*{CIEdad}"
 							class = "form-control"
-							placeholder="Digite la edad del imputado" 
+							placeholder="Digite la edad del imputado"
+							minlength="1"
 							maxlength="10"
                             required 
 							/>
@@ -106,7 +98,8 @@
 							name = "Lugar de nacimiento"
 							th:field = "*{CVLugarNacimiento}"
 							class = "form-control"
-							placeholder="Digite el lugar de nacimiento del imputado" 
+							placeholder="Digite el lugar de nacimiento del imputado"
+							minlength="1"
 							maxlength="50"
                             required 
 							/>
@@ -119,7 +112,8 @@
 							name = "Codigo pais"
 							th:field = "*{CVPais}"
 							class = "form-control"
-							placeholder="Digite el codigo pais del imputado" 
+							placeholder="Digite el codigo pais del imputado"
+							minlength="1"
 							maxlength="20"
                             required 
 							/>
