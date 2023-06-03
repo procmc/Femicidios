@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="ISO-8859-1">
+  <title>Header</title>
+
+  <link rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+</head>
+<body>
+<th:block th:fragment="header">
+  <header>
+
+    <div>
+      <div class="row">
+        <div class="col-md-12">
+          <ul class="nav nav-pills flex-column flex-sm-row">
+            <li class="nav-item">
+              <a class="nav-link active" href="#">Inicio</a>
+            </li>
+            <li class="nav-item">
+
+              <div class="container">
+                <form th:action="@{/redireccionarEntidades}" method="post">
+                  <select class="form-control" name="opcion" onchange="this.form.submit()">
+                    <option value="" disabled selected>Entidades</option>
+                    <option value="hecho">Hechos</option>
+                    <option value="imputado">Imputados</option>
+                    <option value="organismo">Organismos</option>
+                    <option value="lugar">Lugares</option>
+                    <option value="victima">Victimas</option>
+                    <option value="usuarios">Usuarios</option>
+                    <option value="perfiles">Perfiles</option>
+                  </select>
+                </form>
+              </div>
+
+            </li>
+            <li class="nav-item">
+
+              <div class="container">
+                <form th:action="@{/redireccionarCampos}" method="post">
+                  <select class="form-control" name="opcion" onchange="this.form.submit()">
+                    <option value="" disabled selected>Campos Codificados</option>
+                    <option value="identidadGenero">Identidades De Genero</option>
+                    <option value="orientacionSexual">Orientaciones Sexuales</option>
+                    <option value="modalidad">Modalidades</option>
+                    <option value="nivelEducativo">Niveles Educativos</option>
+                    <option value="procesoJudicial">Procesos Judiciales</option>
+                    <option value="tipoLugar">Tipos De Lugares</option>
+                    <option value="tipoRelacion">Tipos De Relaciones</option>
+                    <option value="tipoVictima">Tipos De Victimas</option>
+                    <option value="tipoOrganismo">Tipos De Organismos</option>
+
+                  </select>
+                </form>
+              </div>
+
+            </li>
+            <li class="nav-item ml-auto" sec:authorize="isAuthenticated()">
+					<a class="nav-link" th:href="@{/logout}">Cerrar sesion</a>
+			</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class = "row"> <h1></h1> </div>
+    <div class = "row"> <h1></h1> </div>
+
+  </header>
+</th:block>
+</body>
+</html>
