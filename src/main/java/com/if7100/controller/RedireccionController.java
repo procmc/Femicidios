@@ -9,7 +9,6 @@ public class RedireccionController {
 
     @PostMapping("/redireccionarEntidades")
     public String redireccionarEntidades(@RequestParam("opcion") String opcion) {
-//
 
         switch (opcion) {
             case "hecho" -> {
@@ -23,6 +22,9 @@ public class RedireccionController {
             }
             case "lugar" -> {
                 return "redirect:/lugares";
+            }
+            case "procesoJudicial" -> {
+                return "redirect:/procesosJudiciales";
             }
             case "bitacoras" -> {
                 return "redirect:/bitacoras";
@@ -58,9 +60,6 @@ public class RedireccionController {
             }
             case "nivelEducativo" -> {
                 return "redirect:/nivelEducativo";
-            }
-            case "procesoJudicial" -> {
-                return "redirect:/procesosJudiciales";
             }
             case "tipoLugar" -> {
                 return "redirect:/tipolugares";
