@@ -43,6 +43,41 @@ public class Victima {
 	@Column(name="CV_Orientasex", nullable =false)
 	private int CVOrientaSex;
 	
+	@Column(name="CV_Nacionalidad", nullable =false)
+	private String CVNacionalidad;
+	
+	@Column(name="CI_Educacion", nullable =false)
+	private int CIEducacion;
+	
+	@Column(name="CV_Ocupacion", nullable =false)
+	private String CVOcupacion;
+	
+	@Column(name="CV_Domicilio", nullable =false)
+	private String CVDomicilio;
+	
+	@Column(name="CV_LugarResidencia", nullable =false)
+	private String CVLugarResidencia;
+	
+	@Column(name="CV_Discapacidad", nullable =false)
+	private String CVDiscapacidad;
+	
+	@Column(name="CV_CondicionMigratoria", nullable =false)
+	private String CVCondicionMigratoria;
+	
+	@Column(name="CV_Etnia", nullable =false)
+	private String CVEtnia;
+	
+	@Column(name="CV_MedidasProteccion", nullable =false)
+	private String CVMedidasProteccion;
+	
+	@Column(name="CV_DenunciasPrevias", nullable =false)
+	private String CVDenunciasPrevias;
+	
+	@Column(name="CI_Hijos", nullable =false)
+	private int CIHijos;
+	
+	@Column(name="CV_Generador", nullable =false)
+	private String CVGenerador;
 	
 	public Victima() {
 		
@@ -50,7 +85,10 @@ public class Victima {
 
 
 	public Victima(int cVDNI, String cVNombre, String cVApellidoPaterno, String cVApellidoMaterno,
-			int cVEdad, int cVGenero, String cVLugarNac, int cVOrientaSex) {
+			int cVEdad, int cVGenero, String cVLugarNac, int cVOrientaSex, String CVNacionalidad, 
+			int CIEducacion, String CVOcupacion, String CVDomicilio, String CVLugarResidencia, 
+			String CVDiscapacidad, String CVCondicionMigratoria, String CVEtnia, String CVMedidasProteccion, 
+			String CVDenunciasPrevias, int CIHijos, String CVGenerador) {
 		super();
 		
 		CVDNI = cVDNI;
@@ -61,6 +99,21 @@ public class Victima {
 		CVGenero = cVGenero;
 		CVLugarNac = cVLugarNac;
 		CVOrientaSex = cVOrientaSex;
+		this.CVNacionalidad = CVNacionalidad;
+		this.CIEducacion = CIEducacion;
+		this.CVOcupacion = CVOcupacion;
+		this.CVDomicilio = CVDomicilio;
+		this.CVLugarResidencia = CVLugarResidencia;
+		this.CVDiscapacidad = CVDiscapacidad;
+		this.CVCondicionMigratoria = CVCondicionMigratoria;
+		this.CVEtnia = CVEtnia;
+		this.CVMedidasProteccion = CVMedidasProteccion;
+		this.CVDenunciasPrevias = CVDenunciasPrevias;
+		this.CIHijos = CIHijos;
+		this.CVGenerador = CVGenerador;
+		
+		
+		
 	}
 
 
@@ -151,6 +204,198 @@ public class Victima {
 
 	public void setCVOrientaSex(int cVOrientaSex) {
 		CVOrientaSex = cVOrientaSex;
+	}
+
+
+	/**
+	 * @return the cVNacionalidad
+	 */
+	public String getCVNacionalidad() {
+		return CVNacionalidad;
+	}
+
+
+	/**
+	 * @param cVNacionalidad the cVNacionalidad to set
+	 */
+	public void setCVNacionalidad(String cVNacionalidad) {
+		CVNacionalidad = cVNacionalidad;
+	}
+
+
+	/**
+	 * @return the cIEducacion
+	 */
+	public int getCIEducacion() {
+		return CIEducacion;
+	}
+
+
+	/**
+	 * @param cIEducacion the cIEducacion to set
+	 */
+	public void setCIEducacion(int cIEducacion) {
+		CIEducacion = cIEducacion;
+	}
+
+
+	/**
+	 * @return the cVOcupacion
+	 */
+	public String getCVOcupacion() {
+		return CVOcupacion;
+	}
+
+
+	/**
+	 * @param cVOcupacion the cVOcupacion to set
+	 */
+	public void setCVOcupacion(String cVOcupacion) {
+		CVOcupacion = cVOcupacion;
+	}
+
+
+	/**
+	 * @return the cVDomicilio
+	 */
+	public String getCVDomicilio() {
+		return CVDomicilio;
+	}
+
+
+	/**
+	 * @param cVDomicilio the cVDomicilio to set
+	 */
+	public void setCVDomicilio(String cVDomicilio) {
+		CVDomicilio = cVDomicilio;
+	}
+
+
+	/**
+	 * @return the cVLugarResidencia
+	 */
+	public String getCVLugarResidencia() {
+		return CVLugarResidencia;
+	}
+
+
+	/**
+	 * @param cVLugarResidencia the cVLugarResidencia to set
+	 */
+	public void setCVLugarResidencia(String cVLugarResidencia) {
+		CVLugarResidencia = cVLugarResidencia;
+	}
+
+
+	/**
+	 * @return the cVDiscapacidad
+	 */
+	public String getCVDiscapacidad() {
+		return CVDiscapacidad;
+	}
+
+
+	/**
+	 * @param cVDiscapacidad the cVDiscapacidad to set
+	 */
+	public void setCVDiscapacidad(String cVDiscapacidad) {
+		CVDiscapacidad = cVDiscapacidad;
+	}
+
+
+	/**
+	 * @return the cVCondicionMigratoria
+	 */
+	public String getCVCondicionMigratoria() {
+		return CVCondicionMigratoria;
+	}
+
+
+	/**
+	 * @param cVCondicionMigratoria the cVCondicionMigratoria to set
+	 */
+	public void setCVCondicionMigratoria(String cVCondicionMigratoria) {
+		CVCondicionMigratoria = cVCondicionMigratoria;
+	}
+
+
+	/**
+	 * @return the cVEtnia
+	 */
+	public String getCVEtnia() {
+		return CVEtnia;
+	}
+
+
+	/**
+	 * @param cVEtnia the cVEtnia to set
+	 */
+	public void setCVEtnia(String cVEtnia) {
+		CVEtnia = cVEtnia;
+	}
+
+
+	/**
+	 * @return the cVMedidasProteccion
+	 */
+	public String getCVMedidasProteccion() {
+		return CVMedidasProteccion;
+	}
+
+
+	/**
+	 * @param cVMedidasProteccion the cVMedidasProteccion to set
+	 */
+	public void setCVMedidasProteccion(String cVMedidasProteccion) {
+		CVMedidasProteccion = cVMedidasProteccion;
+	}
+
+
+	/**
+	 * @return the cVDenunciasPrevias
+	 */
+	public String getCVDenunciasPrevias() {
+		return CVDenunciasPrevias;
+	}
+
+
+	/**
+	 * @param cVDenunciasPrevias the cVDenunciasPrevias to set
+	 */
+	public void setCVDenunciasPrevias(String cVDenunciasPrevias) {
+		CVDenunciasPrevias = cVDenunciasPrevias;
+	}
+
+
+	/**
+	 * @return the cIHijos
+	 */
+	public int getCIHijos() {
+		return CIHijos;
+	}
+
+
+	/**
+	 * @param cIHijos the cIHijos to set
+	 */
+	public void setCIHijos(int cIHijos) {
+		CIHijos = cIHijos;
+	}
+
+
+	/**
+	 * @return the cVGenerador
+	 */
+	public String getCVGenerador() {
+		return CVGenerador;
+	}
+
+
+	/**
+	 * @param cVGenerador the cVGenerador to set
+	 */
+	public void setCVGenerador(String cVGenerador) {
+		CVGenerador = cVGenerador;
 	}
 
 

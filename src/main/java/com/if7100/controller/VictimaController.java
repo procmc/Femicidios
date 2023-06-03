@@ -161,6 +161,19 @@ VictimaService victimaService, PerfilService perfilService, UsuarioRepository us
 		existingVictima.setCVGenero(victima.getCVGenero());
 		existingVictima.setCVLugarNac(victima.getCVLugarNac());
 		existingVictima.setCVOrientaSex(victima.getCVOrientaSex());
+		existingVictima.setCVNacionalidad(victima.getCVNacionalidad());
+		existingVictima.setCIEducacion(victima.getCIEducacion());
+		existingVictima.setCVOcupacion(victima.getCVOcupacion());
+		existingVictima.setCVDomicilio(victima.getCVDomicilio());
+		existingVictima.setCVLugarResidencia(victima.getCVLugarResidencia());
+		existingVictima.setCVDiscapacidad(victima.getCVDiscapacidad());
+		existingVictima.setCVCondicionMigratoria(victima.getCVCondicionMigratoria());
+		existingVictima.setCVEtnia(victima.getCVEtnia());
+		existingVictima.setCVMedidasProteccion(victima.getCVMedidasProteccion());
+		existingVictima.setCVDenunciasPrevias(victima.getCVDenunciasPrevias());
+		existingVictima.setCIHijos(victima.getCIHijos());
+		existingVictima.setCVGenerador(victima.getCVGenerador());
+		
 		
 		victimaService.updateVictima(existingVictima);
 		return "redirect:/victima";
