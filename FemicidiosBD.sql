@@ -283,17 +283,17 @@ CREATE TABLE femicidios.TA_Victima (
                                        CI_Educacion INT NOT NULL, 
                                        CV_Ocupacion VARCHAR (50) NOT NULL,  
                                        CV_Domicilio VARCHAR (100) NOT NULL, 
-                                       CV_LugarResidencia VARCHAR (100) NOT NULL, 
+                                       CV_Lugar_Residencia VARCHAR (100) NOT NULL, 
                                        CV_Discapacidad VARCHAR (50) NOT NULL,  
-                                       CV_CondicionMigratoria VARCHAR (50) NOT NULL,  
+                                       CV_Condicion_Migratoria VARCHAR (50) NOT NULL,  
                                        CV_Etnia VARCHAR (50) NOT NULL,  
-                                       CV_MedidasProteccion VARCHAR (50) NOT NULL, 
-                                       CV_DenunciasPrevias VARCHAR (50) NOT NULL,  
+                                       CV_Medidas_Proteccion VARCHAR (50) NOT NULL, 
+                                       CV_Denuncias_Previas VARCHAR (50) NOT NULL,  
                                        CI_Hijos INT NOT NULL, 
                                        CV_Generador VARCHAR (50) NOT NULL,
                                        PRIMARY KEY (CI_Id) );
 
-insert into TA_Victima( CV_DNI, CV_Nombre, CV_ApellidoPaterno, CV_ApellidoMaterno, CV_Edad , CV_IDGenero, CV_LugarNac, CV_OrientaSex,  CV_Nacionalidad, CI_Educacion, CV_Ocupacion, CV_Domicilio, CV_LugarResidencia, CV_Discapacidad, CV_CondicionMigratoria,  CV_Etnia, CV_MedidasProteccion, CV_DenunciasPrevias, CI_Hijos, CV_Generador)  
+insert into TA_Victima( CV_DNI, CV_Nombre, CV_ApellidoPaterno, CV_ApellidoMaterno, CV_Edad , CV_IDGenero, CV_LugarNac, CV_OrientaSex,  CV_Nacionalidad, CI_Educacion, CV_Ocupacion, CV_Domicilio, CV_Lugar_Residencia, CV_Discapacidad, CV_Condicion_Migratoria,  CV_Etnia, CV_Medidas_Proteccion, CV_Denuncias_Previas, CI_Hijos, CV_Generador)  
 values(203450876,"Albertina","Chill","Pepper", 30,2, "Cartago", 3, "Costarricense", 2, "Cruz Rojista", "Limon centro", "Limon", "Ninguna", "Todo bien", "Mestizo", "Ninguna", "Ninguna", 0, "Nada")
 
 
