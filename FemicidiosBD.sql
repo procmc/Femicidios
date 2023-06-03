@@ -250,9 +250,6 @@ CREATE TABLE femicidios.TA_Hechos (
 INSERT INTO `femicidios`.`ta_hechos`  (  `CI_Tipo_Victima`,  `CI_Tipo_Relacion`,  `CI_Modalidad` ,`CI_Id_Victima` ,`CI_Id_Proceso` ,`CI_Pais`,`CV_Agresion_Sexual` ,`CV_Denuncia_Previa` ,`CI_Id_Generador`, `CD_fecha`,`CV_Detalles`)
 VALUES
     (1,1,1,1,1,506,'si','no',1, '2023-05-12T01:18','detalle');
-PRIMARY KEY (CI_Id));
-
-
 
 /*********************************************************************************************************/
 /* IMPUTADOS */
