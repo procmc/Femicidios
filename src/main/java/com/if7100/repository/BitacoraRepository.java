@@ -13,6 +13,8 @@ import com.if7100.entity.Bitacora;
 @Repository
 public interface BitacoraRepository extends JpaRepository<Bitacora, Integer>{
 	
-	Bitacora findByCVUsuario(String CV_DNI_Usuario);
+	//Bitacora findByCVUsuario(String CV_DNI_Usuario);
+	Bitacora findByCVUsuario(String CVUsuario);
+	
 	
 }
