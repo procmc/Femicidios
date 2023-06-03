@@ -54,7 +54,9 @@
 					<th> Denunciante</th>
 					<th> Fecha</th>
 					<th> Imputados</th>
+					<th> Agravantes</th>
 					<th> Partes</th>
+					<th> Tipo de delito</th>
 		
 					<th> Acciones </th>
 				</tr>
@@ -65,7 +67,9 @@
 					<td th:text = "${procesoJudicial.CIDenunciante}"></td>
 					<td th:text = "${procesoJudicial.CDFechaApertura}"></td>
 					<td th:text = "${procesoJudicial.CIPersonasImputadas}"></td>
+					<td th:text = "${procesoJudicial.CVAgravantes}"></td>
 					<td th:text = "${procesoJudicial.CVPartes}"></td>
+					<td th:text = "${procesoJudicial.CVTipoDelito}"></td>
 					<td>
 						<a th:href = "@{/procesosJudiciales/edit/{id}(id=${procesoJudicial.CI_Id})}"
 						 class = "btn btn-primary">Actualizar</a>
