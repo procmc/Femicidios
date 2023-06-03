@@ -279,6 +279,18 @@ CREATE TABLE femicidios.TA_Victima (
                                        CV_Idgenero int NOT NULL,
                                        CV_Lugarnac VARCHAR (100) NOT NULL,
                                        CV_Orientasex int NOT NULL,
+                                       CV_Nacionalidad VARCHAR (50) NOT NULL, 
+                                       CI_Educacion INT NOT NULL, 
+                                       CV_Ocupacion VARCHAR (50) NOT NULL,  
+                                       CV_Domicilio VARCHAR (100) NOT NULL, 
+                                       CV_LugarResidencia VARCHAR (100) NOT NULL, 
+                                       CV_Discapacidad VARCHAR (50) NOT NULL,  
+                                       CV_CondicionMigratoria VARCHAR (50) NOT NULL,  
+                                       CV_Etnia VARCHAR (50) NOT NULL,  
+                                       CV_MedidasProteccion VARCHAR (50) NOT NULL, 
+                                       CV_DenunciasPrevias VARCHAR (50) NOT NULL,  
+                                       CI_Hijos INT NOT NULL, 
+                                       CV_Generador VARCHAR (50) NOT NULL,
                                        PRIMARY KEY (CI_Id) );
 
 insert into TA_Victima( CV_DNI, CV_Nombre, CV_ApellidoPaterno, CV_ApellidoMaterno, CV_Edad , CV_IDGenero, CV_LugarNac, CV_OrientaSex)
