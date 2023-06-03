@@ -145,7 +145,7 @@ public class HechoController {
     }
 
     @GetMapping("/hechos/{id}")
-    public String deleteHecho(@PathVariable Integer id){
+    public String deleteHecho(@PathVariable Integer id, Model model){
     	
     	try {
 			this.validarPerfil();
@@ -160,7 +160,11 @@ public class HechoController {
 					
 		            hechoService.deleteHechoById(id);
 		        } catch (DataIntegrityViolationException e) {
-		            System.out.println("Error, No se puede eliminar un hecho si tiene lugares registrados en el");
+
+		            String mensaje = "Error, No se puede eliminar un hecho si tiene lugares registrados en el";
+                    model.addAttribute("error_message", mensaje);
+                    model.addAttribute("error", true);
+                    return listHechos(model);
 		        }
 		        return "redirect:/hechos";
 			}else {

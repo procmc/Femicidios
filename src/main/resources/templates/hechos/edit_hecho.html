@@ -11,39 +11,16 @@
     <th th:insert="~{header}"></th>
 </head>
 <body>
-<!--<div class="row">-->
-<!--    <div class="col-md-12">-->
-<!--        <ul class="nav nav-pills flex-column flex-sm-row">-->
-<!--            <li class="nav-item">-->
-<!--                <a class="nav-link active" href="#">Inicio</a>-->
-<!--            </li>-->
-<!--            <li class="nav-item">-->
-<!--                <a class="nav-link" th:href="@{/hechos}">Hechos</a>-->
-<!--            </li>-->
 
-<!--        </ul>-->
-<!--    </div>-->
-<!--</div>-->
 <br>
 <br>
+
 <div class = "container">
     <div class = "row">
         <div class ="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
             <h1 class = "text-center"> Actualizar Hecho </h1>
             <div class = "card-body">
                 <form th:action="@{/hechos/{id} (id=${hecho.CI_Id})}" th:object = "${hecho}" method="POST">
-
-<!--                    <div class ="form-group">-->
-<!--                        <label>Tipo de victima del hecho</label>-->
-<!--                        <input-->
-<!--                                type = "text"-->
-<!--                                name = "tipoVictima"-->
-<!--                                th:field = "*{CVTipoVictima}"-->
-<!--                                class = "form-control"-->
-<!--                                placeholder="Digite el tipo de victima del hecho"-->
-<!--                                onfocus="ocultarError()"-->
-<!--                        />-->
-<!--                    </div>-->
 
                     <div class ="form-group">
                         <label>Selecciona el tipo de victima del hecho:</label>
@@ -52,35 +29,12 @@
                         </select>
                     </div>
 
-<!--                    <div class ="form-group">-->
-<!--                        <label>Tipo de relacion del hecho</label>-->
-<!--                        <input-->
-<!--                                type = "text"-->
-<!--                                name = "tipoRelacion"-->
-<!--                                th:field = "*{CVTipoRelacion}"-->
-<!--                                class = "form-control"-->
-<!--                                placeholder="Digite el tipo de relacion del hecho"-->
-<!--                                onfocus="ocultarError()"-->
-<!--                        />-->
-<!--                    </div>-->
-
                     <div class ="form-group">
                         <label>Selecciona el tipo de relacion del hecho:</label>
                         <select th:name="tipoRelacion" th:field="*{CITipoRelacion}" class = "form-control" onfocus="ocultarError()">
                             <option th:each="tipoRelacion: ${tipoRelacion}" th:value="${tipoRelacion.CI_Codigo}" th:text="${tipoRelacion.CI_Codigo} + ' - ' + ${tipoRelacion.CVTitulo}"></option>
                         </select>
                     </div>
-
-<!--                    <div class ="form-group">-->
-<!--                        <label>Modalidad del hecho</label>-->
-<!--                        <input-->
-<!--                                type = "text"-->
-<!--                                name = "modalidad"-->
-<!--                                th:field = "*{CVModalidad}"-->
-<!--                                class = "form-control"-->
-<!--                                placeholder="Modalidad del hecho"-->
-<!--                        />-->
-<!--                    </div>-->
 
                     <div class ="form-group">
                         <label>Selecciona la modalidad del hecho:</label>
