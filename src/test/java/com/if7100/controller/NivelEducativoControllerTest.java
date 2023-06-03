@@ -21,10 +21,10 @@ public class NivelEducativoControllerTest {
 	
 	private String Titulo ="secundaria baja";
 	private String Descripion ="Educacion secundaria baja";
-	private Integer Pais = 506;
 	
 	
-	private NivelEducativo nivelEducativo = new NivelEducativo(Titulo, "Educacion secundaria baja",506);
+	
+	private NivelEducativo nivelEducativo = new NivelEducativo(Titulo, "Educacion secundaria baja");
 	@Test
 	public void Test1() throws Exception{
 		
