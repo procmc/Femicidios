@@ -153,9 +153,10 @@ public class HechoController {
 				
 				try {
 					
-					String descripcion = "Elimino un hecho";
-					Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), descripcion, this.perfil.getCVRol());
-					bitacoraService.saveBitacora(bitacora);
+					String descripcion="Elimino en Hechos";
+				    Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),this.perfil.getCVRol(),descripcion);
+	                bitacoraService.saveBitacora(bitacora);
+	                
 					
 		            hechoService.deleteHechoById(id);
 		        } catch (DataIntegrityViolationException e) {

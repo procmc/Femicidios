@@ -92,10 +92,10 @@ private void validarPerfil() {
 			if(!this.perfil.getCVRol().equals("Consulta")) {
 
 				//INSERTAR EN BITACORA
-				//String descripcion="Se ha eliminado un dato de la entidad Bitacora";
-				//Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),this.perfil.getCVRol(),descripcion);
-
-				//bitacoraService.saveBitacora(bitacora);
+				String descripcion="Elimino en Bitacora";
+			    Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),this.perfil.getCVRol(),descripcion);
+                bitacoraService.saveBitacora(bitacora);
+                
 				bitacoraService.deleteBitacoraById(id);
 		        return "redirect:/bitacoras";
 			}else {
