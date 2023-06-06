@@ -94,6 +94,12 @@ TipoLugarService tipoLugarService, PerfilService perfilService, UsuarioRepositor
 	@PostMapping("/tipolugares")// guarda el usuario y lo devuelve a la pagina usuarios con los datos nuevos
 	public String saveTipoLugar (@ModelAttribute("tipoLugar") TipoLugar tipoLugar) {
 	    tipoLugarService.saveTipoLugar(tipoLugar);
+	    
+	    //funcionalidad de bitacora
+	    String descripcion="Agrego en tipos de lugares";
+        Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),this.perfil.getCVRol(),descripcion);
+        bitacoraService.saveBitacora(bitacora);
+        
 		return "redirect:/tipolugares";
 	}
 
@@ -105,9 +111,10 @@ TipoLugarService tipoLugarService, PerfilService perfilService, UsuarioRepositor
 			this.validarPerfil();
 			if(!this.perfil.getCVRol().equals("Consulta")) {
 				
-				String descripcion = "Elimino un tipoLugar";
-				Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), descripcion, this.perfil.getCVRol());
-				bitacoraService.saveBitacora(bitacora);
+				  //funcionalidad de bitacora
+			    String descripcion="Elimino en tipos de lugares";
+		        Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),this.perfil.getCVRol(),descripcion);
+		        bitacoraService.saveBitacora(bitacora);
 				
 				tipoLugarService.deleteTipoLugarByCodigo(Codigo);
 				return "redirect:/tipolugares";
@@ -147,6 +154,11 @@ TipoLugarService tipoLugarService, PerfilService perfilService, UsuarioRepositor
 	    existingTipoLugar.setCVTitulo(tipoLugar.getCVTitulo());
 	    existingTipoLugar.setCVDescripcion(tipoLugar.getCVDescripcion());
 		tipoLugarService.updateTipoLugar(existingTipoLugar);
+		//funcionalidad bitacora
+		String descripcion="Actualizo en tipos de lugares";
+        Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),this.perfil.getCVRol(),descripcion);
+        bitacoraService.saveBitacora(bitacora);
+        
 		return "redirect:/tipolugares";
 	}
 
