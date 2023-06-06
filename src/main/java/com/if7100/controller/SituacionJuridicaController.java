@@ -86,7 +86,7 @@ public class SituacionJuridicaController {
             if(!this.perfil.getCVRol().equals("Consulta")) {
                 situacionJuridicaService.saveSituacionJuridica(situacionJuridica);
                 String descripcion = "Creo una situacion juridica";
-                Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), descripcion, this.perfil.getCVRol());
+                Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
                 bitacoraService.saveBitacora(bitacora);
                 return "redirect:/situacionesjuridicas";
             }else {
@@ -107,7 +107,7 @@ public class SituacionJuridicaController {
             if(!this.perfil.getCVRol().equals("Consulta")) {
                 situacionJuridicaService.deleteSituacionJuridicaById(id);
                 String descripcion = "Elimino una situacion juridica";
-                Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), descripcion, this.perfil.getCVRol());
+                Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
                 bitacoraService.saveBitacora(bitacora);
                 return "redirect:/situacionesjuridicas";
             }else {
@@ -148,7 +148,7 @@ public class SituacionJuridicaController {
                 existingSituacionJuridica.setCVDescripcion(situacionJuridica.getCVDescripcion());
                 situacionJuridicaService.updateSituacionJuridica(existingSituacionJuridica);
                 String descripcion = "Actualizo una situacion juridica";
-                Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), descripcion, this.perfil.getCVRol());
+                Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
                 bitacoraService.saveBitacora(bitacora);
                 return "redirect:/situacionesjuridicas";
             }else {

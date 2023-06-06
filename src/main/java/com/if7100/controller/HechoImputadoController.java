@@ -155,8 +155,8 @@ public class HechoImputadoController {
 			if(!this.perfil.getCVRol().equals("Consulta")) {
                 hechoImputadoService.deleteHechoImputadoById(id);
 				String descripcion = "Elimino en hechoImputado";
-				Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), descripcion, this.perfil.getCVRol());
-				bitacoraService.saveBitacora(bitacora);
+                Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
+                bitacoraService.saveBitacora(bitacora);
 		        return "redirect:/hechoimputado";
 			}else {
 				return "SinAcceso";
@@ -189,7 +189,7 @@ public class HechoImputadoController {
         try {
             hechoImputadoService.saveHechoImputado(hechoImputado);
             String descripcion="Creo en Hechos Imputado";
-            Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),this.perfil.getCVRol(),descripcion);
+            Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
             bitacoraService.saveBitacora(bitacora);
             return "redirect:/hechoimputado";
         }catch (DataIntegrityViolationException e){
@@ -205,7 +205,7 @@ public class HechoImputadoController {
         try {
             hechoImputadoService.saveHechoImputado(hechoImputado);
             String descripcion="Creo en Hechos Imputado";
-            Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),this.perfil.getCVRol(),descripcion);
+            Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
             bitacoraService.saveBitacora(bitacora);
             return "redirect:/hechoimputado";
         }catch (DataIntegrityViolationException e){
@@ -245,7 +245,7 @@ public class HechoImputadoController {
             existingHechoImputado.setCIImputado(hechoImputado.getCIImputado());
             hechoImputadoService.updateHechoImputado(existingHechoImputado);
             String descripcion="Editó en Hechos Imputado";
-            Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),this.perfil.getCVRol(),descripcion);
+            Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
             bitacoraService.saveBitacora(bitacora);
             return "redirect:/hechoimputado";
         } catch (DataIntegrityViolationException e){

@@ -126,7 +126,7 @@ public class HechoController {
         try {
             hechoService.saveHecho(hecho);
         	String descripcion="Creo en Hechos";
-		    Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),this.perfil.getCVRol(),descripcion);
+            Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
             bitacoraService.saveBitacora(bitacora);
             return "redirect:/hechos";
         } catch (DataIntegrityViolationException e){
@@ -147,8 +147,8 @@ public class HechoController {
 				try {
                     hechoService.deleteHechoById(id);
 					String descripcion="Elimino en Hechos";
-				    Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),this.perfil.getCVRol(),descripcion);
-	                bitacoraService.saveBitacora(bitacora);
+                    Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
+                    bitacoraService.saveBitacora(bitacora);
 		        } catch (DataIntegrityViolationException e) {
 
 		            String mensaje = "Error, No se puede eliminar un hecho si tiene un lugar registrado";
@@ -203,7 +203,7 @@ public class HechoController {
             existingHecho.setCVDetalles(hecho.getCVDetalles());
             hechoService.updateHecho(existingHecho);
             String descripcion="Actualizo en Hechos";
-            Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),this.perfil.getCVRol(),descripcion);
+            Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
             bitacoraService.saveBitacora(bitacora);
             return "redirect:/hechos";
         } catch (DataIntegrityViolationException e){

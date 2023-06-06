@@ -154,7 +154,7 @@ HechoOrganismoService hechoOrganismoService, HechoService hechoService, Organism
 			if(!this.perfil.getCVRol().equals("Consulta")) {
 				hechoOrganismoService.deleteHechoOrganismoById(id);
                 String descripcion = "Elimino en hecho de organismo";
-                Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), descripcion, this.perfil.getCVRol());
+                Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
                 bitacoraService.saveBitacora(bitacora);
 		        return "redirect:/hechoorganismo";
 			}else {
@@ -184,7 +184,7 @@ HechoOrganismoService hechoOrganismoService, HechoService hechoService, Organism
         try {
             hechoOrganismoService.saveHechoOrganismo(hechoOrganismo);
             String descripcion = "Creo en hecho de organismo";
-            Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), descripcion, this.perfil.getCVRol());
+            Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
             bitacoraService.saveBitacora(bitacora);
             return "redirect:/hechoorganismo";
         }catch (DataIntegrityViolationException e){
@@ -200,7 +200,7 @@ HechoOrganismoService hechoOrganismoService, HechoService hechoService, Organism
         try {
             hechoOrganismoService.saveHechoOrganismo(hechoOrganismo);
             String descripcion = "Creo en hecho de organismo";
-            Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), descripcion, this.perfil.getCVRol());
+            Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
             bitacoraService.saveBitacora(bitacora);
             return "redirect:/hechoorganismo";
         }catch (DataIntegrityViolationException e){
@@ -240,7 +240,7 @@ HechoOrganismoService hechoOrganismoService, HechoService hechoService, Organism
             existingHechoOrganismo.setCIOrganismo(hechoOrganismo.getCIOrganismo());
             hechoOrganismoService.updateHechoOrganismo(existingHechoOrganismo);
             String descripcion = "Actualizo en hecho de organismo";
-            Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), descripcion, this.perfil.getCVRol());
+            Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
             bitacoraService.saveBitacora(bitacora);
             return "redirect:/hechoorganismo";
         } catch (DataIntegrityViolationException e){
