@@ -316,6 +316,31 @@ VALUES (1, '1', 1, 52),
 
 
 /*
+ Tabla SituacionJuridica
+ */
+
+DROP TABLE IF EXISTS ta_situacion_juridica;
+CREATE TABLE femicidios.ta_situacion_juridica
+(
+    CI_Codigo          INT         NOT NULL AUTO_INCREMENT,
+    CV_Titulo      VARCHAR(50) NOT NULL,
+    CV_Descripcion VARCHAR(75) NOT NULL,
+    PRIMARY KEY (CI_Codigo)
+);
+
+INSERT INTO ta_situacion_juridica (`CV_Titulo`, `CV_Descripcion`)
+VALUES ('Imputado', ''),
+       ('Indagado', ''),
+       ('Procesado', ''),
+       ('Acusado', ''),
+       ('Condenado', ''),
+       ('Fugitivo', ''),
+       ('En libertad Condicional', ''),
+       ('Prisión preventiva', ''),
+       ('Otro', ''),
+       ('Se Desconoce', '');
+
+/*
  Tabla orientacionesSexuales
  */
 

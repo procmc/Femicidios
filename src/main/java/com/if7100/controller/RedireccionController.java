@@ -61,6 +61,9 @@ public class RedireccionController {
             case "nivelEducativo" -> {
                 return "redirect:/nivelEducativo";
             }
+            case "situacionJuridica" -> {
+                return "redirect:/situacionesjuridicas";
+            }
             case "tipoLugar" -> {
                 return "redirect:/tipolugares";
             }
