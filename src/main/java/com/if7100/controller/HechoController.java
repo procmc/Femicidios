@@ -101,13 +101,8 @@ public class HechoController {
 			if(!this.perfil.getCVRol().equals("Consulta")) {
 				Hecho hecho = new Hecho();
 		        model.addAttribute("hecho", hecho);
-		        model.addAttribute("modalidad", modalidadService.getAllModalidades());
-		        model.addAttribute("tipoVictima", tipoVictimaService.getAllTipoVictimas());
-		        model.addAttribute("tipoRelacion", tipoRelacionService.getAllTipoRelaciones());
-		        model.addAttribute("victima", victimaService.getAllVictima());
-		        model.addAttribute("proceso", procesoJudicialService.getAllProcesosJudiciales());
-                model.addAttribute("organismo", organismoService.getAllOrganismos());
-		        return "hechos/create_hecho";
+                modelAttributes(model);
+                return "hechos/create_hecho";
 			}else {
 				return "SinAcceso";
 			}
@@ -117,27 +112,22 @@ public class HechoController {
 		}
     }
 
-//    @PostMapping("/guardar")
-//    public String guardarHecho(@ModelAttribute("hecho") Hecho hecho, BindingResult result, Model model) {
-//        try {
-//            hechoRepository.save(hecho);
-//            return "redirect:/hechos";
-//        } catch (DataIntegrityViolationException e) {
-//            // Manejar la excepción aquí
-//            String mensaje = "No se puede guardar el hecho debido a un error de integridad de datos.";
-//            model.addAttribute("error", mensaje);
-//            return "formularioHecho";
-//        }
-//    }
+    private void modelAttributes(Model model) {
+        model.addAttribute("modalidad", modalidadService.getAllModalidades());
+        model.addAttribute("tipoVictima", tipoVictimaService.getAllTipoVictimas());
+        model.addAttribute("tipoRelacion", tipoRelacionService.getAllTipoRelaciones());
+        model.addAttribute("victima", victimaService.getAllVictima());
+        model.addAttribute("proceso", procesoJudicialService.getAllProcesosJudiciales());
+        model.addAttribute("organismo", organismoService.getAllOrganismos());
+    }
 
     @PostMapping("/hechos")
     public String saveHecho(@ModelAttribute("hecho") Hecho hecho, Model model){
         try {
+            hechoService.saveHecho(hecho);
         	String descripcion="Creo en Hechos";
 		    Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),this.perfil.getCVRol(),descripcion);
             bitacoraService.saveBitacora(bitacora);
-            
-            hechoService.saveHecho(hecho);
             return "redirect:/hechos";
         } catch (DataIntegrityViolationException e){
             String mensaje = "No se puede guardar el hecho debido a un error de integridad de datos.";
@@ -155,13 +145,10 @@ public class HechoController {
 			if(!this.perfil.getCVRol().equals("Consulta")) {
 				
 				try {
-					
+                    hechoService.deleteHechoById(id);
 					String descripcion="Elimino en Hechos";
 				    Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),this.perfil.getCVRol(),descripcion);
 	                bitacoraService.saveBitacora(bitacora);
-	                
-					
-		            hechoService.deleteHechoById(id);
 		        } catch (DataIntegrityViolationException e) {
 
 		            String mensaje = "Error, No se puede eliminar un hecho si tiene un lugar registrado";
@@ -187,13 +174,8 @@ public class HechoController {
 			if(!this.perfil.getCVRol().equals("Consulta")) {
 				
 				model.addAttribute("hecho", hechoService.getHechoById(id));
-		        model.addAttribute("modalidad", modalidadService.getAllModalidades());
-		        model.addAttribute("tipoVictima", tipoVictimaService.getAllTipoVictimas());
-		        model.addAttribute("tipoRelacion", tipoRelacionService.getAllTipoRelaciones());
-		        model.addAttribute("victima", victimaService.getAllVictima());
-		        model.addAttribute("proceso", procesoJudicialService.getAllProcesosJudiciales());
-                model.addAttribute("organismo", organismoService.getAllOrganismos());
-		        return "hechos/edit_hecho";
+                modelAttributes(model);
+                return "hechos/edit_hecho";
 			}else {
 				return "SinAcceso";
 			}
@@ -206,10 +188,6 @@ public class HechoController {
     @PostMapping("/hechos/{id}")
     public String updateHecho(@PathVariable Integer id, @ModelAttribute("hecho") Hecho hecho, Model model){
         try {
-        	String descripcion="Actualizo en Hechos";
-		    Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),this.perfil.getCVRol(),descripcion);
-            bitacoraService.saveBitacora(bitacora);
-            
             Hecho existingHecho = hechoService.getHechoById(id);
             existingHecho.setCI_Id(id);
             existingHecho.setCIPais(hecho.getCIPais());
@@ -224,6 +202,9 @@ public class HechoController {
             existingHecho.setCDFecha(hecho.getCDFecha());
             existingHecho.setCVDetalles(hecho.getCVDetalles());
             hechoService.updateHecho(existingHecho);
+            String descripcion="Actualizo en Hechos";
+            Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),this.perfil.getCVRol(),descripcion);
+            bitacoraService.saveBitacora(bitacora);
             return "redirect:/hechos";
         } catch (DataIntegrityViolationException e){
             String mensaje = "No se puede guardar el hecho debido a un error de integridad de datos.";

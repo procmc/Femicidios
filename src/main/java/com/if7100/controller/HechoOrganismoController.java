@@ -81,26 +81,26 @@ HechoOrganismoService hechoOrganismoService, HechoService hechoService, Organism
         return "hechosOrganismos/hechoOrganismo";
     }
 
-    @GetMapping("hechoorganismo/new")
-    public String createHechoOrganismoForm(Model model){
-    	
-    	try {
-			this.validarPerfil();
-			if(!this.perfil.getCVRol().equals("Consulta")) {
-				
-				 HechoOrganismo hechoOrganismo = new HechoOrganismo();
-			     model.addAttribute("hechoOrganismo", hechoOrganismo);
-			     model.addAttribute("hechos", hechoService.getAllHechos());
-			     model.addAttribute("organismos", organismoService.getAllOrganismos());
-			     return "hechosOrganismos/create_hecho_organismo";
-			}else {
-				return "SinAcceso";
-			}
-			
-		}catch (Exception e) {
-			return "SinAcceso";
-		}
-    }
+//    @GetMapping("hechoorganismo/new")
+//    public String createHechoOrganismoForm(Model model){
+//
+//    	try {
+//			this.validarPerfil();
+//			if(!this.perfil.getCVRol().equals("Consulta")) {
+//
+//				 HechoOrganismo hechoOrganismo = new HechoOrganismo();
+//			     model.addAttribute("hechoOrganismo", hechoOrganismo);
+//			     model.addAttribute("hechos", hechoService.getAllHechos());
+//			     model.addAttribute("organismos", organismoService.getAllOrganismos());
+//			     return "hechosOrganismos/create_hecho_organismo";
+//			}else {
+//				return "SinAcceso";
+//			}
+//
+//		}catch (Exception e) {
+//			return "SinAcceso";
+//		}
+//    }
 
     @GetMapping("/hechosorganismo/new/{Id}")
     public String createHechosOrganismoForm(Model model, @PathVariable Integer Id) {
@@ -152,12 +152,10 @@ HechoOrganismoService hechoOrganismoService, HechoService hechoService, Organism
     	try {
 			this.validarPerfil();
 			if(!this.perfil.getCVRol().equals("Consulta")) {
-				
-				String descripcion = "Elimino en hecho de organismo";
-				Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), descripcion, this.perfil.getCVRol());
-				bitacoraService.saveBitacora(bitacora);
-				
 				hechoOrganismoService.deleteHechoOrganismoById(id);
+                String descripcion = "Elimino en hecho de organismo";
+                Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), descripcion, this.perfil.getCVRol());
+                bitacoraService.saveBitacora(bitacora);
 		        return "redirect:/hechoorganismo";
 			}else {
 				return "SinAcceso";
@@ -168,23 +166,26 @@ HechoOrganismoService hechoOrganismoService, HechoService hechoService, Organism
 		}
     }
 
-    @PostMapping("/hechoorganismo")
-    public String saveHechoOrganismo(@ModelAttribute("hechoOrganismo") HechoOrganismo hechoOrganismo, Model model){
-        try {
-            hechoOrganismoService.saveHechoOrganismo(hechoOrganismo);
-            return "redirect:/hechoorganismo";
-        }catch (DataIntegrityViolationException e){
-            String mensaje = "No se puede guardar el hecho debido a un error de integridad de datos.";
-            model.addAttribute("error_message", mensaje);
-            model.addAttribute("error", true);
-            return createHechoOrganismoForm(model);
-        }
-    }
+//    @PostMapping("/hechoorganismo")
+//    public String saveHechoOrganismo(@ModelAttribute("hechoOrganismo") HechoOrganismo hechoOrganismo, Model model){
+//        try {
+//            hechoOrganismoService.saveHechoOrganismo(hechoOrganismo);
+//            return "redirect:/hechoorganismo";
+//        }catch (DataIntegrityViolationException e){
+//            String mensaje = "No se puede guardar el hecho debido a un error de integridad de datos.";
+//            model.addAttribute("error_message", mensaje);
+//            model.addAttribute("error", true);
+//            return createHechoOrganismoForm(model);
+//        }
+//    }
 
     @PostMapping("/hechosorganismo")
     public String saveHechosOrganismo(@ModelAttribute("hechoOrganismo") HechoOrganismo hechoOrganismo, Model model){
         try {
             hechoOrganismoService.saveHechoOrganismo(hechoOrganismo);
+            String descripcion = "Creo en hecho de organismo";
+            Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), descripcion, this.perfil.getCVRol());
+            bitacoraService.saveBitacora(bitacora);
             return "redirect:/hechoorganismo";
         }catch (DataIntegrityViolationException e){
             String mensaje = "No se puede guardar el hecho debido a un error de integridad de datos.";
@@ -198,6 +199,9 @@ HechoOrganismoService hechoOrganismoService, HechoService hechoService, Organism
     public String saveHechoOrganismos(@ModelAttribute("hechoOrganismo") HechoOrganismo hechoOrganismo, Model model){
         try {
             hechoOrganismoService.saveHechoOrganismo(hechoOrganismo);
+            String descripcion = "Creo en hecho de organismo";
+            Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), descripcion, this.perfil.getCVRol());
+            bitacoraService.saveBitacora(bitacora);
             return "redirect:/hechoorganismo";
         }catch (DataIntegrityViolationException e){
             String mensaje = "No se puede guardar el hecho debido a un error de integridad de datos.";
@@ -235,6 +239,9 @@ HechoOrganismoService hechoOrganismoService, HechoService hechoService, Organism
             existingHechoOrganismo.setCIHecho(hechoOrganismo.getCIHecho());
             existingHechoOrganismo.setCIOrganismo(hechoOrganismo.getCIOrganismo());
             hechoOrganismoService.updateHechoOrganismo(existingHechoOrganismo);
+            String descripcion = "Actualizo en hecho de organismo";
+            Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), descripcion, this.perfil.getCVRol());
+            bitacoraService.saveBitacora(bitacora);
             return "redirect:/hechoorganismo";
         } catch (DataIntegrityViolationException e){
             String mensaje = "No se puede guardar el hecho - organismo debido a un error de integridad de datos.";
