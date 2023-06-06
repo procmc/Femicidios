@@ -36,7 +36,7 @@
                     <div class ="form-group">
                         <label>Selecciona el organismo:</label>
                         <select th:name="organismos" th:field="*{CIOrganismo}" class = "form-control" onfocus="ocultarError()">
-                            <option th:each="organismos: ${organismos}" th:value="${organismos.CI_Id}" th:text="${organismos.CI_Id}"></option>
+                            <option th:each="organismos: ${organismos}" th:value="${organismos.CI_Id}" th:text="${organismos.CI_Id} + ' - ' + ${organismos.CVNombre}"></option>
                         </select>
                     </div>
 

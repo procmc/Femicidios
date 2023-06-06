@@ -136,7 +136,7 @@ public class HechoImputadoController {
 			     hechoImputado.setCIImputado(Id);
 			     model.addAttribute("hechoImputado", hechoImputado);
 			     model.addAttribute("hechos", hechoService.getAllHechos());
-			     model.addAttribute("imputados", imputadoService.getAllImputados());
+			     model.addAttribute("imputados", imputadoService.getImputadoById(Id));
 			     return "hechosImputados/create_hecho_imputados";
 			}else {
 				return "SinAcceso";
