@@ -3,6 +3,9 @@
  */
 package com.if7100.controller;
 
+
+
+
 import com.if7100.entity.Bitacora;
 import com.if7100.entity.Usuario;
 import com.if7100.entity.Paises;
@@ -18,8 +21,7 @@ import com.if7100.entity.Hecho;
 import com.if7100.entity.IdentidadGenero;
 import com.if7100.entity.Perfil;
 import com.if7100.service.IdentidadGeneroService;
-import com.if7100.service.GenerosService;
-import com.if7100.service.PaisesService;
+
 
 import com.if7100.service.PerfilService;
 
@@ -48,19 +50,19 @@ public class IdentidadGeneroController {
 	// instancias para control de bitacora
 	private BitacoraService bitacoraService;
 	private Usuario usuario;
-	private PaisesService paisesService;
-	private GenerosService generoService;
+	
+
 
 	public IdentidadGeneroController(BitacoraService bitacoraService, IdentidadGeneroService identidadGeneroService,
-			PerfilService perfilService, UsuarioRepository usuarioRepository, PaisesService paisesService,
-			GenerosService generoService) {
+			PerfilService perfilService, UsuarioRepository usuarioRepository
+			) {
 		super();
 		this.identidadGeneroService = identidadGeneroService;
 		this.perfilService = perfilService;
 		this.usuarioRepository = usuarioRepository;
 		this.bitacoraService = bitacoraService;
-		this.paisesService = paisesService;
-		this.generoService = generoService;
+		
+	
 	}
 
 	private void validarPerfil() {
@@ -79,13 +81,10 @@ public class IdentidadGeneroController {
 		}
 
 	}
-
+	
 	@GetMapping("/identidadgenero")
 	public String listStudents(Model model) {
 		model.addAttribute("identidadgenero", identidadGeneroService.getAllIdentidadGenero());
-		model.addAttribute("generos", generoService.obtencionGeneros(identidadGeneroService.getAllIdentidadGenero()));
-		model.addAttribute("paises",
-				paisesService.obtencionPaisesRelacionados(identidadGeneroService.getAllIdentidadGenero()));
 		return "identidadGeneros/identidadgenero";
 	}
 
@@ -98,10 +97,7 @@ public class IdentidadGeneroController {
 
 				IdentidadGenero identidadgenero = new IdentidadGenero();
 				Paises paises = new Paises();
-
-				model.addAttribute("identidadgenero", identidadgenero);
-				model.addAttribute("paises", paisesService.getAllPaises());
-				model.addAttribute("generos", generoService.getAllGeneros());
+				model.addAttribute("identidadgenero", identidadgenero);				
 				return "identidadGeneros/crear_identidad";
 			} else {
 				return "SinAcceso";
@@ -114,21 +110,17 @@ public class IdentidadGeneroController {
 
 	@PostMapping("/identidadgenero")
 	public String saveIdentidadGenero(@ModelAttribute("identidadgenero") IdentidadGenero identidadgenero) {
-
 		identidadGeneroService.saveIdentidadGenero(identidadgenero);
 		return "redirect:/identidadgenero";
 	}
-
 	@GetMapping("/identidadgenero/edit/{id}")
 	public String editIdentidadGenero(@PathVariable Integer id, Model model) {
-
 		try {
 			this.validarPerfil();
 			if (!this.perfil.getCVRol().equals("Consulta")) {
 
 				model.addAttribute("identidadgenero", identidadGeneroService.getIdentidadGeneroById(id));
-				model.addAttribute("paises", paisesService.getAllPaises());
-				model.addAttribute("generos", generoService.getAllGeneros());
+				
 				return "identidadGeneros/edit_identidadgenero";
 			} else {
 				return "SinAcceso";
@@ -144,17 +136,14 @@ public class IdentidadGeneroController {
 			@ModelAttribute("identidadgenero") IdentidadGenero identidadgenero, Model model) {
 		IdentidadGenero existingIdentidadGenero = identidadGeneroService.getIdentidadGeneroById(id);
 		existingIdentidadGenero.setId(id);
-		existingIdentidadGenero.setCedula(identidadgenero.getCedula());
-		existingIdentidadGenero.setGenero(identidadgenero.getGenero());
-		existingIdentidadGenero.setCodigoPais(identidadgenero.getCodigoPais());
-
+		existingIdentidadGenero.setNombre(identidadgenero.getNombre());
+		existingIdentidadGenero.setDescripcion(identidadgenero.getDescripcion());
 		identidadGeneroService.updateIdentidadGenero(identidadgenero);
 		return "redirect:/identidadgenero";
 	}
-
+	
 	@GetMapping("/identidadgenero/{Id}")
 	public String deleteidentidadgenero(@PathVariable Integer Id) {
-
 		try {
 			this.validarPerfil();
 			if (!this.perfil.getCVRol().equals("Consulta")) {
@@ -174,5 +163,6 @@ public class IdentidadGeneroController {
 			return "SinAcceso";
 		}
 	}
+
 
 }

@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.if7100.entity.Generos;
+
 import com.if7100.entity.IdentidadGenero;
 import com.if7100.entity.Paises;
 import com.if7100.repository.PaisesRepository;
@@ -23,18 +23,6 @@ public class PaisesServiceImpl implements PaisesService {
 	@Override
 	public List<Paises> getAllPaises() {
 		return paisesRepository.findAll();
-	}
-
-	@Override
-	public List<Paises> obtencionPaisesRelacionados(List<IdentidadGenero> iG) {
-		List<Paises> listaGeneros = new ArrayList<>();
-		for (int i = 0; i < iG.size(); i++) {
-			if (paisesRepository.findById((int) iG.get(i).getCodigoPais()).get() != null) {
-				listaGeneros.add(paisesRepository.findById((int) iG.get(i).getCodigoPais()).get());
-			}
-
-		}
-		return listaGeneros;
 	}
 
 }

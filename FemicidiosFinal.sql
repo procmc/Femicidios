@@ -272,8 +272,9 @@ VALUES ('Afganistán', 'Afghanistan', 'AF', 'AFG', '93', 1),
        ('Zambia', 'Zambia', 'ZM', 'ZMB', '260', 249),
        ('Zimbabue', 'Zimbabwe', 'ZW', 'ZWE', '263', 250);
 
-DROP TABLE IF EXISTS `identidadesgenerosestandar`;
-CREATE TABLE `identidadesgenerosestandar`
+  /*NUEVA TABLA DE IDENTIDAD DE GENERO*/
+DROP TABLE IF EXISTS `identidadesgeneros`;
+CREATE TABLE `identidadesgeneros`
 (
     `id`          int          NOT NULL AUTO_INCREMENT,
     `nombre`      varchar(55)  NOT NULL,
@@ -281,7 +282,7 @@ CREATE TABLE `identidadesgenerosestandar`
     PRIMARY KEY (`id`)
 );
 
-INSERT INTO `identidadesgenerosestandar`
+INSERT INTO `identidadesgeneros`
 VALUES (1, 'Cis Hombre', 'Hombre identificado con el género que se le asignó al nacer.'),
        (2, 'Cis Mujer', 'Mujer identificado con el género que se le asignó al nacer.'),
        (3, 'No Binario', '	Persona no identificada con género masculino o femenino.'),
@@ -289,30 +290,6 @@ VALUES (1, 'Cis Hombre', 'Hombre identificado con el género que se le asignó a
        (5, 'Se Desconoce', '	Se desconoce el género.'),
        (6, 'Mujer Trans', 'Mujer que no se identifica con el género que se le asignó al nacer.'),
        (7, 'Hombre Trans', 'Hombre que no se identifica con el género que se le asignó al nacer.');
-
-
-DROP TABLE IF EXISTS `identidadgenero`;
-CREATE TABLE `identidadgenero`
-(
-    `Id`         int         NOT NULL AUTO_INCREMENT,
-    `cedula`     varchar(50) NOT NULL,
-    `genero`     int         NOT NULL,
-    `codigoPais` int         NOT NULL,
-    PRIMARY KEY (`Id`),
-    KEY `codigoPais` (`codigoPais`),
-    KEY `genero` (`genero`),
-    CONSTRAINT `identidadgenero_ibfk_1` FOREIGN KEY (`codigoPais`) REFERENCES `codigopaises` (`Id`),
-    CONSTRAINT `identidadgenero_ibfk_2` FOREIGN KEY (`genero`) REFERENCES `identidadesgenerosestandar` (`id`)
-);
-
-INSERT INTO `identidadgenero`
-VALUES (1, '1', 1, 52),
-       (2, '2', 2, 52),
-       (3, '3', 3, 52),
-       (4, '4', 4, 52),
-       (5, '5', 5, 52),
-       (6, '6', 6, 52),
-       (7, '7', 7, 52);
 
 
 /*

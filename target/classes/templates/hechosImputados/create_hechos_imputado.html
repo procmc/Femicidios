@@ -36,7 +36,7 @@
           <div class ="form-group">
             <label>Selecciona el imputado:</label>
             <select th:name="imputados" th:field="*{CIImputado}" class = "form-control" onfocus="ocultarError()">
-              <option th:each="imputados: ${imputados}" th:value="${imputados.CI_Id}" th:text="${imputados.CI_Id}"></option>
+              <option th:each="imputados: ${imputados}" th:value="${imputados.CI_Id}" th:text="${imputados.CI_Id} + ' - ' + ${imputados.CVDni} + ' - ' + ${imputados.CVNombre}"></option>
             </select>
           </div>
 

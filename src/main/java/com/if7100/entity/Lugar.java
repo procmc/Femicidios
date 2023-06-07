@@ -42,7 +42,9 @@ public class Lugar {
 
     @Column (name="CI_Pais", nullable=false)
     private int CI_Pais;
-
+    
+    @Column (name="codigopostal", nullable=true)
+    private String codigoPostal;
     @Transient
     private String Titulo;
 
@@ -57,9 +59,10 @@ public class Lugar {
 		this.CV_Direccion= CV_Direccion;
 		this.CV_Ciudad= CV_Ciudad;
 		this.CI_Pais= CI_Pais;
+		
 	}
     
-    public Lugar(int CI_Hecho, String CV_Descripcion, int CI_Tipo_Lugar, String CV_Direccion, String CV_Ciudad, int CI_Pais, String Titulo) {
+    public Lugar(int CI_Hecho, String CV_Descripcion, int CI_Tipo_Lugar, String CV_Direccion, String CV_Ciudad, int CI_Pais, String Titulo, String codigoPostal) {
         super();
         this.CIHecho= CI_Hecho;
         this.CV_Descripcion= CV_Descripcion;
@@ -68,6 +71,7 @@ public class Lugar {
         this.CV_Ciudad= CV_Ciudad;
         this.CI_Pais= CI_Pais;
         this.Titulo=Titulo;
+        this.codigoPostal=codigoPostal;
     }
 
     public int getCI_Codigo() {
@@ -133,6 +137,14 @@ public class Lugar {
     public void setTitulo(String titulo) {
         Titulo = titulo;
     }
+
+	public String getCodigoPostal() {
+		return codigoPostal;
+	}
+
+	public void setCodigoPostal(String codigoPostal) {
+		this.codigoPostal = codigoPostal;
+	}
 
 
 

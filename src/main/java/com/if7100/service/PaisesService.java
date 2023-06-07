@@ -13,6 +13,6 @@ import  com.if7100.entity.Paises;
  */
 public interface PaisesService {
 	List<Paises>getAllPaises();
-	List<Paises>obtencionPaisesRelacionados(List<IdentidadGenero> iG);
+	
 	
 }

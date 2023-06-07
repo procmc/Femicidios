@@ -92,8 +92,7 @@ LugarService lugarService, TipoLugarService tipoLugarService, HechoService hecho
         //Integer IdDelHecho = lugarService.getLugarById(Id).getCIHecho();
     	try {
 			this.validarPerfil();
-			if(!this.perfil.getCVRol().equals("Consulta")) {
-				
+			if(!this.perfil.getCVRol().equals("Consulta")) {			
 				String descripcion = "Elimino un lugar";
 				Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), descripcion, this.perfil.getCVRol());
 				bitacoraService.saveBitacora(bitacora);
@@ -155,6 +154,7 @@ LugarService lugarService, TipoLugarService tipoLugarService, HechoService hecho
             existingLugar.setCV_Direccion(lugar.getCV_Direccion());
             existingLugar.setCV_Ciudad(lugar.getCV_Ciudad());
             existingLugar.setCI_Pais(lugar.getCI_Pais());
+            existingLugar.setCodigoPostal(lugar.getCodigoPostal());
             lugarService.updateLugar(existingLugar);
             return "redirect:/lugar/" + existingLugar.getCIHecho();
         } catch (DataIntegrityViolationException e){

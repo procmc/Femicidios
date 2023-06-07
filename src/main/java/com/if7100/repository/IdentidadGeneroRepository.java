@@ -7,7 +7,7 @@ import com.if7100.entity.IdentidadGenero;
 @Repository
 public interface IdentidadGeneroRepository extends JpaRepository<IdentidadGenero, Integer>{
 
-	IdentidadGenero findByCedula(String cedula);
+	//IdentidadGenero findByCedula(String cedula);
 
 }
 
