@@ -643,7 +643,7 @@ CREATE TABLE IF NOT EXISTS `ta_imputados` (
   `CV_Suicidio` varchar(3) NOT NULL,
   `CV_Generador` varchar(50) NOT NULL,
   PRIMARY KEY (`ci_id`)
-)
+);
 
 INSERT INTO `ta_imputados` (`ci_id`, `cv_dni`, `cv_nombre`, `cv_genero`, `cv_Orientacion_Sexual`, `ci_edad`, `CV_Lugar_Nacimiento`, `cv_pais`, `CV_Nacionalidad`, `CV_Educacion`, `CV_ocupacion`, `CV_domicilio`, `CV_Lugar_Residencia`, `CV_Condicion_Migratoria`, `CV_Etnia`, `CV_Situacion_Juridica`, `CV_Estado_Conyugal`, `CV_Permiso_Portacion_Armas`, `CV_Pertenencia_Fuerza_Seguridad`, `CV_Antecedentes`, `CV_Suicidio`, `CV_Generador`) VALUES
 (1, '698', 'Yusei Fudo', 'Masculino', 'Heterosexual', 6000, 'Purgatorio', 'Japón', '', '', '', '', '', '', '', '', '', '', '', '', '', ''),
@@ -651,7 +651,7 @@ INSERT INTO `ta_imputados` (`ci_id`, `cv_dni`, `cv_nombre`, `cv_genero`, `cv_Ori
 (3, '700', 'Javier Acuña Corrales', 'Masculino', 'Heterosexual', 60, 'Limón', 'Costa Rica', '', '', '', '', '', '', '', '', '', '', '', '', '', ''),
 (4, '701', 'Yusei Fudo', 'Masculino', 'Heterosexual', 20, 'Purgatorio', 'Holanda', '', '', '', '', '', '', '', '', '', '', '', '', '', ''),
 (5, '702', 'Jaden Yuki', 'Masculino', 'Heterosexual', 20, 'Academia de Duelos', 'Japón', '', '', '', '', '', '', '', '', '', '', '', '', '', ''),
-(6, '1', 'Fulanito tal', 'Masculino', 'Heterosexual', 60, 'Ciudad Dominó', 'Japón', '', '', '', '', '', '', '', '', '', '', '', '', '', ''),
+(6, '1', 'Fulanito tal', 'Masculino', 'Heterosexual', 60, 'Ciudad Dominó', 'Japón', '', '', '', '', '', '', '', '', '', '', '', '', '', '');
 
 
 /*
