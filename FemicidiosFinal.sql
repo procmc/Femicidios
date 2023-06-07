@@ -632,9 +632,14 @@ CREATE TABLE `ta_imputados`
     PRIMARY KEY (`ci_id`)
 );
 
-INSERT INTO `ta_imputados`
-VALUES (1, '76767', 'Imputado1', 'Masculino', 'Hetero', 22, 'Limon', '506'),
-       (2, '67676', 'Imputado2', 'Femenino', 'Hetero', 21, 'Limon', '506');
+INSERT INTO `ta_imputados` (`ci_id`, `cv_dni`, `cv_nombre`, `cv_genero`, `cv_Orientacion_Sexual`, `ci_edad`, `CV_Lugar_Nacimiento`, `cv_pais`, `CV_Nacionalidad`, `CV_Educacion`, `CV_ocupacion`, `CV_domicilio`, `CV_Lugar_Residencia`, `CV_Condicion_Migratoria`, `CV_Etnia`, `CV_Situacion_Juridica`, `CV_Estado_Conyugal`, `CV_Permiso_Portacion_Armas`, `CV_Pertenencia_Fuerza_Seguridad`, `CV_Antecedentes`, `CV_Suicidio`, `CV_Generador`) VALUES
+(1, '698', 'Yusei Fudo', 'Masculino', 'Heterosexual', 6000, 'Purgatorio', 'Japón', '', '', '', '', '', '', '', '', '', '', '', '', '', ''),
+(2, '699', 'Kijan Acuña Medrano', 'Masculino', 'Heterosexual', 24, 'Purgatorio', 'Costa Rica', '', '', '', '', '', '', '', '', '', '', '', '', '', ''),
+(3, '700', 'Javier Acuña Corrales', 'Masculino', 'Heterosexual', 60, 'Limón', 'Costa Rica', '', '', '', '', '', '', '', '', '', '', '', '', '', ''),
+(4, '701', 'Yusei Fudo', 'Masculino', 'Heterosexual', 20, 'Purgatorio', 'Holanda', '', '', '', '', '', '', '', '', '', '', '', '', '', ''),
+(5, '702', 'Jaden Yuki', 'Masculino', 'Heterosexual', 20, 'Academia de Duelos', 'Japón', '', '', '', '', '', '', '', '', '', '', '', '', '', ''),
+(6, '1', 'Fulanito tal', 'Masculino', 'Heterosexual', 60, 'Ciudad Dominó', 'Japón', '', '', '', '', '', '', '', '', '', '', '', '', '', ''),
+
 
 /*
  Tabla Hechos
