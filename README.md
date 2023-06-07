@@ -21,13 +21,15 @@ Este repositorio contiene el código fuente y la documentación para un software
 
 ## Características
 
-- Registro de datos de feminicidios, incluyendo información sobre la víctima, el perpetrador y las circunstancias del crimen.
-- Almacenamiento seguro de la información en una base de datos.
-- Búsqueda y filtrado de datos para realizar análisis y generar informes.
-- Implementación utilizando el framework Spring Boot.
-- Integración con GitHub Actions para implementar en Docker.
-- Interfaz intuitiva y fácil de usar.
-- Acceso restringido a usuarios autorizados para garantizar la privacidad de los datos sensibles.
+El sistema tiene como objetivo principal facilitar el registro y análisis de casos de femicidio, que se define como el asesinato intencional de una mujer debido a su condición de género. El sistema también abarca los asesinatos de niñas y mujeres en general. En la Ley de Penalización de la Violencia contra las Mujeres de Costa Rica, se define el femicidio como la muerte de una mujer que tiene una relación de matrimonio o unión de hecho con el perpetrador.
+
+El femicidio es considerado la forma más grave de violencia de género, donde las mujeres son asesinadas debido a su condición de mujer, generalmente a manos de su pareja actual o pasada, o de otros hombres con los que no tienen una relación de pareja. Estos casos no son simples homicidios, sino que suelen ser producto de una violencia escalonada y de una relación desigual entre la mujer y el hombre femicida.
+
+En Costa Rica, desde la promulgación de la Ley de Penalización de la Violencia contra las Mujeres en 2007 hasta el 31 de diciembre de 2020, se registraron un total de 385 femicidios, según un informe del Poder Judicial. Estas cifras muestran la importancia de contar con un sistema adecuado para el registro y seguimiento de estos casos.
+
+El sistema propuesto incluye un estándar de datos de femicidios que define las entidades y categorías a ser registradas. Este estándar ha sido desarrollado con la colaboración de expertos en el tema y refleja una versión preliminar de las variables a registrar y las codificaciones correspondientes.
+
+https://idatosabiertos.org/estandar-de-datos-de-femicidios-version-beta/
 
 ## Instalación
 
