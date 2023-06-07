@@ -1,4 +1,4 @@
-# Proyecto IF7100.2023 - Feminicidios
+# Proyecto IF7100.2023 - Femicidios
 
 Este repositorio contiene el código fuente y la documentación para un software de registro de datos de feminicidios. El objetivo de este proyecto es proporcionar una herramienta para recopilar y analizar información sobre los feminicidios que ocurren en determinada región o país. El software está desarrollado utilizando el framework Spring Boot y utiliza GitHub Actions para implementar en Docker. El proyecto cuenta con la participación de los siguientes colaboradores:
 
