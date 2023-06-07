@@ -272,7 +272,7 @@ VALUES ('Afganistán', 'Afghanistan', 'AF', 'AFG', '93', 1),
        ('Zambia', 'Zambia', 'ZM', 'ZMB', '260', 249),
        ('Zimbabue', 'Zimbabwe', 'ZW', 'ZWE', '263', 250);
 
-  /*NUEVA TABLA DE IDENTIDAD DE GENERO*/
+/*NUEVA TABLA DE IDENTIDAD DE GENERO*/
 DROP TABLE IF EXISTS `ta_identidadesgeneros`;
 CREATE TABLE `ta_identidadesgeneros`
 (
@@ -299,7 +299,7 @@ VALUES (1, 'Cis Hombre', 'Hombre identificado con el género que se le asignó a
 DROP TABLE IF EXISTS ta_situacion_juridica;
 CREATE TABLE femicidios.ta_situacion_juridica
 (
-    CI_Codigo          INT         NOT NULL AUTO_INCREMENT,
+    CI_Codigo      INT         NOT NULL AUTO_INCREMENT,
     CV_Titulo      VARCHAR(50) NOT NULL,
     CV_Descripcion VARCHAR(75) NOT NULL,
     PRIMARY KEY (CI_Codigo)
@@ -596,22 +596,51 @@ VALUES (1, 'Organismo1', 'Recopilador de datos', '1', 'Tica', '61159780'),
 
 DROP TABLE IF EXISTS `ta_hechos_imputados`;
 DROP TABLE IF EXISTS `ta_imputados`;
-CREATE TABLE `ta_imputados`
+CREATE TABLE IF NOT EXISTS `ta_imputados`
 (
-    `ci_id`                int         NOT NULL AUTO_INCREMENT,
-    `cv_dni`               varchar(50) NOT NULL,
-    `cv_nombre`            varchar(50) NOT NULL,
-    `cv_genero`            varchar(50) NOT NULL,
-    `cv_orientacionSexual` varchar(50) NOT NULL,
-    `ci_edad`              int         NOT NULL,
-    `cv_lugarNacimiento`   varchar(50) NOT NULL,
-    `cv_pais`              varchar(20) NOT NULL,
+    `ci_id`                           int(11)      NOT NULL AUTO_INCREMENT,
+    `cv_dni`                          varchar(50)  NOT NULL,
+    `cv_nombre`                       varchar(50)  NOT NULL,
+    `cv_genero`                       varchar(50)  NOT NULL,
+    `cv_Orientacion_Sexual`           varchar(50)  NOT NULL,
+    `ci_edad`                         int(50)      NOT NULL,
+    `CV_Lugar_Nacimiento`             varchar(50)  NOT NULL,
+    `cv_pais`                         varchar(20)  NOT NULL,
+    `CV_Nacionalidad`                 varchar(25)  NOT NULL,
+    `CV_Educacion`                    varchar(25)  NOT NULL,
+    `CV_ocupacion`                    varchar(25)  NOT NULL,
+    `CV_domicilio`                    varchar(255) NOT NULL,
+    `CV_Lugar_Residencia`             varchar(50)  NOT NULL,
+    `CV_Condicion_Migratoria`         varchar(25)  NOT NULL,
+    `CV_Etnia`                        varchar(15)  NOT NULL,
+    `CV_Situacion_Juridica`           varchar(30)  NOT NULL,
+    `CV_Estado_Conyugal`              varchar(20)  NOT NULL,
+    `CV_Permiso_Portacion_Armas`      varchar(3)   NOT NULL,
+    `CV_Pertenencia_Fuerza_Seguridad` varchar(3)   NOT NULL,
+    `CV_Antecedentes`                 varchar(255) NOT NULL,
+    `CV_Suicidio`                     varchar(3)   NOT NULL,
+    `CV_Generador`                    varchar(50)  NOT NULL,
     PRIMARY KEY (`ci_id`)
 );
 
-INSERT INTO `ta_imputados`
-VALUES (1, '76767', 'Imputado1', 'Masculino', 'Hetero', 22, 'Limon', '506'),
-       (2, '67676', 'Imputado2', 'Femenino', 'Hetero', 21, 'Limon', '506');
+INSERT INTO `ta_imputados` (`ci_id`, `cv_dni`, `cv_nombre`, `cv_genero`, `cv_Orientacion_Sexual`, `ci_edad`,
+                            `CV_Lugar_Nacimiento`, `cv_pais`, `CV_Nacionalidad`, `CV_Educacion`, `CV_ocupacion`,
+                            `CV_domicilio`, `CV_Lugar_Residencia`, `CV_Condicion_Migratoria`, `CV_Etnia`,
+                            `CV_Situacion_Juridica`, `CV_Estado_Conyugal`, `CV_Permiso_Portacion_Armas`,
+                            `CV_Pertenencia_Fuerza_Seguridad`, `CV_Antecedentes`, `CV_Suicidio`, `CV_Generador`)
+VALUES (1, '698', 'Yusei Fudo', 'Masculino', 'Heterosexual', 6000, 'Purgatorio', 'Japón', '', '', '', '', '', '', '',
+        '', '', '', '', '', '', ''),
+       (2, '699', 'Kijan Acuña Medrano', 'Masculino', 'Heterosexual', 24, 'Purgatorio', 'Costa Rica', '', '', '', '',
+        '', '', '', '', '', '', '', '', '', ''),
+       (3, '700', 'Javier Acuña Corrales', 'Masculino', 'Heterosexual', 60, 'Limón', 'Costa Rica', '', '', '', '', '',
+        '', '', '', '', '', '', '', '', ''),
+       (4, '701', 'Yusei Fudo', 'Masculino', 'Heterosexual', 20, 'Purgatorio', 'Holanda', '', '', '', '', '', '', '',
+        '', '', '', '', '', '', ''),
+       (5, '702', 'Jaden Yuki', 'Masculino', 'Heterosexual', 20, 'Academia de Duelos', 'Japón', '', '', '', '', '', '',
+        '', '', '', '', '', '', '', ''),
+       (6, '1', 'Fulanito tal', 'Masculino', 'Heterosexual', 60, 'Ciudad Dominó', 'Japón', '', '', '', '', '', '', '',
+        '', '', '', '', '', '', '');
+
 
 /*
  Tabla Hechos
@@ -658,7 +687,8 @@ CREATE TABLE `ta_hechos_organismos`
 );
 
 INSERT INTO `ta_hechos_organismos`
-VALUES (1,1,1), (2,2,2);
+VALUES (1, 1, 1),
+       (2, 2, 2);
 
 /*
  Tabla hecho - imputado
@@ -678,7 +708,8 @@ CREATE TABLE `ta_hechos_imputados`
 );
 
 INSERT INTO `ta_hechos_imputados`
-VALUES (1,1,1), (2,2,2);
+VALUES (1, 1, 1),
+       (2, 2, 2);
 
 /*
     Tabla Lugar
@@ -771,4 +802,5 @@ values (203450876, 'Albertina', 'Chill', 'Pepper', 30, 1, 'Cartago', 1, 'Costarr
        (203450877, 'Albertino', 'Chill', 'Pepper', 30, 2, 'Cartago', 2, 'Costarricense', 2, 'Cruz Rojista',
         'Limon centro', 'Limon', 'Ninguna', 'Todo bien', 'Mestizo', 'Ninguna', 'Ninguna', 0, 'Nada');
 
-alter table ta_lugar add column  codigopostal varchar(50) ;
+alter table ta_lugar
+    add column codigopostal varchar(50);
