@@ -26,7 +26,7 @@ El sistema tiene como objetivo principal facilitar el registro y análisis de ca
 
 El femicidio es considerado la forma más grave de violencia de género, donde las mujeres son asesinadas debido a su condición de mujer, generalmente a manos de su pareja actual o pasada, o de otros hombres con los que no tienen una relación de pareja. Estos casos no son simples homicidios, sino que suelen ser producto de una violencia escalonada y de una relación desigual entre la mujer y el hombre femicida.
 
-En Costa Rica, desde la promulgación de la Ley de Penalización de la Violencia contra las Mujeres en 2007 hasta el 31 de diciembre de 2020, se registraron un total de 385 femicidios, según un informe del Poder Judicial. Estas cifras muestran la importancia de contar con un sistema adecuado para el registro y seguimiento de estos casos.
+En Costa Rica, desde la promulgación de la Ley de Penalización de la Violencia contra las Mujeres en 2007 hasta hoy, se registran muchos casos de femicidios, según los informes del Poder Judicial. Estas cifras muestran la importancia de contar con un sistema adecuado para el registro y seguimiento de estos casos.
 
 El sistema propuesto incluye un estándar de datos de femicidios que define las entidades y categorías a ser registradas. Este estándar ha sido desarrollado con la colaboración de expertos en el tema y refleja una versión preliminar de las variables a registrar y las codificaciones correspondientes.
 
