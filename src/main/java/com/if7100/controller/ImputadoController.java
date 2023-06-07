@@ -32,10 +32,25 @@ private OrientacionSexual orientacionSexual;
 private IdentidadGeneroService identidadGeneroService;
 
 private IdentidadGenero identidadGenero;
+
+private NivelEducativo nivelEducativo;
+
+private NivelEducativoService nivelEducativoService;
+
+private SituacionJuridica situacionJuridica;
+
+private SituacionJuridicaService situacionJuridicaService;
+
+private Organismo organismo;
+
+private OrganismoService organismoService;
+
  
  public ImputadoController (BitacoraService bitacoraService,
 ImputadoService imputadoService, PerfilService perfilService, UsuarioRepository usuarioRepository,
-							IdentidadGeneroService identidadGeneroService,OrientacionSexualService orientacionSexualService) {
+							IdentidadGeneroService identidadGeneroService,OrientacionSexualService orientacionSexualService,
+							NivelEducativoService nivelEducativoService,SituacionJuridicaService situacionJuridicaService,
+							OrganismoService organismoService) {
 	 super();
 	 this.imputadoService=imputadoService;
 	 this.perfilService = perfilService;
@@ -43,7 +58,9 @@ ImputadoService imputadoService, PerfilService perfilService, UsuarioRepository 
      this.bitacoraService= bitacoraService;
 	 this.identidadGeneroService= identidadGeneroService;
 	 this.orientacionSexualService= orientacionSexualService;
-
+	 this.nivelEducativoService=nivelEducativoService;
+	 this.situacionJuridicaService=situacionJuridicaService;
+	 this.organismoService=organismoService;
  }
  
  private void validarPerfil() {
@@ -78,6 +95,9 @@ ImputadoService imputadoService, PerfilService perfilService, UsuarioRepository 
 			if(!this.perfil.getCVRol().equals("Consulta")) {
 				model.addAttribute("orientacionSexual",orientacionSexualService.getAllOrientacionesSexuales());
 				model.addAttribute("identidadGenero",identidadGeneroService.getAllIdentidadGenero());
+				model.addAttribute("nivelEducativo",nivelEducativoService.getAllNivelEducativo());
+				model.addAttribute("situacionJuridica",situacionJuridicaService.getAllSituacionJuridica());
+				model.addAttribute("listaOrganismo",organismoService.getAllOrganismos());
 				model.addAttribute("imputado",new Imputado());
 				return "imputados/create_imputado";
 			}else {
@@ -125,6 +145,9 @@ ImputadoService imputadoService, PerfilService perfilService, UsuarioRepository 
 			if(!this.perfil.getCVRol().equals("Consulta")) {
 				model.addAttribute("orientacionSexual",orientacionSexualService.getAllOrientacionesSexuales());
 				model.addAttribute("identidadGenero",identidadGeneroService.getAllIdentidadGenero());
+				model.addAttribute("nivelEducativo",nivelEducativoService.getAllNivelEducativo());
+				model.addAttribute("situacionJuridica",situacionJuridicaService.getAllSituacionJuridica());
+				model.addAttribute("listaOrganismo",organismoService.getAllOrganismos());
 				model.addAttribute("imputado", imputadoService.getImputadoById(id));
 				return "imputados/edit_imputado";
 			}else {
@@ -147,6 +170,20 @@ ImputadoService imputadoService, PerfilService perfilService, UsuarioRepository 
 	 existingImputado.setCVLugarNacimiento(imputado.getCVLugarNacimiento());
 	 existingImputado.setCIEdad(imputado.getCIEdad());
 	 existingImputado.setCVPais(imputado.getCVPais());
+	 existingImputado.setCVNacionalidad(imputado.getCVNacionalidad());
+	 existingImputado.setCVAntecedentes(imputado.getCVAntecedentes());
+	 existingImputado.setCVEducacion(imputado.getCVEducacion());
+	 existingImputado.setCVEstadoConyugal(imputado.getCVEstadoConyugal());
+	 existingImputado.setCVLugarResidencia(imputado.getCVLugarResidencia());
+	 existingImputado.setCVCondicionMigratoria(imputado.getCVCondicionMigratoria());
+	 existingImputado.setCVEtnia(imputado.getCVEtnia());
+	 existingImputado.setCVGenerador(imputado.getCVGenerador());
+	 existingImputado.setCVOcupacion(imputado.getCVOcupacion());
+	 existingImputado.setCVSituacionJuridica(imputado.getCVSituacionJuridica());
+	 existingImputado.setCVPertenenciaFuerzaSeguridad(imputado.getCVPertenenciaFuerzaSeguridad());
+	 existingImputado.setCVPermisoPortacionArmas(imputado.getCVPermisoPortacionArmas());
+	 existingImputado.setCVSuicidio(imputado.getCVSuicidio());
+	 existingImputado.setCVDomicilio(imputado.getCVDomicilio());
 	 
 	 imputadoService.updateImputado(existingImputado);
 	 return "redirect:/imputados";

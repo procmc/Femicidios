@@ -59,6 +59,26 @@
 					
 					<th> Codigo pais </th>
 
+					<th> Nacionalidad</th>
+					<th> Educacion</th>
+					<th> Ocupacion</th>
+
+					<th> Domicilio </th>
+					<th> Residencia</th>
+					<th> Condicion Migratoria</th>
+
+					<th> Etnia </th>
+
+					<th> Situacion Juridica </th>
+
+					<th> Estado Conyugal</th>
+					<th> Permiso de Portacion de Armas</th>
+					<th> Pertenencia a Fuerzas de Seguridad</th>
+					<th> Antecedentes</th>
+
+					<th> Suicidio </th>
+					<th> Generador</th>
+
 					<th> Acciones</th>
 				</tr>
 			
@@ -71,6 +91,20 @@
 					<td th:text = "${imputado.CIEdad}"></td>
 					<td th:text = "${imputado.CVLugarNacimiento}"></td>
 					<td th:text = "${imputado.CVPais}"></td>
+					<td th:text = "${imputado.CVNacionalidad}"></td>
+					<td th:text = "${imputado.CVEducacion}"></td>
+					<td th:text = "${imputado.CVOcupacion}"></td>
+					<td th:text = "${imputado.CVDomicilio}"></td>
+					<td th:text = "${imputado.CVLugarResidencia}"></td>
+					<td th:text = "${imputado.CVCondicionMigratoria}"></td>
+					<td th:text = "${imputado.CVEtnia}"></td>
+					<td th:text = "${imputado.CVSituacionJuridica}"></td>
+					<td th:text = "${imputado.CVEstadoConyugal}"></td>
+					<td th:text = "${imputado.CVPermisoPortacionArmas}"></td>
+					<td th:text = "${imputado.CVPertenenciaFuerzaSeguridad}"></td>
+					<td th:text = "${imputado.CVAntecedentes}"></td>
+					<td th:text = "${imputado.CVSuicidio}"></td>
+					<td th:text = "${imputado.CVGenerador}"></td>
 					<td>
 						<a th:href = "@{/imputados/edit/{id}(id=${imputado.CI_Id})}"
 						 class = "btn btn-primary">Actualizar</a>
