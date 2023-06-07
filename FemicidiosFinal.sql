@@ -619,18 +619,31 @@ VALUES (1, 'Organismo1', 'Recopilador de datos', '1', 'Tica', '61159780'),
 
 DROP TABLE IF EXISTS `ta_hechos_imputados`;
 DROP TABLE IF EXISTS `ta_imputados`;
-CREATE TABLE `ta_imputados`
-(
-    `ci_id`                int         NOT NULL AUTO_INCREMENT,
-    `cv_dni`               varchar(50) NOT NULL,
-    `cv_nombre`            varchar(50) NOT NULL,
-    `cv_genero`            varchar(50) NOT NULL,
-    `cv_orientacionSexual` varchar(50) NOT NULL,
-    `ci_edad`              int         NOT NULL,
-    `cv_lugarNacimiento`   varchar(50) NOT NULL,
-    `cv_pais`              varchar(20) NOT NULL,
-    PRIMARY KEY (`ci_id`)
-);
+CREATE TABLE IF NOT EXISTS `ta_imputados` (
+  `ci_id` int(11) NOT NULL AUTO_INCREMENT,
+  `cv_dni` varchar(50) NOT NULL,
+  `cv_nombre` varchar(50) NOT NULL,
+  `cv_genero` varchar(50) NOT NULL,
+  `cv_Orientacion_Sexual` varchar(50) NOT NULL,
+  `ci_edad` int(50) NOT NULL,
+  `CV_Lugar_Nacimiento` varchar(50) NOT NULL,
+  `cv_pais` varchar(20) NOT NULL,
+  `CV_Nacionalidad` varchar(25) NOT NULL,
+  `CV_Educacion` varchar(25) NOT NULL,
+  `CV_ocupacion` varchar(25) NOT NULL,
+  `CV_domicilio` varchar(255) NOT NULL,
+  `CV_Lugar_Residencia` varchar(50) NOT NULL,
+  `CV_Condicion_Migratoria` varchar(25) NOT NULL,
+  `CV_Etnia` varchar(15) NOT NULL,
+  `CV_Situacion_Juridica` varchar(30) NOT NULL,
+  `CV_Estado_Conyugal` varchar(20) NOT NULL,
+  `CV_Permiso_Portacion_Armas` varchar(3) NOT NULL,
+  `CV_Pertenencia_Fuerza_Seguridad` varchar(3) NOT NULL,
+  `CV_Antecedentes` varchar(255) NOT NULL,
+  `CV_Suicidio` varchar(3) NOT NULL,
+  `CV_Generador` varchar(50) NOT NULL,
+  PRIMARY KEY (`ci_id`)
+)
 
 INSERT INTO `ta_imputados` (`ci_id`, `cv_dni`, `cv_nombre`, `cv_genero`, `cv_Orientacion_Sexual`, `ci_edad`, `CV_Lugar_Nacimiento`, `cv_pais`, `CV_Nacionalidad`, `CV_Educacion`, `CV_ocupacion`, `CV_domicilio`, `CV_Lugar_Residencia`, `CV_Condicion_Migratoria`, `CV_Etnia`, `CV_Situacion_Juridica`, `CV_Estado_Conyugal`, `CV_Permiso_Portacion_Armas`, `CV_Pertenencia_Fuerza_Seguridad`, `CV_Antecedentes`, `CV_Suicidio`, `CV_Generador`) VALUES
 (1, '698', 'Yusei Fudo', 'Masculino', 'Heterosexual', 6000, 'Purgatorio', 'Japón', '', '', '', '', '', '', '', '', '', '', '', '', '', ''),
