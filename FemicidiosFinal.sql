@@ -727,7 +727,7 @@ CREATE TABLE `ta_lugar`
     `CV_Direccion`   varchar(100) NOT NULL,
     `CV_Ciudad`      varchar(50)  NOT NULL,
     `CI_Pais`        int          NOT NULL,
-    `CI_CodigoPostal` varchar(15)  NOT NULL,
+    `CI_Codigo_Postal` varchar(15)  NOT NULL,
     PRIMARY KEY (`CI_Codigo`),
     KEY `CI_Hecho` (`CI_Hecho`),
     CONSTRAINT `ta_lugar_ibfk_1` FOREIGN KEY (`CI_Hecho`) REFERENCES `ta_hechos` (`CI_Id`)
