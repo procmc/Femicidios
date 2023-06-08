@@ -369,29 +369,30 @@ VALUES (1, 'Golpes', 'Asesinada por golpes'),
 /*
  Tabla NivelEducativo
  */
-
 DROP TABLE IF EXISTS `ta_niveleducativo`;
 CREATE TABLE `ta_niveleducativo`
 (
     `CI_Id`          int         NOT NULL AUTO_INCREMENT,
     `CV_Titulo`      varchar(50) NOT NULL,
     `CV_Descripcion` varchar(75) NOT NULL,
-    `CI_Pais`        int         NOT NULL,
+   
     PRIMARY KEY (`CI_Id`)
 );
 
 INSERT INTO `ta_niveleducativo`
-VALUES (1, 'Primera infancia', 'Eduacion de la primera infancia.', 506),
-       (2, 'Preescolar', 'Menos que primaria.', 506),
-       (3, 'Primaria', 'Educaciòn primaria', 506),
-       (4, 'Secundaria baja', 'Educaciòn secundaria baja', 506),
-       (5, 'Secundaria alta', 'Educaciòn secundaria alta', 506),
-       (6, 'Postsecundaria no terciaria', 'Educaciòn postsecundaria no terciaria', 506),
-       (7, 'Terciaria', 'Educaciòn terciaria de ciclo corto', 506),
-       (8, 'Grado', 'Grado en educaciòn universitaria o nivel equivalente.', 506),
-       (9, 'Maestria', 'Nivel de maestrìa especializaciòn o equivalente', 506),
-       (10, 'Doctorado', 'Nivel de doctorado o equivalente', 506),
-       (11, 'Se desconoce', 'Se desconoce nivel eduactivo', 506);
+VALUES (1, 'Primera infancia', 'Eduacion de la primera infancia.' ),
+       (2, 'Preescolar', 'Menos que primaria.'),
+       (3, 'Primaria', 'Educaciòn primaria' ),
+       (4, 'Secundaria baja', 'Educaciòn secundaria baja'),
+       (5, 'Secundaria alta', 'Educaciòn secundaria alta'),
+       (6, 'Postsecundaria no terciaria', 'Educaciòn postsecundaria no terciaria'),
+       (7, 'Terciaria', 'Educaciòn terciaria de ciclo corto'),
+       (8, 'Grado', 'Grado en educaciòn universitaria o nivel equivalente.'),
+       (9, 'Maestria', 'Nivel de maestrìa especializaciòn o equivalente'),
+       (10, 'Doctorado', 'Nivel de doctorado o equivalente'),
+       (11, 'Se desconoce', 'Se desconoce nivel eduactivo');
+
+
 
 /*
  Tabla TipoLugar
