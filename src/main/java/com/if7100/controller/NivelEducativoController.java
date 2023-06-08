@@ -103,9 +103,9 @@ public String deleteNivelEducativo(@PathVariable Integer id) {
 		if(!this.perfil.getCVRol().equals("Consulta")) {
 			
 			String descripcion = "Elimino un nivel educativo";
-			Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), descripcion, this.perfil.getCVRol());
+Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(),descripcion);
 			bitacoraService.saveBitacora(bitacora);
-			
+						
 			nivelEducativoService.deleteNivelEducativoById(id);
 			return "redirect:/nivelEducativo";
 		}else {
