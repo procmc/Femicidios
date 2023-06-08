@@ -86,18 +86,14 @@ public class LugarController {
 		try {
 			this.validarPerfil();
 			if (!this.perfil.getCVRol().equals("Consulta")) {
-			/*	String descripcion = "Elimino un lugar";
-				Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), descripcion,
-						this.perfil.getCVRol());
-				bitacoraService.saveBitacora(bitacora);*/
-
-				Integer idLugarHecho = (Integer) session.getAttribute("idLugarHecho");
+				String descripcion = "Elimino un lugar";
+				Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
+				bitacoraService.saveBitacora(bitacora);
 				lugarService.deleteLugarById(Id);
-				return "redirect:/lugar/" + idLugarHecho;
+				return "redirect:/lugares";
 			} else {
 				return "SinAcceso";
 			}
-
 		} catch (Exception e) {
 			return "SinAcceso";
 		}
@@ -195,12 +191,15 @@ public class LugarController {
 		return "lugares/lugares";
 	}
 
+	
 	@GetMapping("/lugar")
 	public String listLugares(@RequestParam("id") Integer id, Model model) {
 		List<Lugar> listaLugar = lugarService.getAllLugares(id);
 		model.addAttribute("lugar", listaLugar);
 		return "lugares/lugares";
 	}
+
+
 
 	// Este Metodo esta bueno pero solo sirve si selecciona ver la lista de lugares
 	// de un hecho y desde la misma ventana de lugar se agrega un lugar de un hecho
