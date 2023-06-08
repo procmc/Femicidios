@@ -87,7 +87,12 @@ public String createUsuarioForm(Model model){
 @PostMapping("/nivelEducativo")
 public String saveNivelEducativo(@ModelAttribute("nivelEducativo") NivelEducativo nivelEducativo) {
 	nivelEducativoService.saveNivelEducativo(nivelEducativo);
+	String descripcion="Creo nivel educativo";
+	 Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
+     bitacoraService.saveBitacora(bitacora);
 	return "redirect:/nivelEducativo";
+	
+	
 }
 
 @GetMapping("/nivelEducativo/{id}")
@@ -134,7 +139,9 @@ public String updateNivelEducativo (@PathVariable Integer id, @ModelAttribute ("
 	existingNivelEducativo.setCI_Id(id);
 	existingNivelEducativo.setCVTitulo(nivelEducativo.getCVTitulo());
 	existingNivelEducativo.setCVDescripcion(nivelEducativo.getCVDescripcion());
-	
+	String descripcion="Actualizo nivel educativo";
+    Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
+    bitacoraService.saveBitacora(bitacora);
 	
 	nivelEducativoService.updateNivelEducativo(existingNivelEducativo);
 	return "redirect:/nivelEducativo";
