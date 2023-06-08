@@ -74,6 +74,11 @@ private Usuario usuario;
 			if(!this.perfil.getCVRol().equals("Consulta")) {
 				
 				model.addAttribute("procesoJudicial",new ProcesoJudicial());
+				
+				String descripcion = "Crea en Proceso Judicial";
+				Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),this.perfil.getCVRol(),descripcion);
+				bitacoraService.saveBitacora(bitacora);
+				
 				return "procesosJudiciales/create_procesosJudiciales";
 			}else {
 				return "SinAcceso";
@@ -82,6 +87,7 @@ private Usuario usuario;
 		}catch (Exception e) {
 			return "SinAcceso";
 		}
+	 
  }
  
  @PostMapping("/procesosJudiciales")
@@ -120,6 +126,11 @@ private Usuario usuario;
 			if(!this.perfil.getCVRol().equals("Consulta")) {
 				
 				model.addAttribute("procesoJudicial", procesoJudicialService.getProcesoJudicialById(id));
+				
+				String descripcion="Actualiza en Proceso Judicial";
+				Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),this.perfil.getCVRol(),descripcion);
+				bitacoraService.saveBitacora(bitacora);
+				
 				 return "procesosJudiciales/edit_procesosJudiciales";
 			}else {
 				return "SinAcceso";
