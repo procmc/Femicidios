@@ -10,16 +10,15 @@ import com.if7100.entity.Lugar;
 public interface LugarService {
 
     List<Lugar> getAllLugares(Integer CI_Hecho);
-//List<Lugar> getAllLugares(String palabraClave);
 
     List<Lugar> getAllLugar();
 
-    Lugar saveLugar(Lugar lugar);     //Bueno
+    Lugar saveLugar(Lugar lugar);
 
-    Lugar getLugarById(Integer Id);   //Bueno
+    Lugar getLugarById(Integer Id);
 
-    void deleteLugarById(Integer Id);  //Bueno
+    void deleteLugarById(Integer Id);
 
-    Lugar updateLugar(Lugar lugar);   // Bueno
+    Lugar updateLugar(Lugar lugar);
 
 }

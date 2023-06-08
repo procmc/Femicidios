@@ -727,16 +727,17 @@ CREATE TABLE `ta_lugar`
     `CV_Direccion`   varchar(100) NOT NULL,
     `CV_Ciudad`      varchar(50)  NOT NULL,
     `CI_Pais`        int          NOT NULL,
+    `CI_CodigoPostal` varchar(15)  NOT NULL,
     PRIMARY KEY (`CI_Codigo`),
     KEY `CI_Hecho` (`CI_Hecho`),
     CONSTRAINT `ta_lugar_ibfk_1` FOREIGN KEY (`CI_Hecho`) REFERENCES `ta_hechos` (`CI_Id`)
 );
 
 INSERT INTO `ta_lugar`
-VALUES (1, 1, 'Descripcion 1', 1, 'Direccion1', 'Ciudad1', 506),
-       (2, 1, 'Descripcion2', 2, 'Direccion2', 'Ciudad2', 506),
-       (3, 2, 'Descripcion1', 1, 'Direccion1', 'Ciudad1', 506),
-       (4, 2, 'Descripcion2', 2, 'Direccion2', 'Ciudad2', 506);
+VALUES (1, 1, 'Descripcion 1', 1, 'Direccion1', 'Ciudad1', 506,'3030'),
+       (2, 1, 'Descripcion2', 2, 'Direccion2', 'Ciudad2', 506,'3030'),
+       (3, 2, 'Descripcion1', 1, 'Direccion1', 'Ciudad1', 506,'3030'),
+       (4, 2, 'Descripcion2', 2, 'Direccion2', 'Ciudad2', 506,'3030');
 
 /*
  Tabla ProcesoJudicial
@@ -803,5 +804,3 @@ values (203450876, 'Albertina', 'Chill', 'Pepper', 30, 1, 'Cartago', 1, 'Costarr
        (203450877, 'Albertino', 'Chill', 'Pepper', 30, 2, 'Cartago', 2, 'Costarricense', 2, 'Cruz Rojista',
         'Limon centro', 'Limon', 'Ninguna', 'Todo bien', 'Mestizo', 'Ninguna', 'Ninguna', 0, 'Nada');
 
-alter table ta_lugar
-    add column codigopostal varchar(50);
