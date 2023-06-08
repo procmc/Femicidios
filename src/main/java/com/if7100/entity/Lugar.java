@@ -43,15 +43,15 @@ public class Lugar {
     @Column (name="CI_Pais", nullable=false)
     private int CI_Pais;
     
-    @Column (name="codigopostal", nullable=true)
-    private String codigoPostal;
+    @Column (name="CI_CodigoPostal", nullable=true)
+    private String CI_CodigoPostal;
     @Transient
     private String Titulo;
 
     public Lugar() {
     }
 
-    public Lugar(int CI_Hecho, String CV_Descripcion, int CI_Tipo_Lugar, String CV_Direccion, String CV_Ciudad, int CI_Pais) {
+    public Lugar(int CI_Hecho, String CV_Descripcion, int CI_Tipo_Lugar, String CV_Direccion, String CV_Ciudad, int CI_Pais, String CI_CodigoPostal) {
 		super();
 		this.CIHecho= CI_Hecho;
 		this.CV_Descripcion= CV_Descripcion;
@@ -59,10 +59,10 @@ public class Lugar {
 		this.CV_Direccion= CV_Direccion;
 		this.CV_Ciudad= CV_Ciudad;
 		this.CI_Pais= CI_Pais;
-		
+		this.CI_CodigoPostal=CI_CodigoPostal;
 	}
     
-    public Lugar(int CI_Hecho, String CV_Descripcion, int CI_Tipo_Lugar, String CV_Direccion, String CV_Ciudad, int CI_Pais, String Titulo, String codigoPostal) {
+    public Lugar(int CI_Hecho, String CV_Descripcion, int CI_Tipo_Lugar, String CV_Direccion, String CV_Ciudad, int CI_Pais, String CI_CodigoPostal, String Titulo) {
         super();
         this.CIHecho= CI_Hecho;
         this.CV_Descripcion= CV_Descripcion;
@@ -71,7 +71,7 @@ public class Lugar {
         this.CV_Ciudad= CV_Ciudad;
         this.CI_Pais= CI_Pais;
         this.Titulo=Titulo;
-        this.codigoPostal=codigoPostal;
+        this.CI_CodigoPostal=CI_CodigoPostal;
     }
 
     public int getCI_Codigo() {
@@ -138,15 +138,11 @@ public class Lugar {
         Titulo = titulo;
     }
 
-	public String getCodigoPostal() {
-		return codigoPostal;
+	public String getCI_CodigoPostal() {
+		return CI_CodigoPostal;
 	}
 
-	public void setCodigoPostal(String codigoPostal) {
-		this.codigoPostal = codigoPostal;
+	public void setCI_CodigoPostal(String cI_CodigoPostal) {
+		CI_CodigoPostal = cI_CodigoPostal;
 	}
-
-
-
-
 }
