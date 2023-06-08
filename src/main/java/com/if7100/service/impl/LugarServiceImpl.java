@@ -28,37 +28,6 @@ public class LugarServiceImpl implements LugarService{
         this.tipoLugarRepository=tipoLugarRepository;
     }
 
-
-
-
-
-
-
-
-
-    /*
-
-
-    public List<Lugar> getAllLugares(String palabraClave){
-    	List<Lugar> salida;
-    	if(palabraClave!=null) {
-    		salida= lugarRepository.findAll(palabraClave);
-    	}
-    	else {
-        salida = lugarRepository.findAll();
-    	}
-        for (Lugar lugar : salida) {
-            TipoLugar tipoLugar = tipoLugarRepository.findById(lugar.getCI_Tipo_Lugar()).orElse(null);
-            if (tipoLugar != null) {
-                lugar.setTitulo(tipoLugar.getCVTitulo());
-            }
-        }
-        return salida;
-    }
-    */
-
-
-
     public List<Lugar> getAllLugar(){
         List<Lugar> salida= lugarRepository.findAll();
 
@@ -71,12 +40,6 @@ public class LugarServiceImpl implements LugarService{
         return salida;
     }
 
-
-
-
-
-
-
     public List<Lugar> getAllLugares(Integer CI_Hecho){
         List<Lugar> salida= lugarRepository.findByCIHecho(CI_Hecho);
 
@@ -88,16 +51,6 @@ public class LugarServiceImpl implements LugarService{
         }
         return salida;
     }
-
-
-
-   /* @Override
-    public List<Lugar> getAllLugares(){
-    	return lugarRepository.findAll();
-
-    }*/
-
-
 
     @Override
     public Lugar saveLugar(Lugar lugar){
@@ -118,13 +71,4 @@ public class LugarServiceImpl implements LugarService{
     public Lugar updateLugar(Lugar lugar){
         return lugarRepository.save(lugar);
     }
-
-
-   /* @Override
-    public Usuario getUsuarioByCVNombre(String CV_Nombre){
-    	return usuarioRepository.findByCVNombre(CV_Nombre);
-    }*/
-
-
-
 }
