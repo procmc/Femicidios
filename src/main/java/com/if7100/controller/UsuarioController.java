@@ -123,6 +123,9 @@ UsuarioService usuarioService, PerfilService perfilService, UsuarioRepository us
 		 return "redirect:/create_usuario";
 	 }else {
 		 usuarioService.saveUsuario(usuario);
+		 String descripcion="Creo un Nuevo Usuario";
+	     Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
+	     bitacoraService.saveBitacora(bitacora);
 		 return "redirect:/usuarios";
 	 }
  }
@@ -189,32 +192,9 @@ UsuarioService usuarioService, PerfilService perfilService, UsuarioRepository us
 	 existingUsuario.setCIPerfil(usuario.getCIPerfil());
 	 existingUsuario.setTCClave(usuario.getTCClave());
 	 usuarioService.updateUsuario(existingUsuario);
+	 String descripcion="Actualizo un Usuario";
+     Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
+     bitacoraService.saveBitacora(bitacora);
 	 return "redirect:/usuarios";
   }
- /*
- @GetMapping("/session")
- public  ResponseEntity<?> getDetailsSession(){
-	 String sessionId="";
-	 User userObject=null;
-	 
-	 
-	 List<Object> sessions= sessionRegistry.getAllPrincipals();
-	 
-	 for(Object session : sessions) {
-		 if(session instanceof User) {
-			 userObject=(User) session;
-		 }
-		List<SessionInformation> sessionInformations= sessionRegistry.getAllSessions(session, false);
-		 for(SessionInformation sessionInformation : sessionInformations) {
-			 sessionId=sessionInformation.getSessionId();
-		 }
-	 }
-	 
-	 Map<String, Object> response= new HashMap<>();
-	 response.put("response","Hello");
-	 response.put("sessionId",sessionId);
-	 response.put("sessionUser",userObject);
-	 return ResponseEntity.ok(response);
- }*/
- 
 }
