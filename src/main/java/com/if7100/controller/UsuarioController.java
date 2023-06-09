@@ -144,7 +144,7 @@ UsuarioService usuarioService, PerfilService perfilService, UsuarioRepository us
 			if(this.perfil.getCVRol().equals("Administrador")) {
 				
 				String descripcion = "Elimino un usuario";
-				Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), descripcion, this.perfil.getCVRol());
+				Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
 				bitacoraService.saveBitacora(bitacora);
 				
 				usuarioService.deleteUsuarioById(Id);
