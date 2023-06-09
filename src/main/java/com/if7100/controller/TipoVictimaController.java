@@ -88,6 +88,9 @@ TipoVictimaService tipoVictimaService, PerfilService perfilService, UsuarioRepos
     @PostMapping("/tipovictimas")
     public String saveTipoVictima(@ModelAttribute("tipoVictima") TipoVictima tipoVictima){
         tipoVictimaService.saveTipoVictima(tipoVictima);
+        String descripcion="Creo un Tipo de Victima";
+        Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
+        bitacoraService.saveBitacora(bitacora);
         return "redirect:/tipovictimas";
     }
 
@@ -99,7 +102,7 @@ TipoVictimaService tipoVictimaService, PerfilService perfilService, UsuarioRepos
 			if(!this.perfil.getCVRol().equals("Consulta")) {
 				
 				String descripcion = "Elimino un tipo de victima";
-				Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), descripcion, this.perfil.getCVRol());
+				Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
 				bitacoraService.saveBitacora(bitacora);
 				
 				tipoVictimaService.deleteTipoVictimaById(id);
@@ -138,6 +141,9 @@ TipoVictimaService tipoVictimaService, PerfilService perfilService, UsuarioRepos
         existingTipoVictima.setCVTitulo(tipoVictima.getCVTitulo());
         existingTipoVictima.setCVDescripcion(tipoVictima.getCVDescripcion());
         tipoVictimaService.updateTipoVictima(existingTipoVictima);
+        String descripcion="Actualizo un tipo de victima";
+        Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
+        bitacoraService.saveBitacora(bitacora);
         return "redirect:/tipovictimas";
     }
 
