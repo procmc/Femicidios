@@ -513,7 +513,7 @@ DROP TABLE IF EXISTS `ta_perfil`;
 CREATE TABLE `ta_perfil`
 (
     `CI_Id`          int         NOT NULL AUTO_INCREMENT,
-    `CV_Descripcion` varchar(50) NOT NULL,
+    `CV_Descripcion` varchar(200) NOT NULL,
     `CV_rol`         varchar(50) NOT NULL,
     PRIMARY KEY (`CI_Id`)
 );
