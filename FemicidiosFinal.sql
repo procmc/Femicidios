@@ -629,7 +629,7 @@ INSERT INTO `ta_imputados` (`ci_id`, `cv_dni`, `cv_nombre`, `cv_genero`, `cv_Ori
                             `CV_domicilio`, `CV_Lugar_Residencia`, `CV_Condicion_Migratoria`, `CV_Etnia`,
                             `CV_Situacion_Juridica`, `CV_Estado_Conyugal`, `CV_Permiso_Portacion_Armas`,
                             `CV_Pertenencia_Fuerza_Seguridad`, `CV_Antecedentes`, `CV_Suicidio`, `CV_Generador`)
-VALUES (1, '698', 'Yusei Fudo', 'Masculino', 'Heterosexual', 6000, 'Purgatorio', 'Japón', '', '', '', '', '', '', '',
+VALUES (1, '698', 'Yusei Fudo', 'Masculino', 'Heterosexual', 6000, 'Purgatorio', 'Japón', 'Japonés', '', '', '', '', '', '',
         '', '', '', '', '', '', ''),
        (2, '699', 'Kijan Acuña Medrano', 'Masculino', 'Heterosexual', 24, 'Purgatorio', 'Costa Rica', '', '', '', '',
         '', '', '', '', '', '', '', '', '', ''),
