@@ -67,12 +67,12 @@ public class HechoOrganismoServiceImpl implements HechoOrganismoService {
     }
 
     @Override
-    public HechoOrganismo getHechoOrganismoByIdHecho(Integer CIHecho) {
-        return hechoOrganismoRepository.findByCIHecho(CIHecho);
+    public List<HechoOrganismo> getHechoOrganismoByIdCIHecho(Integer CIHecho) {
+        return hechoOrganismoRepository.findAllByCIHecho(CIHecho);
     }
 
     @Override
-    public HechoOrganismo getHechoOrganismoBYIdOrganismo(Integer CIOrganismo) {
-        return hechoOrganismoRepository.findByCIOrganismo(CIOrganismo);
+    public List<HechoOrganismo> getHechoOrganismoBYIdCIOrganismo(Integer CIOrganismo) {
+        return hechoOrganismoRepository.findAllByCIOrganismo(CIOrganismo);
     }
 }

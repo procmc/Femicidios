@@ -84,12 +84,12 @@ public class HechoImputadoServiceImpl implements HechoImputadoService {
     }
 
     @Override
-    public HechoImputado getHechoImputadoByIdHecho(Integer CIHecho) {
-        return hechoImputadoRepository.findByCIHecho(CIHecho);
+    public List<HechoImputado> getHechoImputadoByIdHecho(Integer CIHecho) {
+        return hechoImputadoRepository.findAllByCIHecho(CIHecho);
     }
 
     @Override
-    public HechoImputado getHechoImputadoByIdImputado(Integer CIImputado) {
-        return hechoImputadoRepository.findByCIImputado(CIImputado);
+    public List<HechoImputado> getHechoImputadoByIdImputado(Integer CIImputado) {
+        return hechoImputadoRepository.findAllByCIImputado(CIImputado);
     }
 }

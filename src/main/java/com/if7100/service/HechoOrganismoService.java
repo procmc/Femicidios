@@ -20,8 +20,8 @@ public interface HechoOrganismoService {
 
     void deleteHechoOrganismoById(Integer Id);
 
-    HechoOrganismo getHechoOrganismoByIdHecho(Integer CIHecho);
+    List<HechoOrganismo> getHechoOrganismoByIdCIHecho(Integer CIHecho);
 
-    HechoOrganismo getHechoOrganismoBYIdOrganismo(Integer CIOrganismo);
+    List<HechoOrganismo> getHechoOrganismoBYIdCIOrganismo(Integer CIOrganismo);
 
 }

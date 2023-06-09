@@ -30,6 +30,13 @@ public class HechoOrganismo {
         this.CIOrganismo = CIOrganismo;
     }
 
+    public HechoOrganismo(Integer CI_Id,Integer CIHecho, Integer CIOrganismo){
+        super();
+        this.CI_Id = CI_Id;
+        this.CIHecho = CIHecho;
+        this.CIOrganismo = CIOrganismo;
+    }
+
     public Integer getCI_Id() {
         return CI_Id;
     }

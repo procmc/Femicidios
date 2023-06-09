@@ -20,8 +20,8 @@ public interface HechoImputadoService {
 
     void deleteHechoImputadoById(Integer Id);
 
-    HechoImputado getHechoImputadoByIdHecho(Integer CIHecho);
+    List<HechoImputado> getHechoImputadoByIdHecho(Integer CIHecho);
 
-    HechoImputado getHechoImputadoByIdImputado(Integer CIImputado);
+    List<HechoImputado> getHechoImputadoByIdImputado(Integer CIImputado);
 
 }

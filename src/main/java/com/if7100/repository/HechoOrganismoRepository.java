@@ -4,11 +4,13 @@ import com.if7100.entity.HechoOrganismo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface HechoOrganismoRepository extends JpaRepository<HechoOrganismo, Integer> {
 
-    HechoOrganismo findByCIHecho(Integer CIHecho);
+    List<HechoOrganismo> findAllByCIHecho(Integer CIHecho);
 
-    HechoOrganismo findByCIOrganismo(Integer CIOrganismo);
+    List<HechoOrganismo> findAllByCIOrganismo(Integer CIOrganismo);
 
 }
