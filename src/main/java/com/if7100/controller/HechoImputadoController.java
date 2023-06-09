@@ -191,7 +191,7 @@ public class HechoImputadoController {
             String descripcion="Creo en Hechos Imputado";
             Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
             bitacoraService.saveBitacora(bitacora);
-            return "redirect:/hechoimputado";
+            return "redirect:/hechosimputado/" + hechoImputado.getCIHecho();
         }catch (DataIntegrityViolationException e){
             String mensaje = "No se puede guardar el hecho debido a un error de integridad de datos.";
             model.addAttribute("error_message", mensaje);
@@ -207,7 +207,7 @@ public class HechoImputadoController {
             String descripcion="Creo en Hechos Imputado";
             Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
             bitacoraService.saveBitacora(bitacora);
-            return "redirect:/hechoimputado";
+            return "redirect:/hechoimputados/" + hechoImputado.getCIImputado();
         }catch (DataIntegrityViolationException e){
             String mensaje = "No se puede guardar el hecho debido a un error de integridad de datos.";
             model.addAttribute("error_message", mensaje);
