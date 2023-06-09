@@ -103,7 +103,7 @@ TipoRelacionService tipoRelacionService, PerfilService perfilService, UsuarioRep
 			if(!this.perfil.getCVRol().equals("Consulta")) {
 				
 				String descripcion = "Elimino un tipo de relacion";
-				Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), descripcion, this.perfil.getCVRol());
+				Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),this.perfil.getCVRol(), descripcion);
 				bitacoraService.saveBitacora(bitacora);
 				
 				tipoRelacionService.deleteTipoRelacionById(id);
@@ -146,5 +146,4 @@ TipoRelacionService tipoRelacionService, PerfilService perfilService, UsuarioRep
         bitacoraService.saveBitacora(bitacora);
         return "redirect:/tiporelaciones";
     }
-
 }
