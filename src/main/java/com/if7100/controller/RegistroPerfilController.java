@@ -100,6 +100,11 @@ PerfilService perfilService, UsuarioRepository usuarioRepository) {
 	public String savePerfil (@ModelAttribute("perfil") Perfil perfil) {
 		
 		perfilService.savePerfil(perfil);
+		
+		String descripcion = "Agregó un perfil";
+		Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), descripcion, this.perfil.getCVRol());
+		bitacoraService.saveBitacora(bitacora);
+		
 		return "redirect:/perfiles";
 	}
 	
@@ -152,6 +157,11 @@ PerfilService perfilService, UsuarioRepository usuarioRepository) {
 		existingUsuario.setCVRol(perfil.getCVRol());
 		
 		perfilService.updatePerfil(existingUsuario);
+		
+		String descripcion = "Editó un perfil";
+		Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), descripcion, this.perfil.getCVRol());
+		bitacoraService.saveBitacora(bitacora);
+		
 		return "redirect:/perfiles";
 	}
 }
