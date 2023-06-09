@@ -25,7 +25,7 @@ public class LugarControllerTest {
 	private Integer Pais=506;
 	private String Descripcion2="Prueba";
 
-	private Lugar lugar = new Lugar(Hecho, "parqueo", 2, "Boston", Ciudad, Pais, "70101");
+	private Lugar lugar = new Lugar(Hecho, "parqueo", 2, "Boston", Ciudad, Pais, 70101);
 
 	//private Lugar lugar= new Lugar(Hecho, "parqueo", 2, "Boston", Ciudad, Pais);
 	private Lugar LugarConsultado= new Lugar();

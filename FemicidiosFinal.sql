@@ -7,8 +7,8 @@ use femicidios;
  */
 
 DROP TABLE IF EXISTS `identidadgenero`;
-DROP TABLE IF EXISTS `codigopaises`;
-CREATE TABLE `codigopaises`
+DROP TABLE IF EXISTS `ta_codigopaises`;
+CREATE TABLE `ta_codigopaises`
 (
     `spanish`      varchar(60) NOT NULL,
     `english`      varchar(60) NOT NULL,
@@ -19,7 +19,7 @@ CREATE TABLE `codigopaises`
     PRIMARY KEY (`Id`)
 );
 
-INSERT INTO `codigopaises`
+INSERT INTO `ta_codigopaises`
 VALUES ('Afganistán', 'Afghanistan', 'AF', 'AFG', '93', 1),
        ('Albania', 'Albania', 'AL', 'ALB', '355', 2),
        ('Alemania', 'Germany', 'DE', 'DEU', '49', 3),
@@ -727,17 +727,17 @@ CREATE TABLE `ta_lugar`
     `CV_Direccion`   varchar(100) NOT NULL,
     `CV_Ciudad`      varchar(50)  NOT NULL,
     `CI_Pais`        int          NOT NULL,
-    `CI_Codigo_Postal` varchar(15)  NOT NULL,
+    `CI_Codigo_Postal` int(15)  NOT NULL,
     PRIMARY KEY (`CI_Codigo`),
     KEY `CI_Hecho` (`CI_Hecho`),
     CONSTRAINT `ta_lugar_ibfk_1` FOREIGN KEY (`CI_Hecho`) REFERENCES `ta_hechos` (`CI_Id`)
 );
 
 INSERT INTO `ta_lugar`
-VALUES (1, 1, 'Descripcion 1', 1, 'Direccion1', 'Ciudad1', 506,'3030'),
-       (2, 1, 'Descripcion2', 2, 'Direccion2', 'Ciudad2', 506,'3030'),
-       (3, 2, 'Descripcion1', 1, 'Direccion1', 'Ciudad1', 506,'3030'),
-       (4, 2, 'Descripcion2', 2, 'Direccion2', 'Ciudad2', 506,'3030');
+VALUES (1, 1, 'Descripcion 1', 1, 'Direccion1', 'Ciudad1', 506,3030),
+       (2, 1, 'Descripcion2', 2, 'Direccion2', 'Ciudad2', 506,3030),
+       (3, 2, 'Descripcion1', 1, 'Direccion1', 'Ciudad1', 506,3030),
+       (4, 2, 'Descripcion2', 2, 'Direccion2', 'Ciudad2', 506,3030);
 
 /*
  Tabla ProcesoJudicial

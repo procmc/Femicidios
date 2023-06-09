@@ -93,9 +93,7 @@
           <th>Direccion</th>
           <th>Ciudad</th>
           <th>Pais</th>
-        
-         <th>Codigo Postal</th>
-       
+          <th>Codigo Postal</th>
           <th>Acciones</th>
         </tr>
 
@@ -107,8 +105,7 @@
           <td th:text="${lug.CV_Direccion}"></td>
           <td th:text="${lug.CV_Ciudad}"></td>
           <td th:text="${lug.CI_Pais}"></td>
-       
-          <td th:text="${lug.codigoPostal}"></td>
+          <td th:text="${lug.CI_Codigo_Postal}"></td>
           
 
           <td><a th:href="@{/lugar/edit/{id}(id=${lug.CI_Codigo})}"
