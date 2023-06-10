@@ -94,10 +94,10 @@ public class IdentidadGeneroController {
 		try {
 			this.validarPerfil();
 			if (!this.perfil.getCVRol().equals("Consulta")) {
-
 				IdentidadGenero identidadgenero = new IdentidadGenero();
 				Paises paises = new Paises();
-				model.addAttribute("identidadgenero", identidadgenero);				
+				model.addAttribute("identidadgenero", identidadgenero);
+				
 				return "identidadGeneros/crear_identidad";
 			} else {
 				return "SinAcceso";
@@ -111,6 +111,10 @@ public class IdentidadGeneroController {
 	@PostMapping("/identidadgenero")
 	public String saveIdentidadGenero(@ModelAttribute("identidadgenero") IdentidadGenero identidadgenero) {
 		identidadGeneroService.saveIdentidadGenero(identidadgenero);
+		String descripcion = "Guado una identidad de genero";
+		Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),this.perfil.getCVRol() ,
+				descripcion);
+		bitacoraService.saveBitacora(bitacora);
 		return "redirect:/identidadgenero";
 	}
 	@GetMapping("/identidadgenero/edit/{id}")
@@ -139,6 +143,10 @@ public class IdentidadGeneroController {
 		existingIdentidadGenero.setNombre(identidadgenero.getNombre());
 		existingIdentidadGenero.setDescripcion(identidadgenero.getDescripcion());
 		identidadGeneroService.updateIdentidadGenero(identidadgenero);
+		String descripcion = "Actualizo una identidad de genero";
+		Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),this.perfil.getCVRol() ,
+				descripcion);
+		bitacoraService.saveBitacora(bitacora);
 		return "redirect:/identidadgenero";
 	}
 	
@@ -149,8 +157,8 @@ public class IdentidadGeneroController {
 			if (!this.perfil.getCVRol().equals("Consulta")) {
 
 				String descripcion = "Elimino una identidad de genero";
-				Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), descripcion,
-						this.perfil.getCVRol());
+				Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),this.perfil.getCVRol() ,
+						descripcion);
 				bitacoraService.saveBitacora(bitacora);
 
 				identidadGeneroService.deleteIdentidadGeneroById(Id);
