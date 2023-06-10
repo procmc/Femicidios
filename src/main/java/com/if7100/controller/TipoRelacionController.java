@@ -89,6 +89,9 @@ TipoRelacionService tipoRelacionService, PerfilService perfilService, UsuarioRep
     @PostMapping("/tiporelaciones")
     public String saveTipoRelacion(@ModelAttribute("tipoRelacion") TipoRelacion tipoRelacion){
         tipoRelacionService.saveTipoRelacion(tipoRelacion);
+        String descripcion="Creo un Tipo de Relacion";
+        Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
+        bitacoraService.saveBitacora(bitacora);
         return "redirect:/tiporelaciones";
     }
 
@@ -100,7 +103,7 @@ TipoRelacionService tipoRelacionService, PerfilService perfilService, UsuarioRep
 			if(!this.perfil.getCVRol().equals("Consulta")) {
 				
 				String descripcion = "Elimino un tipo de relacion";
-				Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), descripcion, this.perfil.getCVRol());
+				Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),this.perfil.getCVRol(), descripcion);
 				bitacoraService.saveBitacora(bitacora);
 				
 				tipoRelacionService.deleteTipoRelacionById(id);
@@ -138,7 +141,9 @@ TipoRelacionService tipoRelacionService, PerfilService perfilService, UsuarioRep
         existingTipoRelacion.setCVTitulo(tipoRelacion.getCVTitulo());
         existingTipoRelacion.setCVDescripcion(tipoRelacion.getCVDescripcion());
         tipoRelacionService.updateTipoRelacion(existingTipoRelacion);
+        String descripcion="Actualizo un Tipo de Relacion";
+        Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
+        bitacoraService.saveBitacora(bitacora);
         return "redirect:/tiporelaciones";
     }
-
 }

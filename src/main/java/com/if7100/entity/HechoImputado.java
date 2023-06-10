@@ -26,6 +26,13 @@ public class HechoImputado {
         this.CIImputado = CIImputado;
     }
 
+    public HechoImputado(Integer CI_Id, Integer CIHecho, Integer CIImputado){
+        super();
+        this.CI_Id = CI_Id;
+        this.CIHecho = CIHecho;
+        this.CIImputado = CIImputado;
+    }
+
     public Integer getCI_Id() {
         return CI_Id;
     }

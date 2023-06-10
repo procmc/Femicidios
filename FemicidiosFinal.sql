@@ -7,8 +7,8 @@ use femicidios;
  */
 
 DROP TABLE IF EXISTS `identidadgenero`;
-DROP TABLE IF EXISTS `codigopaises`;
-CREATE TABLE `codigopaises`
+DROP TABLE IF EXISTS `ta_codigopaises`;
+CREATE TABLE `ta_codigopaises`
 (
     `spanish`      varchar(60) NOT NULL,
     `english`      varchar(60) NOT NULL,
@@ -19,7 +19,7 @@ CREATE TABLE `codigopaises`
     PRIMARY KEY (`Id`)
 );
 
-INSERT INTO `codigopaises`
+INSERT INTO `ta_codigopaises`
 VALUES ('Afganistán', 'Afghanistan', 'AF', 'AFG', '93', 1),
        ('Albania', 'Albania', 'AL', 'ALB', '355', 2),
        ('Alemania', 'Germany', 'DE', 'DEU', '49', 3),
@@ -513,7 +513,7 @@ DROP TABLE IF EXISTS `ta_perfil`;
 CREATE TABLE `ta_perfil`
 (
     `CI_Id`          int         NOT NULL AUTO_INCREMENT,
-    `CV_Descripcion` varchar(50) NOT NULL,
+    `CV_Descripcion` varchar(200) NOT NULL,
     `CV_rol`         varchar(50) NOT NULL,
     PRIMARY KEY (`CI_Id`)
 );
@@ -624,24 +624,18 @@ CREATE TABLE IF NOT EXISTS `ta_imputados`
     PRIMARY KEY (`ci_id`)
 );
 
-INSERT INTO `ta_imputados` (`ci_id`, `cv_dni`, `cv_nombre`, `cv_genero`, `cv_Orientacion_Sexual`, `ci_edad`,
-                            `CV_Lugar_Nacimiento`, `cv_pais`, `CV_Nacionalidad`, `CV_Educacion`, `CV_ocupacion`,
-                            `CV_domicilio`, `CV_Lugar_Residencia`, `CV_Condicion_Migratoria`, `CV_Etnia`,
-                            `CV_Situacion_Juridica`, `CV_Estado_Conyugal`, `CV_Permiso_Portacion_Armas`,
-                            `CV_Pertenencia_Fuerza_Seguridad`, `CV_Antecedentes`, `CV_Suicidio`, `CV_Generador`)
-VALUES (1, '698', 'Yusei Fudo', 'Masculino', 'Heterosexual', 6000, 'Purgatorio', 'Japón', '', '', '', '', '', '', '',
-        '', '', '', '', '', '', ''),
-       (2, '699', 'Kijan Acuña Medrano', 'Masculino', 'Heterosexual', 24, 'Purgatorio', 'Costa Rica', '', '', '', '',
-        '', '', '', '', '', '', '', '', '', ''),
-       (3, '700', 'Javier Acuña Corrales', 'Masculino', 'Heterosexual', 60, 'Limón', 'Costa Rica', '', '', '', '', '',
-        '', '', '', '', '', '', '', '', ''),
-       (4, '701', 'Yusei Fudo', 'Masculino', 'Heterosexual', 20, 'Purgatorio', 'Holanda', '', '', '', '', '', '', '',
-        '', '', '', '', '', '', ''),
-       (5, '702', 'Jaden Yuki', 'Masculino', 'Heterosexual', 20, 'Academia de Duelos', 'Japón', '', '', '', '', '', '',
-        '', '', '', '', '', '', '', ''),
-       (6, '1', 'Fulanito tal', 'Masculino', 'Heterosexual', 60, 'Ciudad Dominó', 'Japón', '', '', '', '', '', '', '',
-        '', '', '', '', '', '', '');
+use femicidios;
+INSERT INTO `ta_imputados` 
+     (`ci_id`,  `cv_dni`, `cv_nombre`,          `cv_genero`, `cv_Orientacion_Sexual`, `ci_edad`,`CV_Lugar_Nacimiento`, `cv_pais`, `CV_Nacionalidad`, `CV_Educacion`,         `CV_ocupacion`,         `CV_domicilio`, `CV_Lugar_Residencia`, `CV_Condicion_Migratoria`, `CV_Etnia`,`CV_Situacion_Juridica`, `CV_Estado_Conyugal`, `CV_Permiso_Portacion_Armas`, `CV_Pertenencia_Fuerza_Seguridad`, `CV_Antecedentes`, `CV_Suicidio`, `CV_Generador`)
+VALUES (1,         '698', 'Yusei Fudo',          'Masculino', 'Heterosexual',          60,   'Purgatorio',            'Japón', 'Japonés',       'Primaria', 'Agricultor',           'Japón',            'Panama',        'Iregular',           'Blanco',       'Imputado',               'Divorciado',         'SI',                          'SI',                            'NO',               'SI',       'Organismo1'),
+       (2,         '699', 'Kijan Acuña Medrano', 'Masculino', 'Heterosexual',          24,   'Purgatorio',           'Costa Rica','Costarricense',   'Primaria',                  'Carnicero',      'Costa Rica',       'Venezuela',        'Regular',             'Negro',        'Fugitivo',              'Soltero',            'NO',                          'NO',                            'SI',               'SI',       'Organismo2'),
+       (3,       '700', 'Javier Acuña Corrales', 'Masculino', 'Heterosexual',          60,    'Limón',              'Costa Rica','Costarricense',    'Doctorado',                 'Futbolista',     'Costa Rica',          'Canada',        'Regular',              'Blanco',      'Imputado',              'Casado',             'SI',                          'SI',                            'NO',               'SI',      'Organismo1'),
+       (4,         '701', 'Yusei Fudo',          'Masculino', 'Heterosexual',          20,   'Purgatorio',          'Holanda', 'Holandes',           'Secundaria Alta',            'Soldado',       'Costa Rica',            'Peru',         'Asilado',              'Blanca',      'Imputado',              'Soltero',            'SI',                         'NO',                            'NO',               'NO',       'Organismo2'),
+       (5,        '702',   'Jaden Yuki',        'Masculino', 'Heterosexual',          20, 'Academia de Duelos',      'Japón',     'Japones',          'Secundaria baja',            'Sensei',          'Japón',            'Japón'      ,'Regular',             'Asiatico',    'Indagado',              'Casado',             'SI',                         'SI',                            'SI',               'NO',       'Organismo1'),
+       (6,          '1',     'Fulanito tal',     'Masculino', 'Heterosexual',           60,    'Ciudad Dominó',      'Japón',     'Japones',              'Maestria',                 'Sensei',          'Japón',            'Japón'       ,'Regular',             'Asiatico',    'Indagado',              'Casado',             'SI',                         'SI',                            'SI',               'NO',       'Organismo1');
+   /*  (`ci_id`, `cv_dni`, `cv_nombre`,        `cv_genero`, `cv_Orientacion_Sexual`, `ci_edad,`CV_Lugar_Nacimiento`, `cv_pais`, `CV_Nacionalidad`,       `CV_Educacion`,            `CV_ocupacion`,   `CV_domicilio`, `CV_Lugar_Residencia`, `CV_Condicion_Migratoria`, `CV_Etnia`,`CV_Situacion_Juridica`, `CV_Estado_Conyugal`, `CV_Permiso_Portacion_Armas`,`CV_Pertenencia_Fuerza_Seguridad`, `CV_Antecedentes`, `CV_Suicidio`, `CV_Generador`)*/
 
+     /*(`ci_id`, `cv_dni`, `cv_nombre`,        `cv_genero`, `cv_Orientacion_Sexual`, `ci_edad,`CV_Lugar_Nacimiento`, `cv_pais`, `CV_Nacionalidad`,       `CV_Educacion`,            `CV_ocupacion`,   `CV_domicilio`, `CV_Lugar_Residencia`, `CV_Condicion_Migratoria`, `CV_Etnia`,`CV_Situacion_Juridica`, `CV_Estado_Conyugal`, `CV_Permiso_Portacion_Armas`,`CV_Pertenencia_Fuerza_Seguridad`, `CV_Antecedentes`, `CV_Suicidio`, `CV_Generador`)*/
 
 /*
  Tabla Hechos
@@ -727,17 +721,17 @@ CREATE TABLE `ta_lugar`
     `CV_Direccion`   varchar(100) NOT NULL,
     `CV_Ciudad`      varchar(50)  NOT NULL,
     `CI_Pais`        int          NOT NULL,
-    `CI_CodigoPostal` varchar(15)  NOT NULL,
+    `CI_Codigo_Postal` int(15)  NOT NULL,
     PRIMARY KEY (`CI_Codigo`),
     KEY `CI_Hecho` (`CI_Hecho`),
     CONSTRAINT `ta_lugar_ibfk_1` FOREIGN KEY (`CI_Hecho`) REFERENCES `ta_hechos` (`CI_Id`)
 );
 
 INSERT INTO `ta_lugar`
-VALUES (1, 1, 'Descripcion 1', 1, 'Direccion1', 'Ciudad1', 506,'3030'),
-       (2, 1, 'Descripcion2', 2, 'Direccion2', 'Ciudad2', 506,'3030'),
-       (3, 2, 'Descripcion1', 1, 'Direccion1', 'Ciudad1', 506,'3030'),
-       (4, 2, 'Descripcion2', 2, 'Direccion2', 'Ciudad2', 506,'3030');
+VALUES (1, 1, 'Descripcion 1', 1, 'Direccion1', 'Ciudad1', 506,3030),
+       (2, 1, 'Descripcion2', 2, 'Direccion2', 'Ciudad2', 506,3030),
+       (3, 2, 'Descripcion1', 1, 'Direccion1', 'Ciudad1', 506,3030),
+       (4, 2, 'Descripcion2', 2, 'Direccion2', 'Ciudad2', 506,3030);
 
 /*
  Tabla ProcesoJudicial

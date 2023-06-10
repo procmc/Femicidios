@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.if7100.entity.Lugar;
 import com.if7100.repository.LugarRepository;
+import com.if7100.service.LugarService;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class LugarControllerTest {
@@ -16,6 +17,7 @@ public class LugarControllerTest {
 	
 	@Autowired
 	private LugarRepository lugarRepository;
+	private LugarService lugarServ;
 	
 	private Integer Hecho=1;
 	private String Descripcion="tima";
@@ -23,9 +25,10 @@ public class LugarControllerTest {
 	private String Direccion="tima";
 	private String Ciudad="tima";
 	private Integer Pais=506;
+	private int codigoPostal=2023;
 	private String Descripcion2="Prueba";
 	
-	private Lugar lugar= new Lugar(Hecho, "parqueo", 2, "Boston", Ciudad, Pais);
+	private Lugar lugar= new Lugar(Hecho, "parqueo", 2, "Boston", Ciudad, Pais, codigoPostal);
 	private Lugar LugarConsultado= new Lugar();
 	
 	@Test
@@ -33,24 +36,30 @@ public class LugarControllerTest {
 		lugarRepository.save(lugar);
 	}
 	
-	
 	@Test
 	public void Test2() throws Exception{
-		lugarRepository.deleteById(8);
-	}
-	
-	@Test
-	public void Test3() throws Exception{
-		LugarConsultado= lugarRepository.findById(7).get();
+		LugarConsultado= lugarRepository.findById(5).get();
 		assertEquals(LugarConsultado.getCIHecho(), Hecho);
 		assertNotEquals(LugarConsultado.getCI_Tipo_Lugar(), Tipo_Lugar);
 	}
 	
 	@Test
-	public void Test4() throws Exception{
-		LugarConsultado= lugarRepository.findById(7).get();
-		LugarConsultado.setCV_Descripcion(Descripcion2);
+	public void Test3() throws Exception{
+		LugarConsultado= lugarRepository.findById(5).get();
+		LugarConsultado.setCI_Codigo(5);
+		LugarConsultado.setCIHecho(LugarConsultado.getCIHecho());
+		LugarConsultado.setCV_Descripcion("hhhhhh");
+		LugarConsultado.setCI_Tipo_Lugar(lugar.getCI_Tipo_Lugar());
+		LugarConsultado.setCV_Direccion(lugar.getCV_Direccion());
+		LugarConsultado.setCV_Ciudad(lugar.getCV_Ciudad());
+		LugarConsultado.setCI_Pais(lugar.getCI_Pais());
+		LugarConsultado.setCI_Codigo_Postal(lugar.getCI_Codigo_Postal());
 		lugarRepository.save(LugarConsultado);
+	}
+	
+	@Test
+	public void Test4() throws Exception{
+		lugarRepository.deleteById(8);
 	}
 }
 

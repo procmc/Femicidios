@@ -21,11 +21,11 @@ private UsuarioService usuarioService;
 private UsuarioRepository usuarioRepository;
  
 private String Cedula= "604540581";
-private String Nombre="Karla";
+private String Nombre="David";
 private String Apellido="Jimene";
 private int perfil=1;
 private String Contrasena="Liss";
-private int UsuarioAct=8;
+private int UsuarioAct=1;
 private String Nombre2="Reichell";
 
 private Usuario usuario= new Usuario(Cedula, Nombre, Apellido, perfil, Contrasena);
@@ -39,7 +39,7 @@ public void Test1() throws Exception{
 
 @Test
 public void Test2() throws Exception{
-	usuarioConsultado= usuarioService.getUsuarioById(8);
+	usuarioConsultado= usuarioService.getUsuarioById(1);
 	assertEquals(usuarioConsultado.getCVNombre(), Nombre);
 	assertNotEquals(usuarioConsultado.getCVApellidos(), Apellido);
 }
@@ -52,9 +52,14 @@ public void Test3() throws Exception{
 
 @Test
 public void Test4() throws Exception{
-	usuarioConsultado= usuarioService.getUsuarioById(UsuarioAct);
-	usuarioConsultado.setCVNombre(Nombre2);
-	usuarioService.updateUsuario(usuarioConsultado);
+	 Usuario existingUsuario=usuarioService.getUsuarioById(UsuarioAct);
+	 existingUsuario.setCI_Id(UsuarioAct);
+	 existingUsuario.setCVCedula(usuario.getCVCedula());
+	 existingUsuario.setCVNombre("Johnny");
+	 existingUsuario.setCVApellidos(usuario.getCVApellidos());
+	 existingUsuario.setCIPerfil(usuario.getCIPerfil());
+	 existingUsuario.setTCClave(usuario.getTCClave());
+	 usuarioService.updateUsuario(existingUsuario);
 }
 
 }

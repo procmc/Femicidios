@@ -103,6 +103,10 @@ OrientacionSexualService orientacionService, PerfilService perfilService, Usuari
 			this.validarPerfil();
 			if(!this.perfil.getCVRol().equals("Consulta")) {
 				
+				String descripcion = "Creó un registro de orientacion sexual";
+				Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), descripcion, this.perfil.getCVRol());
+				bitacoraService.saveBitacora(bitacora);
+				
 				model.addAttribute("orientacion",new OrientacionSexual());
 				return "orientacionessexuales/create_orientacionesSexuales";
 			}else {
@@ -147,6 +151,10 @@ OrientacionSexualService orientacionService, PerfilService perfilService, Usuari
 	 try {
 			this.validarPerfil();
 			if(!this.perfil.getCVRol().equals("Consulta")) {
+				
+				String descripcion = "Modificó un registro de orientacion sexual";
+				Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), descripcion, this.perfil.getCVRol());
+				bitacoraService.saveBitacora(bitacora);
 				
 				model.addAttribute("orientacion", orientacionService.getOrientacionSexualByCodigo(id));
 				 return "orientacionessexuales/edit_orientacionesSexuales";

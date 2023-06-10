@@ -186,7 +186,7 @@ HechoOrganismoService hechoOrganismoService, HechoService hechoService, Organism
             String descripcion = "Creo en hecho de organismo";
             Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
             bitacoraService.saveBitacora(bitacora);
-            return "redirect:/hechoorganismo";
+            return "redirect:/hechosorganismo/" + hechoOrganismo.getCIHecho();
         }catch (DataIntegrityViolationException e){
             String mensaje = "No se puede guardar el hecho debido a un error de integridad de datos.";
             model.addAttribute("error_message", mensaje);
@@ -202,7 +202,7 @@ HechoOrganismoService hechoOrganismoService, HechoService hechoService, Organism
             String descripcion = "Creo en hecho de organismo";
             Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
             bitacoraService.saveBitacora(bitacora);
-            return "redirect:/hechoorganismo";
+            return "redirect:/hechoorganismos/" + hechoOrganismo.getCIOrganismo();
         }catch (DataIntegrityViolationException e){
             String mensaje = "No se puede guardar el hecho debido a un error de integridad de datos.";
             model.addAttribute("error_message", mensaje);
