@@ -54,8 +54,7 @@
 					<th> Rol</th>
 					<th> Descripcion</th>
 					<th> Fecha</th>
-					
-					<th> Acciones </th>
+					<!--<th> Acciones </th>-->
 				</tr>
 			
 			<tbody>
@@ -66,14 +65,14 @@
 					<td th:text = "${bitacora.CVDescripcion}"></td>
 					<td th:text = "${bitacora.CTFecha}"></td>
 				
-					<td>
+					<!--<td>
 						<a th:href = "@{/bitacoras/edit/{id}(id=${bitacora.CIIdBitacora})}"
 						 class = "btn btn-primary">Actualizar</a>
 						
 						<a th:href = "@{/bitacoras/{id}(id=${bitacora.CIIdBitacora})}"
 						 class = "btn btn-danger">Eliminar</a>
 						 
-					</td>
+					</td>-->
 				</tr>
 			</tbody>
 

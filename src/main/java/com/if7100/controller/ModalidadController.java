@@ -84,6 +84,11 @@ private void validarPerfil() {
 
     @PostMapping("/modalidades")
     public String saveModalidad(@ModelAttribute("modalidad")Modalidad modalidad){
+    	//INSERTAR EN BITACORA
+		String descripcion = "Creo una modalidad";
+		Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), descripcion, this.perfil.getCVRol());
+		bitacoraService.saveBitacora(bitacora);
+		
         modalidadService.saveModalidad(modalidad);
         return "redirect:/modalidades";
     }
@@ -133,6 +138,11 @@ private void validarPerfil() {
 
     @PostMapping("/modalidades/{id}")
     public String updateModalidad(@PathVariable Integer id, @ModelAttribute("modalidad") Modalidad modalidad){
+    	//INSERTAR EN BITACORA
+    			String descripcion = "Actualizo una modalidad";
+    			Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), descripcion, this.perfil.getCVRol());
+    			bitacoraService.saveBitacora(bitacora);
+    			
         Modalidad existingModalidad = modalidadService.getModalidadById(id);
         existingModalidad.setCI_Codigo(id);
         existingModalidad.setCVTitulo(modalidad.getCVTitulo());
