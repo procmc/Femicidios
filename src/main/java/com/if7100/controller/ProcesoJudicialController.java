@@ -75,10 +75,6 @@ private Usuario usuario;
 				
 				model.addAttribute("procesoJudicial",new ProcesoJudicial());
 				
-				String descripcion = "Crea en Proceso Judicial";
-				Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),this.perfil.getCVRol(),descripcion);
-				bitacoraService.saveBitacora(bitacora);
-				
 				return "procesosJudiciales/create_procesosJudiciales";
 			}else {
 				return "SinAcceso";
@@ -93,6 +89,11 @@ private Usuario usuario;
  @PostMapping("/procesosJudiciales")
  public String saveProcesoJudicial(@ModelAttribute("procesoJudicial") ProcesoJudicial procesoJudicial) {
 	 procesoJudicialService.saveProcesoJudicial(procesoJudicial);
+	 
+	 String descripcion = "Crea en Proceso Judicial";
+	 Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),this.perfil.getCVRol(),descripcion);
+	 bitacoraService.saveBitacora(bitacora);
+	 
 	 return "redirect:/procesosJudiciales";
  }
  
@@ -102,10 +103,6 @@ private Usuario usuario;
 	 try {
 			this.validarPerfil();
 			if(!this.perfil.getCVRol().equals("Consulta")) {
-				
-				String descripcion = "Elimino un proceso judicial";
-				Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), descripcion, this.perfil.getCVRol());
-				bitacoraService.saveBitacora(bitacora);
 				
 				procesoJudicialService.deleteProcesoJudicialById(id);
 				return "redirect:/procesosJudiciales";
@@ -127,8 +124,8 @@ private Usuario usuario;
 				
 				model.addAttribute("procesoJudicial", procesoJudicialService.getProcesoJudicialById(id));
 				
-				String descripcion="Actualiza en Proceso Judicial";
-				Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),this.perfil.getCVRol(),descripcion);
+				String descripcion = "Elimino un proceso judicial";
+				Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), descripcion, this.perfil.getCVRol());
 				bitacoraService.saveBitacora(bitacora);
 				
 				 return "procesosJudiciales/edit_procesosJudiciales";
@@ -154,6 +151,11 @@ private Usuario usuario;
 	 existingProcesoJudicial.setCVTipoDelito(procesoJudicial.getCVTipoDelito());
 	 
 	 procesoJudicialService.updateProcesoJudicial(existingProcesoJudicial);
+	 
+	 String descripcion="Actualiza en Proceso Judicial";
+	 Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),this.perfil.getCVRol(),descripcion);
+	 bitacoraService.saveBitacora(bitacora);
+		
 	 return "redirect:/procesosJudiciales";
  }
  
