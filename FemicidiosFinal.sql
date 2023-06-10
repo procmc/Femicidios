@@ -629,18 +629,12 @@ INSERT INTO `ta_imputados` (`ci_id`, `cv_dni`, `cv_nombre`, `cv_genero`, `cv_Ori
                             `CV_domicilio`, `CV_Lugar_Residencia`, `CV_Condicion_Migratoria`, `CV_Etnia`,
                             `CV_Situacion_Juridica`, `CV_Estado_Conyugal`, `CV_Permiso_Portacion_Armas`,
                             `CV_Pertenencia_Fuerza_Seguridad`, `CV_Antecedentes`, `CV_Suicidio`, `CV_Generador`)
-VALUES (1, '698', 'Yusei Fudo', 'Masculino', 'Heterosexual', 6000, 'Purgatorio', 'Japón', 'Japonés', '', '', '', '', '', '',
-        '', '', '', '', '', '', ''),
-       (2, '699', 'Kijan Acuña Medrano', 'Masculino', 'Heterosexual', 24, 'Purgatorio', 'Costa Rica', '', '', '', '',
-        '', '', '', '', '', '', '', '', '', ''),
-       (3, '700', 'Javier Acuña Corrales', 'Masculino', 'Heterosexual', 60, 'Limón', 'Costa Rica', '', '', '', '', '',
-        '', '', '', '', '', '', '', '', ''),
-       (4, '701', 'Yusei Fudo', 'Masculino', 'Heterosexual', 20, 'Purgatorio', 'Holanda', 'Holandes', '', '', '', '', '', '',
-        '', '', '', '', '', '', ''),
-       (5, '702', 'Jaden Yuki', 'Masculino', 'Heterosexual', 20, 'Academia de Duelos', 'Japón', '', '', '', '', '', '',
-        '', '', '', '', '', '', '', ''),
-       (6, '1', 'Fulanito tal', 'Masculino', 'Heterosexual', 60, 'Ciudad Dominó', 'Japón', '', '', '', '', '', '', '',
-        '', '', '', '', '', '', '');
+VALUES (1, '698', 'Yusei Fudo', 'Masculino', 'Heterosexual', 60, 'Purgatorio', 'Japón', 'Japonés', 'Postsecundaria no terciaria', 'Agricultor', 'Japón', 'Panama', 'Blanco', 'Imputado','Divorciado', 'SI', 'SI', 'NO', 'SI', 'NO', 'Organismo1'),
+       (2, '699', 'Kijan Acuña Medrano', 'Masculino', 'Heterosexual', 24, 'Purgatorio', 'Costa Rica', 'Primaria', 'Carnicero', 'Costa Rica', 'Venezuela','Regular', 'Negro', 'Fugitivo', 'Soltero', 'NO', 'NO', 'SI', 'SI', 'NO', 'Organismo2'),
+       (3, '700', 'Javier Acuña Corrales', 'Masculino', 'Heterosexual', 60, 'Limón', 'Costa Rica', 'Doctorado', 'Futbolista', 'Costa Rica', 'Canada', 'Regular', 'Blanco', 'Imputado', 'SI', 'SI', 'SI', 'NO', 'SI', 'NO', 'Organismo1'),
+       (4, '701', 'Yusei Fudo', 'Masculino', 'Heterosexual', 20, 'Purgatorio', 'Holanda', 'Holandes', 'Secundaria Alta', 'Soldado', 'Costa Rica', 'Peru', 'Asilado', 'Blanca','Imputado', 'NO', 'SI', 'NO', 'NO', 'NO', 'Organismo2'),
+       (5, '702', 'Jaden Yuki', 'Masculino', 'Heterosexual', 20, 'Academia de Duelos', 'Japón', 'Japones', 'Secundaria baja', 'Sensei', 'Japón', 'Japón', 'Iregular','Asiatico', 'Indagado','SI', 'SI', 'SI', 'SI', 'Organismo2'),
+       (6, '1', 'Fulanito tal', 'Masculino', 'Heterosexual', 60, 'Ciudad Dominó', 'Japón', 'Japones', 'Maestria', 'Sensei', 'Japón', 'Japón', 'Regular', 'Refugiado','Asiatico', 'Indagado', 'SI', 'SI', 'SI', 'SI', 'Organismo2');
 
 
 /*
