@@ -86,7 +86,7 @@ private void validarPerfil() {
     public String saveModalidad(@ModelAttribute("modalidad")Modalidad modalidad){
     	//INSERTAR EN BITACORA
 		String descripcion = "Creo una modalidad";
-		Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), descripcion, this.perfil.getCVRol());
+		Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
 		bitacoraService.saveBitacora(bitacora);
 		
         modalidadService.saveModalidad(modalidad);
@@ -102,7 +102,7 @@ private void validarPerfil() {
 				
 				//INSERTAR EN BITACORA
 				String descripcion = "Elimino una modalidad";
-				Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), descripcion, this.perfil.getCVRol());
+				Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
 				
 				bitacoraService.saveBitacora(bitacora);
 				modalidadService.deleteModalidadById(id);
@@ -140,7 +140,7 @@ private void validarPerfil() {
     public String updateModalidad(@PathVariable Integer id, @ModelAttribute("modalidad") Modalidad modalidad){
     	//INSERTAR EN BITACORA
     			String descripcion = "Actualizo una modalidad";
-    			Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), descripcion, this.perfil.getCVRol());
+    			Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),this.perfil.getCVRol(),descripcion);
     			bitacoraService.saveBitacora(bitacora);
     			
         Modalidad existingModalidad = modalidadService.getModalidadById(id);
