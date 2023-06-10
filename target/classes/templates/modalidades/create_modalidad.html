@@ -42,10 +42,11 @@
                     name = "titulo"
                     th:field = "*{CVTitulo}"
                     class = "form-control"
-                    placeholder="Digite el titulo de la modalidad"
+                    pattern="[A-Za-z]+"
                     minlength="1"
                     maxlength="50"
-                    required= "El campo tiulo es requerido"
+                    required
+                    placeholder="Digite el titulo de la modalidad"
             />
           </div>
 
@@ -56,10 +57,11 @@
                     name = "descripcion"
                     th:field = "*{CVDescripcion}"
                     class = "form-control"
-                    placeholder="Digite la descripcion de la modalidad"
-                    required= "El campo descripcion es requerido"
+                    pattern="[A-Za-z]+"
                     minlength="1"
-                    maxlength="100"
+                    maxlength="50"
+                    required
+                    placeholder="Digite la descripcion de la modalidad"
             />
           </div>
 
