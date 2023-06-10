@@ -35,7 +35,11 @@
 				<div class = "card-body">
 					<form th:action="@{/victima}" th:object = "${victima}" method="POST">
 						<div class ="form-group">
-							<label>Cedula</label>
+							
+							
+							
+							<div class ="form-group">
+						<label>Cedula</label>
 							<input
 							type = "text"
 							name = "cedula"
@@ -73,6 +77,7 @@
                    		 	required
 							/>
 						</div>
+						
 						<div class ="form-group">
 							<label>Apellido Materno</label>
 							<input
@@ -98,49 +103,42 @@
                    		 	required
 							/>
 						</div>
+		
 						
-						<div class ="form-group"> 
-							<label>Identidad de Genero</label>
-							<select th:field="*{CVGenero}">
-   							 	<option th:value="'1'" th:text="CisHombre"></option>
-  							 	 <option th:value="'2'" th:text="CisMujer"></option>
-  							 	 <option th:value="'3'" th:text="NoBinario"></option>
-  							 	 <option th:value="'4'" th:text="Otro"></option>
-  							 	  <option th:value="'5'" th:text="SeDesconoce"></option>
-  							 	   <option th:value="'6'" th:text="MujerTrans"></option>
-  							 	    <option th:value="'7'" th:text="HombreTrans"></option>
-  							 	   
+						<div class ="form-group">
+							<label>Seleccione la identidad de genero de la victima:</label>
+							<select name="identidad" th:field="*{CVGenero}" class = "form-control" onfocus="ocultarError()">
+								<option th:each="identidad: ${identidadGenero}" th:value="${identidad.Id}" th:text="${identidad.nombre}"></option>
 							</select>
 						</div>
 		
+		
+		
+		
+						<div class ="form-group">
+							<label>Seleccione la orientacion sexual de la victima:</label>
+							<select name="orientacion_sexual" th:field="*{CVOrientaSex}" class = "form-control" onfocus="ocultarError()">
+								<option th:each="orientacionSexual: ${orientacionSexual}" th:value="${orientacionSexual.CI_Codigo}" th:text="${orientacionSexual.CVTitulo}"></option>
+							</select>
+						</div>
 						
+							
 						
-							'
 						<div class ="form-group">
 							<label>Lugar de Nacimiento</label>
 							<input
 							type = "text"
-							name = "LugarNacimiento"
+							name = "Lugar de Nacimiento"
 							th:field = "*{CVLugarNac}"
 							class = "form-control"
-							placeholder="Lugar de Nacimiento de la victima" 
+							placeholder="Lugar de nacimiento de la victima" 
 							maxlength="100"
                    		 	required
 							/>
 						</div>
 						
-							<div class ="form-group"> 
-								<label>Orientacion Sexual</label>
-							<select th:field="*{CVOrientaSex}">
-   							 	<option th:value="'1'" th:text="Lesbiana"></option>
-  							 	<option th:value="'2'" th:text="Gay"></option>
-  							 	<option th:value="'3'" th:text="Heterosexual"></option>
-  							 	<option th:value="'4'" th:text="Bisexual"></option>
-  							 	<option th:value="'5'" th:text="Asexual"></option>
-  							    <option th:value="'6'" th:text="Otro"></option>     
-							</select>
-						</div>
 						
+							
 						<div class ="form-group">
 							<label>Nacionalidad</label>
 							<input
@@ -154,22 +152,13 @@
 							/>
 						</div>
 						
-<!--						<div class ="form-group"> -->
-<!--								<label>Educación</label>-->
-<!--							<select th:field="*{CVOrientaSex}">-->
-<!--   							 	<option th:value="'1'" th:text="Primera Infancia"></option>-->
-<!--  							 	<option th:value="'2'" th:text="Preescolar"></option>-->
-<!--  							 	<option th:value="'3'" th:text="Primaria"></option>-->
-<!--  							 	<option th:value="'4'" th:text="Secundaria baja"></option>-->
-<!--  							 	<option th:value="'5'" th:text="Secundaria alta"></option>-->
-<!--  							    <option th:value="'6'" th:text="Postsecundaria no terciaria"></option>-->
-<!--  							    <option th:value="'3'" th:text="Terciaria"></option>-->
-<!--  							 	<option th:value="'4'" th:text="Grado"></option>-->
-<!--  							 	<option th:value="'5'" th:text="Maestria"></option>-->
-<!--  							    <option th:value="'6'" th:text="Doctorado"></option>  -->
-<!--  							    <option th:value="'6'" th:text="Se desconoce"></option>   -->
-<!--							</select>-->
-<!--						</div>-->
+
+         <div class ="form-group">
+							<label>Seleccione el nivel educativo de la victima:</label>
+							<select name="educacion" th:field="*{CIEducacion}" class = "form-control" onfocus="ocultarError()">
+								<option th:each="educacion: ${nivelEducativo}" th:value="${educacion.CI_Id}" th:text="${educacion.CVTitulo}"></option>
+							</select>
+						</div>
 						
 						<div class ="form-group">
 							<label>Ocupación</label>
@@ -212,89 +201,103 @@
 						
 						<div class ="form-group">
 							<label>Discapacidad</label>
-							<input
-							type = "text"
-							name = "discapacidad"
-							th:field = "*{CVDiscapacidad}"
-							class = "form-control"
-							placeholder="Digite si la victima tiene alguna discapacidad" 
-							maxlength="50"
-                   		 	required
-							/>
-						</div>
 						
-						<div class ="form-group">
-							<label>Condicion migratoria</label>
-							<input
-							type = "text"
-							name = "condicionMigratoria"
-							th:field = "*{CVCondicionMigratoria}"
-							class = "form-control"
-							placeholder="Digite la condicion migratoria de la victima" 
-							maxlength="50"
-                   		 	required
-							/>
-						</div>
-						
-						<div class ="form-group">
-							<label>Etnia</label>
-							<input
-							type = "text"
-							name = "etnia"
-							th:field = "*{CVEtnia}"
-							class = "form-control"
-							placeholder="Digite la etnia de la victima" 
-							maxlength="50"
-                   		 	required
-							/>
-						</div>
-						
-						<div class ="form-group">
-							<label>Medidas de protección</label>
-							<input
-							type = "text"
-							name = "medidasProteccion"
-							th:field = "*{CVMedidasProteccion}"
-							class = "form-control"
-							placeholder="Digite las medidas de proteccion de la victima" 
-							maxlength="50"
-                   		 	required
-							/>
-						</div>
-						
-						<div class ="form-group">
-							<label>Denuncias previas</label>
-							<input
-							type = "text"
-							name = "denunciaPrevias"
-							th:field = "*{CVDenunciasPrevias}"
-							class = "form-control"
-							placeholder="Digite si la victima posee denuncias previas" 
-							maxlength="50"
-                   		 	required
-							/>
-						</div>
-						
-						<div class ="form-group"> 
-								<label>Hijos</label>
-							<select th:field="*{CIHijos}">
-   							 	<option th:value="'1'" th:text="Si"></option>
-  							 	<option th:value="'2'" th:text="No"></option>
+						<select th:field="*{CVDiscapacidad}">
+   							 	<option value="Visual">Visual</option>
+   							 	<option value="Auditiva">Auditiva</option>
+   							 	<option value="Motriz">Motriz</option>
+   							 		<option value="Multiple">Multiple</option>
+   							 	<option value="Intelectual">Intelectual</option>
+   							 	<option value="Fisica">Fisica</option>
+   							 	<option value="Otro">Otro</option>
+   							 
+  							 
   							 	</select>
 						</div>
 						
 						<div class ="form-group">
-							<label>Generador</label>
-							<input
-							type = "text"
-							name = "generador"
-							th:field = "*{CVGenerador}"
-							class = "form-control"
-							placeholder="Digite información para identificar al organismo que genera los datos de la victima" 
-							maxlength="50"
-                   		 	required
-							/>
+							<label>Condicion migratoria</label>
+						
+							<select th:field="*{CVCondicionMigratoria}">
+   							 	<option value="REGULAR">Regular</option>
+   							 	<option value="IRREGULAR">Irregular</option>
+   							 	<option value="REFUGIADO">Refugiado</option>
+   							 	<option value="APATRIDA">Apatrida</option>
+   							 	<option value="OTRO">Otro</option>
+   							 
+  							 
+  							 	</select>
+							
 						</div>
+						
+						<div class ="form-group">
+							<label>Etnia</label>
+							<select th:field="*{CVEtnia}">
+   							 	<option value="Asiatico">Asiatico</option>
+   							 	<option value="Blanco">Blanco</option>
+   							 	<option value="Negro">Negro</option>
+   							 	<option value="Indigena">Indigena</option>
+   							 	<option value="Se desconoce">Se desconoce</option>
+   							 
+  							 
+  							 	</select>
+						</div>
+						
+						<div class ="form-group">
+							<label>Medidas de protección</label>
+							
+							<select th:field="*{CVMedidasProteccion}">
+   							 	<option value="SI" >SI</option>
+  							 	<option value="NO">No</option>
+  							 	</select>
+						</div>
+						
+						<div class ="form-group">
+							<label>Denuncias previas</label>
+							
+							
+							
+							<select th:field="*{CVDenunciasPrevias}">
+   							 	<option value="SI" >SI</option>
+  							 	<option value="NO">No</option>
+  							 	</select>
+						</div>
+							
+						
+						
+						<div class ="form-group"> 
+								<label>Hijos</label>
+							<select th:field="*{CIHijos}">
+   							 	<option value="1">1</option>
+   							 	<option value="2">2</option>
+   							 	<option value="3">3</option>
+   							 	<option value="4">4</option>
+   							 	<option value="5">5</option>
+   							 	<option value="6">6</option>
+   							 	<option value="7">7</option>
+   							 	<option value="8">8</option>
+   							 	<option value="9">9</option>
+   							 	<option value="10">10</option>
+   							 	<option value="11">11</option>
+   							 	<option value="12">12</option>
+  							 
+  							 	</select>
+						</div>
+						
+					<div class ="form-group">
+							<label>Organismo generador</label>
+							<select name="generador" th:field="*{CVGenerador}" class = "form-control" onfocus="ocultarError()">
+								<option th:each="organismo: ${listaOrganismo}" th:value="${organismo.CI_Id}" th:text="${organismo.CI_Id} + ' - ' + ${organismo.CVNombre}"></option>
+							</select>
+						</div>
+						
+						
+						
+						
+						
+						
+						
+						
 						
 						<div class = "box-footer">
 							<button type="submit" class = "btn btn-primary">
