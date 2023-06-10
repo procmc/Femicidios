@@ -6,7 +6,6 @@ use femicidios;
  Tablas sobre identidadGenero
  */
 
-DROP TABLE IF EXISTS `identidadgenero`;
 DROP TABLE IF EXISTS `ta_codigopaises`;
 CREATE TABLE `ta_codigopaises`
 (
