@@ -89,16 +89,21 @@ ImputadoService imputadoService, PerfilService perfilService, UsuarioRepository 
  
  @GetMapping("/imputados/new")
  public String CreateUsuarioForm(Model model) {
-	 
+
 	 try {
 			this.validarPerfil();
 			if(!this.perfil.getCVRol().equals("Consulta")) {
+//				String descripcion="Elimino en XXX/Crea en XXX/ Actualiza en XXX";
+//				Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),this.perfil.getCVRol(),descripcion);
+//				bitacoraService.saveBitacora(bitacora);
 				model.addAttribute("orientacionSexual",orientacionSexualService.getAllOrientacionesSexuales());
 				model.addAttribute("identidadGenero",identidadGeneroService.getAllIdentidadGenero());
 				model.addAttribute("nivelEducativo",nivelEducativoService.getAllNivelEducativo());
 				model.addAttribute("situacionJuridica",situacionJuridicaService.getAllSituacionJuridica());
 				model.addAttribute("listaOrganismo",organismoService.getAllOrganismos());
 				model.addAttribute("imputado",new Imputado());
+				bitacoraService.saveBitacora(new Bitacora(this.usuario.getCI_Id(),
+						this.usuario.getCVNombre(),this.perfil.getCVRol(),"Crea en Imputado"));
 				return "imputados/create_imputado";
 			}else {
 				return "SinAcceso";
@@ -122,11 +127,10 @@ ImputadoService imputadoService, PerfilService perfilService, UsuarioRepository 
 			this.validarPerfil();
 			if(!this.perfil.getCVRol().equals("Consulta")) {
 				
-				String descripcion = "Elimino un imputados";
-				Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), descripcion, this.perfil.getCVRol());
-				bitacoraService.saveBitacora(bitacora);
-				
+
 				imputadoService.deleteImputadoById(id);
+				bitacoraService.saveBitacora(new Bitacora(this.usuario.getCI_Id(),
+						this.usuario.getCVNombre(),this.perfil.getCVRol(),"Eliminó en Imputado"));
 				 return "redirect:/imputados";
 			}else {
 				return "SinAcceso";
@@ -149,6 +153,7 @@ ImputadoService imputadoService, PerfilService perfilService, UsuarioRepository 
 				model.addAttribute("situacionJuridica",situacionJuridicaService.getAllSituacionJuridica());
 				model.addAttribute("listaOrganismo",organismoService.getAllOrganismos());
 				model.addAttribute("imputado", imputadoService.getImputadoById(id));
+
 				return "imputados/edit_imputado";
 			}else {
 				return "SinAcceso";
@@ -186,6 +191,8 @@ ImputadoService imputadoService, PerfilService perfilService, UsuarioRepository 
 	 existingImputado.setCVDomicilio(imputado.getCVDomicilio());
 	 
 	 imputadoService.updateImputado(existingImputado);
+	 bitacoraService.saveBitacora(new Bitacora(this.usuario.getCI_Id(),
+			 this.usuario.getCVNombre(),this.perfil.getCVRol(),"Actualizó en Imputado"));
 	 return "redirect:/imputados";
  }
  
