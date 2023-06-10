@@ -16,7 +16,7 @@ Este repositorio contiene el código fuente y la documentación para un software
 - Génesis Sequeira Navarro
 - Ronny Salgado Moraga
 - Dillan Guzmán On
-- Julio Hernández Chavarría
+NO Julio Hernández Chavarría
 - Kendall Barrantes Paniagua
 - Ana Aguilar Vanegas
 
