@@ -56,7 +56,7 @@ public void Test2() throws Exception {
 	 assertNotEquals(victimaConsultada.getCVNombre(), CVNombre);
 	 assertNotEquals(victimaConsultada.getCVApellidoPaterno(), CVApellidoPaterno);
 	 assertNotEquals(victimaConsultada.getCVApellidoMaterno(), CVApellidoMaterno);
-	 assertNotEquals(victimaConsultada.getCVEdad(), CVEdad);
+	 assertNotEquals(victimaConsultada.getCIEdad(), CVEdad);
 	 assertNotEquals(victimaConsultada.getCVGenero(), CVEdad);
 	 assertNotEquals(victimaConsultada.getCVGenero(), CVGenero);
 	 assertNotEquals(victimaConsultada.getCVLugarNac(), CVLugarNac);
@@ -74,7 +74,7 @@ public void Test3() throws Exception {
 	 assertEquals(victimaConsultada.getCVNombre(), CVNombre);
 	 assertEquals(victimaConsultada.getCVApellidoPaterno(), CVApellidoPaterno);
 	 assertEquals(victimaConsultada.getCVApellidoMaterno(), CVApellidoMaterno);
-	 assertEquals(victimaConsultada.getCVEdad(), CVEdad);
+	 assertEquals(victimaConsultada.getCIEdad(), CVEdad);
 	 assertEquals(victimaConsultada.getCVGenero(), CVEdad);
 	 assertEquals(victimaConsultada.getCVGenero(), CVGenero);
 	 assertEquals(victimaConsultada.getCVLugarNac(), CVLugarNac);

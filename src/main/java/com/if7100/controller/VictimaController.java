@@ -198,7 +198,7 @@ public class VictimaController {
 		existingVictima.setCVNombre(victima.getCVNombre());
 		existingVictima.setCVApellidoPaterno(victima.getCVApellidoPaterno());
 		existingVictima.setCVApellidoMaterno(victima.getCVApellidoMaterno());
-		existingVictima.setCVEdad(victima.getCVEdad());
+		existingVictima.setCVEdad(victima.getCIEdad());
 		existingVictima.setCVGenero(victima.getCVGenero());
 		existingVictima.setCVLugarNac(victima.getCVLugarNac());
 		existingVictima.setCVOrientaSex(victima.getCVOrientaSex());

@@ -769,7 +769,7 @@ CREATE TABLE femicidios.TA_Victima
     CV_Nombre               VARCHAR(50)  NOT NULL,
     CV_Apellidopaterno      VARCHAR(50)  NOT NULL,
     CV_Apellidomaterno      VARCHAR(50)  NOT NULL,
-    CV_Edad                 int          NOT NULL,
+    CI_Edad                 int          NOT NULL,
     CV_Idgenero             int          NOT NULL,
     CV_Lugarnac             VARCHAR(100) NOT NULL,
     CV_Orientasex           int          NOT NULL,
@@ -788,7 +788,7 @@ CREATE TABLE femicidios.TA_Victima
     PRIMARY KEY (CI_Id)
 );
 
-insert into TA_Victima(CV_DNI, CV_Nombre, CV_ApellidoPaterno, CV_ApellidoMaterno, CV_Edad, CV_IDGenero, CV_LugarNac,
+insert into TA_Victima(CV_DNI, CV_Nombre, CV_ApellidoPaterno, CV_ApellidoMaterno, CI_Edad, CV_IDGenero, CV_LugarNac,
                        CV_OrientaSex, CV_Nacionalidad, CI_Educacion, CV_Ocupacion, CV_Domicilio, CV_Lugar_Residencia,
                        CV_Discapacidad, CV_Condicion_Migratoria, CV_Etnia, CV_Medidas_Proteccion, CV_Denuncias_Previas,
                        CI_Hijos, CV_Generador)
@@ -796,4 +796,7 @@ values (203450876, 'Albertina', 'Chill', 'Pepper', 30, 1, 'Cartago', 1, 'Costarr
         'Limon centro', 'Limon', 'Ninguna', 'Todo bien', 'Mestizo', 'Ninguna', 'Ninguna', 0, 'Nada'),
        (203450877, 'Albertino', 'Chill', 'Pepper', 30, 2, 'Cartago', 2, 'Costarricense', 2, 'Cruz Rojista',
         'Limon centro', 'Limon', 'Ninguna', 'Todo bien', 'Mestizo', 'Ninguna', 'Ninguna', 0, 'Nada');
+        
+        
+       ALTER TABLE TA_Victima RENAME COLUMN CV_Edad TO CI_Edad;
 

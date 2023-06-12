@@ -93,7 +93,7 @@
 							<input
 							type = "text"
 							name = "Edad"
-							th:field = "*{CVEdad}"
+							th:field = "*{CIEdad}"
 							class = "form-control"
 							placeholder="Edad de la victima" 
 							maxlength="10"
@@ -261,25 +261,20 @@
 						</div>
 							
 						
-						
-						<div class ="form-group"> 
-								<label>Hijos</label>
-							<select th:field="*{CIHijos}">
-   							 	<option value="1">1</option>
-   							 	<option value="2">2</option>
-   							 	<option value="3">3</option>
-   							 	<option value="4">4</option>
-   							 	<option value="5">5</option>
-   							 	<option value="6">6</option>
-   							 	<option value="7">7</option>
-   							 	<option value="8">8</option>
-   							 	<option value="9">9</option>
-   							 	<option value="10">10</option>
-   							 	<option value="11">11</option>
-   							 	<option value="12">12</option>
-  							 
-  							 	</select>
+							<div class ="form-group">
+							<label>Hijos</label>
+							<input
+							type = "number"
+							name = "hijos"
+							th:field = "*{CIHijos}"
+							class = "form-control"
+							placeholder="Cantidad de hijos" 
+							maxlength="15"
+							pattern="[0-9]"
+                    		required
+							/>
 						</div>
+						
 						
 					<div class ="form-group">
 							<label>Organismo generador</label>

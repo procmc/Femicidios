@@ -96,7 +96,7 @@
 							<input
 							type = "text"
 							name = "Edad"
-							th:field = "*{CVEdad}"
+							th:field = "*{CIEdad}"
 							class = "form-control"
 							placeholder="Edad de la victima" 
 							maxlength="10"
@@ -202,7 +202,7 @@
 						<div class ="form-group">
 							<label>Discapacidad</label>
 						
-						<select th:field="*{CVDiscapacidad}">
+						<select name="discapacidad" th:field="*{CVDiscapacidad}"  onfocus="ocultarError()" class="form-control">
    							 	<option value="Visual">Visual</option>
    							 	<option value="Auditiva">Auditiva</option>
    							 	<option value="Motriz">Motriz</option>
@@ -218,7 +218,7 @@
 						<div class ="form-group">
 							<label>Condicion migratoria</label>
 						
-							<select th:field="*{CVCondicionMigratoria}">
+							<select th:field="*{CVCondicionMigratoria}" onfocus="ocultarError()" class="form-control">
    							 	<option value="REGULAR">Regular</option>
    							 	<option value="IRREGULAR">Irregular</option>
    							 	<option value="REFUGIADO">Refugiado</option>
@@ -232,7 +232,7 @@
 						
 						<div class ="form-group">
 							<label>Etnia</label>
-							<select th:field="*{CVEtnia}">
+							<select name="etnia" th:field="*{CVEtnia}" onfocus="ocultarError()" class="form-control">
    							 	<option value="Asiatico">Asiatico</option>
    							 	<option value="Blanco">Blanco</option>
    							 	<option value="Negro">Negro</option>
@@ -244,9 +244,9 @@
 						</div>
 						
 						<div class ="form-group">
-							<label>Medidas de protección</label>
+							<label>Medidas de proteccion</label>
 							
-							<select th:field="*{CVMedidasProteccion}">
+							<select name="medidasProteccion"  th:field="*{CVMedidasProteccion}" onfocus="ocultarError()" class="form-control">
    							 	<option value="SI" >SI</option>
   							 	<option value="NO">No</option>
   							 	</select>
@@ -256,8 +256,9 @@
 							<label>Denuncias previas</label>
 							
 							
+                  <select name="denunciasPrevias"  th:field="*{CVDenunciasPrevias}" onfocus="ocultarError()" class="form-control">
 							
-							<select th:field="*{CVDenunciasPrevias}">
+							
    							 	<option value="SI" >SI</option>
   							 	<option value="NO">No</option>
   							 	</select>
@@ -265,23 +266,18 @@
 							
 						
 						
-						<div class ="form-group"> 
-								<label>Hijos</label>
-							<select th:field="*{CIHijos}">
-   							 	<option value="1">1</option>
-   							 	<option value="2">2</option>
-   							 	<option value="3">3</option>
-   							 	<option value="4">4</option>
-   							 	<option value="5">5</option>
-   							 	<option value="6">6</option>
-   							 	<option value="7">7</option>
-   							 	<option value="8">8</option>
-   							 	<option value="9">9</option>
-   							 	<option value="10">10</option>
-   							 	<option value="11">11</option>
-   							 	<option value="12">12</option>
-  							 
-  							 	</select>
+							<div class ="form-group">
+							<label>Hijos</label>
+							<input
+							type = "number"
+							name = "hijos"
+							th:field = "*{CIHijos}"
+							class = "form-control"
+							placeholder="Cantidad de hijos" 
+							maxlength="15"
+							pattern="[0-9]"
+                    		required
+							/>
 						</div>
 						
 					<div class ="form-group">

@@ -31,8 +31,8 @@ public class Victima {
 	@Column(name="CV_Apellidomaterno", nullable =false)
 	private String CVApellidoMaterno;
 	
-	@Column(name="CV_Edad", nullable =false)
-	private int CVEdad;
+	@Column(name="CI_Edad", nullable =false)
+	private int CIEdad;
 	
 	@Column(name="CV_Idgenero", nullable =false)
 	private int CVGenero;
@@ -85,7 +85,7 @@ public class Victima {
 
 
 	public Victima(int cVDNI, String cVNombre, String cVApellidoPaterno, String cVApellidoMaterno,
-			int cVEdad, int cVGenero, String cVLugarNac, int cVOrientaSex, String CVNacionalidad, 
+			int cIEdad, int cVGenero, String cVLugarNac, int cVOrientaSex, String CVNacionalidad, 
 			int CIEducacion, String CVOcupacion, String CVDomicilio, String CVLugarResidencia, 
 			String CVDiscapacidad, String CVCondicionMigratoria, String CVEtnia, String CVMedidasProteccion, 
 			String CVDenunciasPrevias, int CIHijos, String CVGenerador) {
@@ -95,7 +95,7 @@ public class Victima {
 		CVNombre = cVNombre;
 		CVApellidoPaterno = cVApellidoPaterno;
 		CVApellidoMaterno = cVApellidoMaterno;
-		CVEdad = cVEdad;
+		CIEdad = cIEdad;
 		CVGenero = cVGenero;
 		CVLugarNac = cVLugarNac;
 		CVOrientaSex = cVOrientaSex;
@@ -167,13 +167,13 @@ public class Victima {
 	}
 
 
-	public int getCVEdad() {
-		return CVEdad;
+	public int getCIEdad() {
+		return CIEdad;
 	}
 
 
-	public void setCVEdad(int cVEdad) {
-		CVEdad = cVEdad;
+	public void setCVEdad(int cIEdad) {
+		CIEdad = cIEdad;
 	}
 
 
