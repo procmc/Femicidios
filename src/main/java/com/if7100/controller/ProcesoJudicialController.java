@@ -105,6 +105,9 @@ private Usuario usuario;
 			if(!this.perfil.getCVRol().equals("Consulta")) {
 				
 				procesoJudicialService.deleteProcesoJudicialById(id);
+				String descripcion = "Elimino un proceso judicial";
+				Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(),descripcion);
+				bitacoraService.saveBitacora(bitacora);
 				return "redirect:/procesosJudiciales";
 			}else {
 				return "SinAcceso";
@@ -123,10 +126,6 @@ private Usuario usuario;
 			if(!this.perfil.getCVRol().equals("Consulta")) {
 				
 				model.addAttribute("procesoJudicial", procesoJudicialService.getProcesoJudicialById(id));
-				
-				String descripcion = "Elimino un proceso judicial";
-				Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), descripcion, this.perfil.getCVRol());
-				bitacoraService.saveBitacora(bitacora);
 				
 				 return "procesosJudiciales/edit_procesosJudiciales";
 			}else {
