@@ -5,14 +5,20 @@ import com.if7100.repository.UsuarioRepository;
 import com.if7100.service.BitacoraService;
 import com.if7100.service.PerfilService;
 import com.if7100.service.SituacionJuridicaService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
 public class SituacionJuridicaController {
@@ -53,9 +59,30 @@ public class SituacionJuridicaController {
     }
 
     @GetMapping("/situacionesjuridicas")
-    public String listSituacionesJuridicas(Model model){
-        model.addAttribute("situacionesJuridicas", situacionJuridicaService.getAllSituacionJuridica());
-        return "situacionJuridica/situacionesJuridicas";
+    private String listSituacionesJuridicas(Model model){
+        return "redirect:/situacionjuridica/1";
+    }
+
+    @GetMapping("/situacionjuridica/{pg}")
+    public String listSituacionJuridica(Model model, @PathVariable Integer pg){
+        int numeroPagina = pg-1;
+        int paginasDeseadas = 5;
+
+        int numeroTotalElementos = situacionJuridicaService.getAllSituacionJuridica().size();
+        int tamanoPagina = (int) Math.ceil(numeroTotalElementos / (double) paginasDeseadas);
+
+        Pageable pageable = PageRequest.of(numeroPagina, tamanoPagina);
+
+        Page<SituacionJuridica> situacionJuridicaPage = situacionJuridicaService.getAllSituacionJuridicaPage(pageable);
+
+        List<Integer> nPaginas = IntStream.rangeClosed(1, situacionJuridicaPage.getTotalPages())
+                .boxed()
+                .toList();
+
+        model.addAttribute("PaginaActual", pg);
+        model.addAttribute("nPaginas", nPaginas);
+        model.addAttribute("situacionesJuridicas", situacionJuridicaPage.getContent());
+        return "situacionJuridica/situacionJuridica";
     }
 
     @GetMapping("situacionesjuridicas/new")
@@ -118,7 +145,6 @@ public class SituacionJuridicaController {
             return "SinAcceso";
         }
     }
-
     @GetMapping("/situacionesjuridicas/edit/{id}")
     public String editSituacionJuridicaForm(@PathVariable Integer id, Model model){
         try {

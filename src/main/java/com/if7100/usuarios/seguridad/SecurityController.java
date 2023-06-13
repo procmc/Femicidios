@@ -18,8 +18,11 @@ public class SecurityController {
 	public static final String[] ENDPOINTS_WHITELIST = {
             "/css/**",
             "/",
-            "/login"
+            "/login",
+            "/inicio",
+            "/assets/**"
     };
+
 	public String LOGIN_URL = "/login";
     public String LOGOUT_URL = "/logout";
     public String LOGIN_FAIL_URL = LOGIN_URL + "?error";

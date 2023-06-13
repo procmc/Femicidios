@@ -212,7 +212,7 @@
 						<div class ="form-group">
 							<label>Seleccione la situacion juridica del imputado:</label>
 							<select name="situacionJuridica" th:field="*{CVSituacionJuridica}" class = "form-control" onfocus="ocultarError()">
-								<option th:each="situacion: ${situacionJuridica}" th:value="${situacion.CI_Codigo}" th:text="${situacion.CVTitulo}"></option>
+								<option th:each="situacion: ${situacionJuridica}" th:value="${situacion.CI_Codigo}" th:text="${situacionStat.count} + ' - ' + ${situacion.CVTitulo}"></option>
 							</select>
 						</div>
 

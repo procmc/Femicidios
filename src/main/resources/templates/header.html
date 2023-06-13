@@ -1,95 +1,98 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
-  <meta charset="ISO-8859-1">
-  <title>Header</title>
-
-  <link rel="stylesheet"
-        href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-        crossorigin="anonymous">
+    <meta charset="utf-8">
+    <title>Header</title>
+    <script src="/assets/bootstrap/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/fonts/fontAwesome/fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="/assets/fonts/fontAwesome/fonts/simple-line-icons.min.css">
+    <link rel="stylesheet" href="/assets/css/crud-table.css">
 </head>
 <body>
-<th:block th:fragment="header">
-  <header>
 
-    <div>
-      <div class="row">
-        <div class="col-md-12">
-          <ul class="nav nav-pills flex-column flex-sm-row">
-            <li class="nav-item">
-              <a class="nav-link active" href="#">Inicio</a>
-            </li>
-            <li class="nav-item">
+<th:block th:fragment="nav">
 
-              <div class="container">
-                <form th:action="@{/redireccionarEntidades}" method="post">
-                  <select class="form-control" name="opcion" onchange="this.form.submit()">
-                    <option value="" disabled selected>Entidades</option>
-                    <option value="hecho">Hechos</option>
-                    <option value="imputado">Imputados</option>
-                    <option value="organismo">Organismos</option>
-                    <option value="procesoJudicial">Procesos Judiciales</option>
-                    <option value="lugar">Lugares</option>
-                    <option value="bitacoras">Bitacoras</option>
-                    <option value="victima">Victimas</option>
-                    <option value="usuarios">Usuarios</option>
-                    <option value="perfiles">Perfiles</option>
-                    <option value="bitacoras">Bitacoras</option>
-                  </select>
-                </form>
-              </div>
+    <nav class="navbar navbar-dark navbar-expand-lg fixed-top bg-dark clean-navbar">
+        <div class="container"><a class="navbar-brand logo" th:href="@{/inicio}">Femicidios</a>
+            <button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span
+                    class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navcol-1">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item item"><a class="nav-link" th:href="@{/inicio}">Inicio</a></li>
+                    <li class="nav-item">
 
-            </li>
-            <li class="nav-item">
+                        <div class="container">
+                            <form th:action="@{/redireccionarEntidades}" method="post">
+                                <select class="form-control" name="opcion" onchange="this.form.submit()">
+                                    <option value="" disabled selected>Entidades</option>
+                                    <option value="hecho">Hechos</option>
+                                    <option value="imputado">Imputados</option>
+                                    <option value="organismo">Organismos</option>
+                                    <option value="procesoJudicial">Procesos Judiciales</option>
+                                    <option value="lugar">Lugares</option>
+                                    <option value="bitacoras">Bitacoras</option>
+                                    <option value="victima">Victimas</option>
+                                    <option value="usuarios">Usuarios</option>
+                                    <option value="perfiles">Perfiles</option>
+                                    <option value="bitacoras">Bitacoras</option>
+                                </select>
+                            </form>
+                        </div>
 
-              <div class="container">
-                <form th:action="@{/redireccionarCampos}" method="post">
-                  <select class="form-control" name="opcion" onchange="this.form.submit()">
-                    <option value="" disabled selected>Campos Codificados</option>
-                    <option value="identidadGenero">Identidades De Genero</option>
-                    <option value="orientacionSexual">Orientaciones Sexuales</option>
-                    <option value="modalidad">Modalidades</option>
-                    <option value="nivelEducativo">Niveles Educativos</option>
-                    <option value="situacionJuridica"> Situaciones Juridicas </option>
-                    <option value="tipoLugar">Tipos De Lugares</option>
-                    <option value="tipoRelacion">Tipos De Relaciones</option>
-                    <option value="tipoVictima">Tipos De Victimas</option>
-                    <option value="tipoOrganismo">Tipos De Organismos</option>
+                    </li>
+                    <li class="nav-item">
 
-                  </select>
-                </form>
-              </div>
+                        <div class="container">
+                            <form th:action="@{/redireccionarCampos}" method="post">
+                                <select class="form-control" name="opcion" onchange="this.form.submit()">
+                                    <option value="" disabled selected>Campos Codificados</option>
+                                    <option value="identidadGenero">Identidades De Genero</option>
+                                    <option value="orientacionSexual">Orientaciones Sexuales</option>
+                                    <option value="modalidad">Modalidades</option>
+                                    <option value="nivelEducativo">Niveles Educativos</option>
+                                    <option value="situacionJuridica"> Situaciones Juridicas</option>
+                                    <option value="tipoLugar">Tipos De Lugares</option>
+                                    <option value="tipoRelacion">Tipos De Relaciones</option>
+                                    <option value="tipoVictima">Tipos De Victimas</option>
+                                    <option value="tipoOrganismo">Tipos De Organismos</option>
 
-            </li>
+                                </select>
+                            </form>
+                        </div>
 
-            <li class="nav-item">
+                    </li>
+                    <li class="nav-item">
 
-              <div class="container">
-                <form th:action="@{/redireccionarRelaciones}" method="post">
-                  <select class="form-control" name="opcion" onchange="this.form.submit()">
-                    <option value="" disabled selected>Entidades Relacionadas</option>
-                    <option value="hechoimputado">Hechos - Imputados</option>
-                    <option value="hechoorganismo">Hechos - Organismos</option>
+                        <div class="container">
+                            <form th:action="@{/redireccionarRelaciones}" method="post">
+                                <select class="form-control" name="opcion" onchange="this.form.submit()">
+                                    <option value="" disabled selected>Entidades Relacionadas</option>
+                                    <option value="hechoimputado">Hechos - Imputados</option>
+                                    <option value="hechoorganismo">Hechos - Organismos</option>
 
-                  </select>
-                </form>
-              </div>
+                                </select>
+                            </form>
+                        </div>
 
-            </li>
-
-            <li class="nav-item ml-auto" sec:authorize="isAuthenticated()">
-					<a class="nav-link" th:href="@{/logout}">Cerrar sesion</a>
-			</li>
-          </ul>
+                    </li>
+                    <li class="nav-item ml-auto" sec:authorize="isAuthenticated()">
+                        <a class="nav-link" th:href="@{/logout}">Cerrar sesion</a>
+                    </li>
+                    <li class="nav-item ml-auto" sec:authorize="!isAuthenticated()">
+                        <a class="nav-link" th:href="@{/login}">Iniciar sesion</a>
+                    </li>
+                    <li>
+                    </li>
+                </ul>
+            </div>
         </div>
-      </div>
-    </div>
+    </nav>
 
-    <div class = "row"> <h1></h1> </div>
-    <div class = "row"> <h1></h1> </div>
 
-  </header>
 </th:block>
+
+
 </body>
 </html>
