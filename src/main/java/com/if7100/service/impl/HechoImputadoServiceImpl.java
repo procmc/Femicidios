@@ -10,6 +10,10 @@ import com.if7100.repository.ImputadoRepository;
 import com.if7100.repository.HechoImputadoRepository;
 import com.if7100.service.HechoImputadoService;
 import com.if7100.service.HechoService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -38,21 +42,25 @@ public class HechoImputadoServiceImpl implements HechoImputadoService {
     }
 
     @Override
+    public Page<HechoImputado> getAllHechoImputadoPage(Pageable pageable){
+        return hechoImputadoRepository.findAll(pageable);
+    }
+
+    @Override
     public List<HechoImputado> getAllHechosImputado(Integer CI_Hecho){
 
         List<HechoImputado> salida = hechoImputadoRepository.findAll();
-//        List<HechoImputado> salida2 = hechoImputadoRepository.findAll();
-
-
-//        for (HechoImputado hechoImputado :
-//                salida) {
-//            Hecho hecho = hechoRepository.findById(CI_Hecho).get();
-//            if (!Objects.equals(hecho.getCI_Id(), hechoImputado.getCIHecho())){
-//                salida2.remove(hechoImputado);
-//            }
-//        }
-
         return salida.stream().filter(hechoImputado -> Objects.equals(hechoImputado.getCIHecho(), CI_Hecho)).collect(Collectors.toList());
+    }
+
+    @Override
+    public Page<HechoImputado> getAllHechosImputadoPage(Pageable pageable ,Integer CI_Hecho){
+
+        List<HechoImputado> salida = hechoImputadoRepository.findAll();
+        salida = salida.stream().filter(hechoImputado -> Objects.equals(hechoImputado.getCIHecho(), CI_Hecho)).collect(Collectors.toList());
+
+        return new PageImpl<>(salida, pageable, salida.size());
+
     }
 
     @Override
@@ -61,6 +69,16 @@ public class HechoImputadoServiceImpl implements HechoImputadoService {
         List<HechoImputado> salida = hechoImputadoRepository.findAll();
 
         return salida.stream().filter(hechoImputado -> Objects.equals(hechoImputado.getCIImputado(), CI_Imputado)).collect(Collectors.toList());
+    }
+
+    @Override
+    public Page<HechoImputado> getAllHechoImputadosPage(Pageable pageable ,Integer CI_Imputado){
+
+        List<HechoImputado> salida = hechoImputadoRepository.findAll();
+        salida = salida.stream().filter(hechoImputado -> Objects.equals(hechoImputado.getCIImputado(), CI_Imputado)).collect(Collectors.toList());
+
+        return new PageImpl<>(salida, pageable, salida.size());
+
     }
 
     @Override

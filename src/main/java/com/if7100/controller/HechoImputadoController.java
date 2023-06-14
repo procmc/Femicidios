@@ -15,6 +15,9 @@ import com.if7100.service.ImputadoService;
 import com.if7100.service.PerfilService;
 
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -23,6 +26,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.List;
+import java.util.stream.IntStream;
 
 @Controller
 public class HechoImputadoController {
@@ -66,42 +72,115 @@ public class HechoImputadoController {
 
     @GetMapping("/hechoimputado")
     public String listHechoImputado(Model model){
-        model.addAttribute("hechoImputado", hechoImputadoService.getAllHechoImputado());
+        return "redirect:/hechosimputados/1";
+    }
+
+    @GetMapping("/hechosimputados/{pg}")
+    public String listHechosImputados(Model model, @PathVariable Integer pg){
+        if (pg < 1){
+            return "redirect:/hechosimputados/1";
+        }
+        int numeroTotalElementos = hechoImputadoService.getAllHechoImputado().size();
+
+        int numeroPagina = pg-1;
+        int paginasDeseadas = 5;
+
+        if (numeroTotalElementos < 10){
+            paginasDeseadas = 1;
+        }
+        if (numeroTotalElementos < 1){
+            numeroTotalElementos = 1;
+        }
+
+        int tamanoPagina = (int) Math.ceil(numeroTotalElementos / (double) paginasDeseadas);
+
+        Pageable pageable = PageRequest.of(numeroPagina, tamanoPagina);
+
+        Page<HechoImputado> hechoImputadoPage = hechoImputadoService.getAllHechoImputadoPage(pageable);
+
+        List<Integer> nPaginas = IntStream.rangeClosed(1, hechoImputadoPage.getTotalPages()).boxed().toList();
+
+        model.addAttribute("PaginaActual", pg);
+        model.addAttribute("nPaginas", nPaginas);
+        model.addAttribute("hechosimputados", hechoImputadoPage.getContent());
+        model.addAttribute("listHechosImputados", true);
         return "hechosImputados/hechoImputado";
     }
 
     @GetMapping("/hechosimputado/{id}")
     public String listHechosImputado(Model model, @PathVariable Integer id){
-        model.addAttribute("hechoImputado", hechoImputadoService.getAllHechosImputado(id));
+        return "redirect:/hechosimputado/".concat(String.valueOf(id)).concat("/1");
+    }
+
+    @GetMapping("/hechosimputado/{id}/{pg}")
+    public String HechosImputado(Model model, @PathVariable Integer id, @PathVariable Integer pg){
+        if (pg < 1){
+            return "redirect:/hechosimputado/".concat(String.valueOf(id)).concat("/1");
+        }
+        int numeroPagina = pg-1;
+        int paginasDeseadas = 5;
+
+        int numeroTotalElementos = hechoImputadoService.getAllHechosImputado(id).size();
+
+        if (numeroTotalElementos < 10){
+            paginasDeseadas = 1;
+        }
+        if (numeroTotalElementos < 1){
+            numeroTotalElementos = 1;
+        }
+
+        int tamanoPagina = (int) Math.ceil(numeroTotalElementos / (double) paginasDeseadas);
+
+        Pageable pageable = PageRequest.of(numeroPagina, tamanoPagina);
+
+        Page<HechoImputado> hechoImputadoPage = hechoImputadoService.getAllHechosImputadoPage(pageable, id);
+
+        List<Integer> nPaginas = IntStream.rangeClosed(1, hechoImputadoPage.getTotalPages()).boxed().toList();
+
+        model.addAttribute("Id", id);
+        model.addAttribute("PaginaActual", pg);
+        model.addAttribute("nPaginas", nPaginas);
+        model.addAttribute("hechosimputados", hechoImputadoPage.getContent());
+        model.addAttribute("hechosImputado", true);
         return "hechosImputados/hechoImputado";
     }
 
     @GetMapping("/hechoimputados/{id}")
     public String listHechoImputados(Model model, @PathVariable Integer id){
-        model.addAttribute("hechoImputado", hechoImputadoService.getAllHechoImputados(id));
-        return "hechosImputados/hechoImputado";
+        return "redirect:/hechoimputados/".concat(String.valueOf(id)).concat("/1");
     }
 
-//    @GetMapping("hechoimputado/new")
-//    public String createHechoImputadoForm(Model model){
-//
-//    	try {
-//			this.validarPerfil();
-//			if(!this.perfil.getCVRol().equals("Consulta")) {
-//
-//				HechoImputado hechoImputado = new HechoImputado();
-//		        model.addAttribute("hechoImputado", hechoImputado);
-//		        model.addAttribute("hechos", hechoService.getAllHechos());
-//		        model.addAttribute("imputados", imputadoService.getAllImputados());
-//		        return "hechosImputados/create_hecho_imputado";
-//			}else {
-//				return "SinAcceso";
-//			}
-//
-//		}catch (Exception e) {
-//			return "SinAcceso";
-//		}
-//    }
+    @GetMapping("/hechoimputados/{id}/{pg}")
+    public String HechosImputados(Model model, @PathVariable Integer id, @PathVariable Integer pg){
+        if (pg < 1){
+            return "redirect:/hechoimputados/".concat(String.valueOf(id)).concat("/1");
+        }
+        int numeroPagina = pg-1;
+        int paginasDeseadas = 5;
+
+        int numeroTotalElementos = hechoImputadoService.getAllHechoImputados(id).size();
+
+        if (numeroTotalElementos < 10){
+            paginasDeseadas = 1;
+        }
+        if (numeroTotalElementos < 1){
+            numeroTotalElementos = 1;
+        }
+
+        int tamanoPagina = (int) Math.ceil(numeroTotalElementos / (double) paginasDeseadas);
+
+        Pageable pageable = PageRequest.of(numeroPagina, tamanoPagina);
+
+        Page<HechoImputado> hechoImputadoPage = hechoImputadoService.getAllHechoImputadosPage(pageable, id);
+
+        List<Integer> nPaginas = IntStream.rangeClosed(1, hechoImputadoPage.getTotalPages()).boxed().toList();
+
+        model.addAttribute("PaginaActual", pg);
+        model.addAttribute("nPaginas", nPaginas);
+        model.addAttribute("hechosimputados", hechoImputadoPage.getContent());
+        model.addAttribute("hechoImputados", true);
+        return "hechosImputados/hechoImputado";
+    }
 
     @GetMapping("/hechosimputado/new/{Id}")
     public String createHechosImputadoForm(Model model, @PathVariable Integer Id) {
@@ -148,7 +227,7 @@ public class HechoImputadoController {
     }
 
     @GetMapping("/hechoimputado/{id}")
-    public String deleteHecho(@PathVariable Integer id){
+    public String deleteHechoImputado(@PathVariable Integer id){
     	
     	try {
 			this.validarPerfil();
@@ -167,22 +246,45 @@ public class HechoImputadoController {
 		}
     }
 
-//    @PostMapping("/hechoimputado")
-//    public String saveHechoImputado(@ModelAttribute("hechoImputado") HechoImputado hechoImputado, Model model){
-//        try {
-//        	String descripcion="Creo en Hechos Imputado";
-//		    Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),this.perfil.getCVRol(),descripcion);
-//            bitacoraService.saveBitacora(bitacora);
-//
-//            hechoImputadoService.saveHechoImputado(hechoImputado);
-//            return "redirect:/hechoimputado";
-//        }catch (DataIntegrityViolationException e){
-//            String mensaje = "No se puede guardar el hecho debido a un error de integridad de datos.";
-//            model.addAttribute("error_message", mensaje);
-//            model.addAttribute("error", true);
-//            return createHechoImputadoForm(model);
-//        }
-//    }
+    @GetMapping("/hechosi/{id}/{idhecho}")
+    public String deleteHechosimputado(@PathVariable Integer id, @PathVariable Integer idhecho){
+
+        try {
+            this.validarPerfil();
+            if(!this.perfil.getCVRol().equals("Consulta")) {
+                hechoImputadoService.deleteHechoImputadoById(id);
+                String descripcion = "Elimino en hechoImputado";
+                Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
+                bitacoraService.saveBitacora(bitacora);
+                return "redirect:/hechosimputado/".concat(String.valueOf(idhecho));
+            }else {
+                return "SinAcceso";
+            }
+
+        }catch (Exception e) {
+            return "SinAcceso";
+        }
+    }
+
+    @GetMapping("/himputados/{id}/{idhecho}")
+    public String deleteHechoImputados(@PathVariable Integer id, @PathVariable Integer idhecho){
+
+        try {
+            this.validarPerfil();
+            if(!this.perfil.getCVRol().equals("Consulta")) {
+                hechoImputadoService.deleteHechoImputadoById(id);
+                String descripcion = "Elimino en hechoImputado";
+                Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
+                bitacoraService.saveBitacora(bitacora);
+                return "redirect:/hechoimputados/".concat(String.valueOf(idhecho));
+            }else {
+                return "SinAcceso";
+            }
+
+        }catch (Exception e) {
+            return "SinAcceso";
+        }
+    }
 
     @PostMapping("/hechosimputado")
     public String saveHechosImputado(@ModelAttribute("hechoImputado") HechoImputado hechoImputado, Model model){
