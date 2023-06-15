@@ -4,6 +4,8 @@ package com.if7100.service.impl;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.if7100.entity.IdentidadGenero;
@@ -29,6 +31,11 @@ public class IdentidadGeneroImplement implements IdentidadGeneroService {
 	public List<IdentidadGenero> getAllIdentidadGenero() {
 		// TODO Auto-generated method stub
 		return identidadGeneroRepository.findAll();
+	}
+
+	@Override
+	public Page<IdentidadGenero> getAllIdentidadGeneroPage(Pageable pageable){
+		return identidadGeneroRepository.findAll(pageable);
 	}
 
 	@Override

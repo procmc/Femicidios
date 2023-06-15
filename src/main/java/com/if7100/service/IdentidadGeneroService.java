@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.if7100.entity.IdentidadGenero;
 import com.if7100.entity.Usuario;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 /**
  * 
@@ -12,6 +14,8 @@ import com.if7100.entity.Usuario;
  */
 public interface IdentidadGeneroService {
 	List<IdentidadGenero> getAllIdentidadGenero();
+
+	Page<IdentidadGenero> getAllIdentidadGeneroPage(Pageable pageable);
 
 	IdentidadGenero saveIdentidadGenero(IdentidadGenero identidadGenero);
 

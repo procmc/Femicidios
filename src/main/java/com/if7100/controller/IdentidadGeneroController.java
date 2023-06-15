@@ -11,6 +11,9 @@ import com.if7100.entity.Usuario;
 import com.if7100.entity.Paises;
 import com.if7100.service.BitacoraService;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -31,6 +34,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.List;
+import java.util.stream.IntStream;
 
 /**
  * @author michael arauz torrez
@@ -81,10 +87,35 @@ public class IdentidadGeneroController {
 		}
 
 	}
+
+	private Pageable initPages(int pg, int paginasDeseadas, int numeroTotalElementos){
+		int numeroPagina = pg-1;
+		int tamanoPagina = (int) Math.ceil(numeroTotalElementos / (double) paginasDeseadas);
+		return PageRequest.of(numeroPagina, tamanoPagina);
+	}
 	
 	@GetMapping("/identidadgenero")
 	public String listStudents(Model model) {
-		model.addAttribute("identidadgenero", identidadGeneroService.getAllIdentidadGenero());
+//		model.addAttribute("identidadgenero", identidadGeneroService.getAllIdentidadGenero());
+//		return "identidadGeneros/identidadgenero";
+		return "redirect:/identidadesgenero/1";
+	}
+
+	@GetMapping("identidadesgenero/{pg}")
+	public String listIdentidadesGeneros(Model model, @PathVariable Integer pg){
+
+		int numeroTotalElementos = identidadGeneroService.getAllIdentidadGenero().size();
+		Pageable pageable = initPages(pg, 5, numeroTotalElementos);
+
+		Page<IdentidadGenero> identidadGeneroPage = identidadGeneroService.getAllIdentidadGeneroPage(pageable);
+
+		List<Integer> nPaginas = IntStream.rangeClosed(1, identidadGeneroPage.getTotalPages())
+				.boxed()
+				.toList();
+
+		model.addAttribute("PaginaActual", pg);
+		model.addAttribute("nPaginas", nPaginas);
+		model.addAttribute("identidadesGenero", identidadGeneroPage.getContent());
 		return "identidadGeneros/identidadgenero";
 	}
 
