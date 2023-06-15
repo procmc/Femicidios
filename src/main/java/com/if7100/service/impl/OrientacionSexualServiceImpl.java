@@ -1,6 +1,9 @@
 package com.if7100.service.impl;
 
 import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.if7100.entity.OrientacionSexual;
@@ -24,6 +27,10 @@ public class OrientacionSexualServiceImpl implements OrientacionSexualService {
 		return orientacionRepository.findAll();
 	}
 
+	@Override
+	public Page<OrientacionSexual> getAllOrientacionesSexualesPage(Pageable pageable){
+		return orientacionRepository.findAll(pageable);
+	}
 
 	@Override
 	public OrientacionSexual saveOrientacionSexual(OrientacionSexual orientacion) {

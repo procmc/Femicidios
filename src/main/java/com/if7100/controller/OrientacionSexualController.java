@@ -11,6 +11,9 @@ import com.if7100.repository.UsuarioRepository;
 import com.if7100.service.OrientacionSexualService;
 import com.if7100.service.PerfilService;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -22,6 +25,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.if7100.entity.OrientacionSexual;
 import com.if7100.service.OrientacionSexualService;
+
+import java.util.List;
+import java.util.stream.IntStream;
 
 @Controller
 public class OrientacionSexualController {
@@ -63,11 +69,44 @@ OrientacionSexualService orientacionService, PerfilService perfilService, Usuari
 		}
 		
 	}
+
+	private Pageable initPages(int pg, int paginasDeseadas, int numeroTotalElementos){
+		int numeroPagina = pg-1;
+		if (numeroTotalElementos < 10){
+			paginasDeseadas = 1;
+		}
+		if (numeroTotalElementos < 1){
+			numeroTotalElementos = 1;
+		}
+		int tamanoPagina = (int) Math.ceil(numeroTotalElementos / (double) paginasDeseadas);
+		return PageRequest.of(numeroPagina, tamanoPagina);
+	}
  
- @GetMapping("/orientacionessexuales")
+ @GetMapping("/orientacionesSexuales")
  public String listOrientacionesSexuales(Model model) {
 	 
-	 model.addAttribute("orientacionesSexuales",orientacionService.getAllOrientacionesSexuales());
+	 return "redirect:/orientacionessexuales/1";
+ }
+
+ @GetMapping("/orientacionessexuales/{pg}")
+ public String listOrientacionesSexuales(Model model, @PathVariable Integer pg){
+	 if (pg < 1){
+		 return "redirect:/orientacionessexuales/1";
+	 }
+
+	 int numeroTotalElementos = orientacionService.getAllOrientacionesSexuales().size();
+
+	 Pageable pageable = initPages(pg, 5, numeroTotalElementos);
+
+	 Page<OrientacionSexual> orientacionSexualPage = orientacionService.getAllOrientacionesSexualesPage(pageable);
+
+	 List<Integer> nPaginas = IntStream.rangeClosed(1, orientacionSexualPage.getTotalPages())
+			 .boxed()
+			 .toList();
+
+	 model.addAttribute("PaginaActual", pg);
+	 model.addAttribute("nPaginas", nPaginas);
+	 model.addAttribute("orientacionessexuales", orientacionSexualPage.getContent());
 	 return "orientacionesSexuales/orientacionesSexuales";
  }
  
@@ -89,12 +128,12 @@ OrientacionSexualService orientacionService, PerfilService perfilService, Usuari
 		}
  }
 
- @GetMapping("/orientacionesSexuales")
- public String listStudents(Model model) {
-	 
-	 model.addAttribute("orientacionesSexuales",orientacionService.getAllOrientacionesSexuales());
-	 return "orientacionessexuales/orientacionesSexuales";
- }
+// @GetMapping("/orientacionesSexuales")
+// public String listStudents(Model model) {
+//
+//	 model.addAttribute("orientacionesSexuales",orientacionService.getAllOrientacionesSexuales());
+//	 return "orientacionessexuales/orientacionesSexuales";
+// }
  
  @GetMapping("/orientacionesSexuales/new")
  public String createUsuarioForm(Model model) {
@@ -108,7 +147,7 @@ OrientacionSexualService orientacionService, PerfilService perfilService, Usuari
 				bitacoraService.saveBitacora(bitacora);
 				
 				model.addAttribute("orientacion",new OrientacionSexual());
-				return "orientacionessexuales/create_orientacionesSexuales";
+				return "orientacionesSexuales/create_orientacionesSexuales";
 			}else {
 				return "SinAcceso";
 			}
@@ -157,7 +196,7 @@ OrientacionSexualService orientacionService, PerfilService perfilService, Usuari
 				bitacoraService.saveBitacora(bitacora);
 				
 				model.addAttribute("orientacion", orientacionService.getOrientacionSexualByCodigo(id));
-				 return "orientacionessexuales/edit_orientacionesSexuales";
+				 return "orientacionesSexuales/edit_orientacionesSexuales";
 			}else {
 				return "SinAcceso";
 			}

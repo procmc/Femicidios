@@ -90,6 +90,12 @@ public class IdentidadGeneroController {
 
 	private Pageable initPages(int pg, int paginasDeseadas, int numeroTotalElementos){
 		int numeroPagina = pg-1;
+		if (numeroTotalElementos < 10){
+			paginasDeseadas = 1;
+		}
+		if (numeroTotalElementos < 1){
+			numeroTotalElementos = 1;
+		}
 		int tamanoPagina = (int) Math.ceil(numeroTotalElementos / (double) paginasDeseadas);
 		return PageRequest.of(numeroPagina, tamanoPagina);
 	}
@@ -103,6 +109,10 @@ public class IdentidadGeneroController {
 
 	@GetMapping("identidadesgenero/{pg}")
 	public String listIdentidadesGeneros(Model model, @PathVariable Integer pg){
+
+		if (pg < 1){
+			return "redirect:/identidadesgenero/1";
+		}
 
 		int numeroTotalElementos = identidadGeneroService.getAllIdentidadGenero().size();
 		Pageable pageable = initPages(pg, 5, numeroTotalElementos);

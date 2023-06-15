@@ -70,6 +70,18 @@ public class HechoImputadoController {
 		
 	}
 
+    private Pageable initPages(int pg, int paginasDeseadas, int numeroTotalElementos){
+        int numeroPagina = pg-1;
+        if (numeroTotalElementos < 10){
+            paginasDeseadas = 1;
+        }
+        if (numeroTotalElementos < 1){
+            numeroTotalElementos = 1;
+        }
+        int tamanoPagina = (int) Math.ceil(numeroTotalElementos / (double) paginasDeseadas);
+        return PageRequest.of(numeroPagina, tamanoPagina);
+    }
+
     @GetMapping("/hechoimputado")
     public String listHechoImputado(Model model){
         return "redirect:/hechosimputados/1";
@@ -82,19 +94,7 @@ public class HechoImputadoController {
         }
         int numeroTotalElementos = hechoImputadoService.getAllHechoImputado().size();
 
-        int numeroPagina = pg-1;
-        int paginasDeseadas = 5;
-
-        if (numeroTotalElementos < 10){
-            paginasDeseadas = 1;
-        }
-        if (numeroTotalElementos < 1){
-            numeroTotalElementos = 1;
-        }
-
-        int tamanoPagina = (int) Math.ceil(numeroTotalElementos / (double) paginasDeseadas);
-
-        Pageable pageable = PageRequest.of(numeroPagina, tamanoPagina);
+        Pageable pageable = initPages(pg,5,numeroTotalElementos);
 
         Page<HechoImputado> hechoImputadoPage = hechoImputadoService.getAllHechoImputadoPage(pageable);
 
@@ -117,21 +117,10 @@ public class HechoImputadoController {
         if (pg < 1){
             return "redirect:/hechosimputado/".concat(String.valueOf(id)).concat("/1");
         }
-        int numeroPagina = pg-1;
-        int paginasDeseadas = 5;
 
         int numeroTotalElementos = hechoImputadoService.getAllHechosImputado(id).size();
 
-        if (numeroTotalElementos < 10){
-            paginasDeseadas = 1;
-        }
-        if (numeroTotalElementos < 1){
-            numeroTotalElementos = 1;
-        }
-
-        int tamanoPagina = (int) Math.ceil(numeroTotalElementos / (double) paginasDeseadas);
-
-        Pageable pageable = PageRequest.of(numeroPagina, tamanoPagina);
+        Pageable pageable = initPages(pg,5,numeroTotalElementos);
 
         Page<HechoImputado> hechoImputadoPage = hechoImputadoService.getAllHechosImputadoPage(pageable, id);
 
@@ -155,21 +144,10 @@ public class HechoImputadoController {
         if (pg < 1){
             return "redirect:/hechoimputados/".concat(String.valueOf(id)).concat("/1");
         }
-        int numeroPagina = pg-1;
-        int paginasDeseadas = 5;
 
         int numeroTotalElementos = hechoImputadoService.getAllHechoImputados(id).size();
 
-        if (numeroTotalElementos < 10){
-            paginasDeseadas = 1;
-        }
-        if (numeroTotalElementos < 1){
-            numeroTotalElementos = 1;
-        }
-
-        int tamanoPagina = (int) Math.ceil(numeroTotalElementos / (double) paginasDeseadas);
-
-        Pageable pageable = PageRequest.of(numeroPagina, tamanoPagina);
+        Pageable pageable = initPages(pg,5,numeroTotalElementos);
 
         Page<HechoImputado> hechoImputadoPage = hechoImputadoService.getAllHechoImputadosPage(pageable, id);
 

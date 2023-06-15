@@ -60,6 +60,12 @@ public class SituacionJuridicaController {
 
     private Pageable initPages(int pg, int paginasDeseadas, int numeroTotalElementos){
         int numeroPagina = pg-1;
+        if (numeroTotalElementos < 10){
+            paginasDeseadas = 1;
+        }
+        if (numeroTotalElementos < 1){
+            numeroTotalElementos = 1;
+        }
         int tamanoPagina = (int) Math.ceil(numeroTotalElementos / (double) paginasDeseadas);
         return PageRequest.of(numeroPagina, tamanoPagina);
     }
@@ -71,6 +77,10 @@ public class SituacionJuridicaController {
 
     @GetMapping("/situacionjuridica/{pg}")
     public String listSituacionJuridica(Model model, @PathVariable Integer pg){
+
+        if (pg < 1){
+            return "redirect:/situacionjuridica/1";
+        }
 
         int numeroTotalElementos = situacionJuridicaService.getAllSituacionJuridica().size();
 
