@@ -3,6 +3,8 @@ package com.if7100.service;
 import java.util.List;
 
 import com.if7100.entity.NivelEducativo;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface NivelEducativoService {
 	
@@ -17,4 +19,5 @@ List<NivelEducativo>getAllNivelEducativo();
 
 	NivelEducativo getNivelEducativoByDescripcion(String CV_Descripcion);
 
+    Page<NivelEducativo> getAllNivelEducativoPage(Pageable pageable);
 }

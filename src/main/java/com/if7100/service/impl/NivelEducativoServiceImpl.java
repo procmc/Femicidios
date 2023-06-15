@@ -3,6 +3,8 @@ package com.if7100.service.impl;
 import com.if7100.entity.NivelEducativo;
 import com.if7100.repository.NivelEducativoRepository;
 import com.if7100.service.NivelEducativoService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,6 +22,11 @@ public class NivelEducativoServiceImpl implements NivelEducativoService {
     @Override
     public List<NivelEducativo> getAllNivelEducativo() {
         return nivelEducativoRepository.findAll();
+    }
+
+    @Override
+    public Page<NivelEducativo> getAllNivelEducativoPage(Pageable pageable){
+        return nivelEducativoRepository.findAll(pageable);
     }
 
     @Override
