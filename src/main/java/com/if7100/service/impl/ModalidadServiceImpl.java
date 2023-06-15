@@ -3,6 +3,8 @@ package com.if7100.service.impl;
 import com.if7100.entity.Modalidad;
 import com.if7100.repository.ModalidadRepository;
 import com.if7100.service.ModalidadService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,6 +22,11 @@ public class ModalidadServiceImpl implements ModalidadService {
     @Override
     public List<Modalidad> getAllModalidades() {
         return modalidadRepository.findAll();
+    }
+
+    @Override
+    public Page<Modalidad> getAllModalidadesPage(Pageable pageable){
+        return modalidadRepository.findAll(pageable);
     }
 
     @Override
