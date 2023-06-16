@@ -1,6 +1,8 @@
 package com.if7100.service.impl;
 
 import com.if7100.entity.TipoRelacion;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;// para el implements
 
 import java.util.List;
@@ -26,6 +28,11 @@ public class TipoLugarServiceImpl implements TipoLugarService{
     @Override
     public List<TipoLugar> getAllTipoLugares(){
         return tipoLugarRepository.findAll();
+    }
+
+    @Override
+    public Page<TipoLugar> getAllTipoLugaresPage(Pageable pageable){
+        return tipoLugarRepository.findAll(pageable);
     }
 
     @Override

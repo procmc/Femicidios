@@ -3,6 +3,8 @@ package com.if7100.service;
 import java.util.List;
 import com.if7100.entity.TipoLugar; //se debe importar para trabajar el usuario
 import com.if7100.entity.TipoRelacion;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 /**
  * @author kendall B
@@ -24,5 +26,5 @@ public interface TipoLugarService {// se crean primero los servicios
 
     TipoLugar getTipoLugarByDescripcion(String CVDescripcion);
 
-
+    Page<TipoLugar> getAllTipoLugaresPage(Pageable pageable);
 }

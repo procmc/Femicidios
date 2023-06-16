@@ -4,6 +4,9 @@ import com.if7100.entity.Bitacora;
 import com.if7100.entity.Usuario;
 import com.if7100.service.BitacoraService;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,6 +27,9 @@ import com.if7100.entity.Hecho;
 import com.if7100.entity.Perfil;
 import com.if7100.entity.TipoLugar;
 import com.if7100.repository.UsuarioRepository;
+
+import java.util.List;
+import java.util.stream.IntStream;
 
 @Controller
 public class TipoLugarController {
@@ -64,12 +70,47 @@ TipoLugarService tipoLugarService, PerfilService perfilService, UsuarioRepositor
 		}
 		
 	}
+
+	private Pageable initPages(int pg, int paginasDeseadas, int numeroTotalElementos){
+		int numeroPagina = pg-1;
+		if (numeroTotalElementos < 10){
+			paginasDeseadas = 1;
+		}
+		if (numeroTotalElementos < 1){
+			numeroTotalElementos = 1;
+		}
+		int tamanoPagina = (int) Math.ceil(numeroTotalElementos / (double) paginasDeseadas);
+		return PageRequest.of(numeroPagina, tamanoPagina);
+	}
+
     //consultar
     @GetMapping("/tipolugares")//muestra el listado de usuarios
     public String listTipoLugares(Model model) {
-        model.addAttribute("tipoLugares", tipoLugarService.getAllTipoLugares());
-        return "tipoLugares/tipoLugares";
+        return "redirect:/tipolugar/1";
     }
+
+	@GetMapping("/tipolugar/{pg}")
+	public String listTiposLugares(Model model, @PathVariable Integer pg){
+
+		if (pg < 1){
+			return "redirect:/tipolugar/1";
+		}
+
+		int numeroTotalElementos = tipoLugarService.getAllTipoLugares().size();
+
+		Pageable pageable = initPages(pg, 5, numeroTotalElementos);
+
+		Page<TipoLugar> tipoLugarPage = tipoLugarService.getAllTipoLugaresPage(pageable);
+
+		List<Integer> nPaginas = IntStream.rangeClosed(1, tipoLugarPage.getTotalPages())
+				.boxed()
+				.toList();
+
+		model.addAttribute("PaginaActual", pg);
+		model.addAttribute("nPaginas", nPaginas);
+		model.addAttribute("tipoLugares", tipoLugarPage.getContent());
+		return "tipoLugares/tipoLugares";
+	}
 
 	//agregar
 	@GetMapping("/tipolugares/new")// envia el modelo a la pagina de crear usuario
