@@ -3,6 +3,8 @@ package com.if7100.service.impl;
 import com.if7100.entity.*;
 import com.if7100.repository.*;
 import com.if7100.service.HechoService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -45,9 +47,28 @@ public class HechoServiceImpl implements HechoService {
     }
 
     @Override
+    public Page<Hecho> getAllHechosPage(Pageable pageable){
+        return hechoRepository.findAll(pageable);
+    }
+
+    @Override
     public List<Modalidad> getAllModalidades() {
 
         List<Hecho> hechos = hechoRepository.findAll();
+        List<Modalidad> modalidades = new ArrayList<>();
+
+        for (Hecho hecho :
+                hechos) {
+            modalidades.add(modalidadRepository.findById(hecho.getCIModalidad()).orElse(new Modalidad()));
+        }
+
+        return modalidades;
+    }
+
+    @Override
+    public List<Modalidad> getAllModalidadesPage(Pageable pageable) {
+
+        Page<Hecho> hechos = hechoRepository.findAll(pageable);
         List<Modalidad> modalidades = new ArrayList<>();
 
         for (Hecho hecho :
@@ -72,8 +93,34 @@ public class HechoServiceImpl implements HechoService {
     }
 
     @Override
+    public List<TipoRelacion> getAllTipoRelacionesPage(Pageable pageable){
+        Page<Hecho> hechos = hechoRepository.findAll(pageable);
+        List<TipoRelacion> tipoRelaciones = new ArrayList<>();
+        TipoRelacion tipoRelacion = new TipoRelacion();
+        for (Hecho hecho :
+                hechos) {
+            tipoRelaciones.add(tipoRelacionRepository.findById(hecho.getCITipoRelacion()).orElse(tipoRelacion));
+        }
+
+        return tipoRelaciones;
+    }
+
+    @Override
     public List<TipoVictima> getAllTipoVictimas() {
         List<Hecho> hechos = hechoRepository.findAll();
+        List<TipoVictima> tipoVictimas = new ArrayList<>();
+        TipoVictima tipoVictima = new TipoVictima();
+        for (Hecho hecho :
+                hechos) {
+            tipoVictimas.add(tipoVictimaRepository.findById(hecho.getCITipoVictima()).orElse(tipoVictima));
+        }
+
+        return tipoVictimas;
+    }
+
+    @Override
+    public List<TipoVictima> getAllTipoVictimasPage(Pageable pageable) {
+        Page<Hecho> hechos = hechoRepository.findAll(pageable);
         List<TipoVictima> tipoVictimas = new ArrayList<>();
         TipoVictima tipoVictima = new TipoVictima();
         for (Hecho hecho :
@@ -98,6 +145,19 @@ public class HechoServiceImpl implements HechoService {
     }
 
     @Override
+    public List<Organismo> getAllOrganismosPage(Pageable pageable) {
+        Page<Hecho> hechos = hechoRepository.findAll(pageable);
+        List<Organismo> organismos = new ArrayList<>();
+        Organismo organismo = new Organismo();
+        for (Hecho hecho :
+                hechos) {
+            organismos.add(organismoRepository.findById(hecho.getCIIdGenerador()).orElse(organismo));
+        }
+
+        return organismos;
+    }
+
+    @Override
     public List<Victima> getAllVictimas() {
         List<Hecho> hechos = hechoRepository.findAll();
         List<Victima> victimas = new ArrayList<>();
@@ -111,8 +171,34 @@ public class HechoServiceImpl implements HechoService {
     }
 
     @Override
+    public List<Victima> getAllVictimasPage(Pageable pageable) {
+        Page<Hecho> hechos = hechoRepository.findAll(pageable);
+        List<Victima> victimas = new ArrayList<>();
+        Victima victima = new Victima();
+        for (Hecho hecho :
+                hechos) {
+            victimas.add(victimaRepository.findById(hecho.getCIIdVictima()).orElse(victima));
+        }
+
+        return victimas;
+    }
+
+    @Override
     public List<ProcesoJudicial> getAllProcesosJudiciales() {
         List<Hecho> hechos = hechoRepository.findAll();
+        List<ProcesoJudicial> procesoJudiciales = new ArrayList<>();
+        ProcesoJudicial procesoJudicial = new ProcesoJudicial();
+        for (Hecho hecho :
+                hechos) {
+            procesoJudiciales.add(procesoJudicialRepository.findById(hecho.getCIIdProceso()).orElse(procesoJudicial));
+        }
+
+        return procesoJudiciales;
+    }
+
+    @Override
+    public List<ProcesoJudicial> getAllProcesosJudicialesPage(Pageable pageable) {
+        Page<Hecho> hechos = hechoRepository.findAll(pageable);
         List<ProcesoJudicial> procesoJudiciales = new ArrayList<>();
         ProcesoJudicial procesoJudicial = new ProcesoJudicial();
         for (Hecho hecho :
