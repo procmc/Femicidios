@@ -3,6 +3,8 @@ package com.if7100.service.impl;
 import com.if7100.entity.TipoVictima;
 import com.if7100.repository.TipoVictimaRepository;
 import com.if7100.service.TipoVictimaService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,6 +22,11 @@ public class TipoVictimaServiceImpl implements TipoVictimaService {
     @Override
     public List<TipoVictima> getAllTipoVictimas() {
         return tipoVictimaRepository.findAll();
+    }
+
+    @Override
+    public Page<TipoVictima> getAllTipoVictimasPage(Pageable pageable){
+        return tipoVictimaRepository.findAll(pageable);
     }
 
     @Override
