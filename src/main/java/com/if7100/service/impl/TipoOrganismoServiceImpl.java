@@ -4,6 +4,8 @@
 
 package com.if7100.service.impl;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,6 +30,11 @@ public class TipoOrganismoServiceImpl implements TipoOrganismoService{
 	@Override
 	public List<TipoOrganismo> getAllTipoOrganismos() {
 		return tipoOrganismoRepository.findAll();
+	}
+
+	@Override
+	public Page<TipoOrganismo> getAllTipoOrganismosPage(Pageable pageable){
+		return tipoOrganismoRepository.findAll(pageable);
 	}
 
 	@Override
