@@ -3,6 +3,8 @@ package com.if7100.service.impl;
 import com.if7100.entity.TipoRelacion;
 import com.if7100.repository.TipoRelacionRepository;
 import com.if7100.service.TipoRelacionService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +21,11 @@ public class TipoRelacionServiceImpl implements TipoRelacionService {
     @Override
     public List<TipoRelacion> getAllTipoRelaciones() {
         return tipoRelacionRepository.findAll();
+    }
+
+    @Override
+    public Page<TipoRelacion> getAllTipoRelacionesPage(Pageable pageable){
+        return tipoRelacionRepository.findAll(pageable);
     }
 
     @Override

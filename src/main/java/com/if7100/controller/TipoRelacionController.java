@@ -1,6 +1,6 @@
 package com.if7100.controller;
 
-import com.if7100.entity.Bitacora; 
+import com.if7100.entity.Bitacora;
 import com.if7100.entity.Usuario;
 import com.if7100.service.BitacoraService;
 
@@ -11,6 +11,9 @@ import com.if7100.repository.UsuarioRepository;
 import com.if7100.service.PerfilService;
 import com.if7100.service.TipoRelacionService;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -19,6 +22,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.List;
+import java.util.stream.IntStream;
 
 @Controller
 public class TipoRelacionController {
@@ -60,10 +66,42 @@ TipoRelacionService tipoRelacionService, PerfilService perfilService, UsuarioRep
 		
 	}
 
+    private Pageable initPages(int pg, int paginasDeseadas, int numeroTotalElementos){
+        int numeroPagina = pg-1;
+        if (numeroTotalElementos < 10){
+            paginasDeseadas = 1;
+        }
+        if (numeroTotalElementos < 1){
+            numeroTotalElementos = 1;
+        }
+        int tamanoPagina = (int) Math.ceil(numeroTotalElementos / (double) paginasDeseadas);
+        return PageRequest.of(numeroPagina, tamanoPagina);
+    }
+
     @GetMapping("/tiporelaciones")
     public String listTipoRelaciones(Model model){
-    	
-        model.addAttribute("tipoRelaciones", tipoRelacionService.getAllTipoRelaciones());
+        return "redirect:/tiporelacion/1";
+    }
+
+    @GetMapping("/tiporelacion/{pg}")
+    public String listTipoRelacion(Model model,@PathVariable Integer pg){
+        if (pg < 1){
+            return "redirect:/tiporelaciones";
+        }
+
+        int numeroTotalElementos = tipoRelacionService.getAllTipoRelaciones().size();
+
+        Pageable pageable = initPages(pg, 5, numeroTotalElementos);
+
+        Page<TipoRelacion> tipoRelacionPage = tipoRelacionService.getAllTipoRelacionesPage(pageable);
+
+        List<Integer> nPaginas = IntStream.rangeClosed(1, tipoRelacionPage.getTotalPages())
+                .boxed()
+                .toList();
+
+        model.addAttribute("PaginaActual", pg);
+        model.addAttribute("nPaginas", nPaginas);
+        model.addAttribute("tiporelaciones", tipoRelacionPage.getContent());
         return "tipoRelaciones/tipoRelaciones";
     }
 
@@ -76,7 +114,7 @@ TipoRelacionService tipoRelacionService, PerfilService perfilService, UsuarioRep
 				
 				TipoRelacion tipoRelacion = new TipoRelacion();
 		        model.addAttribute("tipoRelacion", tipoRelacion);
-		        return "tipoRelacion/create_tipoRelacion";
+		        return "tipoRelaciones/create_tipoRelacion";
 			}else {
 				return "SinAcceso";
 			}
@@ -124,7 +162,7 @@ TipoRelacionService tipoRelacionService, PerfilService perfilService, UsuarioRep
 			if(!this.perfil.getCVRol().equals("Consulta")) {
 				
 				model.addAttribute("tipoRelacion", tipoRelacionService.getTipoRelacionById(id));
-		        return "tipoRelacion/edit_tipoRelacion";
+		        return "tipoRelaciones/edit_tipoRelacion";
 			}else {
 				return "SinAcceso";
 			}
