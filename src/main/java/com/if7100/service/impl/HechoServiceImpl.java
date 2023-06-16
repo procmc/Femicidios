@@ -15,6 +15,8 @@ public class HechoServiceImpl implements HechoService {
 
     private HechoRepository hechoRepository;
 
+    private PaisesRepository paisesRepository;
+
     private ModalidadRepository modalidadRepository;
 
     private TipoRelacionRepository tipoRelacionRepository;
@@ -27,11 +29,12 @@ public class HechoServiceImpl implements HechoService {
 
     private ProcesoJudicialRepository procesoJudicialRepository;
 
-    public HechoServiceImpl(HechoRepository hechoRepository, ModalidadRepository modalidadRepository,
+    public HechoServiceImpl(HechoRepository hechoRepository,PaisesRepository paisesRepository, ModalidadRepository modalidadRepository,
                             TipoVictimaRepository tipoVictimaRepository, TipoRelacionRepository tipoRelacionRepository,
                             OrganismoRepository organismoRepository, VictimaRepository victimaRepository, ProcesoJudicialRepository procesoJudicialRepository) {
         super();
         this.hechoRepository = hechoRepository;
+        this.paisesRepository = paisesRepository;
         this.modalidadRepository = modalidadRepository;
         this.tipoRelacionRepository = tipoRelacionRepository;
         this.tipoVictimaRepository = tipoVictimaRepository;
@@ -45,6 +48,8 @@ public class HechoServiceImpl implements HechoService {
     public List<Hecho> getAllHechos() {
         return hechoRepository.findAll();
     }
+
+
 
     @Override
     public Page<Hecho> getAllHechosPage(Pageable pageable){
@@ -63,6 +68,18 @@ public class HechoServiceImpl implements HechoService {
         }
 
         return modalidades;
+    }
+
+    @Override
+    public List<Paises> getAllPaisesPage(Pageable pageable){
+        Page<Hecho> hechos = hechoRepository.findAll(pageable);
+        List<Paises> paises = new ArrayList<>();
+
+        for (Hecho hecho :
+                hechos) {
+            paises.add(paisesRepository.findById(hecho.getCIPais()).orElse(new Paises()));
+        }
+        return paises;
     }
 
     @Override

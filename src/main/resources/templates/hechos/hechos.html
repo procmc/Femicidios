@@ -51,7 +51,7 @@
                                     <td th:text="${modalidades.get(hechoStat.index).CVTitulo}"></td>
                                     <td th:text="${victimas.get(hechoStat.index).CVDNI}"></td>
                                     <td th:text="${procesosJudiciales.get(hechoStat.index).CIDenunciante}"></td>
-                                    <td th:text="${hecho.CIPais}"></td>
+                                    <td th:text="${paises.get(hechoStat.index).telefonoPais} + ' - ' + ${paises.get(hechoStat.index).spanish}"></td>
                                     <td th:text="${hecho.CVAgresionSexual}"></td>
                                     <td th:text="${hecho.CVDenunciaPrevia}"></td>
                                     <td th:text="${organismos.get(hechoStat.index).CVNombre}"></td>

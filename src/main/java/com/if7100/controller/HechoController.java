@@ -30,6 +30,8 @@ import java.util.stream.IntStream;
 public class HechoController {
 
     private HechoService hechoService;
+
+    private PaisesService paisesService;
     private ModalidadService modalidadService;
     private TipoVictimaService tipoVictimaService;
     private TipoRelacionService tipoRelacionService;
@@ -54,13 +56,14 @@ public class HechoController {
 //        this.hechoService = hechoService;
 //    }
 
-    public HechoController(HechoService hechoService, ModalidadService modalidadService,
+    public HechoController(HechoService hechoService,PaisesService paisesService, ModalidadService modalidadService,
                            TipoVictimaService tipoVictimaService, TipoRelacionService tipoRelacionService,
                            VictimaService victimaService, ProcesoJudicialService procesoJudicialService, OrganismoService organismoService, PerfilService perfilService, UsuarioRepository usuarioRepository,
                            BitacoraService bitacoraService)
 {
         super();
         this.hechoService = hechoService;
+        this.paisesService = paisesService;
         this.modalidadService = modalidadService;
         this.tipoVictimaService = tipoVictimaService;
         this.tipoRelacionService = tipoRelacionService;
@@ -124,7 +127,7 @@ public class HechoController {
         model.addAttribute("PaginaActual", pg);
         model.addAttribute("nPaginas", nPaginas);
         model.addAttribute("hechos", hechoPage.getContent());
-
+        model.addAttribute("paises", hechoService.getAllPaisesPage(pageable));
         model.addAttribute("modalidades", hechoService.getAllModalidadesPage(pageable));
         model.addAttribute("organismos", hechoService.getAllOrganismosPage(pageable));
         model.addAttribute("tipoVictimas", hechoService.getAllTipoVictimasPage(pageable));
@@ -161,6 +164,7 @@ public class HechoController {
         model.addAttribute("victima", victimaService.getAllVictima());
         model.addAttribute("proceso", procesoJudicialService.getAllProcesosJudiciales());
         model.addAttribute("organismo", organismoService.getAllOrganismos());
+        model.addAttribute("paises", paisesService.getAllPaises());
     }
 
     @PostMapping("/hechos")

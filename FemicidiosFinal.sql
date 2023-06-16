@@ -660,8 +660,8 @@ CREATE TABLE `ta_hechos`
 );
 
 INSERT INTO `ta_hechos`
-VALUES (1, 1, 1, 1, 1, 1, 506, 'SI', 'SI', 1, '2023-06-02T21:54', 'Detalles1'),
-       (2, 2, 2, 2, 2, 2, 506, 'NO', 'NO', 2, '2023-06-02T21:54', 'Detalles2');
+VALUES (1, 1, 1, 1, 1, 1, 1, 'SI', 'SI', 1, '2023-06-02T21:54', 'Detalles1'),
+       (2, 2, 2, 2, 2, 2, 2, 'NO', 'NO', 2, '2023-06-02T21:54', 'Detalles2');
 
 /*
  Tabla Hecho - Organismo
@@ -797,6 +797,5 @@ values (203450876, 'Albertina', 'Chill', 'Pepper', 30, 1, 'Cartago', 1, 'Costarr
        (203450877, 'Albertino', 'Chill', 'Pepper', 30, 2, 'Cartago', 2, 'Costarricense', 2, 'Cruz Rojista',
         'Limon centro', 'Limon', 'Ninguna', 'Todo bien', 'Mestizo', 'Ninguna', 'Ninguna', 0, 'Nada');
         
-        
-       ALTER TABLE TA_Victima RENAME COLUMN CV_Edad TO CI_Edad;
+
 

@@ -10,6 +10,8 @@ public interface HechoService {
 
     List<Hecho> getAllHechos();
 
+    List<Paises> getAllPaisesPage(Pageable pageable);
+
     Page<Hecho> getAllHechosPage(Pageable pageable);
 
     List<Modalidad> getAllModalidades();
