@@ -84,6 +84,27 @@ public class RedireccionController {
 
     }
 
+    @PostMapping("/redireccionarAccionesImputado")
+    public String redireccionarAccionesImputado(@RequestParam("opcion") String opcion) {
+
+        String[] prueba = opcion.split("-");
+        String accion = prueba[1];
+        String id = prueba[0];
+
+        switch (accion) {
+            case "agregarHecho" -> {
+                return "redirect:/hechoimputados/new/" + id;
+            }
+            case "mostrarHecho" -> {
+                return "redirect:/hechoimputados/" + id;
+            }
+            default -> {
+                return "redirect:/error";
+            }
+
+        }
+
+    }
     @PostMapping("/redireccionarAccionesHecho")
     public String redireccionarAccionesHecho(@RequestParam("opcion") String opcion) {
 
