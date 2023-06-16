@@ -6,6 +6,8 @@ package com.if7100.service;
 import java.util.List;
 
 import com.if7100.entity.Imputado;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 /**
  * @author Kijan
@@ -23,5 +25,6 @@ public interface ImputadoService {
  void deleteImputadoById(int id);
  
  Imputado getImputadoByCVNombre(String CV_Nombre);
- 
+
+    Page<Imputado> getAllImputadosPage(Pageable pageable);
 }

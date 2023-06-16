@@ -1,6 +1,9 @@
 package com.if7100.service.impl;
 
 import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import com.if7100.entity.Imputado;
 import com.if7100.repository.ImputadoRepository;
@@ -23,6 +26,10 @@ public class ImputadoServiceImpl implements ImputadoService {
 		return imputadoRepository.findAll();
 	}
 
+	@Override
+	public Page<Imputado> getAllImputadosPage(Pageable pageable){
+		return imputadoRepository.findAll(pageable);
+	}
 
 	@Override
 	public Imputado saveImputado(Imputado imputado) {
