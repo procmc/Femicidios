@@ -24,10 +24,11 @@ public class TipoOrganismo {
 	}
 	
 	
-	public TipoOrganismo( String CVTitulo, String CVDescripcion) {
+	public TipoOrganismo( String CVTitulo, String CVDescripcion, String CVPaises) {
 		super();
 		this.CVTitulo = CVTitulo;
 		this.CVDescripcion = CVDescripcion;
+		this.CVPaises = CVPaises;
 	}
 	
 	
@@ -41,8 +42,23 @@ public class TipoOrganismo {
 	@Column (name = "CV_Descripcion", nullable = false)
 	private String CVDescripcion;
 	
+	@Column (name = "CV_Paises", nullable = false)
+	private String CVPaises;
 	
 	
+	
+	
+	
+	public String getCVPaises() {
+		return CVPaises;
+	}
+
+
+	public void setCVPaises(String cVPaises) {
+		CVPaises = cVPaises;
+	}
+
+
 	public Integer getCI_Codigo() {
 		return CI_Codigo;
 	}

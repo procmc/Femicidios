@@ -6,6 +6,8 @@ package com.if7100.service;
 import java.util.List;
 
 import com.if7100.entity.ProcesoJudicial;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 /**
  * @author Dillan Bermúdez González
@@ -23,5 +25,6 @@ public interface ProcesoJudicialService {
  void deleteProcesoJudicialById(int CI_Id);
  
  ProcesoJudicial getProcesoJudicialByCIDenunciante(int CI_Denunciante);
- 
+
+ Page<ProcesoJudicial> getAllProcesosJudicialesPage(Pageable pageable);
 }

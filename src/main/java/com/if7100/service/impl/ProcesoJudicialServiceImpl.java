@@ -1,6 +1,9 @@
 package com.if7100.service.impl;
 
 import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import com.if7100.entity.ProcesoJudicial;
 import com.if7100.repository.ProcesoJudicialRepository;
@@ -23,6 +26,10 @@ public class ProcesoJudicialServiceImpl implements ProcesoJudicialService {
 		return procesoJudicialRepository.findAll();
 	}
 
+	@Override
+	public Page<ProcesoJudicial> getAllProcesosJudicialesPage(Pageable pageable){
+		return procesoJudicialRepository.findAll(pageable);
+	}
 
 	@Override
 	public ProcesoJudicial saveProcesoJudicial(ProcesoJudicial procesoJudicial) {

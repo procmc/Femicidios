@@ -105,6 +105,29 @@ public class RedireccionController {
         }
 
     }
+
+    @PostMapping("/redireccionarAccionesOrganismo")
+    public String redireccionarAccionesOrganismo(@RequestParam("opcion") String opcion) {
+
+        String[] prueba = opcion.split("-");
+        String accion = prueba[1];
+        String id = prueba[0];
+
+        switch (accion) {
+            case "agregarHecho" -> {
+                return "redirect:/hechoorganismos/new/" + id;
+            }
+            case "mostrarHecho" -> {
+                return "redirect:/hechoorganismos/" + id;
+            }
+            default -> {
+                return "redirect:/error";
+            }
+
+        }
+
+    }
+
     @PostMapping("/redireccionarAccionesHecho")
     public String redireccionarAccionesHecho(@RequestParam("opcion") String opcion) {
 
