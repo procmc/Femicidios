@@ -6,6 +6,9 @@ import com.if7100.entity.Bitacora;
 import com.if7100.entity.Usuario;
 import com.if7100.service.BitacoraService;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -19,6 +22,9 @@ import com.if7100.entity.Hecho;
 import com.if7100.entity.Perfil;
 import com.if7100.repository.UsuarioRepository;
 import com.if7100.service.PerfilService;
+
+import java.util.List;
+import java.util.stream.IntStream;
 
 
 @Controller
@@ -58,25 +64,58 @@ PerfilService perfilService, UsuarioRepository usuarioRepository) {
 			}
 			
 		}
+
+	private Pageable initPages(int pg, int paginasDeseadas, int numeroTotalElementos){
+		int numeroPagina = pg-1;
+		if (numeroTotalElementos < 10){
+			paginasDeseadas = 1;
+		}
+		if (numeroTotalElementos < 1){
+			numeroTotalElementos = 1;
+		}
+		int tamanoPagina = (int) Math.ceil(numeroTotalElementos / (double) paginasDeseadas);
+		return PageRequest.of(numeroPagina, tamanoPagina);
+	}
 	
 	@GetMapping("/perfiles")
 	public String listPerfiles(Model model) {
-		
+		return "redirect:/perfil/1";
+	}
+
+	@GetMapping("/perfil/{pg}")
+	public String listPerfil(Model model, @PathVariable Integer pg){
+
 		try {
 			this.validarPerfil();
 			if(this.perfil.getCVRol().equals("Administrador")) {
-				
-				model.addAttribute("perfiles", perfilService.getAllPerfiles());
+
+				if (pg < 1){
+					return "redirect:/perfil/1";
+				}
+
+				int numeroTotalElementos = perfilService.getAllPerfiles().size();
+
+				Pageable pageable = initPages(pg, 5, numeroTotalElementos);
+
+				Page<Perfil> perfilPage = perfilService.getAllPerfilesPage(pageable);
+
+				List<Integer> nPaginas = IntStream.rangeClosed(1, perfilPage.getTotalPages())
+						.boxed()
+						.toList();
+				model.addAttribute("PaginaActual", pg);
+				model.addAttribute("nPaginas", nPaginas);
+				model.addAttribute("perfiles", perfilPage.getContent());
 				return "perfiles/perfiles";
 			}else {
 				return "SinAcceso";
 			}
-			
+
 		}catch (Exception e) {
 			return "SinAcceso";
 		}
+
 	}
-	
+
 	@GetMapping("/registroPerfil")
 	public String createPerfilForm (Model model) {
 		

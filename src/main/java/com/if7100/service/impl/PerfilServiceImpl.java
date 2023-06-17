@@ -2,6 +2,8 @@ package com.if7100.service.impl;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.if7100.entity.Perfil;
@@ -30,6 +32,11 @@ public class PerfilServiceImpl implements PerfilService{
 	@Override
 	public List<Perfil> getAllPerfiles() {
 		return perfilRepository.findAll();
+	}
+
+	@Override
+	public Page<Perfil> getAllPerfilesPage(Pageable pageable){
+		return perfilRepository.findAll(pageable);
 	}
 
 	@Override
