@@ -1,7 +1,12 @@
 package com.if7100.controller;
 
 import java.util.Date;
+import java.util.List;
+import java.util.stream.IntStream;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -54,11 +59,45 @@ private void validarPerfil() {
 
 	}
 
+	private Pageable initPages(int pg, int paginasDeseadas, int numeroTotalElementos){
+		int numeroPagina = pg-1;
+		if (numeroTotalElementos < 10){
+			paginasDeseadas = 1;
+		}
+		if (numeroTotalElementos < 1){
+			numeroTotalElementos = 1;
+		}
+		int tamanoPagina = (int) Math.ceil(numeroTotalElementos / (double) paginasDeseadas);
+		return PageRequest.of(numeroPagina, tamanoPagina);
+	}
+
     @GetMapping("/bitacoras")
     public String listBitacoras(Model model){
-        model.addAttribute("bitacoras",  bitacoraService.getAllBitacoras());
-        return "bitacoras/bitacoras";
+        return "redirect:/bitacora/1";
     }
+
+	@GetMapping("/bitacora/{pg}")
+	public String listBiracora(Model model, @PathVariable Integer pg){
+
+		if (pg < 1){
+			return "redirect:/bitacora/1";
+		}
+
+		int numeroTotalElementos = bitacoraService.getAllBitacoras().size();
+
+		Pageable pageable = initPages(pg, 5, numeroTotalElementos);
+
+		Page<Bitacora> bitacoraPage = bitacoraService.getAllBitacorasPage(pageable);
+
+		List<Integer> nPaginas = IntStream.rangeClosed(1, bitacoraPage.getTotalPages())
+				.boxed()
+				.toList();
+
+		model.addAttribute("PaginaActual", pg);
+		model.addAttribute("nPaginas", nPaginas);
+		model.addAttribute("bitacoras", bitacoraPage.getContent());
+		return "bitacoras/bitacoras";
+	}
 
     @GetMapping("/bitacoras/new")
     public String createBitacorasForm(Model model){

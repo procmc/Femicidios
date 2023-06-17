@@ -5,6 +5,8 @@ package com.if7100.service.impl;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.if7100.entity.Bitacora;
@@ -31,7 +33,12 @@ public class BitacoraServiceImpl implements BitacoraService{
 	public List<Bitacora> getAllBitacoras() {
 	   return bitacoraRepository.findAll();
 	}
-	
+
+	@Override
+	public Page<Bitacora> getAllBitacorasPage(Pageable pageable){
+		return bitacoraRepository.findAll(pageable);
+	}
+
 	@Override
 	public Bitacora saveBitacora (Bitacora bitacora) {
 		return bitacoraRepository.save(bitacora);
