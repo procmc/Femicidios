@@ -1,15 +1,32 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="ISO-8859-1">
-<title>Actualizar nivel educativo</title>
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-	crossorigin="anonymous">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Actualizar NivelEducativo</title>
 	<th th:insert="~{header}"></th>
 </head>
 <body>
+
+<main class="page registration-page">
+	<section class="clean-block clean-form dark">
+		<div class="container">
+			<div class="block-heading">
+				<h2 class="text-info">Editar Nivel Educativo</h2>
+			</div>
+			<form th:action="@{/nivelEducativo/{id} (id=${nivelEducativo.CI_Id})}" th:object = "${nivelEducativo}" method="POST">
+				<div class="mb-3"><label class="form-label" for="name">Título del Nivel Educativo</label><input
+						id="name" th:field="*{CVTitulo}" class="form-control item" type="text"
+						placeholder="Digite el titulo del Nivel Educativo" required minlength="1" maxlength="50"/></div>
+				<div class="mb-3"><label class="form-label" for="name">Descripción del Nivel Educativo</label><input
+						id="name-1" th:field="*{CVDescripcion}" class="form-control item" type="text"
+						placeholder="Digite la descripcion del Nivel Educativo" required minlength="1" maxlength="75"/></div>
+				<button class="btn btn-primary" type="submit">Actualizar</button>
+			</form>
+		</div>
+	</section>
+</main>
+
 <!--<div class="row">-->
 <!--		<div class="col-md-12">-->
 <!--			<ul class="nav nav-pills flex-column flex-sm-row">-->
@@ -23,53 +40,53 @@
 <!--			</ul>-->
 <!--		</div>-->
 <!--	</div>-->
-<br>
-<br>
-	<div class = "container">
-		<div class = "row">
-			<div class ="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
-				<h1 class = "text-center"> Actualizar nivel educativo </h1>
-				<div class = "card-body">
-					<form th:action="@{/nivelEducativo/{id} (id=${nivelEducativo.CI_Id})}" th:object = "${nivelEducativo}" method="POST">
-						<div class ="form-group">
-							<label>Nombre del nivel educativo</label>
-							<input
-							type = "text"
-							name = "nivel educativo"
-							th:field = "*{CVTitulo}"
-							class = "form-control"
-							placeholder="Digite el nombre del nivel educativo" 
-							       required ="El campo nivel educativo es requerido."
-							minlength="1"
-							maxlength="50"
-							/>
-						</div>
-						
-						<div class ="form-group">
-							<label>Descripcion del nivel educativo</label>
-							<input
-							type = "text"
-							name = "Descripcion"
-							th:field = "*{CVDescripcion}"
-							class = "form-control"
-							placeholder="Digite la descripcion del nivel educativo"
-							       maxlength="75"
-							/>
-						</div>
+<!--<br>-->
+<!--<br>-->
+<!--	<div class = "container">-->
+<!--		<div class = "row">-->
+<!--			<div class ="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">-->
+<!--				<h1 class = "text-center"> Actualizar nivel educativo </h1>-->
+<!--				<div class = "card-body">-->
+<!--					<form th:action="@{/nivelEducativo/{id} (id=${nivelEducativo.CI_Id})}" th:object = "${nivelEducativo}" method="POST">-->
+<!--						<div class ="form-group">-->
+<!--							<label>Nombre del nivel educativo</label>-->
+<!--							<input-->
+<!--							type = "text"-->
+<!--							name = "nivel educativo"-->
+<!--							th:field = "*{CVTitulo}"-->
+<!--							class = "form-control"-->
+<!--							placeholder="Digite el nombre del nivel educativo" -->
+<!--							       required ="El campo nivel educativo es requerido."-->
+<!--							minlength="1"-->
+<!--							maxlength="50"-->
+<!--							/>-->
+<!--						</div>-->
+<!--						-->
+<!--						<div class ="form-group">-->
+<!--							<label>Descripcion del nivel educativo</label>-->
+<!--							<input-->
+<!--							type = "text"-->
+<!--							name = "Descripcion"-->
+<!--							th:field = "*{CVDescripcion}"-->
+<!--							class = "form-control"-->
+<!--							placeholder="Digite la descripcion del nivel educativo"-->
+<!--							       maxlength="75"-->
+<!--							/>-->
+<!--						</div>-->
 
-						
-						</div>
-						
-						<div class = "box-footer">
-							<button type="submit" class = "btn btn-primary">
-								Actualizar datos
-							</button>
-						</div>
-					</form>
-				
-				</div>
-			</div>
-		</div>
+<!--						-->
+<!--						</div>-->
+<!--						-->
+<!--						<div class = "box-footer">-->
+<!--							<button type="submit" class = "btn btn-primary">-->
+<!--								Actualizar datos-->
+<!--							</button>-->
+<!--						</div>-->
+<!--					</form>-->
+<!--				-->
+<!--				</div>-->
+<!--			</div>-->
+<!--		</div>-->
 	</div>
 </body>
 </html>

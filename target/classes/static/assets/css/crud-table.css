@@ -1,0 +1,70 @@
+#ipi-table > thead > tr, #ipi-table > thead > tr > td {
+  font-size: .9em;
+  font-weight: 400;
+  background: #51596a;
+  text-transform: uppercase;
+  color: #ffffff;
+}
+
+#ipi-table > tbody > tr > td {
+  max-height: 200px;
+  vertical-align: middle!important;
+}
+
+.btnMaterial {
+  overflow: hidden !important;
+  cursor: pointer !important;
+  position: relative !important;
+  z-index: 10 !important;
+  display: inline-block !important;
+  height: 36px !important;
+  line-height: 36px !important;
+  vertical-align: middle !important;
+  border: none !important;
+  padding: 0 16px !important;
+  white-space: nowrap !important;
+  letter-spacing: 1px !important;
+  text-transform: uppercase !important;
+  text-decoration: none !important;
+  text-align: center !important;
+  font-weight: 400 !important;
+  font-size: 14px !important;
+  background-image: none !important;
+  background-color: transparent !important;
+  -webkit-border-radius: 2px !important;
+  -moz-border-radius: 2px !important;
+  border-radius: 2px !important;
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  box-shadow: none !important;
+  -webkit-transition: all 0.2s ease !important;
+  -moz-transition: all 0.2s ease !important;
+  -o-transition: all 0.2s ease !important;
+  transition: all 0.2s ease !important;
+  -ms-touch-action: manipulation !important;
+  touch-action: manipulation !important;
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+  -webkit-backface-visibility: hidden !important;
+  backface-visibility: hidden !important;
+}
+
+.btn-flat.primary {
+  color: #3F51B5;
+}
+
+
+.btn-flat.accent {
+  color: #EC407A;
+}
+
+.btn-flat.success {
+  color: #009688;
+}
+
+.max-height-table {
+  height: 500px;
+}
+
