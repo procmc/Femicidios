@@ -546,7 +546,7 @@ INSERT INTO `ta_usuarios`
 VALUES (1, '702740601', 'David', 'vargas', 1, '$2a$10$5mZP.XO4VLMhqPaAldZ9ROB39W3.6p9uHZ.fDgoMVXVg0RhRmOyLS'),
        (2, '702740602', 'Ismael', 'Valverde', 2, '$2a$10$5mZP.XO4VLMhqPaAldZ9ROB39W3.6p9uHZ.fDgoMVXVg0RhRmOyLS'),
        (3, '702740603', 'Julio', 'Jarkin', 3, '$2a$10$5mZP.XO4VLMhqPaAldZ9ROB39W3.6p9uHZ.fDgoMVXVg0RhRmOyLS');
-
+# 12345Jm#
 /*
  Tabla Bitacoras
  */
