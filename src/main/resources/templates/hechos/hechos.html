@@ -24,6 +24,9 @@
                             Hecho</a></div>
                     </div>
                 </div>
+                <div id="error-message" th:if="${error}" class="alert alert-danger" role="alert">
+                    <p th:text="${error_message}"></p>
+                </div>
                 <div class="row">
                     <div class="col-12">
                         <div class="table-responsive max-height-table">
