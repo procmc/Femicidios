@@ -4,6 +4,9 @@ import com.if7100.entity.Bitacora;
 import com.if7100.entity.Usuario;
 import com.if7100.service.BitacoraService;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -19,6 +22,9 @@ import com.if7100.entity.ProcesoJudicial;
 import com.if7100.repository.UsuarioRepository;
 import com.if7100.service.PerfilService;
 import com.if7100.service.ProcesoJudicialService;
+
+import java.util.List;
+import java.util.stream.IntStream;
 
 @Controller
 public class ProcesoJudicialController {
@@ -58,12 +64,48 @@ private Usuario usuario;
 		}
 		
 	}
+
+	private Pageable initPages(int pg, int paginasDeseadas, int numeroTotalElementos){
+		int numeroPagina = pg-1;
+		if (numeroTotalElementos < 10){
+			paginasDeseadas = 1;
+		}
+		if (numeroTotalElementos < 1){
+			numeroTotalElementos = 1;
+		}
+		int tamanoPagina = (int) Math.ceil(numeroTotalElementos / (double) paginasDeseadas);
+		return PageRequest.of(numeroPagina, tamanoPagina);
+	}
  
  @GetMapping("/procesosJudiciales")
  public String listStudents(Model model) {
 	 
-	 model.addAttribute("procesosJudiciales",procesoJudicialService.getAllProcesosJudiciales());
+	 return "redirect:/procesojudicial/1";
+ }
+
+ @GetMapping("/procesojudicial/{pg}")
+ public String listProcesoJudicial(Model model, @PathVariable Integer pg){
+
+	 if (pg < 1){
+		 return "redirect:/procesojudicial/1";
+	 }
+
+	 int numeroTotalElementos = procesoJudicialService.getAllProcesosJudiciales().size();
+
+	 Pageable pageable = initPages(pg, 5, numeroTotalElementos);
+
+	 Page<ProcesoJudicial> procesoJudicialPage = procesoJudicialService.getAllProcesosJudicialesPage(pageable);
+
+	 List<Integer> nPaginas = IntStream.rangeClosed(1, procesoJudicialPage.getTotalPages())
+			 .boxed()
+			 .toList();
+
+	 model.addAttribute("PaginaActual", pg);
+	 model.addAttribute("nPaginas", nPaginas);
+	 model.addAttribute("procesosJudiciales", procesoJudicialPage.getContent());
+
 	 return "procesosJudiciales/procesosJudiciales";
+
  }
  
  @GetMapping("/procesosJudiciales/new")
