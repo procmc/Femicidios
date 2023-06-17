@@ -9,6 +9,9 @@ import com.if7100.service.OrganismoService;
 import com.if7100.service.PerfilService;
 import com.if7100.service.HechoOrganismoService;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -17,6 +20,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.List;
+import java.util.stream.IntStream;
 
 @Controller
 public class HechoOrganismoController {
@@ -63,44 +69,97 @@ HechoOrganismoService hechoOrganismoService, HechoService hechoService, Organism
 		
 	}
 
+    private Pageable initPages(int pg, int paginasDeseadas, int numeroTotalElementos){
+        int numeroPagina = pg-1;
+        if (numeroTotalElementos < 10){
+            paginasDeseadas = 1;
+        }
+        if (numeroTotalElementos < 1){
+            numeroTotalElementos = 1;
+        }
+        int tamanoPagina = (int) Math.ceil(numeroTotalElementos / (double) paginasDeseadas);
+        return PageRequest.of(numeroPagina, tamanoPagina);
+    }
+
     @GetMapping("/hechoorganismo")
-    public String listHechoImputado(Model model){
-        model.addAttribute("hechoOrganismo", hechoOrganismoService.getAllHechoOrganismo());
+    public String listHechoOrganismo(Model model){
+        return "redirect:/hechosorganismos/1";
+    }
+
+    @GetMapping("/hechosorganismos/{pg}")
+    public String listHechosOrganismos(Model model, @PathVariable Integer pg){
+        if (pg < 1){
+            return "redirect:/hechosorganismos/1";
+        }
+
+        int numeroTotalElementos = hechoOrganismoService.getAllHechoOrganismo().size();
+
+        Pageable pageable = initPages(pg, 5, numeroTotalElementos);
+
+        Page<HechoOrganismo> hechoOrganismoPage = hechoOrganismoService.getAllHechoOrganismoPage(pageable);
+
+        List<Integer> nPaginas = IntStream.rangeClosed(1, hechoOrganismoPage.getTotalPages()).boxed().toList();
+
+        model.addAttribute("PaginaActual", pg);
+        model.addAttribute("nPaginas", nPaginas);
+        model.addAttribute("hechosorganismos", hechoOrganismoPage.getContent());
+        model.addAttribute("listHechosOrganismos", true);
         return "hechosOrganismos/hechoOrganismo";
+
     }
 
     @GetMapping("/hechosorganismo/{id}")
-    public String listHechosImputado(Model model, @PathVariable Integer id){
-        model.addAttribute("hechoOrganismo", hechoOrganismoService.getAllHechosOrganismo(id));
+    public String listHechosOrganismo(Model model, @PathVariable Integer id){
+        return "redirect:/hechosorganismo/".concat(String.valueOf(id)).concat("/1");
+    }
+
+    @GetMapping("/hechosorganismo/{id}/{pg}")
+    public String HechosOrganismo(Model model, @PathVariable Integer id, @PathVariable Integer pg){
+        if (pg < 1){
+            return "redirect:/hechosorganismo/".concat(String.valueOf(id)).concat("/1");
+        }
+
+        int numeroTotalElementos = hechoOrganismoService.getAllHechosOrganismo(id).size();
+
+        Pageable pageable = initPages(pg,5,numeroTotalElementos);
+
+        Page<HechoOrganismo> hechoOrganismoPage = hechoOrganismoService.getAllHechosOrganismoPage(pageable, id);
+
+        List<Integer> nPaginas = IntStream.rangeClosed(1, hechoOrganismoPage.getTotalPages()).boxed().toList();
+
+        model.addAttribute("Id", id);
+        model.addAttribute("PaginaActual", pg);
+        model.addAttribute("nPaginas", nPaginas);
+        model.addAttribute("hechosorganismos", hechoOrganismoPage.getContent());
+        model.addAttribute("hechosOrganismo", true);
         return "hechosOrganismos/hechoOrganismo";
     }
 
     @GetMapping("/hechoorganismos/{id}")
-    public String listHechoImputados(Model model, @PathVariable Integer id){
-        model.addAttribute("hechoOrganismo", hechoOrganismoService.getAllHechoOrganismos(id));
-        return "hechosOrganismos/hechoOrganismo";
+    public String listHechoOrganismos(Model model, @PathVariable Integer id){
+        return "redirect:/hechoorganismos/".concat(String.valueOf(id)).concat("/1");
     }
 
-//    @GetMapping("hechoorganismo/new")
-//    public String createHechoOrganismoForm(Model model){
-//
-//    	try {
-//			this.validarPerfil();
-//			if(!this.perfil.getCVRol().equals("Consulta")) {
-//
-//				 HechoOrganismo hechoOrganismo = new HechoOrganismo();
-//			     model.addAttribute("hechoOrganismo", hechoOrganismo);
-//			     model.addAttribute("hechos", hechoService.getAllHechos());
-//			     model.addAttribute("organismos", organismoService.getAllOrganismos());
-//			     return "hechosOrganismos/create_hecho_organismo";
-//			}else {
-//				return "SinAcceso";
-//			}
-//
-//		}catch (Exception e) {
-//			return "SinAcceso";
-//		}
-//    }
+    @GetMapping("/hechoorganismos/{id}/{pg}")
+    public String HechosOrganismos(Model model, @PathVariable Integer id, @PathVariable Integer pg){
+        if (pg < 1){
+            return "redirect:/hechoOrganismos/".concat(String.valueOf(id)).concat("/1");
+        }
+
+        int numeroTotalElementos = hechoOrganismoService.getAllHechoOrganismos(id).size();
+
+        Pageable pageable = initPages(pg,5,numeroTotalElementos);
+
+        Page<HechoOrganismo> hechoOrganismoPage = hechoOrganismoService.getAllHechoOrganismosPage(pageable, id);
+
+        List<Integer> nPaginas = IntStream.rangeClosed(1, hechoOrganismoPage.getTotalPages()).boxed().toList();
+
+        model.addAttribute("PaginaActual", pg);
+        model.addAttribute("nPaginas", nPaginas);
+        model.addAttribute("hechosorganismos", hechoOrganismoPage.getContent());
+        model.addAttribute("hechoOrganismos", true);
+        return "hechosOrganismos/hechoOrganismo";
+    }
 
     @GetMapping("/hechosorganismo/new/{Id}")
     public String createHechosOrganismoForm(Model model, @PathVariable Integer Id) {
@@ -147,37 +206,64 @@ HechoOrganismoService hechoOrganismoService, HechoService hechoService, Organism
     }
 
     @GetMapping("/hechoorganismo/{id}")
-    public String deleteHecho(@PathVariable Integer id){
-    	
-    	try {
-			this.validarPerfil();
-			if(!this.perfil.getCVRol().equals("Consulta")) {
-				hechoOrganismoService.deleteHechoOrganismoById(id);
-                String descripcion = "Elimino en hecho de organismo";
+    public String deleteHechoOrganismo(@PathVariable Integer id){
+
+        try {
+            this.validarPerfil();
+            if(!this.perfil.getCVRol().equals("Consulta")) {
+                hechoOrganismoService.deleteHechoOrganismoById(id);
+                String descripcion = "Elimino en hechoOrganismo";
                 Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
                 bitacoraService.saveBitacora(bitacora);
-		        return "redirect:/hechoorganismo";
-			}else {
-				return "SinAcceso";
-			}
-			
-		}catch (Exception e) {
-			return "SinAcceso";
-		}
+                return "redirect:/hechoorganismo";
+            }else {
+                return "SinAcceso";
+            }
+
+        }catch (Exception e) {
+            return "SinAcceso";
+        }
     }
 
-//    @PostMapping("/hechoorganismo")
-//    public String saveHechoOrganismo(@ModelAttribute("hechoOrganismo") HechoOrganismo hechoOrganismo, Model model){
-//        try {
-//            hechoOrganismoService.saveHechoOrganismo(hechoOrganismo);
-//            return "redirect:/hechoorganismo";
-//        }catch (DataIntegrityViolationException e){
-//            String mensaje = "No se puede guardar el hecho debido a un error de integridad de datos.";
-//            model.addAttribute("error_message", mensaje);
-//            model.addAttribute("error", true);
-//            return createHechoOrganismoForm(model);
-//        }
-//    }
+    @GetMapping("/hechoso/{id}/{idhecho}")
+    public String deleteHechosorganismo(@PathVariable Integer id, @PathVariable Integer idhecho){
+
+        try {
+            this.validarPerfil();
+            if(!this.perfil.getCVRol().equals("Consulta")) {
+                hechoOrganismoService.deleteHechoOrganismoById(id);
+                String descripcion = "Elimino en hechoOrganismo";
+                Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
+                bitacoraService.saveBitacora(bitacora);
+                return "redirect:/hechosorganismo/".concat(String.valueOf(idhecho));
+            }else {
+                return "SinAcceso";
+            }
+
+        }catch (Exception e) {
+            return "SinAcceso";
+        }
+    }
+
+    @GetMapping("/horganismos/{id}/{idhecho}")
+    public String deleteHechoOrganismos(@PathVariable Integer id, @PathVariable Integer idhecho){
+
+        try {
+            this.validarPerfil();
+            if(!this.perfil.getCVRol().equals("Consulta")) {
+                hechoOrganismoService.deleteHechoOrganismoById(id);
+                String descripcion = "Elimino en hechoOrganismo";
+                Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
+                bitacoraService.saveBitacora(bitacora);
+                return "redirect:/hechoorganismos/".concat(String.valueOf(idhecho));
+            }else {
+                return "SinAcceso";
+            }
+
+        }catch (Exception e) {
+            return "SinAcceso";
+        }
+    }
 
     @PostMapping("/hechosorganismo")
     public String saveHechosOrganismo(@ModelAttribute("hechoOrganismo") HechoOrganismo hechoOrganismo, Model model){
@@ -232,7 +318,7 @@ HechoOrganismoService hechoOrganismoService, HechoService hechoService, Organism
     }
 
     @PostMapping("/hechoorganismo/{id}")
-    public String updateHechoImputado(@PathVariable Integer id, @ModelAttribute("hechoorganismo") HechoOrganismo hechoOrganismo, Model model){
+    public String updateHechoOrganismo(@PathVariable Integer id, @ModelAttribute("hechoorganismo") HechoOrganismo hechoOrganismo, Model model){
         try {
             HechoOrganismo existingHechoOrganismo = hechoOrganismoService.getHechoOrganismoById(id);
             existingHechoOrganismo.setCI_Id(id);

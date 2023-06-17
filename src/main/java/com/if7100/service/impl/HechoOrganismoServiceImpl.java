@@ -5,6 +5,9 @@ import com.if7100.repository.HechoOrganismoRepository;
 import com.if7100.repository.HechoRepository;
 import com.if7100.repository.OrganismoRepository;
 import com.if7100.service.HechoOrganismoService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,6 +36,11 @@ public class HechoOrganismoServiceImpl implements HechoOrganismoService {
     }
 
     @Override
+    public Page<HechoOrganismo> getAllHechoOrganismoPage(Pageable pageable){
+        return hechoOrganismoRepository.findAll(pageable);
+    }
+
+    @Override
     public List<HechoOrganismo> getAllHechosOrganismo(Integer CI_Hecho) {
         List<HechoOrganismo> salida = hechoOrganismoRepository.findAll();
 
@@ -40,10 +48,25 @@ public class HechoOrganismoServiceImpl implements HechoOrganismoService {
     }
 
     @Override
+    public Page<HechoOrganismo> getAllHechosOrganismoPage(Pageable pageable, Integer CI_Hecho){
+        List<HechoOrganismo> salida = hechoOrganismoRepository.findAll();
+        salida = salida.stream().filter(hechoOrganismo -> Objects.equals(hechoOrganismo.getCIHecho(), CI_Hecho)).collect(Collectors.toList());
+
+        return new PageImpl<>(salida, pageable, salida.size());
+    }
+
+    @Override
     public List<HechoOrganismo> getAllHechoOrganismos(Integer CI_Organismo) {
         List<HechoOrganismo> salida = hechoOrganismoRepository.findAll();
 
         return salida.stream().filter(hechoOrganismo -> Objects.equals(hechoOrganismo.getCIOrganismo(), CI_Organismo)).collect(Collectors.toList());
+    }
+
+    @Override
+    public Page<HechoOrganismo> getAllHechoOrganismosPage(Pageable pageable, Integer CI_Organismo){
+        List<HechoOrganismo> salida = hechoOrganismoRepository.findAll();
+        salida = salida.stream().filter(hechoOrganismo -> Objects.equals(hechoOrganismo.getCIOrganismo(), CI_Organismo)).collect(Collectors.toList());
+        return new PageImpl<>(salida, pageable, salida.size());
     }
 
     @Override
