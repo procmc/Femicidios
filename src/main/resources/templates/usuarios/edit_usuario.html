@@ -1,16 +1,48 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="ISO-8859-1">
-<title>Actualizar usuario</title>
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-	crossorigin="anonymous">
-	<!--    <th th:include="header" th:fragment="header"></th>-->
-    <th th:insert="~{header}"></th>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Usuario Mantenimiento</title>
+	<th th:insert="~{header}"></th>
 </head>
 <body>
+<main class="page registration-page">
+	<section class="clean-block clean-form dark">
+		<div class="container">
+			<div class="block-heading">
+				<h2 class="text-info">Actualizar Usuario</h2>
+			</div>
+			<form th:action="@{/usuarios/{id} (id=${usuario.CI_Id})}" th:object="${usuario}" method="POST">
+				<div class="mb-3"><label class="form-label" for="name">Cedula del usuario</label><input
+						id="name" th:field="*{CVCedula}" class="form-control item" type="text"
+						placeholder="Digite la cedula del usuario" required minlength="1" maxlength="20"/></div>
+				<div class="mb-3"><label class="form-label" for="name">Nombre del usuario</label><input
+						id="name-1" th:field="*{CVNombre}" class="form-control item" type="text"
+						placeholder="Digite el nombre del usuario" required minlength="1" maxlength="50"/></div>
+				<div class="mb-3"><label class="form-label" for="name">Apellidos del usuario</label><input
+						id="name-2" th:field="*{CVApellidos}" class="form-control item" type="text"
+						placeholder="Digite los apellidos del usuario" required minlength="1" maxlength="50"/></div>
+				<div class="mb-3"><label class="form-label" for="name">Contraseña del usuario</label><input
+						id="name-3" th:field="*{TCClave}" class="form-control item" type="password"
+						placeholder="Digite la contraseña del usuario"
+						title="La contraseña debe de tener al menos 8 caracteres, incluyendo al menos 1 numero, una mayuscula y un caracter especial como !@#$%^&*"
+						pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,}$" required minlength="1"
+						maxlength="60"/></div>
+				<div class="mb-3"><label class="form-label" for="name">Contraseña del usuario</label><select
+						th:name="perfil" th:field="*{CIPerfil}"
+						id="name-4" class="form-select" required>
+					<optgroup label="Perfiles">
+						<option th:value="1" th:text="Administrador"></option>
+						<option th:value="2" th:text="Convencional"></option>
+						<option th:value="3" th:text="Consulta"></option>
+					</optgroup>
+				</select></div>
+				<button class="btn btn-primary" type="submit">Actualizar</button>
+			</form>
+		</div>
+	</section>
+</main>
 <!--<div class="row">-->
 <!--		<div class="col-md-12">-->
 <!--			<ul class="nav nav-pills flex-column flex-sm-row">-->
@@ -24,92 +56,92 @@
 <!--			</ul>-->
 <!--		</div>-->
 <!--	</div>-->
-<br>
-<br>
-	<div class = "container">
-		<div class = "row">
-			<div class ="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
-				<h1 class = "text-center"> Actualizar usuario </h1>
-				<div class = "card-body">
-					<form th:action="@{/usuarios/{id} (id=${usuario.CI_Id})}" th:object = "${usuario}" method="POST">
-					
-					
-					<div class ="form-group">
-							<label>Cedula </label>
-							<input
-							type = "text"
-							name = "cedula"
-							th:field = "*{CVCedula}"
-							class = "form-control"
-							placeholder="Digite la Cedula del usuario" 
-							value=""
-							autocomplete="off"
-							maxlength="20"
-                   		 	required
-							/>
-						</div>
-						
-						<div class ="form-group">
-							<label>Nombre del usuario</label>
-							<input
-							type = "text"
-							name = "nombre"
-							th:field = "*{CVNombre}"
-							class = "form-control"
-							placeholder="Digite el nombre del usuario" 
-							maxlength="50"
-                   		 	required
-							/>
-						</div>
-						
-						<div class ="form-group">
-							<label>Apellidos del usuario</label>
-							<input
-							type = "text"
-							name = "apellidos"
-							th:field = "*{CVApellidos}"
-							class = "form-control"
-							placeholder="Digite los apellidos del Usuario" 
-							maxlength="50"
-                   		 	required
-							/>
-						</div>
-						
-						<div class ="form-group">	
-						<label for="roles">Selecciona el Perfil:</label>
-  							<select id="perfil" name="perfil" th:field = "*{CIPerfil}" class="btn btn-info dropdown-toggle">
-   						 		<option value="1">Administrador</option>
-    							<option value="2">Convencional</option>
-    							<option value="3">Consulta</option>
-  							</select>
-  						</div>
-						
-					  <div class="form-group">
-					  <label for="clave">Contrase�a del usuario</label>
-					  <input
-					    type="password"
-					    name="Clave"
-					    th:field="*{TCClave}"
-					    class="form-control"
-					    id="clave"
-					    placeholder="Ingrese la Contrase�a"
-					    pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,}$"
-					    title="La contrase�a debe tener al menos 8 caracteres, incluyendo al menos un n�mero, una letra may�scula, una letra min�scula y un car�cter especial como !@#$%^&*"
-					    required
-					  />
-					</div>
-						
-						
-						<div class = "box-footer">
-							<button type="submit" class = "btn btn-primary">
-								Actualizar datos
-							</button>
-						</div>
-					</form>
-				
-				</div>
-			</div>
-		</div>
-	</div>
+<!--<br>-->
+<!--<br>-->
+<!--	<div class = "container">-->
+<!--		<div class = "row">-->
+<!--			<div class ="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">-->
+<!--				<h1 class = "text-center"> Actualizar usuario </h1>-->
+<!--				<div class = "card-body">-->
+<!--					<form th:action="@{/usuarios/{id} (id=${usuario.CI_Id})}" th:object = "${usuario}" method="POST">-->
+<!--					-->
+<!--					-->
+<!--					<div class ="form-group">-->
+<!--							<label>Cedula </label>-->
+<!--							<input-->
+<!--							type = "text"-->
+<!--							name = "cedula"-->
+<!--							th:field = "*{CVCedula}"-->
+<!--							class = "form-control"-->
+<!--							placeholder="Digite la Cedula del usuario" -->
+<!--							value=""-->
+<!--							autocomplete="off"-->
+<!--							maxlength="20"-->
+<!--                   		 	required-->
+<!--							/>-->
+<!--						</div>-->
+<!--						-->
+<!--						<div class ="form-group">-->
+<!--							<label>Nombre del usuario</label>-->
+<!--							<input-->
+<!--							type = "text"-->
+<!--							name = "nombre"-->
+<!--							th:field = "*{CVNombre}"-->
+<!--							class = "form-control"-->
+<!--							placeholder="Digite el nombre del usuario" -->
+<!--							maxlength="50"-->
+<!--                   		 	required-->
+<!--							/>-->
+<!--						</div>-->
+<!--						-->
+<!--						<div class ="form-group">-->
+<!--							<label>Apellidos del usuario</label>-->
+<!--							<input-->
+<!--							type = "text"-->
+<!--							name = "apellidos"-->
+<!--							th:field = "*{CVApellidos}"-->
+<!--							class = "form-control"-->
+<!--							placeholder="Digite los apellidos del Usuario" -->
+<!--							maxlength="50"-->
+<!--                   		 	required-->
+<!--							/>-->
+<!--						</div>-->
+<!--						-->
+<!--						<div class ="form-group">	-->
+<!--						<label for="roles">Selecciona el Perfil:</label>-->
+<!--  							<select id="perfil" name="perfil" th:field = "*{CIPerfil}" class="btn btn-info dropdown-toggle">-->
+<!--   						 		<option value="1">Administrador</option>-->
+<!--    							<option value="2">Convencional</option>-->
+<!--    							<option value="3">Consulta</option>-->
+<!--  							</select>-->
+<!--  						</div>-->
+<!--						-->
+<!--					  <div class="form-group">-->
+<!--					  <label for="clave">Contrase�a del usuario</label>-->
+<!--					  <input-->
+<!--					    type="password"-->
+<!--					    name="Clave"-->
+<!--					    th:field="*{TCClave}"-->
+<!--					    class="form-control"-->
+<!--					    id="clave"-->
+<!--					    placeholder="Ingrese la Contrase�a"-->
+<!--					    pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,}$"-->
+<!--					    title="La contrase�a debe tener al menos 8 caracteres, incluyendo al menos un n�mero, una letra may�scula, una letra min�scula y un car�cter especial como !@#$%^&*"-->
+<!--					    required-->
+<!--					  />-->
+<!--					</div>-->
+<!--						-->
+<!--						-->
+<!--						<div class = "box-footer">-->
+<!--							<button type="submit" class = "btn btn-primary">-->
+<!--								Actualizar datos-->
+<!--							</button>-->
+<!--						</div>-->
+<!--					</form>-->
+<!--				-->
+<!--				</div>-->
+<!--			</div>-->
+<!--		</div>-->
+<!--	</div>-->
 </body>
 </html>

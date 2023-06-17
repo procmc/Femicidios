@@ -4,6 +4,8 @@
 package com.if7100.service.impl;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.if7100.entity.Usuario;
@@ -31,7 +33,12 @@ public class UsuarioServiceImpl implements UsuarioService{
     public List<Usuario> getAllUsuarios(){
     	return usuarioRepository.findAll();
     }
-    
+
+    @Override
+    public Page<Usuario> getAllUsuariosPage(Pageable pageable){
+        return usuarioRepository.findAll(pageable);
+    }
+
     @Override
     public Usuario saveUsuario(Usuario usuario){
     	usuario.setTCClave(new BCryptPasswordEncoder().encode(usuario.getTCClave()));

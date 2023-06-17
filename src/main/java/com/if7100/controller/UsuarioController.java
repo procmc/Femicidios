@@ -8,6 +8,9 @@ import com.if7100.entity.Usuario;
 import com.if7100.service.BitacoraService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -29,7 +32,10 @@ import com.if7100.repository.UsuarioRepository;
 import com.if7100.service.PerfilService;
 import com.if7100.service.UsuarioService;
 import jakarta.validation.Valid;
-   
+
+import java.util.List;
+import java.util.stream.IntStream;
+
 
 @Controller
 public class UsuarioController {
@@ -55,7 +61,6 @@ UsuarioService usuarioService, PerfilService perfilService, UsuarioRepository us
 	 this.perfilService = perfilService;
      this.usuarioRepository = usuarioRepository;
      this.bitacoraService= bitacoraService;
-
  }
  
  private void validarPerfil() {
@@ -74,23 +79,55 @@ UsuarioService usuarioService, PerfilService perfilService, UsuarioRepository us
 		}
 		
 	}
+
+	private Pageable initPages(int pg, int paginasDeseadas, int numeroTotalElementos){
+		int numeroPagina = pg-1;
+		if (numeroTotalElementos < 10){
+			paginasDeseadas = 1;
+		}
+		if (numeroTotalElementos < 1){
+			numeroTotalElementos = 1;
+		}
+		int tamanoPagina = (int) Math.ceil(numeroTotalElementos / (double) paginasDeseadas);
+		return PageRequest.of(numeroPagina, tamanoPagina);
+	}
  
  @GetMapping("/usuarios")
  public String listStudents(Model model) {
-	 
+	 return "redirect:/usuario/1";
+ }
+
+ @GetMapping("/usuario/{pg}")
+ public String listUsuario(Model model, @PathVariable Integer pg){
 	 try {
-			this.validarPerfil();
-			if(this.perfil.getCVRol().equals("Administrador")) {
-				
-				 model.addAttribute("usuarios",usuarioService.getAllUsuarios());
-				 return "usuarios/usuarios";
-			}else {
-				return "SinAcceso";
-			}
-			
-		}catch (Exception e) {
-			return "SinAcceso";
-		}
+		 this.validarPerfil();
+		 if(this.perfil.getCVRol().equals("Administrador")) {
+
+			 if (pg < 1){
+				 return "redirect:/usuario/1";
+			 }
+
+			 int numeroTotalElementos = usuarioService.getAllUsuarios().size();
+
+			 Pageable pageable = initPages(pg, 5, numeroTotalElementos);
+
+			 Page<Usuario> usuarioPage = usuarioService.getAllUsuariosPage(pageable);
+
+			 List<Integer> nPaginas = IntStream.rangeClosed(1, usuarioPage.getTotalPages())
+					 .boxed()
+					 .toList();
+
+			 model.addAttribute("PaginaActual", pg);
+			 model.addAttribute("nPaginas", nPaginas);
+			 model.addAttribute("usuarios", usuarioPage.getContent());
+			 return "usuarios/usuarios";
+		 }else {
+			 return "SinAcceso";
+		 }
+
+	 }catch (Exception e) {
+		 return "SinAcceso";
+	 }
  }
  
  

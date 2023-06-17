@@ -7,6 +7,9 @@ import java.util.List;
 
 
 import com.if7100.entity.Usuario;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 /**
  * @author Liss
  * Fecha: 11 de abril del 2023
@@ -22,4 +25,6 @@ Usuario getUsuarioById(Integer Id);
 Usuario updateUsuario(Usuario usuario);
 
 void deleteUsuarioById(Integer Id);
+
+    Page<Usuario> getAllUsuariosPage(Pageable pageable);
 }
