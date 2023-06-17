@@ -1,6 +1,8 @@
 
 
-docker run --name PruebasFemicidios -p 8080:8080 procmc/femicidios
+docker run --name PruebasFemicidios --network my-bridge-network -p 8080:8080 procmc/femicidios
+
+http://172.171.199.217:8080/login
 
 
 usr_femicidios
