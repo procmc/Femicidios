@@ -4,6 +4,9 @@
 package com.if7100.controller;
 
 import com.if7100.entity.*;
+import com.if7100.entity.Paises;
+import com.if7100.service.*;
+import com.if7100.service.PaisesService;
 import com.if7100.service.BitacoraService;
 
 import org.springframework.data.domain.Page;
@@ -31,21 +34,24 @@ import java.util.stream.IntStream;
 @Controller
 public class TipoOrganismoController {
 private TipoOrganismoService tipoOrganismoService;
+private PaisesService paisesService;
 //instancias para control de acceso
 private UsuarioRepository usuarioRepository;
 private Perfil perfil;
+private Paises paises;
 private PerfilService perfilService;
 //instancias para control de bitacora
 private BitacoraService bitacoraService;
 private Usuario usuario;
 
 	public TipoOrganismoController(BitacoraService bitacoraService,
-TipoOrganismoService tipoOrganismoService, PerfilService perfilService, UsuarioRepository usuarioRepository) {
+TipoOrganismoService tipoOrganismoService, PaisesService paisesService, PerfilService perfilService, UsuarioRepository usuarioRepository) {
 	super();
 	this.tipoOrganismoService= tipoOrganismoService;
 	this.perfilService = perfilService;
     this.usuarioRepository = usuarioRepository;
     this.bitacoraService= bitacoraService;
+    this.paisesService = paisesService;
 
 }
 	
@@ -112,8 +118,9 @@ TipoOrganismoService tipoOrganismoService, PerfilService perfilService, UsuarioR
 			this.validarPerfil();
 			if(!this.perfil.getCVRol().equals("Consulta")) {
 				
-				TipoOrganismo tipoOrganismo= new TipoOrganismo();
-				model.addAttribute("tipoOrganismo", tipoOrganismo);
+				
+                model.addAttribute("tipoOrganismo", new TipoOrganismo());
+				model.addAttribute("paises", paisesService.getAllPaises());
 				return "tipoOrganismo/create_tipoOrganismo";
 			}else {
 				return "SinAcceso";
@@ -162,6 +169,7 @@ TipoOrganismoService tipoOrganismoService, PerfilService perfilService, UsuarioR
 			if(!this.perfil.getCVRol().equals("Consulta")) {
 				
 				model.addAttribute("tipoOrganismo", tipoOrganismoService.getTipoOrganismoByCodigo(Codigo));
+				model.addAttribute("paises", paisesService.getAllPaises());
 				return "tipoOrganismo/edit_tipoOrganismo";	
 			}else {
 				return "SinAcceso";
@@ -176,9 +184,12 @@ TipoOrganismoService tipoOrganismoService, PerfilService perfilService, UsuarioR
 	public String updateOrganismoLugar (@PathVariable Integer Codigo ,@ModelAttribute("tipoOrganismo") TipoOrganismo tipoOrganismo, Model model) {
 	   
 		TipoOrganismo existingTipoOrganismo = tipoOrganismoService.getTipoOrganismoByCodigo(Codigo);
-	    existingTipoOrganismo.setCI_Codigo(Codigo);
+		model.addAttribute("paises", paisesService.getAllPaises());
+		
+		existingTipoOrganismo.setCI_Codigo(Codigo);
 	    existingTipoOrganismo.setCVTitulo(tipoOrganismo.getCVTitulo());
 	    existingTipoOrganismo.setCVDescripcion(tipoOrganismo.getCVDescripcion());
+	    existingTipoOrganismo.setCVPaises(tipoOrganismo.getCVPaises());
 		tipoOrganismoService.updateTipoOrganismo(existingTipoOrganismo);
 		return "redirect:/tipoOrganismo";	
 	}

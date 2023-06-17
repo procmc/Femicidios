@@ -480,20 +480,21 @@ CREATE TABLE `ta_tipoorganismo`
     `CI_Codigo`      int         NOT NULL AUTO_INCREMENT,
     `CV_Titulo`      varchar(80) NOT NULL,
     `CV_Descripcion` varchar(80) DEFAULT NULL,
+	`CV_Paises` varchar(80) DEFAULT NULL,
     PRIMARY KEY (`CI_Codigo`)
 );
 
 INSERT INTO `ta_tipoorganismo`
-VALUES (1, 'Policial', 'Organismo policial incluyendo servicios de emergencia'),
-       (2, 'Judicial', 'Organismo Judicial a nivel nacional'),
-       (3, 'Fiscalia', 'Fiscalia'),
-       (4, 'Salud', 'Institucion de Salud'),
-       (5, 'Ministerio de Desarrollo Social', 'Ministerio de Desarrollo Social'),
-       (6, 'Justicia Provincial', 'Poder Judicial a nivel provincial'),
-       (7, 'Ministerio Publico Fiscal', ' '),
-       (8, 'Ministerio de Justicia', 'Ministerio de Justicia'),
-       (9, 'Medicina', 'Medicina Legal o Forense'),
-       (10, 'Secretaria de la Mujer', 'Ministerio o Secretaria de la Mujer');
+VALUES (1, 'Policial', 'Organismo policial incluyendo servicios de emergencia', 'Costa Rica'),
+       (2, 'Judicial', 'Organismo Judicial a nivel nacional', 'Costa Rica'),
+       (3, 'Fiscalia', 'Fiscalia', 'Costa Rica'),
+       (4, 'Salud', 'Institucion de Salud', 'Costa Rica'),
+       (5, 'Ministerio de Desarrollo Social', 'Ministerio de Desarrollo Social', 'Costa Rica'),
+       (6, 'Justicia Provincial', 'Poder Judicial a nivel provincial', 'Costa Rica'),
+       (7, 'Ministerio Publico Fiscal', ' ', 'Costa Rica'),
+       (8, 'Ministerio de Justicia', 'Ministerio de Justicia', 'Costa Rica'),
+       (9, 'Medicina', 'Medicina Legal o Forense', 'Costa Rica'),
+       (10, 'Secretaria de la Mujer', 'Ministerio o Secretaria de la Mujer', 'Costa Rica');
 
 
 /* ENTIDADES */
