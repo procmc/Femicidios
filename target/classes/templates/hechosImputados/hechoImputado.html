@@ -84,44 +84,44 @@
                         </ul>
                     </nav>
                 </div>
-                <div th:if="${hechosImputado}" class="card-footer">
-                    <nav>
-                        <ul class="pagination pagination-sm mb-0 justify-content-center">
-                            <li class="page-item"><a class="page-link" aria-label="Previous"
-                                                     th:href="@{/hechosimputado/{id}(id=${id})}"><span
-                                    aria-hidden="true">«</span></a></li>
-                            <li th:each="nPagina : ${nPaginas}" class="page-item"
-                                th:class="${PaginaActual == nPaginaStat.count ? 'active' : ''}"><a
-                                    th:text="${nPaginaStat.count}"
-                                    class="page-link" aria-label="Next"
-                                    th:href="@{/hechosimputado/{id}/{pg}(id=${id}, pg=${nPaginaStat.count})}"><span
-                                    aria-hidden="true"></span></a>
-                            </li>
-                            <li class="page-item"><a class="page-link" aria-label="Next"
-                                                     th:href="@{/hechosimputado/{id}/{pg}(pg=${nPaginas.size()}, id=${id})}"><span
-                                    aria-hidden="true">»</span></a></li>
-                        </ul>
-                    </nav>
-                </div>
-                <div th:if="${hechoImputados}" class="card-footer">
-                    <nav>
-                        <ul class="pagination pagination-sm mb-0 justify-content-center">
-                            <li class="page-item"><a class="page-link" aria-label="Previous"
-                                                     th:href="@{/hechoimputados/{id}(id=${id})}"><span
-                                    aria-hidden="true">«</span></a></li>
-                            <li th:each="nPagina : ${nPaginas}" class="page-item"
-                                th:class="${PaginaActual == nPaginaStat.count ? 'active' : ''}"><a
-                                    th:text="${nPaginaStat.count}"
-                                    class="page-link" aria-label="Next"
-                                    th:href="@{/hechoimputados/{id}/{pg}(id=${id}, pg=${nPaginaStat.count})}"><span
-                                    aria-hidden="true"></span></a>
-                            </li>
-                            <li class="page-item"><a class="page-link" aria-label="Next"
-                                                     th:href="@{/hechoimputados/{id}/{pg}(pg=${nPaginas.size()}, id=${id})}"><span
-                                    aria-hidden="true">»</span></a></li>
-                        </ul>
-                    </nav>
-                </div>
+<!--                <div th:if="${hechosImputado}" class="card-footer">-->
+<!--                    <nav>-->
+<!--                        <ul class="pagination pagination-sm mb-0 justify-content-center">-->
+<!--                            <li class="page-item"><a class="page-link" aria-label="Previous"-->
+<!--                                                     th:href="@{/hechosimputado/{id}(id=${id})}"><span-->
+<!--                                    aria-hidden="true">«</span></a></li>-->
+<!--                            <li th:each="nPagina : ${nPaginas}" class="page-item"-->
+<!--                                th:class="${PaginaActual == nPaginaStat.count ? 'active' : ''}"><a-->
+<!--                                    th:text="${nPaginaStat.count}"-->
+<!--                                    class="page-link" aria-label="Next"-->
+<!--                                    th:href="@{/hechosimputado/{id}/{pg}(id=${id}, pg=${nPaginaStat.count})}"><span-->
+<!--                                    aria-hidden="true"></span></a>-->
+<!--                            </li>-->
+<!--                            <li class="page-item"><a class="page-link" aria-label="Next"-->
+<!--                                                     th:href="@{/hechosimputado/{id}/{pg}(pg=${nPaginas.size()}, id=${id})}"><span-->
+<!--                                    aria-hidden="true">»</span></a></li>-->
+<!--                        </ul>-->
+<!--                    </nav>-->
+<!--                </div>-->
+<!--                <div th:if="${hechoImputados}" class="card-footer">-->
+<!--                    <nav>-->
+<!--                        <ul class="pagination pagination-sm mb-0 justify-content-center">-->
+<!--                            <li class="page-item"><a class="page-link" aria-label="Previous"-->
+<!--                                                     th:href="@{/hechoimputados/{id}(id=${id})}"><span-->
+<!--                                    aria-hidden="true">«</span></a></li>-->
+<!--                            <li th:each="nPagina : ${nPaginas}" class="page-item"-->
+<!--                                th:class="${PaginaActual == nPaginaStat.count ? 'active' : ''}"><a-->
+<!--                                    th:text="${nPaginaStat.count}"-->
+<!--                                    class="page-link" aria-label="Next"-->
+<!--                                    th:href="@{/hechoimputados/{id}/{pg}(id=${id}, pg=${nPaginaStat.count})}"><span-->
+<!--                                    aria-hidden="true"></span></a>-->
+<!--                            </li>-->
+<!--                            <li class="page-item"><a class="page-link" aria-label="Next"-->
+<!--                                                     th:href="@{/hechoimputados/{id}/{pg}(pg=${nPaginas.size()}, id=${id})}"><span-->
+<!--                                    aria-hidden="true">»</span></a></li>-->
+<!--                        </ul>-->
+<!--                    </nav>-->
+<!--                </div>-->
             </div>
         </div>
     </section>

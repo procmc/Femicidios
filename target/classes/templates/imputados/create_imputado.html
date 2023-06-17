@@ -155,7 +155,8 @@
                     </div>
                     <div class="col">
                         <div class="mb-3 mx-3"><label class="form-label" for="name">Seleccione el organismo generador de
-                            datos</label><select th:name="organismo" th:field="*{CVGenerador}" id="name-15" class="form-select" required>
+                            datos</label><select th:name="organismo" th:field="*{CVGenerador}" id="name-15"
+                                                 class="form-select" required>
                             <optgroup label="Organismos">
                                 <option th:each="organismo: ${listaOrganismo}" th:value="${organismo.CVNombre}"
                                         th:text="${organismo.CI_Id} + ' - ' + ${organismo.CVNombre}"></option>
@@ -167,7 +168,8 @@
                     <div class="w-100"></div>
                     <div class="col">
                         <div class="mb-3 mx-3"><label class="form-label" for="name">Seleccione si posee permiso de
-                            portacion de armas</label><select th:name="portacion" th:field="*{CVPermisoPortacionArmas}" id="name-16" class="form-select" required>
+                            portacion de armas</label><select th:name="portacion" th:field="*{CVPermisoPortacionArmas}"
+                                                              id="name-16" class="form-select" required>
                             <optgroup label="Permiso de portacion de armas">
                                 <option th:value="Si">Si</option>
                                 <option th:value="No">No</option>
@@ -176,7 +178,9 @@
                     </div>
                     <div class="col">
                         <div class="mb-3 mx-3"><label class="form-label" for="name">Seleccione si tiene pertenencia a
-                            alguna fuerza de seguridad</label><select th:name="pertenencia" th:field="*{CVPertenenciaFuerzaSeguridad}" id="name-17" class="form-select" required>
+                            alguna fuerza de seguridad</label><select th:name="pertenencia"
+                                                                      th:field="*{CVPertenenciaFuerzaSeguridad}"
+                                                                      id="name-17" class="form-select" required>
                             <optgroup label="Pertenencia fuerza publica">
                                 <option th:value="Si">Si</option>
                                 <option th:value="No">No</option>
@@ -188,7 +192,8 @@
                     <div class="w-100"></div>
                     <div class="col">
                         <div class="mb-3 mx-3"><label class="form-label" for="name">Seleccione si posee
-                            antecedentes</label><select th:name="antecendentes" th:field="*{CVAntecedentes}" id="name-18" class="form-select" required>
+                            antecedentes</label><select th:name="antecendentes" th:field="*{CVAntecedentes}"
+                                                        id="name-18" class="form-select" required>
                             <optgroup label="Antecedentes">
                                 <option th:value="Si">Si</option>
                                 <option th:value="No">No</option>
@@ -197,7 +202,8 @@
                     </div>
                     <div class="col">
                         <div class="mb-3 mx-3"><label class="form-label" for="name">Seleccione si ha tenido tentativa de
-                            suicidio</label><select th:name="tentativa" th:field="*{CVSuicidio}" id="name-19" class="form-select" required>
+                            suicidio</label><select th:name="tentativa" th:field="*{CVSuicidio}" id="name-19"
+                                                    class="form-select" required>
                             <optgroup label="Tentativa de suicidio">
                                 <option th:value="Si">Si</option>
                                 <option th:value="No">No</option>
@@ -209,7 +215,8 @@
                     <div class="w-100"></div>
                     <div class="col">
                         <div class="mb-3 mx-3"><label class="form-label" for="name">Digite el domicilio del
-                            imputado</label><input th:name="domicilio" th:field="*{CVDomicilio}" id="name-20" class="form-control item" type="text" minlength="1"
+                            imputado</label><input th:name="domicilio" th:field="*{CVDomicilio}" id="name-20"
+                                                   class="form-control item" type="text" minlength="1"
                                                    maxlength="50" required
                                                    placeholder="Digite el domicilio del imputado"/></div>
                     </div>
