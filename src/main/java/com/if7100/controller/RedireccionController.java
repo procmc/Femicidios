@@ -137,7 +137,7 @@ public class RedireccionController {
 
         switch (accion) {
             case "agregarLugar" -> {
-                return "redirect:/lugar/new/" + id;
+                return "redirect:/hecholugar/new/" + id;
             }
             case "agregarImputado" -> {
                 return "redirect:/hechosimputado/new/" + id;
@@ -146,7 +146,7 @@ public class RedireccionController {
                 return "redirect:/hechosorganismo/new/" + id;
             }
             case "mostrarLugar" -> {
-                return "redirect:/lugar/" + id;
+                return "redirect:/hecholugar/" + id;
             }
             case "mostrarImputado" -> {
                 return "redirect:/hechosimputado/" + id;

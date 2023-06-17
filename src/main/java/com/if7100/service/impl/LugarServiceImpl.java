@@ -1,8 +1,13 @@
 package com.if7100.service.impl;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.if7100.entity.Lugar;
@@ -29,27 +34,44 @@ public class LugarServiceImpl implements LugarService{
     }
 
     public List<Lugar> getAllLugar(){
-        List<Lugar> salida= lugarRepository.findAll();
+        return lugarRepository.findAll();
+//        List<Lugar> salida= lugarRepository.findAll();
+//
+//        for (Lugar lugar : salida) {
+//            TipoLugar tipoLugar = tipoLugarRepository.findById(lugar.getCI_Tipo_Lugar()).orElse(null);
+//            if (tipoLugar != null) {
+//                lugar.setTitulo(tipoLugar.getCVTitulo());
+//            }
+//        }
+//        return salida;
+    }
 
-        for (Lugar lugar : salida) {
-            TipoLugar tipoLugar = tipoLugarRepository.findById(lugar.getCI_Tipo_Lugar()).orElse(null);
-            if (tipoLugar != null) {
-                lugar.setTitulo(tipoLugar.getCVTitulo());
-            }
-        }
-        return salida;
+    public Page<Lugar> getAllLugarPage(Pageable pageable){
+        return lugarRepository.findAll(pageable);
     }
 
     public List<Lugar> getAllLugares(Integer CI_Hecho){
-        List<Lugar> salida= lugarRepository.findByCIHecho(CI_Hecho);
 
-        for (Lugar lugar : salida) {
-            TipoLugar tipoLugar = tipoLugarRepository.findById(lugar.getCI_Tipo_Lugar()).orElse(null);
-            if (tipoLugar != null) {
-                lugar.setTitulo(tipoLugar.getCVTitulo());
-            }
-        }
-        return salida;
+        List<Lugar> salida = lugarRepository.findAll();
+
+        return salida.stream().filter(lugar -> Objects.equals(lugar.getCIHecho(), CI_Hecho)).collect(Collectors.toList());
+//        List<Lugar> salida= lugarRepository.findByCIHecho(CI_Hecho);
+//
+//        for (Lugar lugar : salida) {
+//            TipoLugar tipoLugar = tipoLugarRepository.findById(lugar.getCI_Tipo_Lugar()).orElse(null);
+//            if (tipoLugar != null) {
+//                lugar.setTitulo(tipoLugar.getCVTitulo());
+//            }
+//        }
+//        return salida;
+    }
+
+    public Page<Lugar> getAllLugaresPage(Pageable pageable, Integer CI_Hecho){
+
+        List<Lugar> salida = lugarRepository.findAll();
+        salida = salida.stream().filter(lugar -> Objects.equals(lugar.getCIHecho(), CI_Hecho)).collect(Collectors.toList());
+        return new PageImpl<>(salida, pageable, salida.size());
+
     }
 
     @Override

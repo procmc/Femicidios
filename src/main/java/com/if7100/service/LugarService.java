@@ -2,6 +2,9 @@ package com.if7100.service;
 
 import java.util.List;
 import com.if7100.entity.Lugar;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 /**
  * @author Julio Jarquin
  * Fecha: 20 de abril del 2023
@@ -21,4 +24,7 @@ public interface LugarService {
 
     Lugar updateLugar(Lugar lugar);
 
+    Page<Lugar> getAllLugarPage(Pageable pageable);
+
+    Page<Lugar> getAllLugaresPage(Pageable pageable, Integer CI_Hecho);
 }

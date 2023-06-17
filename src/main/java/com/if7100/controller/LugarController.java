@@ -1,12 +1,16 @@
 package com.if7100.controller;
 
-import com.if7100.entity.Bitacora;
-import com.if7100.entity.Usuario;
-import com.if7100.service.BitacoraService;
+import com.if7100.entity.*;
+import com.if7100.service.*;
+
 import java.util.List;
-import com.if7100.service.HechoService;
+import java.util.stream.IntStream;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -17,23 +21,19 @@ import org.springframework.web.bind.annotation.*;
  * @author Julio Jarquin
  * Fecha: 20 de abril del 2023
  */
-import com.if7100.entity.Lugar;
-import com.if7100.entity.Perfil;
 import com.if7100.repository.UsuarioRepository;
-import com.if7100.service.LugarService;
-import com.if7100.service.PerfilService;
-import com.if7100.service.TipoLugarService;
 
 import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class LugarController {
 
-	@Autowired
 	private LugarService lugarService;
 	private TipoLugarService tipoLugarService;
 
 	private HechoService hechoService;
+
+	private PaisesService paisesService;
 	// instancias para control de acceso
 	private UsuarioRepository usuarioRepository;
 	private Perfil perfil;
@@ -42,11 +42,12 @@ public class LugarController {
 	private BitacoraService bitacoraService;
 	private Usuario usuario;
 
-	public LugarController(BitacoraService bitacoraService, LugarService lugarService,
+	public LugarController(BitacoraService bitacoraService,PaisesService paisesService, LugarService lugarService,
 			TipoLugarService tipoLugarService, HechoService hechoService, PerfilService perfilService,
 			UsuarioRepository usuarioRepository) {
 		super();
 		this.lugarService = lugarService;
+		this.paisesService = paisesService;
 		this.tipoLugarService = tipoLugarService;
 		this.hechoService = hechoService;
 		this.perfilService = perfilService;
@@ -71,17 +72,30 @@ public class LugarController {
 
 	}
 
-	// Mostrar todos lugares
-	@GetMapping("/lugar/{Id}")
-	public String listStudents(Model model, @PathVariable Integer Id, HttpSession session) {
-		session.setAttribute("idLugarHecho", Id);
-		List<Lugar> listaLugar = lugarService.getAllLugares(Id);
-		model.addAttribute("lugar", listaLugar);
-		return "lugares/lugares";
+	private Pageable initPages(int pg, int paginasDeseadas, int numeroTotalElementos){
+		int numeroPagina = pg-1;
+		if (numeroTotalElementos < 10){
+			paginasDeseadas = 1;
+		}
+		if (numeroTotalElementos < 1){
+			numeroTotalElementos = 1;
+		}
+		int tamanoPagina = (int) Math.ceil(numeroTotalElementos / (double) paginasDeseadas);
+		return PageRequest.of(numeroPagina, tamanoPagina);
 	}
 
+
+//	// Mostrar todos lugares
+//	@GetMapping("/lugar/{Id}")
+//	public String listStudents(Model model, @PathVariable Integer Id, HttpSession session) {
+//		session.setAttribute("idLugarHecho", Id);
+//		List<Lugar> listaLugar = lugarService.getAllLugares(Id);
+//		model.addAttribute("lugar", listaLugar);
+//		return "lugares/lugares";
+//	}
+
 	// Eliminar Lugar
-	@GetMapping("/lugar/eliminar/{Id}")
+	@GetMapping("/lugares/{Id}")
 	public String deleteLugar(@PathVariable Integer Id, HttpSession session) {
 		try {
 			this.validarPerfil();
@@ -99,8 +113,26 @@ public class LugarController {
 		}
 	}
 
+	@GetMapping("/hecholugares/{id}/{idLugar}")
+	public String deleteLugar(@PathVariable Integer id, @PathVariable Integer idLugar) {
+		try {
+			this.validarPerfil();
+			if (!this.perfil.getCVRol().equals("Consulta")) {
+				lugarService.deleteLugarById(id);
+				String descripcion = "Elimino un lugar";
+				Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
+				bitacoraService.saveBitacora(bitacora);
+				return "redirect:/hecholugar/".concat(String.valueOf(idLugar));
+			} else {
+				return "SinAcceso";
+			}
+		} catch (Exception e) {
+			return "SinAcceso";
+		}
+	}
+
 	// Editar Lugar
-	@GetMapping("/lugar/edit/{Id}")
+	@GetMapping("/lugares/edit/{Id}")
 	public String editLugarForm(@PathVariable Integer Id, Model model) {
 
 		try {
@@ -108,7 +140,9 @@ public class LugarController {
 			if (!this.perfil.getCVRol().equals("Consulta")) {
 
 				model.addAttribute("lugar", lugarService.getLugarById(Id));
-				model.addAttribute("tipoLugar", tipoLugarService.getAllTipoLugares());
+				model.addAttribute("paises", paisesService.getAllPaises());
+				model.addAttribute("hechos", hechoService.getAllHechos());
+				model.addAttribute("tiposLugares", tipoLugarService.getAllTipoLugares());
 				return "lugares/edit_lugar";
 			} else {
 				return "SinAcceso";
@@ -119,12 +153,12 @@ public class LugarController {
 		}
 	}
 
-	@PostMapping("/lugar/{id}")
+	@PostMapping("/lugares/{id}")
 	public String updateLugar(@PathVariable Integer id, @ModelAttribute("lugar") Lugar lugar, Model model) {
 		try {
 			Lugar existingLugar = lugarService.getLugarById(id);
 			existingLugar.setCI_Codigo(id);
-			existingLugar.setCIHecho(existingLugar.getCIHecho());
+			existingLugar.setCIHecho(lugar.getCIHecho());
 			existingLugar.setCV_Descripcion(lugar.getCV_Descripcion());
 			existingLugar.setCI_Tipo_Lugar(lugar.getCI_Tipo_Lugar());
 			existingLugar.setCV_Direccion(lugar.getCV_Direccion());
@@ -135,7 +169,7 @@ public class LugarController {
 			String descripcion="Actualizo en Lugares";
             Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
             bitacoraService.saveBitacora(bitacora);
-			return "redirect:/lugar/" + existingLugar.getCIHecho();
+			return "redirect:/lugares";
 		} catch (DataIntegrityViolationException e) {
 			String mensaje = "No se puede guardar el hecho debido a un error de integridad de datos.";
 			model.addAttribute("error_message", mensaje);
@@ -144,58 +178,100 @@ public class LugarController {
 		}
 	}
 
-	@PostMapping("/lugar")
-	public String saveLugar(@ModelAttribute("lugar") Lugar lugar, Model model) {
-		try {
-			lugarService.saveLugar(lugar);
-			String descripcion="Creo en Lugar";
-            Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
-            bitacoraService.saveBitacora(bitacora);
-			return "redirect:/lugar/" + lugar.getCIHecho();
-		} catch (DataIntegrityViolationException e) {
-			String mensaje = "No se puede guardar el lugar debido a un error de integridad de datos.";
-			model.addAttribute("error_message", mensaje);
-			model.addAttribute("error", true);
-			return createLugarForm(model, lugar.getCIHecho());
-		}
-	}
+//	@PostMapping("/lugares")
+//	public String saveLugar(@ModelAttribute("lugar") Lugar lugar, Model model) {
+//		try {
+//			lugarService.saveLugar(lugar);
+//			String descripcion="Creo en Lugar";
+//            Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
+//            bitacoraService.saveBitacora(bitacora);
+//			return "redirect:/lugar/" + lugar.getCIHecho();
+//		} catch (DataIntegrityViolationException e) {
+//			String mensaje = "No se puede guardar el lugar debido a un error de integridad de datos.";
+//			model.addAttribute("error_message", mensaje);
+//			model.addAttribute("error", true);
+//			return createLugarForm(model, lugar.getCIHecho());
+//		}
+//	}
 
 	// ESTE METODO ESTA BUENO PERO SOLO CUANDO ENTRA POR VER LUGARES// ESTE SI ESTA
 	// PROBADO
 	// Nuevo Lugar
-	@GetMapping("/lugar/new/{Id}")
-	public String createLugarForm(Model model, @PathVariable Integer Id) {
-
-		try {
-			this.validarPerfil();
-			if (!this.perfil.getCVRol().equals("Consulta")) {
-
-				Lugar lugar = new Lugar();
-				lugar.setCIHecho(Id);
-				model.addAttribute("lugar", lugar);
-				model.addAttribute("tipoLugar", tipoLugarService.getAllTipoLugares());
-				return "lugares/create_lugar";
-			} else {
-				return "SinAcceso";
-			}
-
-		} catch (Exception e) {
-			return "SinAcceso";
-		}
-	}
+//	@GetMapping("/lugares/new/{Id}")
+//	public String createLugarForm(Model model, @PathVariable Integer Id) {
+//
+//		try {
+//			this.validarPerfil();
+//			if (!this.perfil.getCVRol().equals("Consulta")) {
+//
+//				Lugar lugar = new Lugar();
+//				lugar.setCIHecho(Id);
+//				model.addAttribute("lugar", lugar);
+//				model.addAttribute("tipoLugar", tipoLugarService.getAllTipoLugares());
+//				return "lugares/create_lugar";
+//			} else {
+//				return "SinAcceso";
+//			}
+//
+//		} catch (Exception e) {
+//			return "SinAcceso";
+//		}
+//	}
 
 	@GetMapping("/lugares")
 	public String listLugares(Model model) {
-		List<Lugar> listaLugar = lugarService.getAllLugar();
-		model.addAttribute("lugar", listaLugar);
+		return "redirect:/lugar/1";
+	}
+
+	@GetMapping("/lugar/{pg}")
+	public String listLugar(Model model, @PathVariable Integer pg){
+		if (pg < 1){
+			return "redirect:/lugar/1";
+		}
+
+		int numeroTotalElementos = lugarService.getAllLugar().size();
+
+		Pageable pageable = initPages(pg, 5, numeroTotalElementos);
+
+		Page<Lugar> lugarPage = lugarService.getAllLugarPage(pageable);
+
+		List<Integer> nPaginas = IntStream.rangeClosed(1, lugarPage.getTotalPages())
+				.boxed()
+				.toList();
+
+		model.addAttribute("PaginaActual", pg);
+		model.addAttribute("nPaginas", nPaginas);
+		model.addAttribute("lugares", lugarPage.getContent());
+		model.addAttribute("lugar", true);
 		return "lugares/lugares";
 	}
 
-	
-	@GetMapping("/lugar")
-	public String listLugares(@RequestParam("id") Integer id, Model model) {
-		List<Lugar> listaLugar = lugarService.getAllLugares(id);
-		model.addAttribute("lugar", listaLugar);
+	@GetMapping("/hecholugar/{id}")
+	public String listHechoLugares(Model model, @PathVariable Integer id) {
+		return "redirect:/hecholugar/".concat(String.valueOf(id)).concat("/1");
+	}
+
+	@GetMapping("/hecholugar/{id}/{pg}")
+	public String listHechoLugar(Model model, @PathVariable Integer id, @PathVariable Integer pg){
+		if (pg < 1){
+			return "redirect:/hecholugar/".concat(String.valueOf(id)).concat("/1");
+		}
+
+//		int numeroTotalElementos = lugarService.getAllLugares(id).size();
+
+//		Pageable pageable = initPages(pg, 5, numeroTotalElementos);
+//
+//		Page<Lugar> lugarPage = lugarService.getAllLugaresPage(pageable, id);
+
+
+
+		//List<Integer> nPaginas = IntStream.rangeClosed(1, lugarPage.getTotalPages()).boxed().toList();
+
+		model.addAttribute("Id", id);
+		model.addAttribute("PaginaActual", pg);
+//		model.addAttribute("nPaginas", nPaginas);
+		model.addAttribute("lugares", lugarService.getAllLugares(id));
+		model.addAttribute("hecholugar", true);
 		return "lugares/lugares";
 	}
 
@@ -207,14 +283,69 @@ public class LugarController {
 
 //Nuevo Lugar
 	@GetMapping("/lugares/new")
-	public String createHechoForm(Model model) {
+	public String createLugarForm(Model model) {
 		try {
 			this.validarPerfil();
 			if (!this.perfil.getCVRol().equals("Consulta")) {
 				Lugar lugar = new Lugar();
 				model.addAttribute("lugar", lugar);
-				model.addAttribute("hecho", hechoService.getAllHechos());
-				model.addAttribute("tipoLugar", tipoLugarService.getAllTipoLugares());
+				model.addAttribute("paises", paisesService.getAllPaises());
+				model.addAttribute("hechos", hechoService.getAllHechos());
+				model.addAttribute("tiposLugares", tipoLugarService.getAllTipoLugares());
+				return "lugares/create_lugar";
+			} else {
+				return "SinAcceso";
+			}
+		} catch (Exception e) {
+			return "SinAcceso";
+		}
+	}
+
+	@PostMapping("/lugar")
+	public String saveLugar (@ModelAttribute("lugar") Lugar lugar, Model model) {
+		try {
+			lugarService.saveLugar(lugar);
+			String descripcion="Creo en Lugar";
+			Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
+			bitacoraService.saveBitacora(bitacora);
+			return "redirect:/lugares";
+		} catch (DataIntegrityViolationException e){
+			String mensaje = "No se puede guardar el hecho debido a un error de integridad de datos.";
+			model.addAttribute("error_message", mensaje);
+			model.addAttribute("error", true);
+			return createLugarForm(model);
+		}
+
+	}
+
+	@PostMapping("/hecholugar")
+	public String saveHechoLugar (@ModelAttribute("lugar") Lugar lugar, Model model) {
+		try {
+			lugarService.saveLugar(lugar);
+			String descripcion="Creo en HechoLugar";
+			Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
+			bitacoraService.saveBitacora(bitacora);
+			return "redirect:/hecholugar/".concat(String.valueOf(lugar.getCIHecho()));
+		} catch (DataIntegrityViolationException e){
+			String mensaje = "No se puede guardar el hecho debido a un error de integridad de datos.";
+			model.addAttribute("error_message", mensaje);
+			model.addAttribute("error", true);
+			return createHechoLugarForm(model, lugar.getCIHecho());
+		}
+
+	}
+
+	@GetMapping("/hecholugar/new/{Id}")
+	public String createHechoLugarForm(Model model, @PathVariable Integer Id){
+		try {
+			this.validarPerfil();
+			if (!this.perfil.getCVRol().equals("Consulta")) {
+				Lugar lugar = new Lugar();
+				lugar.setCIHecho(Id);
+				model.addAttribute("lugar", lugar);
+				model.addAttribute("paises", paisesService.getAllPaises());
+				model.addAttribute("hechos", hechoService.getAllHechos());
+				model.addAttribute("tiposLugares", tipoLugarService.getAllTipoLugares());
 				return "lugares/create_lugares";
 			} else {
 				return "SinAcceso";
@@ -222,6 +353,7 @@ public class LugarController {
 		} catch (Exception e) {
 			return "SinAcceso";
 		}
+
 	}
 
 }
