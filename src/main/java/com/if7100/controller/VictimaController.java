@@ -3,14 +3,16 @@
  */
 package com.if7100.controller;
 
-import com.if7100.entity.Bitacora; 
-import com.if7100.entity.Usuario;
+import com.if7100.entity.*;
 import com.if7100.service.BitacoraService;
 import com.if7100.service.IdentidadGeneroService;
 import com.if7100.service.NivelEducativoService;
 import com.if7100.service.OrganismoService;
 import com.if7100.service.OrientacionSexualService;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -29,14 +31,10 @@ import com.if7100.service.PerfilService;
 
 
 import com.if7100.service.VictimaService;
-import com.if7100.entity.Hecho;
-import com.if7100.entity.IdentidadGenero;
-import com.if7100.entity.NivelEducativo;
-import com.if7100.entity.Organismo;
-import com.if7100.entity.OrientacionSexual;
-import com.if7100.entity.Perfil;
-import com.if7100.entity.Victima;
 import com.if7100.repository.UsuarioRepository;
+
+import java.util.List;
+import java.util.stream.IntStream;
 
 @Controller
 public class VictimaController {
@@ -95,16 +93,48 @@ public class VictimaController {
 		}catch (Exception e) {
 			// TODO: handle exception
 		}
-		
 	}
 
-	@GetMapping("/victima")
-	public String listStudents(Model model) {
-		model.addAttribute("victima", victimaService.getAllVictima());
+	private Pageable initPages(int pg, int paginasDeseadas, int numeroTotalElementos){
+		int numeroPagina = pg-1;
+		if (numeroTotalElementos < 10){
+			paginasDeseadas = 1;
+		}
+		if (numeroTotalElementos < 1){
+			numeroTotalElementos = 1;
+		}
+		int tamanoPagina = (int) Math.ceil(numeroTotalElementos / (double) paginasDeseadas);
+		return PageRequest.of(numeroPagina, tamanoPagina);
+	}
+
+	@GetMapping("/victimas")
+	public String listVictimas(Model model) {
+		return "redirect:/victima/1";
+	}
+
+	@GetMapping("/victima/{pg}")
+	public String listVictima(Model model, @PathVariable Integer pg){
+		if (pg < 1){
+			return "redirect:/victima/1";
+		}
+
+		int numeroTotalElementos = victimaService.getAllVictima().size();
+
+		Pageable pageable = initPages(pg, 5, numeroTotalElementos);
+
+		Page<Victima> victimaPage = victimaService.getAllVictimaPage(pageable);
+
+		List<Integer> nPaginas = IntStream.rangeClosed(1, victimaPage.getTotalPages())
+				.boxed()
+				.toList();
+
+		model.addAttribute("PaginaActual", pg);
+		model.addAttribute("nPaginas", nPaginas);
+		model.addAttribute("victimas", victimaPage.getContent());
 		return "victimas/victima";
 	}
 	
-	@GetMapping("/victima/new")
+	@GetMapping("/victimas/new")
 	public String createVictimaForm (Model model) {
 		
 		try {
@@ -132,14 +162,14 @@ public class VictimaController {
 	}
 	
 	
-	@PostMapping("/victima")
+	@PostMapping("/victimas")
 	public String saveVictima (@ModelAttribute("victima") Victima victima) {
 		
 		victimaService.saveVictima(victima);
-		return "redirect:/victima";
+		return "redirect:/victimas";
 	}
 	
-	@GetMapping("/victima/{Id}")
+	@GetMapping("/victimas/{Id}")
 	public String deleteVictima (@PathVariable Integer Id) {
 		
 		try {
@@ -153,7 +183,7 @@ public class VictimaController {
 				victimaService.deleteVictimaById(Id);
 				bitacoraService.saveBitacora(new Bitacora(this.usuario.getCI_Id(),
 						this.usuario.getCVNombre(),this.perfil.getCVRol(),"Eliminó en Victima"));
-				return "redirect:/victima";
+				return "redirect:/victimas";
 			}else {
 				return "SinAcceso";
 			}
@@ -164,7 +194,7 @@ public class VictimaController {
 	}
 	
 	
-	@GetMapping("/victima/edit/{id}")
+	@GetMapping("/victimas/edit/{id}")
 	public String editVictimaForm (@PathVariable Integer id, Model model) {
 		
 		try {
@@ -187,7 +217,7 @@ public class VictimaController {
 	}
 	
 	
-	@PostMapping("/victima/{id}")
+	@PostMapping("/victimas/{id}")
 	public String updateVictima (@PathVariable Integer id, 
 								 @ModelAttribute("victima") Victima victima,
 								 Model model) {
@@ -220,7 +250,7 @@ public class VictimaController {
 		bitacoraService.saveBitacora(new Bitacora(this.usuario.getCI_Id(),
 				 this.usuario.getCVNombre(),this.perfil.getCVRol(),"Actualizó en Victima"));
 		 
-		return "redirect:/victima";
+		return "redirect:/victimas";
 		
 	}
 	

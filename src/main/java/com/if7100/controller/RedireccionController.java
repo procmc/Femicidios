@@ -30,7 +30,7 @@ public class RedireccionController {
                 return "redirect:/bitacoras";
             }
             case "victima" -> {
-                return "redirect:/victima";
+                return "redirect:/victimas";
             }
             case "perfiles" -> {
                 return "redirect:/perfiles";

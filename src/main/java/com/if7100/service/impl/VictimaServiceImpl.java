@@ -5,6 +5,8 @@ package com.if7100.service.impl;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.if7100.entity.Victima;
@@ -32,7 +34,12 @@ public class VictimaServiceImpl implements VictimaService{
 	public List<Victima> getAllVictima(){
 		return victimaRepository.findAll(); 
 	}
-	
+
+	@Override
+	public Page<Victima> getAllVictimaPage(Pageable pageable){
+		return victimaRepository.findAll(pageable);
+	}
+
 	@Override
 	public Victima saveVictima(Victima victima){
 		return victimaRepository.save(victima); 
