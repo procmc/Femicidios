@@ -1,6 +1,9 @@
 package com.if7100.service.impl;
 
 import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import com.if7100.entity.Organismo;
 import com.if7100.repository.OrganismoRepository;
@@ -23,6 +26,10 @@ public class OrganismoServiceImpl implements OrganismoService {
 		return organismoRepository.findAll();
 	}
 
+	@Override
+	public Page<Organismo> getAllOrganismosPage(Pageable pageable){
+		return organismoRepository.findAll(pageable);
+	}
 
 	@Override
 	public Organismo saveOrganismo(Organismo organismo) {

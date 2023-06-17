@@ -5,7 +5,12 @@ import com.if7100.entity.Usuario;
 import com.if7100.service.BitacoraService;
 
 import java.util.Iterator;
+import java.util.List;
+import java.util.stream.IntStream;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -67,11 +72,45 @@ OrganismoService organismoService, TipoOrganismoService tipoOrganismoService, Pe
 		}
 		
 	}
+
+	private Pageable initPages(int pg, int paginasDeseadas, int numeroTotalElementos){
+		int numeroPagina = pg-1;
+		if (numeroTotalElementos < 10){
+			paginasDeseadas = 1;
+		}
+		if (numeroTotalElementos < 1){
+			numeroTotalElementos = 1;
+		}
+		int tamanoPagina = (int) Math.ceil(numeroTotalElementos / (double) paginasDeseadas);
+		return PageRequest.of(numeroPagina, tamanoPagina);
+	}
  
  @GetMapping("/organismos")
  public String listOrganismos(Model model) {
 	 
-	 model.addAttribute("organismo",organismoService.getAllOrganismos());
+	 return "redirect:/organismo/1";
+ }
+
+ @GetMapping("/organismo/{pg}")
+ public String listOrganismo(Model model, @PathVariable Integer pg){
+
+	 if (pg < 1){
+		 return "redirect:/organismo/1";
+	 }
+
+	 int numeroTotalElementos = organismoService.getAllOrganismos().size();
+
+	 Pageable pageable = initPages(pg, 5, numeroTotalElementos);
+
+	 Page<Organismo> organismoPage = organismoService.getAllOrganismosPage(pageable);
+
+	 List<Integer> nPaginas = IntStream.rangeClosed(1, organismoPage.getTotalPages())
+			 .boxed()
+			 .toList();
+
+	 model.addAttribute("PaginaActual", pg);
+	 model.addAttribute("nPaginas", nPaginas);
+	 model.addAttribute("organismos", organismoPage.getContent());
 	 return "organismos/organismos";
  }
  
