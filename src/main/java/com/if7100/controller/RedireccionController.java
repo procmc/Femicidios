@@ -32,6 +32,9 @@ public class RedireccionController {
             case "victima" -> {
                 return "redirect:/victimas";
             }
+            case "dependientes" -> {
+                return "redirect:/dependientes";
+            }
             case "perfiles" -> {
                 return "redirect:/perfiles";
             }
@@ -76,6 +79,7 @@ public class RedireccionController {
             case "tipoOrganismo" -> {
                 return "redirect:/tipoOrganismo";
             }
+          
             default -> {
                 return "redirect:/error";
             }

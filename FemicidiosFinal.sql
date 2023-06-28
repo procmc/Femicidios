@@ -1,5 +1,4 @@
 use femicidios;
-
 /* CAMPOS CODIFICADOS */
 
 /*
@@ -798,5 +797,17 @@ values (203450876, 'Albertina', 'Chill', 'Pepper', 30, 1, 'Cartago', 1, 'Costarr
        (203450877, 'Albertino', 'Chill', 'Pepper', 30, 2, 'Cartago', 2, 'Costarricense', 2, 'Cruz Rojista',
         'Limon centro', 'Limon', 'Ninguna', 'Todo bien', 'Mestizo', 'Ninguna', 'Ninguna', 0, 'Nada');
         
+
+        DROP TABLE IF EXISTS TA_Dependiente;
+CREATE TABLE TA_Dependiente
+(
+    CI_Codigo        int         NOT NULL AUTO_INCREMENT,
+    CV_Dni    VARCHAR(50)  NOT NULL,
+    CI_Tiporelacion   int DEFAULT NULL,
+    
+  
+    PRIMARY KEY (CI_Codigo),
+  
+);
 
 
