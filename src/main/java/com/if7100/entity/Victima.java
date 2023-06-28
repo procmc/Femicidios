@@ -20,7 +20,7 @@ public class Victima {
 	private int CI_Id;
 
 	@Column(name="CV_Dni", nullable =false)
-	private int CVDNI;
+	private String CVDNI;
 	
 	@Column(name="CV_Nombre", nullable =false)
 	private String CVNombre ;
@@ -84,7 +84,7 @@ public class Victima {
 	}
 
 
-	public Victima(int cVDNI, String cVNombre, String cVApellidoPaterno, String cVApellidoMaterno,
+	public Victima(String cVDNI, String cVNombre, String cVApellidoPaterno, String cVApellidoMaterno,
 			int cIEdad, int cVGenero, String cVLugarNac, int cVOrientaSex, String CVNacionalidad, 
 			int CIEducacion, String CVOcupacion, String CVDomicilio, String CVLugarResidencia, 
 			String CVDiscapacidad, String CVCondicionMigratoria, String CVEtnia, String CVMedidasProteccion, 
@@ -127,7 +127,7 @@ public class Victima {
 	}
 
 
-	public int getCVDNI() {
+	public String getCVDNI() {
 		return CVDNI;
 	}
 
