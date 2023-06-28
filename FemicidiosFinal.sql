@@ -765,7 +765,7 @@ CREATE TABLE femicidios.TA_Victima
 (
 
     CI_Id                   INT          NOT NULL AUTO_INCREMENT,
-    CV_Dni                  INT          NOT NULL,
+    CV_Dni                  VARCHAR(50)  NOT NULL,
     CV_Nombre               VARCHAR(50)  NOT NULL,
     CV_Apellidopaterno      VARCHAR(50)  NOT NULL,
     CV_Apellidomaterno      VARCHAR(50)  NOT NULL,
