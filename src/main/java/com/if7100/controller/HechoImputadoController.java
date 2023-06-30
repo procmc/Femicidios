@@ -211,7 +211,7 @@ public class HechoImputadoController {
 			this.validarPerfil();
 			if(!this.perfil.getCVRol().equals("Consulta")) {
                 hechoImputadoService.deleteHechoImputadoById(id);
-				String descripcion = "Elimino en hechoImputado";
+				String descripcion = "Elimino en hechoImputado: " + id;
                 Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
                 bitacoraService.saveBitacora(bitacora);
 		        return "redirect:/hechoimputado";
@@ -231,7 +231,7 @@ public class HechoImputadoController {
             this.validarPerfil();
             if(!this.perfil.getCVRol().equals("Consulta")) {
                 hechoImputadoService.deleteHechoImputadoById(id);
-                String descripcion = "Elimino en hechoImputado";
+                String descripcion = "Elimino en hechoImputado: " + id;
                 Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
                 bitacoraService.saveBitacora(bitacora);
                 return "redirect:/hechosimputado/".concat(String.valueOf(idhecho));
@@ -251,7 +251,7 @@ public class HechoImputadoController {
             this.validarPerfil();
             if(!this.perfil.getCVRol().equals("Consulta")) {
                 hechoImputadoService.deleteHechoImputadoById(id);
-                String descripcion = "Elimino en hechoImputado";
+                String descripcion = "Elimino en hechoImputado: " + id;
                 Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
                 bitacoraService.saveBitacora(bitacora);
                 return "redirect:/hechoimputados/".concat(String.valueOf(idhecho));
@@ -268,7 +268,7 @@ public class HechoImputadoController {
     public String saveHechosImputado(@ModelAttribute("hechoImputado") HechoImputado hechoImputado, Model model){
         try {
             hechoImputadoService.saveHechoImputado(hechoImputado);
-            String descripcion="Creo en Hechos Imputado";
+            String descripcion="Creo en Hechos Imputado: " + hechoImputado.getCI_Id();
             Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
             bitacoraService.saveBitacora(bitacora);
             return "redirect:/hechosimputado/" + hechoImputado.getCIHecho();
@@ -284,7 +284,7 @@ public class HechoImputadoController {
     public String saveHechoImputados(@ModelAttribute("hechoImputado") HechoImputado hechoImputado, Model model){
         try {
             hechoImputadoService.saveHechoImputado(hechoImputado);
-            String descripcion="Creo en Hechos Imputado";
+            String descripcion="Creo en Hechos Imputado: " + hechoImputado.getCI_Id();
             Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
             bitacoraService.saveBitacora(bitacora);
             return "redirect:/hechoimputados/" + hechoImputado.getCIImputado();
@@ -320,11 +320,12 @@ public class HechoImputadoController {
     public String updateHechoImputado(@PathVariable Integer id, @ModelAttribute("hechoimputado") HechoImputado hechoImputado, Model model){
         try {
             HechoImputado existingHechoImputado = hechoImputadoService.getHechoImputadoById(id);
+            String descripcion="Editó en Hechos Imputado, de: " + existingHechoImputado.getCI_Id() + " | a: " + id;
             existingHechoImputado.setCI_Id(id);
             existingHechoImputado.setCIHecho(hechoImputado.getCIHecho());
             existingHechoImputado.setCIImputado(hechoImputado.getCIImputado());
             hechoImputadoService.updateHechoImputado(existingHechoImputado);
-            String descripcion="Editó en Hechos Imputado";
+
             Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
             bitacoraService.saveBitacora(bitacora);
             return "redirect:/hechoimputado";

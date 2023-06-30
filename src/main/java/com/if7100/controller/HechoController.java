@@ -171,7 +171,7 @@ public class HechoController {
     public String saveHecho(@ModelAttribute("hecho") Hecho hecho, Model model){
         try {
             hechoService.saveHecho(hecho);
-        	String descripcion="Creo en Hechos";
+        	String descripcion="Creo en Hechos: " + hecho.getCI_Id();
             Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
             bitacoraService.saveBitacora(bitacora);
             return "redirect:/hechos";
@@ -192,7 +192,7 @@ public class HechoController {
 				
 				try {
                     hechoService.deleteHechoById(id);
-					String descripcion="Elimino en Hechos";
+					String descripcion="Elimino en Hechos: " + id;
                     Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
                     bitacoraService.saveBitacora(bitacora);
 		        } catch (DataIntegrityViolationException e) {
@@ -235,6 +235,7 @@ public class HechoController {
     public String updateHecho(@PathVariable Integer id, @ModelAttribute("hecho") Hecho hecho, Model model){
         try {
             Hecho existingHecho = hechoService.getHechoById(id);
+            String descripcion="Actualizo en Hechos, de: " + existingHecho.getCI_Id() + " | a: " + id;
             existingHecho.setCI_Id(id);
             existingHecho.setCIPais(hecho.getCIPais());
             existingHecho.setCITipoVictima(hecho.getCITipoVictima());
@@ -247,8 +248,9 @@ public class HechoController {
             existingHecho.setCVDenunciaPrevia(hecho.getCVDenunciaPrevia());
             existingHecho.setCDFecha(hecho.getCDFecha());
             existingHecho.setCVDetalles(hecho.getCVDetalles());
+
             hechoService.updateHecho(existingHecho);
-            String descripcion="Actualizo en Hechos";
+
             Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
             bitacoraService.saveBitacora(bitacora);
             return "redirect:/hechos";
