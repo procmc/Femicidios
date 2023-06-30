@@ -132,7 +132,7 @@ public class Victima {
 	}
 
 
-	public void setCVDNI(int cVDNI) {
+	public void setCVDNI(String cVDNI) {
 		CVDNI = cVDNI;
 	}
 
