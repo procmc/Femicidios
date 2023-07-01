@@ -212,7 +212,7 @@ HechoOrganismoService hechoOrganismoService, HechoService hechoService, Organism
             this.validarPerfil();
             if(!this.perfil.getCVRol().equals("Consulta")) {
                 hechoOrganismoService.deleteHechoOrganismoById(id);
-                String descripcion = "Elimino en hechoOrganismo";
+                String descripcion = "Elimino en hechoOrganismo: " + id;
                 Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
                 bitacoraService.saveBitacora(bitacora);
                 return "redirect:/hechoorganismo";
@@ -232,7 +232,7 @@ HechoOrganismoService hechoOrganismoService, HechoService hechoService, Organism
             this.validarPerfil();
             if(!this.perfil.getCVRol().equals("Consulta")) {
                 hechoOrganismoService.deleteHechoOrganismoById(id);
-                String descripcion = "Elimino en hechoOrganismo";
+                String descripcion = "Elimino en hechoOrganismo: " + id;
                 Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
                 bitacoraService.saveBitacora(bitacora);
                 return "redirect:/hechosorganismo/".concat(String.valueOf(idhecho));
@@ -252,7 +252,7 @@ HechoOrganismoService hechoOrganismoService, HechoService hechoService, Organism
             this.validarPerfil();
             if(!this.perfil.getCVRol().equals("Consulta")) {
                 hechoOrganismoService.deleteHechoOrganismoById(id);
-                String descripcion = "Elimino en hechoOrganismo";
+                String descripcion = "Elimino en hechoOrganismo: " + id;
                 Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
                 bitacoraService.saveBitacora(bitacora);
                 return "redirect:/hechoorganismos/".concat(String.valueOf(idhecho));
@@ -269,7 +269,7 @@ HechoOrganismoService hechoOrganismoService, HechoService hechoService, Organism
     public String saveHechosOrganismo(@ModelAttribute("hechoOrganismo") HechoOrganismo hechoOrganismo, Model model){
         try {
             hechoOrganismoService.saveHechoOrganismo(hechoOrganismo);
-            String descripcion = "Creo en hecho de organismo";
+            String descripcion = "Creo en hecho de organismo: " + hechoOrganismo.getCI_Id();
             Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
             bitacoraService.saveBitacora(bitacora);
             return "redirect:/hechosorganismo/" + hechoOrganismo.getCIHecho();
@@ -285,7 +285,7 @@ HechoOrganismoService hechoOrganismoService, HechoService hechoService, Organism
     public String saveHechoOrganismos(@ModelAttribute("hechoOrganismo") HechoOrganismo hechoOrganismo, Model model){
         try {
             hechoOrganismoService.saveHechoOrganismo(hechoOrganismo);
-            String descripcion = "Creo en hecho de organismo";
+            String descripcion = "Creo en hecho de organismo: " + hechoOrganismo.getCI_Id();
             Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
             bitacoraService.saveBitacora(bitacora);
             return "redirect:/hechoorganismos/" + hechoOrganismo.getCIOrganismo();
@@ -321,11 +321,12 @@ HechoOrganismoService hechoOrganismoService, HechoService hechoService, Organism
     public String updateHechoOrganismo(@PathVariable Integer id, @ModelAttribute("hechoorganismo") HechoOrganismo hechoOrganismo, Model model){
         try {
             HechoOrganismo existingHechoOrganismo = hechoOrganismoService.getHechoOrganismoById(id);
+            String descripcion = "Actualizo en hecho de organismo, de: " + existingHechoOrganismo.getCI_Id() + " | a: " + id;
             existingHechoOrganismo.setCI_Id(id);
             existingHechoOrganismo.setCIHecho(hechoOrganismo.getCIHecho());
             existingHechoOrganismo.setCIOrganismo(hechoOrganismo.getCIOrganismo());
             hechoOrganismoService.updateHechoOrganismo(existingHechoOrganismo);
-            String descripcion = "Actualizo en hecho de organismo";
+
             Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
             bitacoraService.saveBitacora(bitacora);
             return "redirect:/hechoorganismo";
