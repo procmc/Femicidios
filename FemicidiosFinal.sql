@@ -810,14 +810,4 @@ CREATE TABLE TA_Dependiente
   
 );
 
-DROP TABLE IF EXISTS Ta_TipoRelacionFamiliar;
-Create Table Ta_TipoRelacionFamiliar
-(
-    CI_Codigo        int         NOT NULL AUTO_INCREMENT,
-    CV_Titulo    VARCHAR(50)  NOT NULL,
-    CV_Descripcion   VARCHAR(255) DEFAULT NULL,
-    
-    PRIMARY KEY (CI_Codigo)
-  
-);
 
