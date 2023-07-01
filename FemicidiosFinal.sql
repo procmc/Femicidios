@@ -820,4 +820,13 @@ Create Table Ta_TipoRelacionFamiliar
     PRIMARY KEY (CI_Codigo)
   
 );
-
+ insert into ta_tiporelacionfamiliar(CI_Codigo,CV_Titulo,CV_Descripcion) values(10,"Hermanos y hermanas","Tipo de relación que posee");
+insert into ta_tiporelacionfamiliar (CV_Titulo,CV_Descripcion) values("Abuelos y nietos.","Tipo de relación que posee");
+insert into ta_tiporelacionfamiliar (CV_Titulo,CV_Descripcion)  values("Tíos y sobrinos.","Tipo de relación que posee");
+insert into ta_tiporelacionfamiliar (CV_Titulo,CV_Descripcion)  values("Cónyuge/esposo(a) y
+esposa(o).","Tipo de relación que posee");
+insert into ta_tiporelacionfamiliar (CV_Titulo,CV_Descripcion)  values("Cuñados y cuñadas.","Tipo de relación que posee");
+insert into ta_tiporelacionfamiliar  (CV_Titulo,CV_Descripcion)  values("Sobrinos nietos.","Tipo de relación que posee");
+insert into ta_tiporelacionfamiliar  (CV_Titulo,CV_Descripcion)  values("Bisabuelos y bisnietos.","Tipo de relación que posee");
+insert into ta_tiporelacionfamiliar  (CV_Titulo,CV_Descripcion)  values("Conocido","Tipo de relación que posee");
+insert into ta_tiporelacionfamiliar  (CV_Titulo,CV_Descripcion)  values("Amigo","Tipo de relación que posee");
