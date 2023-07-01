@@ -90,6 +90,18 @@ public class DependienteController {
 		int tamanoPagina = (int) Math.ceil(numeroTotalElementos / (double) paginasDeseadas);
 		return PageRequest.of(numeroPagina, tamanoPagina);
 	}
+	
+	
+	
+	  private void modelAttributes(Model model) {
+	    
+	        model.addAttribute("tipoRelacion", tipoRelacionService.getAllTipoRelaciones());
+	    
+	    }
+
+	
+	
+	
 
 	@GetMapping("/dependientes")
 	public String listdependientes(Model model) {
@@ -115,6 +127,7 @@ public class DependienteController {
 		model.addAttribute("PaginaActual", pg);
 		model.addAttribute("nPaginas", nPaginas);
 		model.addAttribute("dependiente", dependientePage.getContent());
+		  model.addAttribute("tipoRelaciones", dependienteService.getAllTipoRelacionesPage(pageable));
 		return "dependientes/dependiente";
 	}
 	
@@ -130,7 +143,7 @@ public class DependienteController {
 				//model.addAttribute("orientacionSexual",orientacionSexualService.getAllOrientacionesSexuales());
 			
 				model.addAttribute("dependiente", dependiente);
-				
+				 modelAttributes(model);
 				bitacoraService.saveBitacora(new Bitacora(this.usuario.getCI_Id(),
 						this.usuario.getCVNombre(),this.perfil.getCVRol(),"Crea en Dependiente"));
 				return "dependientes/create_dependiente";
@@ -186,6 +199,8 @@ public class DependienteController {
 			//	model.addAttribute("orientacionSexual",orientacionSexualService.getAllOrientacionesSexuales());
 			
 				model.addAttribute("dependiente", dependienteService.getDependienteById(id));
+				
+				 modelAttributes(model);
 				return "dependientes/edit_dependiente";
 			}else {
 				return "SinAcceso";

@@ -810,6 +810,10 @@ CREATE TABLE TA_Dependiente
   
 );
 
+insert into ta_dependiente(CV_Dni, CI_Tiporelacion)
+values (504510111,2),(601230321,3),(104510111,2),(401230321,3),(201110111,2),(501270351,3)
+;
+
 DROP TABLE IF EXISTS Ta_TipoRelacionFamiliar;
 Create Table Ta_TipoRelacionFamiliar
 (
