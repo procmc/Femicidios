@@ -1,0 +1,16 @@
+-------------------------------------------------------------------------------
+Test set: com.if7100.controller.TipoRelacionControllerTest
+-------------------------------------------------------------------------------
+Tests run: 4, Failures: 0, Errors: 3, Skipped: 0, Time elapsed: 0.036 s <<< FAILURE! - in com.if7100.controller.TipoRelacionControllerTest
+testDos  Time elapsed: 0.008 s  <<< ERROR!
+java.lang.NullPointerException: Cannot invoke "com.if7100.entity.TipoRelacion.getCVTitulo()" because "this.tipoRelacionConsultada" is null
+	at com.if7100.controller.TipoRelacionControllerTest.testDos(TipoRelacionControllerTest.java:37)
+
+testTres  Time elapsed: 0.01 s  <<< ERROR!
+java.lang.NullPointerException: Cannot invoke "com.if7100.entity.TipoRelacion.setCVDescripcion(String)" because "this.tipoRelacionConsultada" is null
+	at com.if7100.controller.TipoRelacionControllerTest.testTres(TipoRelacionControllerTest.java:45)
+
+testCuatro  Time elapsed: 0.003 s  <<< ERROR!
+java.lang.NullPointerException: Cannot invoke "com.if7100.entity.TipoRelacion.getCI_Codigo()" because "this.tipoRelacionConsultada" is null
+	at com.if7100.controller.TipoRelacionControllerTest.testCuatro(TipoRelacionControllerTest.java:53)
+

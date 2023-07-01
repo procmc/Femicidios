@@ -11,7 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.if7100.entity.Dependiente;
-import com.if7100.entity.Hecho;
+
 import com.if7100.entity.TipoRelacion;
 import com.if7100.repository.DependienteRepository;
 import com.if7100.repository.TipoRelacionRepository;

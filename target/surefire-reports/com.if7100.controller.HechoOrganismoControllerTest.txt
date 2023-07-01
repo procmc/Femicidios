@@ -1,0 +1,12 @@
+-------------------------------------------------------------------------------
+Test set: com.if7100.controller.HechoOrganismoControllerTest
+-------------------------------------------------------------------------------
+Tests run: 4, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.054 s <<< FAILURE! - in com.if7100.controller.HechoOrganismoControllerTest
+testDos  Time elapsed: 0.022 s  <<< ERROR!
+org.springframework.dao.DataIntegrityViolationException: could not execute statement; SQL [n/a]; constraint [ta_hechos_organismos.unique_hechos_organismos]
+	at com.if7100.controller.HechoOrganismoControllerTest.testDos(HechoOrganismoControllerTest.java:31)
+Caused by: org.hibernate.exception.ConstraintViolationException: could not execute statement
+	at com.if7100.controller.HechoOrganismoControllerTest.testDos(HechoOrganismoControllerTest.java:31)
+Caused by: java.sql.SQLIntegrityConstraintViolationException: Duplicate entry '1-1' for key 'ta_hechos_organismos.unique_hechos_organismos'
+	at com.if7100.controller.HechoOrganismoControllerTest.testDos(HechoOrganismoControllerTest.java:31)
+
