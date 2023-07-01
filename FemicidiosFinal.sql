@@ -806,7 +806,7 @@ CREATE TABLE TA_Dependiente
     CI_Tiporelacion   int DEFAULT NULL,
     
   
-    PRIMARY KEY (CI_Codigo),
+    PRIMARY KEY (CI_Codigo)
   
 );
 
