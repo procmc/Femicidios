@@ -24,7 +24,6 @@ public interface ProcesoJudicialService {
  
  void deleteProcesoJudicialById(int CI_Id);
  
- ProcesoJudicial getProcesoJudicialByCIDenunciante(int CI_Denunciante);
 
  Page<ProcesoJudicial> getAllProcesosJudicialesPage(Pageable pageable);
 }
