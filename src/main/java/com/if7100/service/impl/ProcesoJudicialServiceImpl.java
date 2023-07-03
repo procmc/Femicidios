@@ -58,15 +58,5 @@ public class ProcesoJudicialServiceImpl implements ProcesoJudicialService {
 		procesoJudicialRepository.deleteById(id);
 	}
 	
-	public ProcesoJudicial getProcesoJudicialByCI_Denunciante(int CI_Denunciante) {
-		// TODO Auto-generated method stub
-		return procesoJudicialRepository.findByCIDenunciante(CI_Denunciante);
-	}
 
-
-	@Override
-	public ProcesoJudicial getProcesoJudicialByCIDenunciante(int CI_Denunciante) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }
