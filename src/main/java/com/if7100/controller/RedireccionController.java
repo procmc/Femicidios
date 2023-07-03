@@ -73,6 +73,9 @@ public class RedireccionController {
             case "tipoRelacion" -> {
                 return "redirect:/tiporelaciones";
             }
+            case "tipoRelacionFamiliar" -> {
+                return "redirect:/tiporelacionfamiliar";
+            }
             case "tipoVictima" -> {
                 return "redirect:/tipovictimas";
             }

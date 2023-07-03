@@ -10,7 +10,7 @@ public class InicioController {
 
     @GetMapping("/inicio")
     public String index(Model model){
-        return "index";
+        return "redirect:/";
     }
 
 
