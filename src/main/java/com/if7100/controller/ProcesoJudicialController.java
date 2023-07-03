@@ -184,11 +184,9 @@ private Usuario usuario;
 	 ProcesoJudicial existingProcesoJudicial=procesoJudicialService.getProcesoJudicialById(id);
 	 existingProcesoJudicial.setCI_Id(id);
 	 existingProcesoJudicial.setCVEstado(procesoJudicial.getCVEstado());
-	 existingProcesoJudicial.setCIDenunciante(procesoJudicial.getCIDenunciante());
 	 //existingProcesoJudicial.setCDFechaApertura(procesoJudicial.getCDFechaApertura());
 	 existingProcesoJudicial.setCIPersonasImputadas(procesoJudicial.getCIPersonasImputadas());
 	 existingProcesoJudicial.setCVAgravantes(procesoJudicial.getCVAgravantes());
-	 existingProcesoJudicial.setCVPartes(procesoJudicial.getCVPartes());
 	 existingProcesoJudicial.setCVTipoDelito(procesoJudicial.getCVTipoDelito());
 	 
 	 procesoJudicialService.updateProcesoJudicial(existingProcesoJudicial);
