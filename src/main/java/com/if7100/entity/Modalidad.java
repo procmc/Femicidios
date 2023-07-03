@@ -21,14 +21,18 @@ public class Modalidad {
 
     @Column(name = "CV_Descripcion", nullable = false)
     private String CVDescripcion;
+    
+    @Column(name = "CV_Pais", nullable = false)
+    private String CVPais;
 
     public Modalidad() {
     }
 
-    public Modalidad(Integer CI_Codigo, String CVTitulo, String CVDescripcion) {
+    public Modalidad(Integer CI_Codigo, String CVTitulo, String CVDescripcion, String CV_Pais) {
         this.CI_Codigo = CI_Codigo;
         this.CVTitulo = CVTitulo;
         this.CVDescripcion = CVDescripcion;
+        this.CVPais= CVPais;
     }
 
     public Integer getCI_Codigo() {
@@ -54,4 +58,13 @@ public class Modalidad {
     public void setCVDescripcion(String CV_Descripcion) {
         this.CVDescripcion = CV_Descripcion;
     }
+
+	public String getCVPais() {
+		return CVPais;
+	}
+
+	public void setCVPais(String cVPais) {
+		CVPais = cVPais;
+	}
+    
 }

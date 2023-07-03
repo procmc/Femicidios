@@ -19,8 +19,9 @@ public class ModalidadControllerTest {
     private String titulo = "Golpes";
 
     private String descripcion = "Asesinada por golpes";
+    private String pais = "Costa Rica";
 
-    private Modalidad modalidad = new Modalidad(2, "Disparo de bala", "Asesinada por disparo de bala");
+    private Modalidad modalidad = new Modalidad(2, "Disparo de bala", "Asesinada por disparo de bala","Costa Rica");
 
     private  Modalidad modalidadConsultada = new Modalidad();
 

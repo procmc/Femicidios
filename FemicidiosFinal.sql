@@ -348,21 +348,22 @@ CREATE TABLE `ta_modalidades`
     `CI_Codigo`      int         NOT NULL AUTO_INCREMENT,
     `CV_Titulo`      varchar(50) NOT NULL,
     `CV_Descripcion` varchar(50) NOT NULL,
+    `CV_Pais` varchar(50) NOT NULL,
     PRIMARY KEY (`CI_Codigo`)
 );
 
 INSERT INTO `ta_modalidades`
-VALUES (1, 'Golpes', 'Asesinada por golpes'),
-       (2, 'Disparo de bala', 'Asesinada por disparo de bala'),
-       (3, 'Apuñalamiento', 'Asesinada por apuñalamiento'),
-       (4, 'Quemaduras', 'Asesinada por quemaduras'),
-       (5, 'Asfixia', 'Asesinada por asfixia.'),
-       (6, 'Ahogamiento', 'Asesinada por ahogamiento'),
-       (7, 'Ataladramiento', 'Asesinada por ataladramiento'),
-       (8, 'Atropellamiento', 'Asesinada por atropellamiento'),
-       (9, 'Estrangulamiento', 'Asesinada por estrangulamiento'),
-       (10, 'Otros medios', 'Asesinada por otros medios'),
-       (11, 'Se Desconoce', 'Se desconoce la modalidad');
+VALUES (1, 'Golpes', 'Asesinada por golpes','Costa Rica'),
+       (2, 'Disparo de bala', 'Asesinada por disparo de bala','Costa Rica'),
+       (3, 'Apuñalamiento', 'Asesinada por apuñalamiento','Costa Rica'),
+       (4, 'Quemaduras', 'Asesinada por quemaduras','Costa Rica'),
+       (5, 'Asfixia', 'Asesinada por asfixia.','Costa Rica'),
+       (6, 'Ahogamiento', 'Asesinada por ahogamiento','Costa Rica'),
+       (7, 'Ataladramiento', 'Asesinada por ataladramiento','Costa Rica'),
+       (8, 'Atropellamiento', 'Asesinada por atropellamiento','Costa Rica'),
+       (9, 'Estrangulamiento', 'Asesinada por estrangulamiento','Costa Rica'),
+       (10, 'Otros medios', 'Asesinada por otros medios','Costa Rica'),
+       (11, 'Se Desconoce', 'Se desconoce la modalidad','Costa Rica');
 
 /*
  Tabla NivelEducativo
