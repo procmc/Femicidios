@@ -28,14 +28,12 @@ public class ProcesoJudicial {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public ProcesoJudicial(int CI_Id, String CVEstado, int CIDenunciante, int CIPersonasImputadas, String CVAgravantes, String CVPartes, String CVTipoDelito) {
+	public ProcesoJudicial(int CI_Id, String CVEstado, int CIPersonasImputadas, String CVAgravantes, String CVTipoDelito) {
 		super();
 		this.CI_Id = CI_Id;
 		this.CVEstado=CVEstado;
-		this.CIDenunciante=CIDenunciante;
 		this.CIPersonasImputadas=CIPersonasImputadas;
 		this.CVAgravantes=CVAgravantes;
-		this.CVPartes=CVPartes;
 		this.CVTipoDelito=CVTipoDelito;
 	}
 	
@@ -46,9 +44,6 @@ public class ProcesoJudicial {
 	@Column(name="CV_Estado",nullable=false)
 	private String CVEstado;
 	
-	@Column(name="CI_Denunciante",nullable=false)
-	private int CIDenunciante;
-	
     @Temporal(TemporalType.TIMESTAMP)
 	@Column(name="CD_Fecha_Apertura")
 	private Date CDFechaApertura;
@@ -58,9 +53,6 @@ public class ProcesoJudicial {
 	
 	@Column(name="CV_Agravantes",nullable=false)
 	private String CVAgravantes;
-	
-	@Column(name="CV_Partes",nullable=false)
-	private String CVPartes;
 
 	@Column(name="CV_Tipo_Delito",nullable=false)
 	private String CVTipoDelito;
@@ -94,19 +86,6 @@ public class ProcesoJudicial {
 		CVEstado = cVEstado;
 	}
 
-	/**
-	 * @return the cIDenunciante
-	 */
-	public int getCIDenunciante() {
-		return CIDenunciante;
-	}
-
-	/**
-	 * @param cIDenunciante the cIDenunciante to set
-	 */
-	public void setCIDenunciante(int cIDenunciante) {
-		CIDenunciante = cIDenunciante;
-	}
 
 	/**
 	 * @return the cDFechaApertura
@@ -139,17 +118,7 @@ public class ProcesoJudicial {
 	/**
 	 * @return the cVPartes
 	 */
-	public String getCVPartes() {
-		return CVPartes;
-	}
 
-	/**
-	 * @param cVPartes the cVPartes to set
-	 */
-	public void setCVPartes(String cVPartes) {
-		CVPartes = cVPartes;
-	}
-	
 	public String getCVAgravantes() {
 		return CVAgravantes;
 	}
