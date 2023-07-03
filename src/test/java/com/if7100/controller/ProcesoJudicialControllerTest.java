@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 @SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class ProcesoJudicialControllerTest {
-	private ProcesoJudicial proceso = new ProcesoJudicial (1010, "Completado", 701230456, 1, "Agravante1", "Partes", "Homicidio");
+	private ProcesoJudicial proceso = new ProcesoJudicial (1010, "Completado", 1,"Agravante1","Homicidio");
 	
 	ProcesoJudicial consultado= new ProcesoJudicial();
 	
@@ -26,28 +26,23 @@ public class ProcesoJudicialControllerTest {
 		procesoJudicialRepository.save(proceso);
 	}
 	
-	@Test
-    public void testDos() throws Exception{
-        consultado=procesoJudicialRepository.findByCIDenunciante(701230456);
-        assertEquals(consultado.getCIDenunciante(), 701230456);
-        assertNotEquals(consultado.getCIDenunciante(), 110510384);
-    }
-	
-	@Test
-    public void testTres() throws Exception{
-        consultado=procesoJudicialRepository.findByCIDenunciante(701230456);
-        consultado.setCIDenunciante(701230456);
-        procesoJudicialRepository.save(consultado);
-        consultado=procesoJudicialRepository.findByCIDenunciante(701230456);
-        assertNotEquals(consultado.getCIDenunciante(),701230456);
-    }
-
-    @Test
-    public void testCuatro() throws Exception{
-        consultado = procesoJudicialRepository.findByCIDenunciante(701230456);
-        procesoJudicialRepository.delete(consultado);
-    }
-	
+	/*
+	 * @Test public void testDos() throws Exception{
+	 * consultado=procesoJudicialRepository.findByCIDenunciante(701230456);
+	 * assertEquals(consultado.getCIDenunciante(), 701230456);
+	 * assertNotEquals(consultado.getCIDenunciante(), 110510384); }
+	 * 
+	 * @Test public void testTres() throws Exception{
+	 * consultado=procesoJudicialRepository.findByCIDenunciante(701230456);
+	 * consultado.setCIDenunciante(701230456);
+	 * procesoJudicialRepository.save(consultado);
+	 * consultado=procesoJudicialRepository.findByCIDenunciante(701230456);
+	 * assertNotEquals(consultado.getCIDenunciante(),701230456); }
+	 * 
+	 * @Test public void testCuatro() throws Exception{ consultado =
+	 * procesoJudicialRepository.findByCIDenunciante(701230456);
+	 * procesoJudicialRepository.delete(consultado); }
+	 */
 	
 	
 
