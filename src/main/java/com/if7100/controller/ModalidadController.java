@@ -2,13 +2,17 @@ package com.if7100.controller;
 
 import com.if7100.entity.Bitacora;
 
+
 import com.if7100.entity.Usuario;
 import com.if7100.entity.Modalidad;
+import com.if7100.entity.Paises;
 import com.if7100.entity.Perfil;
+
 
 import com.if7100.repository.UsuarioRepository;
 import com.if7100.service.BitacoraService;
 import com.if7100.service.ModalidadService;
+import com.if7100.service.PaisesService;
 import com.if7100.service.PerfilService;
 
 import org.springframework.data.domain.Page;
@@ -34,16 +38,21 @@ public class ModalidadController {
     private UsuarioRepository usuarioRepository;
     private Perfil perfil;
     private PerfilService perfilService;
+    private PaisesService paisesService;
+   
     //instancias para control de bitacora
     private BitacoraService bitacoraService;
     private Usuario usuario;
-
-    public ModalidadController(ModalidadService modalidadService, PerfilService perfilService, UsuarioRepository usuarioRepository, BitacoraService bitacoraService) {
+    private Paises paises;
+    
+    public ModalidadController(ModalidadService modalidadService, PerfilService perfilService, UsuarioRepository usuarioRepository, 
+    		                  BitacoraService bitacoraService, PaisesService paisesService) {
         super();
         this.modalidadService = modalidadService;
         this.perfilService = perfilService;
         this.usuarioRepository = usuarioRepository;
         this.bitacoraService = bitacoraService;
+        this.paisesService = paisesService;
     }
     
 private void validarPerfil() {
@@ -116,6 +125,7 @@ private void validarPerfil() {
 				
 				Modalidad modalidad= new Modalidad();
 		        model.addAttribute("modalidad", modalidad);
+		        model.addAttribute("paises", paisesService.getAllPaises());
 		        return "modalidades/create_modalidad";
 			}else {
 				return "SinAcceso";
@@ -171,6 +181,7 @@ private void validarPerfil() {
 			if(!this.perfil.getCVRol().equals("Consulta")) {
 				
 				model.addAttribute("modalidad", modalidadService.getModalidadById(id));
+				model.addAttribute("paises", paisesService.getAllPaises());
 		        return "modalidades/edit_modalidad";
 			}else {
 				return "SinAcceso";
@@ -183,15 +194,17 @@ private void validarPerfil() {
     
 
     @PostMapping("/modalidades/{id}")
-    public String updateModalidad(@PathVariable Integer id, @ModelAttribute("modalidad") Modalidad modalidad){
+    public String updateModalidad(@PathVariable Integer id, @ModelAttribute("modalidad") Modalidad modalidad,Model model){
     	//INSERTAR EN BITACORA
     	 Modalidad existingModalidad = modalidadService.getModalidadById(id);
     	String descripcion="Actualizo en Modalidad, de: " + existingModalidad.getCI_Codigo() + " | a: " + id;
     			Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),this.perfil.getCVRol(),descripcion);
     			bitacoraService.saveBitacora(bitacora);
+        model.addAttribute("paises", paisesService.getAllPaises());
         existingModalidad.setCI_Codigo(id);
         existingModalidad.setCVTitulo(modalidad.getCVTitulo());
         existingModalidad.setCVDescripcion(modalidad.getCVDescripcion());
+        existingModalidad.setCVPais(modalidad.getCVPais());
         modalidadService.updateModalidad(existingModalidad);
         return "redirect:/modalidades";
     }
