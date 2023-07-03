@@ -57,7 +57,7 @@
                                                     id="name-3" class="form-select" required>
                             <optgroup label="Proceso Judicial">
                                 <option th:each="procesos: ${proceso}" th:value="${procesos.CI_Id}"
-                                        th:text="${procesos.CI_Id} + ' - ' + ${procesos.CIDenunciante}"></option>
+                                        th:text="${procesos.CI_Id} + ' - ' + ${procesos.CVEstado}"></option>
                             </optgroup>
                         </select></div>
                     </div>
