@@ -426,7 +426,7 @@ CREATE TABLE `ta_tiporelacion`
 (
     `CI_Codigo`      int         NOT NULL AUTO_INCREMENT,
     `CV_Titulo`      varchar(50) NOT NULL,
-    `CV_Descripcion` varchar(50) NOT NULL,
+    `CV_Descripcion` varchar(80) NOT NULL,
     PRIMARY KEY (`CI_Codigo`)
 );
 
@@ -448,7 +448,10 @@ VALUES (1, 'Padre', 'Victimario es padre de la víctima'),
        (15, 'Otro Transgresor', 'Otro transgresor conocido por la víctima.'),
        (16, 'Autoridad', 'Por autoridades oficiales'),
        (17, 'Desconocido/a', 'Victimario no es conocido/a por la víctima.'),
-       (18, 'Se desconoce', 'Se desconoce el tipo de relación.');
+       (18, 'Se desconoce', 'Se desconoce el tipo de relación.'),
+       (19, 'Ninguna', 'Victimario no tiene alguna relación con la víctima.');
+       
+
 
 
 /*
@@ -493,7 +496,9 @@ VALUES (1, 'Policial', 'Organismo policial incluyendo servicios de emergencia', 
        (7, 'Ministerio Publico Fiscal', ' ', 'Costa Rica'),
        (8, 'Ministerio de Justicia', 'Ministerio de Justicia', 'Costa Rica'),
        (9, 'Medicina', 'Medicina Legal o Forense', 'Costa Rica'),
-       (10, 'Secretaria de la Mujer', 'Ministerio o Secretaria de la Mujer', 'Costa Rica');
+       (10, 'Secretaria de la Mujer', 'Ministerio o Secretaria de la Mujer', 'Costa Rica'),
+       (11, 'Administrativo', ' ', 'Costa Rica');
+
 
 
 /* ENTIDADES */
@@ -736,23 +741,25 @@ VALUES (1, 1, 'Descripcion 1', 1, 'Direccion1', 'Ciudad1', 506,3030),
  Tabla ProcesoJudicial
  */
 
+
 DROP TABLE IF EXISTS `ta_procesojudicial`;
 CREATE TABLE `ta_procesojudicial`
 (
     `CI_Id`                 int         NOT NULL AUTO_INCREMENT,
     `CV_Estado`             varchar(50) NOT NULL,
-    `CI_Denunciante`        int         NOT NULL,
     `CD_Fecha_Apertura`     date        NOT NULL,
     `CI_Personas_Imputadas` int         NOT NULL,
     `CV_Agravantes`         varchar(50) DEFAULT NULL,
-    `CV_Partes`             varchar(20) NOT NULL,
     `CV_Tipo_Delito`        varchar(30) DEFAULT NULL,
     PRIMARY KEY (`CI_Id`)
 );
 
 INSERT INTO `ta_procesojudicial`
-VALUES (1, 'Completado', 101110111, '2023-06-02', 1, 'Agravante1', 'Partes', 'Homicidio'),
-       (2, 'No Completado', 202220222, '2023-06-02', 2, 'Agravante2', 'Partes2', 'Homicidio Injustificado');
+VALUES (1, 'Completado',  '2023-06-02', 1, 'Agravante1', 'Homicidio'),
+       (2, 'No Completado', '2023-06-02', 2, 'Agravante2',  'Homicidio Injustificado');
+
+
+
 
 /*
  Tabla Victima
