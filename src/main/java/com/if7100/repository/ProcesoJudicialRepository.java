@@ -10,5 +10,5 @@ import com.if7100.entity.ProcesoJudicial;
 
 @Repository
 public interface ProcesoJudicialRepository extends JpaRepository<ProcesoJudicial, Integer> {
-	ProcesoJudicial findByCIDenunciante(int CI_Denunciante);
+	//ProcesoJudicial findByCIDenunciante(int CI_Denunciante);
 }
