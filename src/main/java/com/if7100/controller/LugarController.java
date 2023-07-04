@@ -119,7 +119,7 @@ public class LugarController {
 			this.validarPerfil();
 			if (!this.perfil.getCVRol().equals("Consulta")) {
 				lugarService.deleteLugarById(id);
-				String descripcion = "Elimino un lugar";
+				String descripcion = "Elimino un lugar: "+ id;
 				Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
 				bitacoraService.saveBitacora(bitacora);
 				return "redirect:/hecholugar/".concat(String.valueOf(idLugar));
@@ -166,7 +166,7 @@ public class LugarController {
 			existingLugar.setCI_Pais(lugar.getCI_Pais());
 			existingLugar.setCI_Codigo_Postal(lugar.getCI_Codigo_Postal());
 			lugarService.updateLugar(existingLugar);
-			String descripcion="Actualizo en Lugares";
+			String descripcion="Actualizo en Lugares el id: "+ id;
             Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
             bitacoraService.saveBitacora(bitacora);
 			return "redirect:/lugares";
@@ -305,7 +305,7 @@ public class LugarController {
 	public String saveLugar (@ModelAttribute("lugar") Lugar lugar, Model model) {
 		try {
 			lugarService.saveLugar(lugar);
-			String descripcion="Creo en Lugar";
+			String descripcion="Creo en Lugar:" + lugar.getCI_Codigo();
 			Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
 			bitacoraService.saveBitacora(bitacora);
 			return "redirect:/lugares";
@@ -322,7 +322,7 @@ public class LugarController {
 	public String saveHechoLugar (@ModelAttribute("lugar") Lugar lugar, Model model) {
 		try {
 			lugarService.saveLugar(lugar);
-			String descripcion="Creo en HechoLugar";
+			String descripcion="Creo en HechoLugar: "+ lugar.getCI_Codigo();;
 			Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
 			bitacoraService.saveBitacora(bitacora);
 			return "redirect:/hecholugar/".concat(String.valueOf(lugar.getCIHecho()));
