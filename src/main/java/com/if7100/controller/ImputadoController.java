@@ -226,6 +226,7 @@ ImputadoService imputadoService, PerfilService perfilService, UsuarioRepository 
 	 existingImputado.setCVGenero(imputado.getCVGenero());
 	 existingImputado.setCVNombre(imputado.getCVNombre());
 	 existingImputado.setCVOrientacionSexual(imputado.getCVOrientacionSexual());
+	 existingImputado.setCVSexo(imputado.getCVSexo());
 	 existingImputado.setCVLugarNacimiento(imputado.getCVLugarNacimiento());
 	 existingImputado.setCIEdad(imputado.getCIEdad());
 	 existingImputado.setCVPais(imputado.getCVPais());
