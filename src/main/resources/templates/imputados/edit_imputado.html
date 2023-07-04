@@ -108,16 +108,20 @@
 					</div>
 					<div class="col">
 						<div class="mb-3 mx-3"><label class="form-label" for="name">Seleccione la orientacion sexual del
-							imputado</label><select th:name="orientacionSexual" th:field="*{CVOrientacionSexual}"
-													id="name-11" class="form-select" required>
+							imputado</label>
+							<select th:name="orientacionSexual" th:field="*{CVOrientacionSexual}"
+							id="name-11" class="form-select" required>
 							<optgroup label="Orientaciones Sexuales">
 								<option th:each="orientacionsexual: ${orientacionSexual}"
 										th:value="${orientacionsexual.CVTitulo}"
 										th:text="${orientacionsexual.CVTitulo}"></option>
 							</optgroup>
-						</select></div>
+						</select>
+						</div>
 					</div>
-				</div>
+						
+					</div>
+					
 				<div class="row align-items-end">
 					<div class="w-100"></div>
 					<div class="col">
@@ -216,11 +220,31 @@
 				</div>
 				<div class="row align-items-end">
 					<div class="w-100"></div>
+				<div class="col">
+							<div class="mb-3 mx-3">
+								<label class="form-label" for="name">Seleccione el Sexo
+									del imputado</label> <select th:name="sexo" th:field="*{CVSexo}"
+									id="name-11" class="form-select" required>
+									<optgroup label="Sexo">
+										<option value="F">Femenino</option>
+										<option value="M">Masculino</option>
+									</optgroup>
+								</select>
+							</div>
+						</div>
+						</div>
+						
+						
+						
+						
+				<div class="row align-items-end">
+					<div class="w-100"></div>
 					<div class="col">
 						<div class="d-flex justify-content-center mb-3 mx-3">
 							<button class="btn btn-primary" type="submit">Actualizar</button>
 						</div>
 					</div>
+					
 				</div>
 			</form>
 		</div>
