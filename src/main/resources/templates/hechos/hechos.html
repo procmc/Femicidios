@@ -39,11 +39,14 @@
                                     <th class="text-center">Victima</th>
                                     <th class="text-center">Proceso</th>
                                     <th class="text-center">Pais</th>
+                                    <th class="text-center">Provincia</th>
+                                    <th class="text-center">Canton</th>
+                                    <th class="text-center">Distrito</th>
                                     <th class="text-center">AgresionSexual</th>
                                     <th class="text-center">DenunciaPrevia</th>
                                     <th class="text-center">Generador</th>
                                     <th class="text-center">Fecha</th>
-                                    <th class="text-center">Detalles</th>
+                                    <th class="text-center">Observaciones adicionales</th>
                                     <th class="text-center">Acciones</th>
                                 </tr>
                                 </thead>
@@ -55,6 +58,9 @@
                                     <td th:text="${victimas.get(hechoStat.index).CVDNI}"></td>
                                     <td th:text="${procesosJudiciales.get(hechoStat.index).CI_Id}"></td>
                                     <td th:text="${paises.get(hechoStat.index).telefonoPais} + ' - ' + ${paises.get(hechoStat.index).spanish}"></td>
+                                    <td th:text="${hecho.CVProvincia}"></td>
+                                    <td th:text="${hecho.CVCanton}"></td>
+                                    <td th:text="${hecho.CVDistrito}"></td>
                                     <td th:text="${hecho.CVAgresionSexual}"></td>
                                     <td th:text="${hecho.CVDenunciaPrevia}"></td>
                                     <td th:text="${organismos.get(hechoStat.index).CVNombre}"></td>
