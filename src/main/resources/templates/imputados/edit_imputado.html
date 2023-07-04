@@ -135,15 +135,18 @@
 						</select></div>
 					</div>
 					<div class="col">
-						<div class="mb-3 mx-3"><label class="form-label" for="name">Seleccione la situacion juridica del
-							imputado</label><select th:name="situacionJuridica" th:field="*{CVSituacionJuridica}"
-													id="name-13" class="form-select" required>
-							<optgroup label="Situaciones Juridicas">
-								<option th:each="situacion: ${situacionJuridica}" th:value="${situacion.CVTitulo}"
-										th:text="${situacionStat.count} + ' - ' + ${situacion.CVTitulo}"></option>
-							</optgroup>
-						</select></div>
-					</div>
+							<div class="mb-3 mx-3">
+								<label class="form-label" for="name">Seleccione el Sexo
+									del imputado</label> <select th:name="sexo" th:field="*{CVSexo}"
+									id="name-11" class="form-select" required>
+									<optgroup label="Sexo">
+										<option value="F">Femenino</option>
+										<option value="M">Masculino</option>
+									</optgroup>
+								</select>
+							</div>
+						</div>
+					
 				</div>
 				<div class="row align-items-end">
 					<div class="w-100"></div>
@@ -217,26 +220,17 @@
 												   maxlength="50" required
 												   placeholder="Digite el domicilio del imputado"/></div>
 					</div>
-				</div>
-				<div class="row align-items-end">
-					<div class="w-100"></div>
 				<div class="col">
-							<div class="mb-3 mx-3">
-								<label class="form-label" for="name">Seleccione el Sexo
-									del imputado</label> <select th:name="sexo" th:field="*{CVSexo}"
-									id="name-11" class="form-select" required>
-									<optgroup label="Sexo">
-										<option value="F">Femenino</option>
-										<option value="M">Masculino</option>
-									</optgroup>
-								</select>
-							</div>
-						</div>
-						</div>
-						
-						
-						
-						
+						<div class="mb-3 mx-3"><label class="form-label" for="name">Seleccione la situacion juridica del
+							imputado</label><select th:name="situacionJuridica" th:field="*{CVSituacionJuridica}"
+													id="name-13" class="form-select" required>
+							<optgroup label="Situaciones Juridicas">
+								<option th:each="situacion: ${situacionJuridica}" th:value="${situacion.CVTitulo}"
+										th:text="${situacionStat.count} + ' - ' + ${situacion.CVTitulo}"></option>
+							</optgroup>
+						</select></div>
+					</div>
+				</div>
 				<div class="row align-items-end">
 					<div class="w-100"></div>
 					<div class="col">
