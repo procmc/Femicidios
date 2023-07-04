@@ -100,7 +100,7 @@ public class LugarController {
 		try {
 			this.validarPerfil();
 			if (!this.perfil.getCVRol().equals("Consulta")) {
-				String descripcion = "Elimino un lugar";
+				String descripcion = "Elimino un lugar: " + Id;
 				Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
 				bitacoraService.saveBitacora(bitacora);
 				lugarService.deleteLugarById(Id);
@@ -120,7 +120,7 @@ public class LugarController {
 			if (!this.perfil.getCVRol().equals("Consulta")) {
 				lugarService.deleteLugarById(id);
 				String descripcion = "Elimino un lugar: "+ id;
-				Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
+				Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),descripcion, this.perfil.getCVRol());
 				bitacoraService.saveBitacora(bitacora);
 				return "redirect:/hecholugar/".concat(String.valueOf(idLugar));
 			} else {
