@@ -238,6 +238,9 @@ public class HechoController {
             String descripcion="Actualizo en Hechos, de: " + existingHecho.getCI_Id() + " | a: " + id;
             existingHecho.setCI_Id(id);
             existingHecho.setCIPais(hecho.getCIPais());
+            existingHecho.setCVProvincia(hecho.getCVProvincia());
+            existingHecho.setCVCanton(hecho.getCVCanton());
+            existingHecho.setCVDistrito(hecho.getCVDistrito());
             existingHecho.setCITipoVictima(hecho.getCITipoVictima());
             existingHecho.setCITipoRelacion(hecho.getCITipoRelacion());
             existingHecho.setCIModalidad(hecho.getCIModalidad());
