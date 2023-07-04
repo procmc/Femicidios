@@ -1,3 +1,4 @@
+
 use femicidios;
 /* CAMPOS CODIFICADOS */
 
@@ -657,6 +658,9 @@ CREATE TABLE `ta_hechos`
     `CI_Id_Victima`      int        NOT NULL,
     `CI_Id_Proceso`      int        NOT NULL,
     `CI_Pais`            int        NOT NULL,
+    `CV_Provincia` varchar(20) NOT NULL,
+    `CV_Canton` varchar(20) NOT NULL,
+    `CV_Distrito` varchar(20) NOT NULL,
     `CV_Agresion_Sexual` varchar(2) NOT NULL,
     `CV_Denuncia_Previa` varchar(2) NOT NULL,
     `CI_Id_Generador`    int        NOT NULL,
@@ -666,8 +670,8 @@ CREATE TABLE `ta_hechos`
 );
 
 INSERT INTO `ta_hechos`
-VALUES (1, 1, 1, 1, 1, 1, 1, 'SI', 'SI', 1, '2023-06-02T21:54', 'Detalles1'),
-       (2, 2, 2, 2, 2, 2, 2, 'NO', 'NO', 2, '2023-06-02T21:54', 'Detalles2');
+VALUES (1, 1, 1, 1, 1, 1, 1,'Limón', 'Limon','Limon', 'SI', 'SI', 1, '2023-06-02T21:54', 'Detalles1'),
+       (2, 2, 2, 2, 2, 2, 2,'Limón', 'Guapiles','Roxana', 'NO', 'NO', 2,'2023-06-02T21:54', 'Detalles2');
 
 /*
  Tabla Hecho - Organismo
