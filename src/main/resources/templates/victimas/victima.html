@@ -60,11 +60,11 @@
                                     <td th:text="${victima.CVApellidoPaterno}"></td>
                                     <td th:text="${victima.CVApellidoMaterno}"></td>
                                     <td th:text="${victima.CIEdad}"></td>
-                                    <td th:text="${victima.CVGenero}"></td>
+                                    <td th:text="${identidadgenero.get(victimaStat.index).nombre}"></td>
                                     <td th:text="${victima.CVLugarNac}"></td>
-                                    <td th:text="${victima.CVOrientaSex}"></td>
+                                    <td th:text="${orientacionSexual.get(victimaStat.index).CVTitulo}"></td>
                                     <td th:text="${victima.CVNacionalidad}"></td>
-                                    <td th:text="${victima.CIEducacion}"></td>
+                                    <td th:text="${nivelEducativo.get(victimaStat.index).CVTitulo}"></td>
                                     <td th:text="${victima.CVOcupacion}"></td>
                                     <td th:text="${victima.CVDomicilio}"></td>
                                     <td th:text="${victima.CVLugarResidencia}"></td>
