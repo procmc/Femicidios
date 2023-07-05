@@ -3,14 +3,20 @@
  */
 package com.if7100.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.if7100.entity.IdentidadGenero;
+import com.if7100.entity.Lugar;
+import com.if7100.entity.OrientacionSexual;
+import com.if7100.entity.TipoLugar;
 import com.if7100.entity.Victima;
-
+import com.if7100.repository.IdentidadGeneroRepository;
+import com.if7100.repository.OrientacionSexualRepository;
 import com.if7100.repository.VictimaRepository;
 import com.if7100.service.VictimaService;
 /**
@@ -23,13 +29,20 @@ import com.if7100.service.VictimaService;
 public class VictimaServiceImpl implements VictimaService{
 	
 	private VictimaRepository victimaRepository;
+	private IdentidadGeneroRepository identidadGeneroRepository;
+	private OrientacionSexualRepository orientacionSexualRepository;
+
 	
-	public VictimaServiceImpl ( VictimaRepository victimaRepository)
+	public VictimaServiceImpl ( VictimaRepository victimaRepository, IdentidadGeneroRepository identidadGeneroRepository, OrientacionSexualRepository orientacionSexualRepository)
 	{
 		super();
 		this.victimaRepository =victimaRepository;
+		this.identidadGeneroRepository =identidadGeneroRepository;
+		this.orientacionSexualRepository= orientacionSexualRepository;
 	}
+
 	
+	 
 	@Override
 	public List<Victima> getAllVictima(){
 		return victimaRepository.findAll(); 
@@ -63,6 +76,34 @@ public class VictimaServiceImpl implements VictimaService{
 	@Override
 	public Victima getVictimaByCVNombre(String CVNombre){
 		return victimaRepository.findByCVNombre(CVNombre); 
+	}
+
+	@Override
+	public List<IdentidadGenero> getAllIdentidadGeneros() {
+	       List<Victima> victimas = victimaRepository.findAll();
+	        List<IdentidadGenero> identidadGeneros = new ArrayList<>();
+	        IdentidadGenero identidadGenero = new IdentidadGenero();
+	        for (Victima victima :
+	                victimas) {
+	        	identidadGeneros.add(identidadGeneroRepository.findById(victima.getCVGenero()).orElse(identidadGenero));
+	        }
+
+	        return identidadGeneros;	
+	}
+
+
+
+	@Override
+	public List<OrientacionSexual> getAllOrientacionSexuales() {
+	       List<Victima> victimas = victimaRepository.findAll();
+	        List<OrientacionSexual> orientacionSexuales = new ArrayList<>();
+	        OrientacionSexual orientacionSexual = new OrientacionSexual();
+	        for (Victima victima :
+	                victimas) {
+	        	orientacionSexuales.add(orientacionSexualRepository.findById(victima.getCVGenero()).orElse(orientacionSexual));
+	        }
+
+	        return orientacionSexuales;
 	}
 	
 	
