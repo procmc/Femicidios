@@ -375,23 +375,22 @@ CREATE TABLE `ta_niveleducativo`
     `CI_Id`          int         NOT NULL AUTO_INCREMENT,
     `CV_Titulo`      varchar(50) NOT NULL,
     `CV_Descripcion` varchar(75) NOT NULL,
-   
+    `CV_Pais` varchar(50) NOT NULL,
     PRIMARY KEY (`CI_Id`)
 );
 
 INSERT INTO `ta_niveleducativo`
-VALUES (1, 'Primera infancia', 'Eduacion de la primera infancia.' ),
-       (2, 'Preescolar', 'Menos que primaria.'),
-       (3, 'Primaria', 'Educaciòn primaria' ),
-       (4, 'Secundaria baja', 'Educaciòn secundaria baja'),
-       (5, 'Secundaria alta', 'Educaciòn secundaria alta'),
-       (6, 'Postsecundaria no terciaria', 'Educaciòn postsecundaria no terciaria'),
-       (7, 'Terciaria', 'Educaciòn terciaria de ciclo corto'),
-       (8, 'Grado', 'Grado en educaciòn universitaria o nivel equivalente.'),
-       (9, 'Maestria', 'Nivel de maestrìa especializaciòn o equivalente'),
-       (10, 'Doctorado', 'Nivel de doctorado o equivalente'),
-       (11, 'Se desconoce', 'Se desconoce nivel eduactivo');
-
+VALUES (1, 'Primera infancia', 'Eduacion de la primera infancia.','Costa Rica' ),
+       (2, 'Preescolar', 'Menos que primaria.','Costa Rica'),
+       (3, 'Primaria', 'Educaciòn primaria', 'Costa Rica'),
+       (4, 'Secundaria baja', 'Educaciòn secundaria baja','Costa Rica'),
+       (5, 'Secundaria alta', 'Educaciòn secundaria alta','Costa Rica'),
+       (6, 'Postsecundaria no terciaria', 'Educaciòn postsecundaria no terciaria','Costa Rica'),
+       (7, 'Terciaria', 'Educaciòn terciaria de ciclo corto','Costa Rica'),
+       (8, 'Grado', 'Grado en educaciòn universitaria o nivel equivalente.','Costa Rica'),
+       (9, 'Maestria', 'Nivel de maestrìa especializaciòn o equivalente','Costa Rica'),
+       (10, 'Doctorado', 'Nivel de doctorado o equivalente','Costa Rica'),
+       (11, 'Se desconoce', 'Se desconoce nivel eduactivo','Costa Rica');
 
 
 /*
