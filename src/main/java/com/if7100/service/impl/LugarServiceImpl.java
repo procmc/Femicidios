@@ -1,5 +1,6 @@
 package com.if7100.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -10,8 +11,10 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.if7100.entity.Hecho;
 import com.if7100.entity.Lugar;
 import com.if7100.entity.TipoLugar;
+import com.if7100.entity.TipoRelacion;
 import com.if7100.repository.LugarRepository;
 import com.if7100.repository.TipoLugarRepository;
 import com.if7100.service.LugarService;
@@ -93,4 +96,22 @@ public class LugarServiceImpl implements LugarService{
     public Lugar updateLugar(Lugar lugar){
         return lugarRepository.save(lugar);
     }
+
+	@Override
+	public List<TipoLugar> getAllTipoLugars() {
+        List<Lugar> lugares = lugarRepository.findAll();
+        List<TipoLugar> tipolugares = new ArrayList<>();
+        TipoLugar tipoLugar = new TipoLugar();
+        for (Lugar lugar :
+                lugares) {
+        	tipolugares.add(tipoLugarRepository.findById(lugar.getCITipoLugar()).orElse(tipoLugar));
+        }
+
+        return tipolugares;	
+        
+	}
+
+
+
+
 }

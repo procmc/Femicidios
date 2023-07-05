@@ -46,7 +46,7 @@
                                 <tr th:each="lug: ${lugares}">
                                     <td th:text="${lug.CIHecho}"></td>
                                     <td th:text="${lug.CV_Descripcion}"></td>
-                                    <td th:text="${lug.CI_Tipo_Lugar}"></td>
+                                    <td th:text="${tipoLugares.get(lugStat.index).CVTitulo}"></td>
                                     <td th:text="${lug.CV_Direccion}"></td>
                                     <td th:text="${lug.CV_Ciudad}"></td>
                                     <td th:text="${lug.CI_Pais}"></td>

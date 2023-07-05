@@ -40,7 +40,7 @@ public class LugarControllerTest {
 	public void Test2() throws Exception{
 		LugarConsultado= lugarRepository.findById(5).get();
 		assertEquals(LugarConsultado.getCIHecho(), Hecho);
-		assertNotEquals(LugarConsultado.getCI_Tipo_Lugar(), Tipo_Lugar);
+		assertNotEquals(LugarConsultado.getCITipoLugar(), Tipo_Lugar);
 	}
 	
 	@Test
@@ -49,7 +49,7 @@ public class LugarControllerTest {
 		LugarConsultado.setCI_Codigo(5);
 		LugarConsultado.setCIHecho(LugarConsultado.getCIHecho());
 		LugarConsultado.setCV_Descripcion("hhhhhh");
-		LugarConsultado.setCI_Tipo_Lugar(lugar.getCI_Tipo_Lugar());
+		LugarConsultado.setCITipoLugar(lugar.getCITipoLugar());
 		LugarConsultado.setCV_Direccion(lugar.getCV_Direccion());
 		LugarConsultado.setCV_Ciudad(lugar.getCV_Ciudad());
 		LugarConsultado.setCI_Pais(lugar.getCI_Pais());

@@ -160,7 +160,7 @@ public class LugarController {
 			existingLugar.setCI_Codigo(id);
 			existingLugar.setCIHecho(lugar.getCIHecho());
 			existingLugar.setCV_Descripcion(lugar.getCV_Descripcion());
-			existingLugar.setCI_Tipo_Lugar(lugar.getCI_Tipo_Lugar());
+			existingLugar.setCITipoLugar(lugar.getCITipoLugar());
 			existingLugar.setCV_Direccion(lugar.getCV_Direccion());
 			existingLugar.setCV_Ciudad(lugar.getCV_Ciudad());
 			existingLugar.setCI_Pais(lugar.getCI_Pais());
@@ -243,6 +243,7 @@ public class LugarController {
 		model.addAttribute("nPaginas", nPaginas);
 		model.addAttribute("lugares", lugarPage.getContent());
 		model.addAttribute("lugar", true);
+		model.addAttribute("tipoLugares", lugarService.getAllTipoLugars());
 		return "lugares/lugares";
 	}
 
