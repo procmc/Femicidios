@@ -422,36 +422,36 @@ VALUES (1, 'Domicilio Víctima', 'Lugar de residencia particular de la víctima'
 /*
  Tabla TipoRelacion
  */
-
 DROP TABLE IF EXISTS `ta_tiporelacion`;
 CREATE TABLE `ta_tiporelacion`
 (
     `CI_Codigo`      int         NOT NULL AUTO_INCREMENT,
     `CV_Titulo`      varchar(50) NOT NULL,
     `CV_Descripcion` varchar(80) NOT NULL,
+    `CV_Pais` varchar(50) NOT NULL,
     PRIMARY KEY (`CI_Codigo`)
 );
 
 INSERT INTO `ta_tiporelacion`
-VALUES (1, 'Padre', 'Victimario es padre de la víctima'),
-       (2, 'Madre', 'Victimario es madre de la víctima.'),
-       (3, 'Padrastro', 'Victimario es padrastro de la víctima.'),
-       (4, 'Madastra', 'Victimario es madrastra de la víctima.'),
-       (5, 'Tutor/a', 'Victimario es tutor/a de la víctima.'),
-       (6, 'Esposo/a', 'Victimario es esposo/a de la víctima.'),
-       (7, 'Concubino/a', 'Victimario es concubino/a de la víctima.'),
-       (8, 'Novio/a', 'Victimario es novio/a de la víctima.'),
-       (9, 'Amante', 'Victimario es amante de la víctima.'),
-       (10, 'Pareja Anterior', 'Pareja o cónyuge anterior.'),
-       (11, 'Pariente', 'Victimario es pariente consanguíneo de la víctima.'),
-       (12, 'Laboral', 'Victimario es empleado/a o colega de la víctima.'),
-       (13, 'Conocido/a', 'Victimario es conocido/a de la víctima.'),
-       (14, 'Amigo/a', 'Amigo/a de la víctima.'),
-       (15, 'Otro Transgresor', 'Otro transgresor conocido por la víctima.'),
-       (16, 'Autoridad', 'Por autoridades oficiales'),
-       (17, 'Desconocido/a', 'Victimario no es conocido/a por la víctima.'),
-       (18, 'Se desconoce', 'Se desconoce el tipo de relación.'),
-       (19, 'Ninguna', 'Victimario no tiene alguna relación con la víctima.');
+VALUES (1, 'Padre', 'Victimario es padre de la víctima','Costa Rica'),
+       (2, 'Madre', 'Victimario es madre de la víctima.','Costa Rica'),
+       (3, 'Padrastro', 'Victimario es padrastro de la víctima.','Costa Rica'),
+       (4, 'Madastra', 'Victimario es madrastra de la víctima.','Costa Rica'),
+       (5, 'Tutor/a', 'Victimario es tutor/a de la víctima.','Costa Rica'),
+       (6, 'Esposo/a', 'Victimario es esposo/a de la víctima.','Costa Rica'),
+       (7, 'Concubino/a', 'Victimario es concubino/a de la víctima.','Costa Rica'),
+       (8, 'Novio/a', 'Victimario es novio/a de la víctima.','Costa Rica'),
+       (9, 'Amante', 'Victimario es amante de la víctima.','Costa Rica'),
+       (10, 'Pareja Anterior', 'Pareja o cónyuge anterior.','Costa Rica'),
+       (11, 'Pariente', 'Victimario es pariente consanguíneo de la víctima.','Costa Rica'),
+       (12, 'Laboral', 'Victimario es empleado/a o colega de la víctima.','Costa Rica'),
+       (13, 'Conocido/a', 'Victimario es conocido/a de la víctima.','Costa Rica'),
+       (14, 'Amigo/a', 'Amigo/a de la víctima.','Costa Rica'),
+       (15, 'Otro Transgresor', 'Otro transgresor conocido por la víctima.','Costa Rica'),
+       (16, 'Autoridad', 'Por autoridades oficiales','Costa Rica'),
+       (17, 'Desconocido/a', 'Victimario no es conocido/a por la víctima.','Costa Rica'),
+       (18, 'Se desconoce', 'Se desconoce el tipo de relación.','Costa Rica'),
+       (19, 'Ninguna', 'Victimario no tiene alguna relación con la víctima.','Costa Rica');
        
 
 
