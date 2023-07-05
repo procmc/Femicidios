@@ -1,6 +1,7 @@
 package com.if7100.controller;
 
 import com.if7100.entity.Bitacora; 
+
 import com.if7100.entity.Usuario;
 import com.if7100.service.BitacoraService;
 
@@ -141,11 +142,6 @@ OrientacionSexualService orientacionService, PerfilService perfilService, Usuari
 	 try {
 			this.validarPerfil();
 			if(!this.perfil.getCVRol().equals("Consulta")) {
-				
-				String descripcion = "Creó un registro de orientacion sexual";
-				Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), descripcion, this.perfil.getCVRol());
-				bitacoraService.saveBitacora(bitacora);
-				
 				model.addAttribute("orientacion",new OrientacionSexual());
 				return "orientacionesSexuales/create_orientacionesSexuales";
 			}else {
@@ -160,6 +156,9 @@ OrientacionSexualService orientacionService, PerfilService perfilService, Usuari
  @PostMapping("/orientacionesSexuales")
  public String saveOrientacion(@ModelAttribute("orientacion") OrientacionSexual orientacion) {
 	 orientacionService.saveOrientacionSexual(orientacion);
+	 String descripcion = "Creó en orientacion sexual: "+ orientacion.getCVTitulo();
+	 Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), descripcion, this.perfil.getCVRol());
+	 bitacoraService.saveBitacora(bitacora);
 	 return "redirect:/orientacionesSexuales";
  }
  
@@ -170,7 +169,8 @@ OrientacionSexualService orientacionService, PerfilService perfilService, Usuari
 			this.validarPerfil();
 			if(!this.perfil.getCVRol().equals("Consulta")) {
 				
-				String descripcion = "Elimino una orientacion sexual";
+				String descripcion = "Elimino en orientacion sexual: "+
+				orientacionService.getOrientacionSexualByCodigo(id).getCVTitulo();
 				Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), descripcion, this.perfil.getCVRol());
 				bitacoraService.saveBitacora(bitacora);
 				
@@ -191,9 +191,7 @@ OrientacionSexualService orientacionService, PerfilService perfilService, Usuari
 			this.validarPerfil();
 			if(!this.perfil.getCVRol().equals("Consulta")) {
 				
-				String descripcion = "Modificó un registro de orientacion sexual";
-				Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), descripcion, this.perfil.getCVRol());
-				bitacoraService.saveBitacora(bitacora);
+				
 				
 				model.addAttribute("orientacion", orientacionService.getOrientacionSexualByCodigo(id));
 				 return "orientacionesSexuales/edit_orientacionesSexuales";
@@ -209,11 +207,24 @@ OrientacionSexualService orientacionService, PerfilService perfilService, Usuari
  @PostMapping("/orientacionesSexuales/{id}")
  public String updateOrientacionSexual(@PathVariable int id, @ModelAttribute("orientacion") OrientacionSexual orientacion, Model model) {
 	 OrientacionSexual existingOrientacion=orientacionService.getOrientacionSexualByCodigo(id);
+	 String orientacionAnt = existingOrientacion.getCVTitulo(); 
 	 existingOrientacion.setCI_Codigo(id);
 	 existingOrientacion.setCVTitulo(orientacion.getCVTitulo());
 	 existingOrientacion.setCVDescripcion(orientacion.getCVDescripcion());
 	 
 	 orientacionService.updateOrientacionSexual(existingOrientacion);
+	 if (orientacionAnt.equals(orientacionService.getOrientacionSexualByCodigo(id).getCVTitulo())) {
+		 String descripcion = "Modificó en orientacion sexual: "+
+				    orientacionService.getOrientacionSexualByCodigo(id).getCVTitulo();
+		 Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), descripcion, this.perfil.getCVRol());
+			bitacoraService.saveBitacora(bitacora);
+	}else {
+	    String descripcion = "Modificó en orientacion sexual: "+ orientacionAnt +" a " +
+	    orientacionService.getOrientacionSexualByCodigo(id).getCVTitulo()  ;
+	    Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), descripcion, this.perfil.getCVRol());
+		bitacoraService.saveBitacora(bitacora);
+	}
+		
 	 return "redirect:/orientacionesSexuales";
  }
  
