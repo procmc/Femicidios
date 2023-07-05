@@ -135,11 +135,11 @@ TipoRelacionService tipoRelacionService, PerfilService perfilService, UsuarioRep
 
     @PostMapping("/tiporelaciones")
     public String saveTipoRelacion(@ModelAttribute("tipoRelacion") TipoRelacion tipoRelacion){
+        tipoRelacionService.saveTipoRelacion(tipoRelacion);
         String descripcion="Crea un Tipo de Relacion: ID " + tipoRelacion.getCI_Codigo();
         Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
         bitacoraService.saveBitacora(bitacora);
         
-        tipoRelacionService.saveTipoRelacion(tipoRelacion);
         return "redirect:/tiporelaciones";
     }
 
