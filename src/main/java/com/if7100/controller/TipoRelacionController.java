@@ -3,8 +3,9 @@ package com.if7100.controller;
 import com.if7100.entity.Bitacora;
 import com.if7100.entity.Usuario;
 import com.if7100.service.BitacoraService;
-
+import com.if7100.service.PaisesService;
 import com.if7100.entity.Hecho;
+import com.if7100.entity.Paises;
 import com.if7100.entity.Perfil;
 import com.if7100.entity.TipoRelacion;
 import com.if7100.repository.UsuarioRepository;
@@ -35,18 +36,24 @@ public class TipoRelacionController {
     private UsuarioRepository usuarioRepository;
     private Perfil perfil;
     private PerfilService perfilService;
+    private PaisesService paisesService;
+
   //instancias para control de bitacora
     private BitacoraService bitacoraService;
     private Usuario usuario;
+    private Paises paises;
+
 
 
     public TipoRelacionController(BitacoraService bitacoraService,
-TipoRelacionService tipoRelacionService, PerfilService perfilService, UsuarioRepository usuarioRepository) {
+TipoRelacionService tipoRelacionService, PerfilService perfilService, UsuarioRepository usuarioRepository, PaisesService paisesService) {
         super();
         this.tipoRelacionService = tipoRelacionService;
         this.perfilService = perfilService;
         this.usuarioRepository = usuarioRepository;
         this.bitacoraService= bitacoraService;
+        this.paisesService = paisesService;
+
 
     }
     
@@ -114,6 +121,8 @@ TipoRelacionService tipoRelacionService, PerfilService perfilService, UsuarioRep
 				
 				TipoRelacion tipoRelacion = new TipoRelacion();
 		        model.addAttribute("tipoRelacion", tipoRelacion);
+		        model.addAttribute("paises", paisesService.getAllPaises());
+
 		        return "tipoRelaciones/create_tipoRelacion";
 			}else {
 				return "SinAcceso";
@@ -126,10 +135,11 @@ TipoRelacionService tipoRelacionService, PerfilService perfilService, UsuarioRep
 
     @PostMapping("/tiporelaciones")
     public String saveTipoRelacion(@ModelAttribute("tipoRelacion") TipoRelacion tipoRelacion){
-        tipoRelacionService.saveTipoRelacion(tipoRelacion);
-        String descripcion="Creo un Tipo de Relacion";
+        String descripcion="Crea un Tipo de Relacion: ID " + tipoRelacion.getCI_Codigo();
         Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
         bitacoraService.saveBitacora(bitacora);
+        
+        tipoRelacionService.saveTipoRelacion(tipoRelacion);
         return "redirect:/tiporelaciones";
     }
 
@@ -140,7 +150,7 @@ TipoRelacionService tipoRelacionService, PerfilService perfilService, UsuarioRep
 			this.validarPerfil();
 			if(!this.perfil.getCVRol().equals("Consulta")) {
 				
-				String descripcion = "Elimino un tipo de relacion";
+				String descripcion = "Se eliminó el tipo de relacion ID: " + id;
 				Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),this.perfil.getCVRol(), descripcion);
 				bitacoraService.saveBitacora(bitacora);
 				
@@ -162,6 +172,8 @@ TipoRelacionService tipoRelacionService, PerfilService perfilService, UsuarioRep
 			if(!this.perfil.getCVRol().equals("Consulta")) {
 				
 				model.addAttribute("tipoRelacion", tipoRelacionService.getTipoRelacionById(id));
+				model.addAttribute("paises", paisesService.getAllPaises());
+
 		        return "tipoRelaciones/edit_tipoRelacion";
 			}else {
 				return "SinAcceso";
@@ -173,15 +185,20 @@ TipoRelacionService tipoRelacionService, PerfilService perfilService, UsuarioRep
     }
 
     @PostMapping("/tiporelaciones/{id}")
-    public String updateTipoRelacion(@PathVariable Integer id, @ModelAttribute("tipoRelacion") TipoRelacion tipoRelacion){
+    public String updateTipoRelacion(@PathVariable Integer id, @ModelAttribute("tipoRelacion") TipoRelacion tipoRelacion, Model model){
         TipoRelacion existingTipoRelacion = tipoRelacionService.getTipoRelacionById(id);
+    	String descripcion="Actualizó en Tipo Relación: ID " + id;
+		Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),this.perfil.getCVRol(),descripcion);
+		bitacoraService.saveBitacora(bitacora);
+		
+        model.addAttribute("paises", paisesService.getAllPaises());
+
         existingTipoRelacion.setCI_Codigo(id);
         existingTipoRelacion.setCVTitulo(tipoRelacion.getCVTitulo());
         existingTipoRelacion.setCVDescripcion(tipoRelacion.getCVDescripcion());
+        existingTipoRelacion.setCVPais(tipoRelacion.getCVPais());
+
         tipoRelacionService.updateTipoRelacion(existingTipoRelacion);
-        String descripcion="Actualizo un Tipo de Relacion";
-        Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
-        bitacoraService.saveBitacora(bitacora);
         return "redirect:/tiporelaciones";
     }
 }
