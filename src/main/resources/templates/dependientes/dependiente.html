@@ -40,7 +40,7 @@
                                 <tr th:each="dependiente: ${dependiente}">
                                  <td th:text="${dependiente.CI_Codigo}"></td>
                                     <td th:text="${dependiente.CVDNI}"></td>
-                                    <td th:text="${dependiente.CI_Tiporelacion}"></td>
+                                    <td th:text="${tipoRelaciones.get(dependienteStat.index).CVTitulo}"></td>
                                     
 
                                     <td class="text-center align-middle h-50">
