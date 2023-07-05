@@ -32,7 +32,7 @@ public class Lugar {
     private String CV_Descripcion;
 
     @Column (name="CI_Tipo_Lugar", nullable=false)
-    private int CI_Tipo_Lugar;
+    private int CITipoLugar;
 
     @Column (name="CV_Direccion", nullable=false)
     private String CV_Direccion;
@@ -51,22 +51,22 @@ public class Lugar {
     public Lugar() {
     }
 
-    public Lugar(int CI_Hecho, String CV_Descripcion, int CI_Tipo_Lugar, String CV_Direccion, String CV_Ciudad, int CI_Pais, int CI_Codigo_Postal) {
+    public Lugar(int CI_Hecho, String CV_Descripcion, int CITipoLugar, String CV_Direccion, String CV_Ciudad, int CI_Pais, int CI_Codigo_Postal) {
 		super();
 		this.CIHecho= CI_Hecho;
 		this.CV_Descripcion= CV_Descripcion;
-		this.CI_Tipo_Lugar= CI_Tipo_Lugar;
+		this.CITipoLugar= CITipoLugar;
 		this.CV_Direccion= CV_Direccion;
 		this.CV_Ciudad= CV_Ciudad;
 		this.CI_Pais= CI_Pais;
 		this.CI_Codigo_Postal=CI_Codigo_Postal;
 	}
     
-    public Lugar(int CI_Hecho, String CV_Descripcion, int CI_Tipo_Lugar, String CV_Direccion, String CV_Ciudad, int CI_Pais, int CI_Codigo_Postal, String Titulo) {
+    public Lugar(int CI_Hecho, String CV_Descripcion, int CITipoLugar, String CV_Direccion, String CV_Ciudad, int CI_Pais, int CI_Codigo_Postal, String Titulo) {
         super();
         this.CIHecho= CI_Hecho;
         this.CV_Descripcion= CV_Descripcion;
-        this.CI_Tipo_Lugar= CI_Tipo_Lugar;
+        this.CITipoLugar= CITipoLugar;
         this.CV_Direccion= CV_Direccion;
         this.CV_Ciudad= CV_Ciudad;
         this.CI_Pais= CI_Pais;
@@ -98,12 +98,12 @@ public class Lugar {
         CV_Descripcion = cV_Descripcion;
     }
 
-    public int getCI_Tipo_Lugar() {
-        return CI_Tipo_Lugar;
+    public int getCITipoLugar() {
+        return CITipoLugar;
     }
 
-    public void setCI_Tipo_Lugar(int cI_Tipo_Lugar) {
-        CI_Tipo_Lugar = cI_Tipo_Lugar;
+    public void setCITipoLugar(int cITipoLugar) {
+        CITipoLugar = cITipoLugar;
     }
 
     public String getCV_Direccion() {
