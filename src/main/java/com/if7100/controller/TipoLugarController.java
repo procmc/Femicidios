@@ -137,7 +137,7 @@ TipoLugarService tipoLugarService, PerfilService perfilService, UsuarioRepositor
 	    tipoLugarService.saveTipoLugar(tipoLugar);
 	    
 	    //funcionalidad de bitacora
-	    String descripcion="Agrego en tipos de lugares";
+	    String descripcion="Agrego en tipos de lugares con id: "+ tipoLugar.getCI_Codigo();
         Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),this.perfil.getCVRol(),descripcion);
         bitacoraService.saveBitacora(bitacora);
         
@@ -153,7 +153,7 @@ TipoLugarService tipoLugarService, PerfilService perfilService, UsuarioRepositor
 			if(!this.perfil.getCVRol().equals("Consulta")) {
 				
 				  //funcionalidad de bitacora
-			    String descripcion="Elimino en tipos de lugares";
+			    String descripcion="Elimino en tipos de lugares el tipo de lugar con id: "+ Codigo;
 		        Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),this.perfil.getCVRol(),descripcion);
 		        bitacoraService.saveBitacora(bitacora);
 				
@@ -196,7 +196,7 @@ TipoLugarService tipoLugarService, PerfilService perfilService, UsuarioRepositor
 	    existingTipoLugar.setCVDescripcion(tipoLugar.getCVDescripcion());
 		tipoLugarService.updateTipoLugar(existingTipoLugar);
 		//funcionalidad bitacora
-		String descripcion="Actualizo en tipos de lugares";
+		String descripcion="Actualizo en tipos de lugares el tipo lugar con Id: "+ Codigo;
         Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),this.perfil.getCVRol(),descripcion);
         bitacoraService.saveBitacora(bitacora);
         

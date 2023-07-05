@@ -21,6 +21,7 @@ public class ImputadoControllerTest {
     private String cv_nombre="Kijan Acuña Medrano";
     private String cv_genero="Masculino";
     private String cv_Orientacion_Sexual="Heterosexual";
+    private char sexo='M';
     private int ci_edad=24;
 private String CV_Lugar_Nacimiento="Purgatorio";
 private String cv_pais="Costa Rica";
@@ -39,7 +40,7 @@ private String  CV_Antecedentes="SI";
 private String CV_Suicidio="NO";
 private String CV_Generador="Organismo2";
 
-    Imputado imputado = new Imputado("700260950", "MadaraKijan", "Masculino", "Hetero", "22", "BackTrack", "506");
+    Imputado imputado = new Imputado("700260950", "MadaraKijan", "Masculino", "Hetero",sexo, "22", "BackTrack", "506");
 
 
     Imputado consultado= new Imputado();

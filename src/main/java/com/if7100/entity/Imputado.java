@@ -27,13 +27,14 @@ public class Imputado {
 	
 	
 	
-	public Imputado(String cV_DNI, String cVNombre, String cVGenero, String cVOrientacionSexual, String cIEdad,
+	public Imputado(String cV_DNI, String cVNombre, String cVGenero, String cVOrientacionSexual, char CVSexo, String cIEdad,
 			String cVLugarNacimiento, String CVPais) {
 		super();
 		this.CVDni = cV_DNI;
 		this.CVNombre = cVNombre;
 		this.CVGenero = cVGenero;
 		this.CVOrientacionSexual = cVOrientacionSexual;
+		this.CVSexo = CVSexo;
 		this.CIEdad = cIEdad;
 		this.CVLugarNacimiento = cVLugarNacimiento;
 		this.CVPais = CVPais;
@@ -65,6 +66,9 @@ public class Imputado {
 	
 	@Column(name="cv_OrientacionSexual",nullable=false)
 	private String CVOrientacionSexual;
+	
+	@Column(name="cv_sexo",nullable=false)
+	private char CVSexo;
 	
 	@Column(name="ci_edad",nullable=false)
 	private String CIEdad;
@@ -209,6 +213,15 @@ public class Imputado {
 		return CVAntecedentes;
 	}
 
+	
+	public char getCVSexo() {
+		return CVSexo;
+	}
+
+	public void setCVSexo(char cVSexo) {
+		CVSexo = cVSexo;
+	}
+
 	public void setCVAntecedentes(String CVAntecedentes) {
 		this.CVAntecedentes = CVAntecedentes;
 	}
@@ -291,18 +304,8 @@ public class Imputado {
 	public String getCVPais() {
 		return CVPais;
 	}
-	
 
 	public void setCVPais(String cVPais) {
 		CVPais = cVPais;
 	}
-	
-	
-	
-	
-
-	
-	
-	
-
 }

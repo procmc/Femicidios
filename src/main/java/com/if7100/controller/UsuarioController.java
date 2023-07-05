@@ -160,7 +160,7 @@ UsuarioService usuarioService, PerfilService perfilService, UsuarioRepository us
 		 return "redirect:/create_usuario";
 	 }else {
 		 usuarioService.saveUsuario(usuario);
-		 String descripcion="Creo un Nuevo Usuario";
+		 String descripcion="Creo un Nuevo Usuario con id: "+ usuario.getCI_Id();
 	     Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
 	     bitacoraService.saveBitacora(bitacora);
 		 return "redirect:/usuarios";
@@ -180,7 +180,7 @@ UsuarioService usuarioService, PerfilService perfilService, UsuarioRepository us
 			this.validarPerfil();
 			if(this.perfil.getCVRol().equals("Administrador")) {
 				
-				String descripcion = "Elimino un usuario";
+				String descripcion = "Elimino un usuario con id: "+Id;
 				Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
 				bitacoraService.saveBitacora(bitacora);
 				
@@ -229,7 +229,7 @@ UsuarioService usuarioService, PerfilService perfilService, UsuarioRepository us
 	 existingUsuario.setCIPerfil(usuario.getCIPerfil());
 	 existingUsuario.setTCClave(usuario.getTCClave());
 	 usuarioService.updateUsuario(existingUsuario);
-	 String descripcion="Actualizo un Usuario";
+	 String descripcion="Actualizo un Usuario con id: "+ Id;
      Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
      bitacoraService.saveBitacora(bitacora);
 	 return "redirect:/usuarios";
