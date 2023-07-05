@@ -131,6 +131,13 @@ public class VictimaController {
 		model.addAttribute("PaginaActual", pg);
 		model.addAttribute("nPaginas", nPaginas);
 		model.addAttribute("victimas", victimaPage.getContent());
+		model.addAttribute("identidadgenero", victimaService.getAllIdentidadGeneros());
+		model.addAttribute("orientacionSexual", victimaService.getAllOrientacionSexuales());
+		model.addAttribute("nivelEducativo", nivelEducativoService.getAllNivelEducativo());
+
+
+
+
 		return "victimas/victima";
 	}
 	
@@ -148,6 +155,9 @@ public class VictimaController {
 				model.addAttribute("nivelEducativo",nivelEducativoService.getAllNivelEducativo());
 				model.addAttribute("listaOrganismo",organismoService.getAllOrganismos());
 				model.addAttribute("victima", victima);
+				model.addAttribute("nivelEducativo", nivelEducativoService.getAllNivelEducativo());
+
+
 				
 				bitacoraService.saveBitacora(new Bitacora(this.usuario.getCI_Id(),
 						this.usuario.getCVNombre(),this.perfil.getCVRol(),"Crea en Victima"));
@@ -201,11 +211,14 @@ public class VictimaController {
 			this.validarPerfil();
 			if(!this.perfil.getCVRol().equals("Consulta")) {
 				
-				model.addAttribute("orientacionSexual",orientacionSexualService.getAllOrientacionesSexuales());
+				//model.addAttribute("orientacionSexual",orientacionSexualService.getAllOrientacionesSexuales());
 				model.addAttribute("identidadGenero",identidadGeneroService.getAllIdentidadGenero());
 				model.addAttribute("nivelEducativo",nivelEducativoService.getAllNivelEducativo());
 				model.addAttribute("listaOrganismo",organismoService.getAllOrganismos());
 				model.addAttribute("victima", victimaService.getVictimaById(id));
+				model.addAttribute("nivelEducativo", nivelEducativoService.getAllNivelEducativo());
+				model.addAttribute("orientacionSexual", victimaService.getAllOrientacionSexuales());
+
 				return "victimas/edit_victima";
 			}else {
 				return "SinAcceso";
