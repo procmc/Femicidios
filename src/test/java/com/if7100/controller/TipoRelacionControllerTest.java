@@ -20,8 +20,10 @@ public class TipoRelacionControllerTest {
     private String titulo = "Vinculado";
 
     private String descripcion = "La Victima vinculada al crimen principal";
+    private String pais = "Costa Rica";
 
-    private TipoRelacion tipoRelacion = new TipoRelacion("Se desconoce", "Se desconoce el tipo de relación.");
+
+    private TipoRelacion tipoRelacion = new TipoRelacion("Se desconoce", "Se desconoce el tipo de relación.","Costa Rica");
 
     private  TipoRelacion tipoRelacionConsultada = new TipoRelacion();
 
