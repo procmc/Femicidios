@@ -24,7 +24,7 @@ public class NivelEducativoControllerTest {
 	
 	
 	
-	private NivelEducativo nivelEducativo = new NivelEducativo(Titulo, "Educacion secundaria baja");
+	private NivelEducativo nivelEducativo = new NivelEducativo(Titulo, "Educacion secundaria baja","Costa Rica");
 	@Test
 	public void Test1() throws Exception{
 		
