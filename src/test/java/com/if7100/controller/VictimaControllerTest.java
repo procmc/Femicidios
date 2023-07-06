@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 public class VictimaControllerTest {
 
     private String CVDNI = "203450876";
-    private String CVNombre = "Albertina";
+    private String CVNombre = "AlbertinaB";
     private String CVApellidoPaterno = "Chill";
     private String CVApellidoMaterno = "Pepper";
     private int CVEdad = 30;
@@ -53,14 +53,17 @@ public class VictimaControllerTest {
 
         victimaConsultada = victimaRepository.findByCVNombre(CVNombre);
         assertEquals(victimaConsultada.getCVDNI(), CVDNI);
-        assertNotEquals(victimaConsultada.getCVNombre(), CVNombre);
-        assertNotEquals(victimaConsultada.getCVApellidoPaterno(), CVApellidoPaterno);
-        assertNotEquals(victimaConsultada.getCVApellidoMaterno(), CVApellidoMaterno);
-        assertNotEquals(victimaConsultada.getCIEdad(), CVEdad);
-        assertNotEquals(victimaConsultada.getCVGenero(), CVEdad);
-        assertNotEquals(victimaConsultada.getCVGenero(), CVGenero);
-        assertNotEquals(victimaConsultada.getCVLugarNac(), CVLugarNac);
-        assertNotEquals(victimaConsultada.getCVOrientaSex(), CVOrientaSex);
+        assertNotEquals(victimaConsultada.getCVNombre(), "Maria");
+        assertNotEquals(victimaConsultada.getCVApellidoPaterno(),"Perez");
+        assertNotEquals(victimaConsultada.getCVApellidoMaterno(),"Lopez");
+        assertNotEquals(victimaConsultada.getCIEdad(), 44);
+        assertNotEquals(victimaConsultada.getCVGenero(), 12);
+        assertNotEquals(victimaConsultada.getCVDiscapacidad(), "Visual");
+        assertNotEquals(victimaConsultada.getCVLugarNac(), "Panama");
+        assertNotEquals(victimaConsultada.getCVOrientaSex(), 1);
+        assertNotEquals(victimaConsultada.getCVNacionalidad(), "Panameña");
+        assertNotEquals(victimaConsultada.getCIEducacion(), 0);
+        assertNotEquals(victimaConsultada.getCVEtnia(),"Mixta");
     }
 
 
@@ -70,15 +73,18 @@ public class VictimaControllerTest {
         victimaConsultada = victimaRepository.findByCVNombre(CVNombre);
         victimaConsultada.setCVNombre(CVNombre);
         victimaRepository.save(victimaConsultada);
-        victimaConsultada = victimaRepository.findByCVNombre(CVNombre);
+       // victimaConsultada = victimaRepository.findByCVNombre(CVNombre);
         assertEquals(victimaConsultada.getCVNombre(), CVNombre);
         assertEquals(victimaConsultada.getCVApellidoPaterno(), CVApellidoPaterno);
         assertEquals(victimaConsultada.getCVApellidoMaterno(), CVApellidoMaterno);
         assertEquals(victimaConsultada.getCIEdad(), CVEdad);
-        assertEquals(victimaConsultada.getCVGenero(), CVEdad);
         assertEquals(victimaConsultada.getCVGenero(), CVGenero);
         assertEquals(victimaConsultada.getCVLugarNac(), CVLugarNac);
         assertEquals(victimaConsultada.getCVOrientaSex(), CVOrientaSex);
+        assertEquals(victimaConsultada.getCVNacionalidad(), this.nacionalidad);
+        assertEquals(victimaConsultada.getCVDiscapacidad(), this.discapacidad);
+        assertEquals(victimaConsultada.getCIEducacion(), this.educacion);
+        assertEquals(victimaConsultada.getCVEtnia(), this.etnia);
     }
 
     @Test
