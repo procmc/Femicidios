@@ -18,10 +18,10 @@
                 <div class="row align-items-end">
                     <div class="w-100"></div>
                     <div class="col">
-                        <div class="mb-3 mx-3"><label class="form-label" for="name">Identificación de la victima</label><input
+                        <div class="mb-3 mx-3"><label class="form-label" for="name">Idetificación de la victima</label><input
                                 th:name="dni" th:field="*{CVDNI}" id="name" class="form-control item" type="text"
                                 minlength="1" maxlength="50" 
-                                placeholder="Digite la cedula de la victima" /></div>
+                                placeholder="Digite la cedula de la victima" pattern="[0-9]+"/></div>
                     </div>
                     <div class="col">
                         <div class="mb-3 mx-3"><label class="form-label" for="name">Nombre de la victima</label><input
@@ -36,14 +36,14 @@
                         <div class="mb-3 mx-3"><label class="form-label" for="name">Apellido Paterno de la
                             victima</label><input th:name="apellidoPaterno" th:field="*{CVApellidoPaterno}" id="name-2"
                                                   class="form-control item" type="text" minlength="1"
-                                                  maxlength="50"
+                                                  maxlength="50" 
                                                   placeholder="Digite el apellido paterno de la victima"/></div>
                     </div>
                     <div class="col">
                         <div class="mb-3 mx-3"><label class="form-label" for="name">Apellido Materno de la
                             victima</label><input th:name="apellidoMaterno" th:field="*{CVApellidoMaterno}" id="name-3"
                                                   class="form-control item" type="text" minlength="1"
-                                                  maxlength="50" 
+                                                  maxlength="50"
                                                   placeholder="Digite el apellido materno de la victima"/></div>
                     </div>
                 </div>
@@ -166,9 +166,9 @@
                         </select></div>
                     </div>
                     <div class="col">
-                        <div class="mb-3 mx-3"><label class="form-label" for="name">Solicitó medidas de proteccion
-                            </label><select th:name="medidasProteccion" th:field="*{CVMedidasProteccion}" id="name-17" class="form-select" >
-                            <optgroup label="Solicitó medidas de proteccion">
+                        <div class="mb-3 mx-3"><label class="form-label" for="name">Seleccione si solicitó medidas de
+                            proteccion</label><select th:name="medidasProteccion" th:field="*{CVMedidasProteccion}" id="name-17" class="form-select" >
+                            <optgroup label="Medida de proteccion">
                                 <option th:value="Si">Si</option>
                                 <option th:value="No">No</option>
                             </optgroup>
@@ -178,8 +178,9 @@
                 <div class="row align-items-end">
                     <div class="w-100"></div>
                     <div class="col">
-                        <div class="mb-3 mx-3"><label class="form-label" for="name">Puso denuncia</label><select th:name="denunciaPrevia" th:field="*{CVDenunciasPrevias}" id="name-18" class="form-select" >
-                            <optgroup label="Denuncia ">
+                        <div class="mb-3 mx-3"><label class="form-label" for="name">Seleccione si puso denuncia
+                            </label><select th:name="denunciaPrevia" th:field="*{CVDenunciasPrevias}" id="name-18" class="form-select" >
+                            <optgroup label="Denuncia previa">
                                 <option th:value="Si">Si</option>
                                 <option th:value="No">No</option>
                             </optgroup>

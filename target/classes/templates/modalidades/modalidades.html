@@ -33,6 +33,7 @@
                 <tr>
                   <th class="text-center">Titulo</th>
                   <th class="text-center">Descripción</th>
+                  <th class="text-center">Pais</th>
                   <th class="text-center">Acciones</th>
                 </tr>
                 </thead>
@@ -40,6 +41,7 @@
                 <tr th:each="modalidad: ${modalidades}">
                   <td th:text="${modalidad.CVTitulo}"></td>
                   <td th:text="${modalidad.CVDescripcion}"></td>
+                  <td th:text="${modalidad.CVPais}"></td>
                   <td class="text-center align-middle h-50"><a
                           class="btn btnMaterial btn-flat success" role="button"
                           th:href="@{/modalidades/edit/{id}(id=${modalidad.CI_Codigo})}"><i

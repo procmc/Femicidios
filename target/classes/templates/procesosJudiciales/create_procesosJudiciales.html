@@ -18,17 +18,11 @@
                         id="name" th:field="*{CVEstado}" class="form-control item" type="text"
                         placeholder="Digite el estado del proceso judicial" required minlength="1" maxlength="50"/>
                 </div>
-                <div class="mb-3"><label class="form-label" for="name">DNI Del denunciante</label><input
-                        id="name-1" th:field="*{CIDenunciante}" class="form-control item" type="text"
-                        placeholder="Digite el DNI del denunciante" required pattern="[0-9]+" minlength="1"
-                        maxlength="50"/></div>
+
                 <div class="mb-3"><label class="form-label" for="name">Tipo de delito</label><input
                         id="name-2" th:field="*{CVTipoDelito}" class="form-control item" type="text"
                         placeholder="Digite el tipo de delito" required minlength="1" maxlength="30"/></div>
-                <div class="mb-3"><label class="form-label" for="name">Partes involucradas</label><input
-                        id="name-3" th:field="*{CVPartes}" class="form-control item" type="text"
-                        placeholder="Digite las partes involucradas del proceso" required minlength="1" maxlength="20"/>
-                </div>
+
                 <div class="mb-3"><label class="form-label" for="name">Personas Imputadas</label><input
                         id="name-4" th:field="*{CIPersonasImputadas}" class="form-control item" type="text"
                         placeholder="Digite la cantidad de personas imputadas" required minlength="1" maxlength="10"/>
