@@ -16,9 +16,10 @@ Este repositorio contiene el código fuente y la documentación para un software
 - Génesis Sequeira Navarro
 - Ronny Salgado Moraga
 - Dillan Guzmán On
-NO Julio Hernández Chavarría
 - Kendall Barrantes Paniagua
 - Ana Aguilar Vanegas
+
+Mejoras en el 2024 realizadas por Mauricio Torres Fernandez
 
 ## Características
 
