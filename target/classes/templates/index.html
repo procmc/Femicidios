@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Inicio</title>
+    
+    <th th:insert="~{header}"></th>
+</head>
+<body>
+
+<main class="page landing-page">
+    <section class="clean-block clean-hero"
+             style="background-image: url(/assets/img/ilda/Imagen2.jpg);color: rgba(9, 162, 255, 0.85);">
+        <div class="text">
+            <h2>Proyecto Femicidios</h2>
+            <p>Proyecto Realizado en el curso IF7100 en el 2023</p>
+            <a class="btn btn-outline-light btn-lg" type="button" href="#SobreProyecto">Aprender más</a>
+        </div>
+    </section>
+    <section class="clean-block clean-info dark" id="SobreProyecto">
+        <div class="container">
+            <div class="block-heading">
+                <h2 class="text-info">Info</h2>
+                <p>El objetivo de este proyecto es proporcionar una herramienta para recopilar y analizar información
+                    sobre los feminicidios que ocurren en determinada región o país.</p>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-md-6"><img class="img-thumbnail" src="/assets/img/ilda/Imagen1.png"></div>
+                <div class="col-md-6">
+                    <h3>Iniciativa Latinoamericana por los Datos Abiertos / ILDA</h3>
+                    <div class="getting-started-info">
+                        <p>El sistema propuesto incluye un estándar de datos de femicidios que define las entidades y
+                            categorías a ser registradas. Este estándar ha sido desarrollado con la colaboración de
+                            expertos en el tema y refleja una versión preliminar de las variables a registrar y las
+                            codificaciones correspondientes.</p>
+                    </div>
+                    <a class="btn btn-outline-primary btn-lg" type="button" href="https://idatosabiertos.org/">Aprender
+                        Más</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="clean-block features">
+        <div class="container">
+            <div class="block-heading">
+                <h2 class="text-info">Características</h2>
+                <p>El software está desarrollado utilizando el framework Spring Boot y utiliza GitHub Actions para
+                    implementar en Docker</p>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-md-5 feature-box"><i class="icon-star icon"></i>
+                    <h4>Bootstrap 5</h4>
+                    <p>El software utiliza la ultima versión de bootstrap 5 para el diseño.</p>
+                </div>
+                <div class="col-md-5 feature-box"><i class="icon-pencil icon"></i>
+                    <h4>Customizable</h4>
+                    <p>El sistema es customizable</p>
+                </div>
+                <div class="col-md-5 feature-box"><i class="icon-screen-smartphone icon"></i>
+                    <h4>Responsive</h4>
+                    <p>El sistema se adapta a los diferentes dispositivos.</p>
+                </div>
+                <div class="col-md-5 feature-box"><i class="icon-refresh icon"></i>
+                    <h4>Todos los navegadores</h4>
+                    <p>El sistema es compatible con todos los navegadores web</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="clean-block slider dark">
+        <div class="container">
+            <div class="block-heading">
+                <h2 class="text-info">Ilustraciones</h2>
+                <p>El sistema tiene como objetivo principal facilitar el registro y análisis de casos de femicidio, que
+                    se define como el asesinato intencional de una mujer debido a su condición de género.</p>
+            </div>
+            <div id="carousel-1" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active"><img class="w-100 d-block" src="/assets/img/ilda/Imagen5.jpg"
+                                                           alt="Slide Image"/></div>
+                    <div class="carousel-item"><img class="w-100 d-block" src="/assets/img/ilda/Imagen4.jpg"
+                                                    alt="Slide Image"/>
+                    </div>
+                    <div class="carousel-item"><img class="w-100 d-block" src="/assets/img/ilda/Imagen3.jpg"
+                                                    alt="Slide Image"/>
+                    </div>
+                </div>
+                <div><a class="carousel-control-prev" href="#carousel-1" role="button" data-bs-slide="prev"><span
+                        class="carousel-control-prev-icon"></span><span class="visually-hidden">Previous</span></a><a
+                        class="carousel-control-next" href="#carousel-1" role="button" data-bs-slide="next"><span
+                        class="carousel-control-next-icon"></span><span class="visually-hidden">Next</span></a></div>
+                <div class="carousel-indicators">
+                    <button class="active" type="button" data-bs-target="#carousel-1" data-bs-slide-to="0"></button>
+                    <button type="button" data-bs-target="#carousel-1" data-bs-slide-to="1"></button>
+                    <button type="button" data-bs-target="#carousel-1" data-bs-slide-to="2"></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="clean-block about-us" id="sobreNosotros">
+        <div class="container">
+            <div class="block-heading">
+                <h2 class="text-info">Sobre Nosotros</h2>
+                <p>Colaboradores del proyecto:
+                    Carlos Morales Castro || Jhonny David Solano Vargas || Ismael Alexander Valverde Gómez || Julio
+                    Moisés Jarquín Muñoz || Kijan Acuña Medrano || Hadji Dejan Loaiciga Herrera || Saul Córdoba Solís ||
+                    Dillan Rodrigo Bermúdez González || Lisbeth Ramírez Jiménez || Michael Arauz Torrez || Tishary
+                    Sallar Foster Blake || Génesis Sequeira Navarro ||Ronny Salgado Moraga || Dillan Guzmán On NO || Julio
+                    Hernández Chavarría || Kendall Barrantes Paniagua || Ana Aguilar Vanegas</p>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-sm-6 col-lg-4">
+                    <div class="card text-center clean-card"><img class="card-img-top w-100 d-block"
+                                                                  src="/assets/img/avatars/Avatar1.png">
+                        <div class="card-body info">
+                            <h4 class="card-title">Carlos Morales</h4>
+                            <p class="card-text">Scrum Master</p>
+                            <div class="icons"><a href="#"><i class="icon-social-linkedin"></i></a><a href="https://github.com/procmc"><i
+                                    class="icon-social-github"></i></a><a></a></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+</main>
+<footer class="page-footer dark">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-3">
+                <h5>Comenzar</h5>
+                <ul>
+                    <li><a href="#">Inicio</a></li>
+                    <li><a href="/login">Iniciar Sesión</a></li>
+                </ul>
+            </div>
+            <div class="col-sm-3">
+                <h5>Sobre Nosotros</h5>
+                <ul>
+                    <li><a href="#sobreNosotros">Información de Equipo</a></li>
+                    <li><a href="#">Contactanos</a></li>
+                </ul>
+            </div>
+            <div class="col-sm-3">
+                <h5>Soporte</h5>
+                <ul>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Ayuda</a></li>
+                </ul>
+            </div>
+            <div class="col-sm-3">
+                <h5>Legal</h5>
+                <ul>
+                    <li><a href="#">Terminos de Servicio</a></li>
+                    <li><a href="#">Terminos de Uso</a></li>
+                    <li><a href="#">Políticas de Privacidad</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="footer-copyright">
+        <p>© 2023 Copyright Proyecto hecho por el grupo IF7100 2023</p>
+    </div>
+</footer>
+</body>
+</html>

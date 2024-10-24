@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hecho Organismo mantenimiento</title>
+    <script th:src="@{/HechoScripts/HechoScript.js}"></script>
+    <th th:insert="~{header}"></th>
+</head>
+<body>
+
+<main class="page registration-page">
+    <section class="clean-block clean-form dark">
+        <div class="container">
+            <div class="block-heading">
+                <h2 class="text-info">Crear Hecho Organismo</h2>
+            </div>
+            <form th:action="@{/hechosorganismo}" th:object="${hechoOrganismo}" method="POST">
+                <div class="mb-3"><label class="form-label" for="name">Id Hecho</label>
+                    <input id="name" th:field="*{CIHecho}" class="form-control item" type="text"
+                           placeholder="Digite el Id del hecho" readonly/></div>
+
+                <div class="mb-3"><label class="form-label" for="name-1">Seleccione el organismo</label>
+                    <select id="name-1" th:name="organismos" th:field="*{CIOrganismo}" class="form-select" onfocus="ocultarError()">
+                        <option th:each="organismo: ${organismos}" th:value="${organismo.CI_Id}"
+                                th:text="${organismo.CI_Id} + ' - ' + ${organismo.CVNombre}"></option>
+                    </select></div>
+                <div id="error-message" th:if="${error}" class="alert alert-danger" role="alert">
+                    <p th:text="${error_message}"></p>
+                </div>
+                <button class="btn btn-primary" type="submit">Agregar</button>
+            </form>
+        </div>
+    </section>
+</main>
+
+<!--<br>-->
+<!--<br>-->
+
+<!--<div class = "container">-->
+<!--    <div class = "row">-->
+<!--        <div class ="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">-->
+<!--            <h1 class = "text-center">Crear Hecho Organismo</h1>-->
+<!--            <div class = "card-body">-->
+<!--                <form th:action="@{/hechosorganismo}" th:object = "${hechoOrganismo}" method="POST">-->
+
+<!--                    <div class="form-group">-->
+<!--                        <label>Id Hecho</label>-->
+<!--                        <input-->
+<!--                                type="text"-->
+<!--                                name="hechos"-->
+<!--                                th:field="*{CIHecho}"-->
+<!--                                class="form-control"-->
+<!--                                placeholder="Digite el Id Hecho"-->
+<!--                                readonly/>-->
+<!--                    </div>-->
+
+<!--                    <div class ="form-group">-->
+<!--                        <label>Selecciona el organismo:</label>-->
+<!--                        <select th:name="organismos" th:field="*{CIOrganismo}" class = "form-control" onfocus="ocultarError()">-->
+<!--                            <option th:each="organismos: ${organismos}" th:value="${organismos.CI_Id}" th:text="${organismos.CI_Id} + ' - ' + ${organismos.CVNombre}"></option>-->
+<!--                        </select>-->
+<!--                    </div>-->
+
+<!--                    <div id="error-message" th:if="${error}" class="alert alert-danger" role="alert">-->
+<!--                        <p th:text="${error_message}"></p>-->
+<!--                    </div>-->
+
+<!--                    <div class = "box-footer">-->
+<!--                        <button type="submit" class = "btn btn-primary">-->
+<!--                            Agregar-->
+<!--                        </button>-->
+<!--                    </div>-->
+<!--                </form>-->
+
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+</body>
+</html>

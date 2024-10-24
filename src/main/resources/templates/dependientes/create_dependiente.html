@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>dependiente Mantenimiento</title>
+    <th th:insert="~{header}"></th>
+</head>
+
+<body>
+
+    <main class="page registration-page">
+        <section class="clean-block clean-form dark">
+            <div class="container justify-content-center">
+                <div class="block-heading">
+                    <h2 class="text-info">Crear Dependiente</h2>
+                </div>
+                <form th:action="@{/dependientes}" th:object="${dependiente}" method="post" class="mw-100 m-3">
+                    <div class="row align-items-end">
+                        <div class="w-100"></div>
+                        <div class="col">
+                            <div class="mb-3 mx-3"><label class="form-label" for="name">Documento Nacional de Identidad
+                                    del dependiente</label><input th:name="dni" th:field="*{CVDNI}" id="name"
+                                    class="form-control item" type="text" minlength="1" maxlength="50" required
+                                    placeholder="Digite la cedula de la dependiente" pattern="[0-9]+" /></div>
+                        </div>
+
+                        <div class="col">
+                            <div class="mb-3 mx-3"><label class="form-label" for="name">Seleccione el tipo de relacion
+                                    familiar del dependiente
+                                </label><select th:name="tipoRelacionFamiliar" th:field="*{tipoRelacionFamiliar}"
+                                    onfocus="ocultarError()" id="name-2" class="form-select" required>
+                                    <optgroup label="Relacion del dependiente">
+                                        <option th:each="relacionFamiliar: ${tipoRelacionFamiliar}"
+                                            th:value="${relacionFamiliar.CI_Codigo}"
+                                            th:text="${relacionFamiliar.CI_Codigo} + ' - ' + ${relacionFamiliar.nombre}">
+                                        </option>
+                                    </optgroup>
+                                </select></div>
+                        </div>
+
+                        <div class="col">
+                            <div class="mb-3 mx-3"><label class="form-label" for="name">Seleccione la victima
+                                </label><select id="victima" name="victima" class="form-select" required>
+                                    <optgroup label="Victima">
+                                        <option th:each="victima: ${victimas}" th:value="${victima.CI_Id}"
+                                            th:text="${victima.CVNombre}">
+                                        </option>
+                                    </optgroup>
+                                </select></div>
+                        </div>
+
+
+                    </div>
+                    <div class="row align-items-end">
+                        <div class="w-100"></div>
+                        <div class="col">
+                            <div class="d-flex justify-content-center mb-3 mx-3">
+                                <button class="btn btn-primary" type="submit">Agregar</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!--<div class="row">-->
+    <!--		<div class="col-md-14">-->
+    <!--			<ul class="nav nav-pills flex-column flex-sm-row">-->
+    <!--				<li class="nav-item">-->
+    <!--					<a class="nav-link active" href="#">Inicio</a>-->
+    <!--				</li>-->
+    <!--				<li class="nav-item">-->
+    <!--					<a class="nav-link" th:href="@{/dependiente}">dependiente</a>-->
+    <!--				</li>-->
+    <!--		-->
+    <!--			</ul>-->
+    <!--		</div>-->
+    <!--	</div>-->
+
+    <!--<br>-->
+    <!--<br>-->
+    <!--	<div class = "container">-->
+    <!--		<div class = "row">-->
+    <!--			<div class ="col-lg-8 col-md-8 col-sm-8 container justify-content-center card">-->
+    <!--				<h1 class = "text-center">Registrar dependiente</h1>-->
+    <!--				<div class = "card-body">-->
+    <!--					<form th:action="@{/dependiente}" th:object = "${dependiente}" method="POST">-->
+    <!--						<div class ="form-group">-->
+    <!--							-->
+    <!--							-->
+    <!--							-->
+    <!--							<div class ="form-group">-->
+    <!--						<label>Cedula</label>-->
+    <!--							<input-->
+    <!--							type = "text"-->
+    <!--							name = "cedula"-->
+    <!--							th:field = "*{CVDNI}"-->
+    <!--							class = "form-control"-->
+    <!--							placeholder="Digite la cedula de la dependiente" -->
+    <!--							maxlength="10"-->
+    <!--                   		 	required-->
+    <!--							/>-->
+    <!--						</div>-->
+    <!--						-->
+    <!--					-->
+    <!--						<div class ="form-group">-->
+    <!--							<label>Nombre </label>-->
+    <!--							<input-->
+    <!--							type = "text"-->
+    <!--							name = "nombre"-->
+    <!--							th:field = "*{CVNombre}"-->
+    <!--							class = "form-control"-->
+    <!--							placeholder="Digite el nombre de la dependiente" -->
+    <!--							maxlength="50"-->
+    <!--                   		 	required-->
+    <!--							/>-->
+    <!--						</div>-->
+    <!--						-->
+    <!--						<div class ="form-group">-->
+    <!--							<label>Apellido Paterno</label>-->
+    <!--							<input-->
+    <!--							type = "text"-->
+    <!--							name = "apellidoPaterno"-->
+    <!--							th:field = "*{CVApellidoPaterno}"-->
+    <!--							class = "form-control"-->
+    <!--							placeholder="Digite el apellido Paterno de la dependiente" -->
+    <!--							maxlength="50"-->
+    <!--                   		 	required-->
+    <!--							/>-->
+    <!--						</div>-->
+    <!--						-->
+    <!--						<div class ="form-group">-->
+    <!--							<label>Apellido Materno</label>-->
+    <!--							<input-->
+    <!--							type = "text"-->
+    <!--							name = "apellidoMaterno"-->
+    <!--							th:field = "*{CVApellidoMaterno}"-->
+    <!--							class = "form-control"-->
+    <!--							placeholder="Digite el apellido Materno de la dependiente" -->
+    <!--							maxlength="50"-->
+    <!--                   		 	required-->
+    <!--							/>-->
+    <!--						</div>-->
+    <!--						-->
+    <!--						<div class ="form-group">-->
+    <!--							<label>Edad</label>-->
+    <!--							<input-->
+    <!--							type = "text"-->
+    <!--							name = "Edad"-->
+    <!--							th:field = "*{CIEdad}"-->
+    <!--							class = "form-control"-->
+    <!--							placeholder="Edad de la dependiente" -->
+    <!--							maxlength="10"-->
+    <!--                   		 	required-->
+    <!--							/>-->
+    <!--						</div>-->
+    <!--		-->
+    <!--						-->
+    <!--						<div class ="form-group">-->
+    <!--							<label>Seleccione la identidad de genero de la dependiente:</label>-->
+    <!--							<select name="identidad" th:field="*{CVGenero}" class = "form-control" onfocus="ocultarError()">-->
+    <!--								<option th:each="identidad: ${identidadGenero}" th:value="${identidad.Id}" th:text="${identidad.nombre}"></option>-->
+    <!--							</select>-->
+    <!--						</div>-->
+    <!--		-->
+    <!--		-->
+    <!--		-->
+    <!--		-->
+    <!--						<div class ="form-group">-->
+    <!--							<label>Seleccione la orientacion sexual de la dependiente:</label>-->
+    <!--							<select name="orientacion_sexual" th:field="*{CVOrientaSex}" class = "form-control" onfocus="ocultarError()">-->
+    <!--								<option th:each="orientacionSexual: ${orientacionSexual}" th:value="${orientacionSexual.CI_Codigo}" th:text="${orientacionSexual.CVTitulo}"></option>-->
+    <!--							</select>-->
+    <!--						</div>-->
+    <!--						-->
+    <!--							-->
+    <!--						-->
+    <!--						<div class ="form-group">-->
+    <!--							<label>Lugar de Nacimiento</label>-->
+    <!--							<input-->
+    <!--							type = "text"-->
+    <!--							name = "Lugar de Nacimiento"-->
+    <!--							th:field = "*{CVLugarNac}"-->
+    <!--							class = "form-control"-->
+    <!--							placeholder="Lugar de nacimiento de la dependiente" -->
+    <!--							maxlength="100"-->
+    <!--                   		 	required-->
+    <!--							/>-->
+    <!--						</div>-->
+    <!--						-->
+    <!--						-->
+    <!--							-->
+    <!--						<div class ="form-group">-->
+    <!--							<label>Nacionalidad</label>-->
+    <!--							<input-->
+    <!--							type = "text"-->
+    <!--							name = "nacionalidad"-->
+    <!--							th:field = "*{CVNacionalidad}"-->
+    <!--							class = "form-control"-->
+    <!--							placeholder="Digite la nacionalidad de la dependiente" -->
+    <!--							maxlength="50"-->
+    <!--                   		 	required-->
+    <!--							/>-->
+    <!--						</div>-->
+    <!--						-->
+
+    <!--         <div class ="form-group">-->
+    <!--							<label>Seleccione el nivel educativo de la dependiente:</label>-->
+    <!--							<select name="educacion" th:field="*{CIEducacion}" class = "form-control" onfocus="ocultarError()">-->
+    <!--								<option th:each="educacion: ${nivelEducativo}" th:value="${educacion.CI_Id}" th:text="${educacion.CVTitulo}"></option>-->
+    <!--							</select>-->
+    <!--						</div>-->
+    <!--						-->
+    <!--						<div class ="form-group">-->
+    <!--							<label>Ocupación</label>-->
+    <!--							<input-->
+    <!--							type = "text"-->
+    <!--							name = "Ocupacion"-->
+    <!--							th:field = "*{CVOcupacion}"-->
+    <!--							class = "form-control"-->
+    <!--							placeholder="Digite la ocupacion de la dependiente" -->
+    <!--							maxlength="50"-->
+    <!--                   		 	required-->
+    <!--							/>-->
+    <!--						</div>-->
+    <!--						-->
+    <!--						<div class ="form-group">-->
+    <!--							<label>Domicilio</label>-->
+    <!--							<input-->
+    <!--							type = "text"-->
+    <!--							name = "domicilio"-->
+    <!--							th:field = "*{CVDomicilio}"-->
+    <!--							class = "form-control"-->
+    <!--							placeholder="Digite el domicilio de la dependiente" -->
+    <!--							maxlength="100"-->
+    <!--                   		 	required-->
+    <!--							/>-->
+    <!--						</div>-->
+    <!--						-->
+    <!--						<div class ="form-group">-->
+    <!--							<label>Lugar de residencia</label>-->
+    <!--							<input-->
+    <!--							type = "text"-->
+    <!--							name = "lugarResidencia"-->
+    <!--							th:field = "*{CVLugarResidencia}"-->
+    <!--							class = "form-control"-->
+    <!--							placeholder="Digite el lugar de residencia de la dependiente" -->
+    <!--							maxlength="100"-->
+    <!--                   		 	required-->
+    <!--							/>-->
+    <!--						</div>-->
+    <!--						-->
+    <!--						<div class ="form-group">-->
+    <!--							<label>Discapacidad</label>-->
+    <!--						-->
+    <!--						<select name="discapacidad" th:field="*{CVDiscapacidad}"  onfocus="ocultarError()" class="form-control">-->
+    <!--   							 	<option value="Visual">Visual</option>-->
+    <!--   							 	<option value="Auditiva">Auditiva</option>-->
+    <!--   							 	<option value="Motriz">Motriz</option>-->
+    <!--   							 		<option value="Multiple">Multiple</option>-->
+    <!--   							 	<option value="Intelectual">Intelectual</option>-->
+    <!--   							 	<option value="Fisica">Fisica</option>-->
+    <!--   							 	<option value="Otro">Otro</option>-->
+    <!--   							 -->
+    <!--  							 -->
+    <!--  							 	</select>-->
+    <!--						</div>-->
+    <!--						-->
+    <!--						<div class ="form-group">-->
+    <!--							<label>Condicion migratoria</label>-->
+    <!--						-->
+    <!--							<select th:field="*{CVCondicionMigratoria}" onfocus="ocultarError()" class="form-control">-->
+    <!--   							 	<option value="REGULAR">Regular</option>-->
+    <!--   							 	<option value="IRREGULAR">Irregular</option>-->
+    <!--   							 	<option value="REFUGIADO">Refugiado</option>-->
+    <!--   							 	<option value="APATRIDA">Apatrida</option>-->
+    <!--   							 	<option value="OTRO">Otro</option>-->
+    <!--   							 -->
+    <!--  							 -->
+    <!--  							 	</select>-->
+    <!--							-->
+    <!--						</div>-->
+    <!--						-->
+    <!--						<div class ="form-group">-->
+    <!--							<label>Etnia</label>-->
+    <!--							<select name="etnia" th:field="*{CVEtnia}" onfocus="ocultarError()" class="form-control">-->
+    <!--   							 	<option value="Asiatico">Asiatico</option>-->
+    <!--   							 	<option value="Blanco">Blanco</option>-->
+    <!--   							 	<option value="Negro">Negro</option>-->
+    <!--   							 	<option value="Indigena">Indigena</option>-->
+    <!--   							 	<option value="Se desconoce">Se desconoce</option>-->
+    <!--   							 -->
+    <!--  							 -->
+    <!--  							 	</select>-->
+    <!--						</div>-->
+    <!--						-->
+    <!--						<div class ="form-group">-->
+    <!--							<label>Medidas de proteccion</label>-->
+    <!--							-->
+    <!--							<select name="medidasProteccion"  th:field="*{CVMedidasProteccion}" onfocus="ocultarError()" class="form-control">-->
+    <!--   							 	<option value="SI" >SI</option>-->
+    <!--  							 	<option value="NO">No</option>-->
+    <!--  							 	</select>-->
+    <!--						</div>-->
+    <!--						-->
+    <!--						<div class ="form-group">-->
+    <!--							<label>Denuncias previas</label>-->
+    <!--							-->
+    <!--							-->
+    <!--                  <select name="denunciasPrevias"  th:field="*{CVDenunciasPrevias}" onfocus="ocultarError()" class="form-control">-->
+    <!--							-->
+    <!--							-->
+    <!--   							 	<option value="SI" >SI</option>-->
+    <!--  							 	<option value="NO">No</option>-->
+    <!--  							 	</select>-->
+    <!--						</div>-->
+    <!--							-->
+    <!--						-->
+    <!--						-->
+    <!--							<div class ="form-group">-->
+    <!--							<label>Hijos</label>-->
+    <!--							<input-->
+    <!--							type = "number"-->
+    <!--							name = "hijos"-->
+    <!--							th:field = "*{CIHijos}"-->
+    <!--							class = "form-control"-->
+    <!--							placeholder="Cantidad de hijos" -->
+    <!--							maxlength="15"-->
+    <!--							pattern="[0-9]"-->
+    <!--                    		required-->
+    <!--							/>-->
+    <!--						</div>-->
+    <!--						-->
+    <!--					<div class ="form-group">-->
+    <!--							<label>Organismo generador</label>-->
+    <!--							<select name="generador" th:field="*{CVGenerador}" class = "form-control" onfocus="ocultarError()">-->
+    <!--								<option th:each="organismo: ${listaOrganismo}" th:value="${organismo.CI_Id}" th:text="${organismo.CI_Id} + ' - ' + ${organismo.CVNombre}"></option>-->
+    <!--							</select>-->
+    <!--						</div>-->
+    <!--						-->
+    <!--						-->
+    <!--						-->
+    <!--						-->
+    <!--						-->
+    <!--						-->
+    <!--						-->
+    <!--						-->
+    <!--						-->
+    <!--						<div class = "box-footer">-->
+    <!--							<button type="submit" class = "btn btn-primary">-->
+    <!--								Agregar-->
+    <!--							</button>-->
+    <!--						</div>-->
+    <!--					</form>-->
+    <!--				-->
+    <!--				</div>-->
+    <!--			</div>-->
+    <!--		</div>-->
+    <!--	</div>-->
+</body>
+
+</html>

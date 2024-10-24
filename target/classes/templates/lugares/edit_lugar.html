@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lugar Mantenimiento</title>
+  <th th:insert="~{header}"></th>
+</head>
+
+<body>
+
+  <main class="page registration-page">
+    <section class="clean-block clean-form dark">
+      <div class="container">
+        <div class="block-heading">
+          <h2 class="text-info">Actualizar Lugar</h2>
+        </div>
+        <form th:action="@{/lugares/{id} (id=${lugar.CI_Codigo})}" th:object="${lugar}" method="POST">
+
+          <div class="mb-3"><label class="form-label" for="name">Id del hecho</label>
+            <select th:name="hecho" th:field="*{CIHecho}" id="name" class="form-select" required>
+              <optgroup label="Hechos">
+                <option th:each="hecho: ${hechos}" th:value="${hecho.CI_Id}" th:text="${hecho.CI_Id}"></option>
+              </optgroup>
+            </select>
+          </div>
+          <div class="mb-3"><label class="form-label" for="name">Descripcion del lugar</label><input id="name-1"
+              th:field="*{CV_Descripcion}" class="form-control item" type="text"
+              placeholder="Digite la descripcion del lugar" required minlength="1" maxlength="50" /></div>
+          <div class="mb-3"><label class="form-label" for="name">Tipo de lugar</label>
+            <select th:name="tipoLugar" th:field="*{CITipoLugar}" id="name-2" class="form-select" required>
+              <optgroup label="Tipos de lugares">
+                <option th:each="tipolugar: ${tiposLugares}" th:value="${tipolugar.CI_Codigo}"
+                  th:text="${tipolugarStat.count} + ' - ' + ${tipolugar.CVTitulo}"></option>
+              </optgroup>
+            </select>
+          </div>
+
+          <div class="mb-3"><label class="form-label" for="name">Provincia</label><input id="name-3"
+              th:field="*{CVProvincia}" class="form-control item" type="text" placeholder="Digite la Provincia"
+              required minlength="1" maxlength="50" /></div>
+
+          <div class="mb-3"><label class="form-label" for="name">Cantón</label><input id="name-3"
+              th:field="*{CVCanton}" class="form-control item" type="text" placeholder="Digite la Provincia" required
+              minlength="1" maxlength="50" /></div>
+
+          <div class="mb-3"><label class="form-label" for="name">Distrito</label><input id="name-3"
+              th:field="*{CVDistrito}" class="form-control item" type="text" placeholder="Digite la Provincia"
+              required minlength="1" maxlength="50" /></div>
+
+          <div class="mb-3"><label class="form-label" for="name">Direccion del lugar</label><input id="name-3"
+              th:field="*{CV_Direccion}" class="form-control item" type="text"
+              placeholder="Digite la direccion del lugar" required minlength="1" maxlength="50" /></div>
+          <div class="mb-3"><label class="form-label" for="name">Ciudad del lugar</label><input id="name-4"
+              th:field="*{CV_Ciudad}" class="form-control item" type="text" placeholder="Digite la ciudad del lugar"
+              required minlength="1" maxlength="50" /></div>
+         
+          <div class="mb-3"><label class="form-label" for="name">Codigo postal del lugar</label><input id="name-6"
+              th:field="*{CI_Codigo_Postal}" class="form-control item" type="text"
+              placeholder="Digite el codigo postal del lugar" pattern="[0-9]+" required minlength="1" maxlength="50" />
+          </div>
+
+          <button class="btn btn-primary" type="submit">Actualizar</button>
+
+        </form>
+      </div>
+    </section>
+  </main>
+  <!--<div class="row">-->
+  <!--  <div class="col-md-12">-->
+  <!--    <ul class="nav nav-pills flex-column flex-sm-row">-->
+  <!--      <li class="nav-item">-->
+  <!--        <a class="nav-link active" href="#">Inicio</a>-->
+  <!--      </li>-->
+  <!--      <li class="nav-item">-->
+  <!--        <a class="nav-link" th:href="@{/lugares}">Lugar</a>-->
+  <!--      </li>-->
+
+  <!--    </ul>-->
+  <!--  </div>-->
+  <!--</div>-->
+  <!--<br>-->
+  <!--<br>-->
+  <!--<div class = "container">-->
+  <!--  <div class = "row">-->
+  <!--    <div class ="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">-->
+  <!--      <h1 class = "text-center"> Actualizar Lugar </h1>-->
+  <!--      <div class = "card-body">-->
+  <!--        <form th:action="@{/lugar/{id} (id=${lugar.CI_Codigo})}" th:object = "${lugar}" method="POST">-->
+  <!--          <div class="form-group">-->
+  <!--            <label>id Hecho </label>-->
+  <!--            <input-->
+  <!--                    type="text"-->
+  <!--                    name="CI_Hecho"-->
+  <!--                    th:field="*{CIHecho}"-->
+  <!--                    class="form-control"-->
+  <!--                    placeholder="Digite el idHecho"-->
+  <!--                    readonly/>-->
+  <!--          </div>-->
+
+  <!--          <div class="form-group">-->
+  <!--            <label>Descripcion</label>-->
+  <!--            <input-->
+  <!--                    type="text"-->
+  <!--                    name="descripcion"-->
+  <!--                    th:field="*{CV_Descripcion}"-->
+  <!--                    class="form-control"-->
+  <!--                    placeholder="Ingrese una descripcion"-->
+  <!--                    maxlength="100"-->
+  <!--                    required />-->
+  <!--          </div>-->
+
+
+
+
+
+  <!--          <div class="form-group">-->
+  <!--            <label>Tipo de Lugar:</label>-->
+  <!--            <select name="CI_Tipo_Lugar" style="display: block;" class = "form-control">-->
+  <!--              <option value="" selected disabled >Selecciona un tipo de lugar</option>-->
+  <!--              <option-->
+  <!--                      th:each= "tipolugar: ${tipoLugar}"-->
+  <!--                      th:text= ${tipolugar.CVTitulo}-->
+  <!--                      th:value="${tipolugar.CI_Codigo}"-->
+  <!--                      th:field="*{CI_Tipo_Lugar}" >-->
+  <!--              </option>-->
+  <!--            </select>-->
+  <!--          </div>-->
+
+
+
+  <!--          <div class="form-group">-->
+  <!--            <label>Direccion</label>-->
+  <!--            <input-->
+  <!--                    type="text"-->
+  <!--                    name="direccion"-->
+  <!--                    th:field="*{CV_Direccion}"-->
+  <!--                    class="form-control"-->
+  <!--                    placeholder="Ingrese la Direccion"-->
+  <!--                    maxlength="100"-->
+  <!--                    required />-->
+  <!--          </div>-->
+
+
+
+  <!--          <div class="form-group">-->
+  <!--            <label>Ciudad</label>-->
+  <!--            <input-->
+  <!--                    type="text"-->
+  <!--                    name="ciudad"-->
+  <!--                    th:field="*{CV_Ciudad}"-->
+  <!--                    class="form-control"-->
+  <!--                    placeholder="Ingrese una ciudad"-->
+  <!--                    maxlength="50"-->
+  <!--                    required />-->
+  <!--          </div>-->
+
+
+  <!--          <div class="form-group">-->
+  <!--            <label>Pais</label>-->
+  <!--            <input-->
+  <!--                    type="text"-->
+  <!--                    name="pais"-->
+  <!--                    th:field="*{CI_Pais}"-->
+  <!--                    pattern="[0-9]{1,4}"-->
+  <!--                    class="form-control"-->
+  <!--                    placeholder="Ingrese el codigo del pais" -->
+  <!--                    maxlength="10"-->
+  <!--                    required/>-->
+  <!--          </div>-->
+  <!--             <div class="form-group">-->
+  <!--             -->
+  <!--            <label>Codigo Postal</label>-->
+  <!--            <input-->
+  <!--                    type="text"-->
+  <!--                    name="CI_Codigo_Postal"-->
+  <!--                    th:field="*{CI_Codigo_Postal}"-->
+  <!--                    class="form-control"-->
+  <!--                    placeholder="Ingrese el codigo postal"-->
+  <!--                    maxlength="15"-->
+  <!--                    required />-->
+  <!--          </div>-->
+  <!--          -->
+
+  <!--          <div class = "box-footer">-->
+  <!--            <button type="submit" class = "btn btn-primary">-->
+  <!--              Actualizar datos-->
+  <!--            </button>-->
+  <!--          </div>-->
+  <!--        </form>-->
+
+  <!--      </div>-->
+  <!--    </div>-->
+  <!--  </div>-->
+  <!--</div>-->
+</body>
+
+</html>

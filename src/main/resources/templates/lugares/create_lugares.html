@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Lugar Mantenimiento</title>
+    <th th:insert="~{header}"></th>
+</head>
+
+<body>
+
+    <main class="page registration-page">
+        <section class="clean-block clean-form dark">
+            <div class="container">
+                <div class="block-heading">
+                    <h2 class="text-info">Crear Lugar</h2>
+                </div>
+                <form th:action="@{/hecholugar}" th:object="${lugar}" method="POST">
+
+                    <div class="mb-3"><label class="form-label" for="name">Id Hecho</label>
+                        <input id="name" th:field="*{CIHecho}" class="form-control item" type="text"
+                            placeholder="Digite el Id del hecho" readonly />
+                    </div>
+                    <div class="mb-3"><label class="form-label" for="name">Descripcion del lugar</label><input
+                            id="name-1" th:field="*{CV_Descripcion}" class="form-control item" type="text"
+                            placeholder="Digite la descripcion del lugar" required minlength="1" maxlength="50" /></div>
+                    <div class="mb-3"><label class="form-label" for="name">Tipo de lugar</label>
+                        <select th:name="tipoLugar" th:field="*{CITipoLugar}" id="name-2" class="form-select" required>
+                            <optgroup label="Tipos de lugares">
+                                <option th:each="tipolugar: ${tiposLugares}" th:value="${tipolugar.CI_Codigo}"
+                                    th:text="${tipolugarStat.count} + ' - ' + ${tipolugar.CVTitulo}"></option>
+                            </optgroup>
+                        </select>
+                    </div>
+
+                    <div class="mb-3"><label class="form-label" for="name">Provincia</label><input id="name-3"
+                            th:field="*{CVProvincia}" class="form-control item" type="text"
+                            placeholder="Digite la direccion del lugar" required minlength="1" maxlength="50" /></div>
+
+                    <div class="mb-3"><label class="form-label" for="name">Canton</label><input id="name-3"
+                            th:field="*{CVCanton}" class="form-control item" type="text"
+                            placeholder="Digite la direccion del lugar" required minlength="1" maxlength="50" /></div>
+
+                    <div class="mb-3"><label class="form-label" for="name">Distrito</label><input id="name-3"
+                            th:field="*{CVDistrito}" class="form-control item" type="text"
+                            placeholder="Digite la direccion del lugar" required minlength="1" maxlength="50" /></div>
+
+                    <div class="mb-3"><label class="form-label" for="name">Direccion del lugar</label><input id="name-3"
+                            th:field="*{CV_Direccion}" class="form-control item" type="text"
+                            placeholder="Digite la direccion del lugar" required minlength="1" maxlength="50" /></div>
+
+                    <div class="mb-3"><label class="form-label" for="name">Ciudad del lugar</label><input id="name-4"
+                            th:field="*{CV_Ciudad}" class="form-control item" type="text"
+                            placeholder="Digite la ciudad del lugar" required minlength="1" maxlength="50" /></div>
+                   
+                    <div class="mb-3"><label class="form-label" for="name">Codigo postal del lugar</label><input
+                            id="name-6" th:field="*{CI_Codigo_Postal}" class="form-control item" type="text"
+                            placeholder="Digite el codigo postal del lugar" pattern="[0-9]+" required minlength="1"
+                            maxlength="50" /></div>
+
+                    <button class="btn btn-primary" type="submit">Agregar</button>
+
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!--<div class="row">-->
+    <!--  <div class="col-md-12">-->
+    <!--    <ul class="nav nav-pills flex-column flex-sm-row">-->
+    <!--      <li class="nav-item"><a class="nav-link active" href="#">Inicio</a>-->
+    <!--      </li>-->
+    <!--      <li class="nav-item"><a class="nav-link" th:href="@{/lugares}">Lugar</a>-->
+    <!--      </li>-->
+
+    <!--    </ul>-->
+    <!--  </div>-->
+    <!--</div>-->
+
+    <!--<br>-->
+    <!--<br>-->
+    <!--<div class="container">-->
+    <!--  <div class="row">-->
+    <!--    <div-->
+    <!--            class="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">-->
+    <!--      <h1 class="text-center">Crear Lugar</h1>-->
+    <!--      <div class="card-body">-->
+    <!--        <form th:action="@{/lugar}" th:object="${lugar}" method="POST">-->
+    <!--&lt;!&ndash;          <div class="form-group">&ndash;&gt;-->
+    <!--&lt;!&ndash;            <label>Id Hecho</label>&ndash;&gt;-->
+    <!--&lt;!&ndash;            <input&ndash;&gt;-->
+    <!--&lt;!&ndash;                    type="text"&ndash;&gt;-->
+    <!--&lt;!&ndash;                    name="CIHecho"&ndash;&gt;-->
+    <!--&lt;!&ndash;                    th:field="*{CIHecho}"&ndash;&gt;-->
+    <!--&lt;!&ndash;                    class="form-control"&ndash;&gt;-->
+    <!--&lt;!&ndash;                    placeholder="Digite el Id Hecho"&ndash;&gt;-->
+    <!--&lt;!&ndash;                    readonly/>&ndash;&gt;-->
+    <!--&lt;!&ndash;          </div>&ndash;&gt;-->
+
+    <!--          <div class ="form-group">-->
+    <!--            <label>Id Hecho:</label>-->
+    <!--            <select th:name="hecho" th:field="*{CIHecho}" class = "form-control" onfocus="ocultarError()">-->
+    <!--              <option th:each="hecho: ${hecho}" th:value="${hecho.CI_Id}" th:text="${hecho.CI_Id}"></option>-->
+    <!--            </select>-->
+    <!--          </div>-->
+
+    <!--          <div class="form-group">-->
+    <!--            <label>Descripcion</label>-->
+    <!--            <input-->
+    <!--                    type="text"-->
+    <!--                    name="descripcion"-->
+    <!--                    th:field="*{CV_Descripcion}"-->
+    <!--                    class="form-control"-->
+    <!--                    placeholder="Ingrese una descripcion" -->
+    <!--                    maxlength="100"-->
+    <!--                    minlength="1"-->
+    <!--                    required/>-->
+    <!--          </div>-->
+
+
+
+
+
+    <!--          <div class="form-group">-->
+    <!--            <label>Tipo de Lugar:</label>-->
+    <!--            <select name="CI_Tipo_Lugar" style="display: block;" class = "form-control" required>-->
+    <!--              <option value="" selected disabled >Selecciona un tipo de lugar</option>-->
+    <!--              <option-->
+    <!--                      th:each= "tipolugar: ${tipoLugar}"-->
+    <!--                      th:text= "${tipolugar.CVTitulo}"-->
+    <!--                      th:value="${tipolugar.CI_Codigo}"-->
+    <!--                      th:field="*{CI_Tipo_Lugar}" >-->
+    <!--              </option>-->
+    <!--            </select>-->
+    <!--          </div>-->
+
+
+
+    <!--          <div class="form-group">-->
+    <!--            <label>Direccion</label>-->
+    <!--            <input-->
+    <!--                    type="text"-->
+    <!--                    name="direccion"-->
+    <!--                    th:field="*{CV_Direccion}"-->
+    <!--                    class="form-control"-->
+    <!--                    placeholder="Ingrese la Direccion" -->
+    <!--                    maxlength="100"-->
+    <!--                    minlength="1"-->
+    <!--                    required/>-->
+    <!--          </div>-->
+
+
+
+    <!--          <div class="form-group">-->
+    <!--            <label>Ciudad</label>-->
+    <!--            <input-->
+    <!--                    type="text"-->
+    <!--                    name="ciudad"-->
+    <!--                    th:field="*{CV_Ciudad}"-->
+    <!--                    class="form-control"-->
+    <!--                    placeholder="Ingrese una ciudad" -->
+    <!--                    maxlength="50"-->
+    <!--                    minlength="1"-->
+    <!--                    required/>-->
+    <!--          </div>-->
+
+
+    <!--          <div class="form-group">-->
+    <!--            <label>Pais</label>-->
+    <!--            <input-->
+    <!--                    type="text"-->
+    <!--                    name="pais"-->
+    <!--                    th:field="*{CI_Pais}"-->
+    <!--                    pattern="[0-9]{1,4}"-->
+    <!--                    maxlength="4"-->
+    <!--                    required-->
+    <!--                    class="form-control"-->
+    <!--                    placeholder="Ingrese el codigo del pais" />-->
+    <!--          </div>-->
+
+    <!--  <div class="form-group">-->
+    <!--            <label>Codigo Postal</label>-->
+    <!--            <input-->
+    <!--                    type="text"-->
+    <!--                    name="CI_Codigo_Postal"-->
+    <!--                    th:field="*{CI_Codigo_Postal}"-->
+    <!--                    class="form-control"-->
+    <!--                    placeholder="Ingrese el codigo postal"-->
+    <!--                    maxlength="15"-->
+    <!--                    required />-->
+    <!--          </div>-->
+    <!--          <div id="error-message" th:if="${error}" class="alert alert-danger" role="alert">-->
+    <!--            <p th:text="${error_message}"></p>-->
+    <!--          </div>-->
+
+    <!--          <div class="box-footer">-->
+    <!--            <button type="submit" class="btn btn-primary">Agregar</button>-->
+    <!--          </div>-->
+    <!--        </form>-->
+
+    <!--      </div>-->
+    <!--    </div>-->
+    <!--  </div>-->
+    <!--</div>-->
+</body>
+
+</html>

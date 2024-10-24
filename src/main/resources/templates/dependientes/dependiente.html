@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>dependientes</title>
+    <th th:insert="~{header}"></th>
+</head>
+
+
+<body>
+
+<main class="page">
+    <section class="p-5">
+        <div class="container-fluid">
+            <div class="card">
+                <div class="card-header py-3">
+                    <div class="row align-items-center">
+                        <div class="col-12 col-sm-5 col-md-6 text-start pt-1 pb-1">
+                            <p class="text-primary m-0 fw-bold">dependientes</p>
+                        </div>
+                        <div class="col-12 col-sm-7 col-md-6 text-end pt-1 pb-1"><a
+                                th:href="@{/dependientes/new}" class="btn btn-primary btn-sm reset m-1">Crear
+                            dependiente</a></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="table-responsive max-height-table">
+                            
+                            <table class="table table-striped" id="ipi-table">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th class="text-center">Indice</th>
+                                        <th class="text-center">DNI del Dependiente</th>
+                                        <th class="text-center">Tipo Relación Familiar</th>
+                                        <th class="text-center">Víctimas Asociadas</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-center">
+                                    <!-- Iterar sobre el Map de dependientes y sus víctimas -->
+                                    <tr th:each="dependiente : ${dependientes}">
+                                        <!-- Acceder a la información del dependiente (entry.key) -->
+                                        <td th:text="${dependiente.CI_Codigo}"></td>
+                                        <td th:text="${dependiente.CVDNI}"></td>
+                                        <td th:text="${dependiente.tipoRelacionFamiliar.nombre}"></td>
+                                        <td th:text="${dependienteVictimaMap[dependiente.CI_Codigo]?.CVNombre}">Nombre de la víctima</td>
+
+                                        
+                            
+                                        <!-- Acciones (Actualizar/Eliminar) -->
+                                        <td class="text-center align-middle h-50">
+                                            <a class="btn btnMaterial btn-flat success" role="button"
+                                               th:href="@{/dependientes/edit/{id}(id=${dependiente.CI_Codigo})}">
+                                                <i class="fas fa-pen"></i>
+                                            </a>
+                                            <a class="btn btnMaterial btn-flat accent btnNoBorders checkboxHover ms-1"
+                                               role="button"
+                                               th:href="@{/dependientes/{id}(id=${dependiente.CI_Codigo})}">
+                                                <i class="fas fa-trash btnNoBorders"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <nav>
+                        <ul class="pagination pagination-sm mb-0 justify-content-center">
+                            <li class="page-item"><a class="page-link" aria-label="Previous"
+                                                     th:href="@{/dependientes}"><span
+                                    aria-hidden="true">«</span></a></li>
+                            <li th:each="nPagina : ${nPaginas}" class="page-item"
+                                th:class="${PaginaActual == nPaginaStat.count ? 'active' : ''}"><a
+                                    th:text="${nPaginaStat.count}"
+                                    class="page-link" aria-label="Next"
+                                    th:href="@{/dependiente/{pg}(pg=${nPaginaStat.count})}"><span
+                                    aria-hidden="true"></span></a>
+                            </li>
+                            <li class="page-item"><a class="page-link" aria-label="Next"
+                                                     th:href="@{/dependiente/{pg}(pg=${nPaginas.size()})}"><span
+                                    aria-hidden="true">»</span></a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+        <a th:href="@{/dependiente/pdf}" class="btn btn-primary">Descargar PDF</a>
+
+        <a th:href="@{/dependiente/excel}" class="btn btn-primary">Descargar Excel</a>
+
+    </section>
+</main>
+
+
+<!-- <div class="container-fluid"> -->
+<!-- 	<div class="row"> -->
+<!-- 		<div class="col-md-12"> -->
+<!-- 			<ul class="nav nav-pills flex-column flex-sm-row"> -->
+<!-- 				<li class="nav-item"> -->
+<!-- 					<a class="nav-link active" href="#">Inicio</a> -->
+<!-- 				</li> -->
+<!-- 				<li class="nav-item"> -->
+<!-- 					<a class="nav-link" th:href="@{/dependiente}">dependiente</a> -->
+<!-- 				</li> -->
+
+<!-- 			</ul> -->
+<!-- 		</div> -->
+<!-- 	</div> -->
+
+<!-- <div class = "row"> <h1></h1> </div> -->
+<!-- <div class = "row"> <h1></h1> </div> -->
+
+<!--<div class="alert alert-primary" role="alert">-->
+<!-- dependiente-->
+<!--</div>-->
+
+<!--	<div class="row">-->
+<!--		<div class="col-md-12">-->
+<!--			 -->
+<!--			 <a th:href = "@{/dependiente/new}" class = "btn btn-primary btn-lg"> Agregar dependiente</a>-->
+<!--			 -->
+<!--	<div class = "row"> <h1></h1> </div>-->
+<!--<div class = "row"> <h1></h1> </div> -->
+<!--			-->
+<!--			<table class="table table-striped table-sm table-hover">-->
+<!--			 -->
+<!--				<tr>-->
+<!--					<th> Cedula</th>-->
+<!--					<th> Nombre</th>-->
+<!--					<th> Apellido_Paterno</th>-->
+<!--					<th> Apellido_Materno</th>-->
+<!--					<th> Edad </th>-->
+<!--					<th> Genero </th>-->
+<!--					<th> Lugar de Nacimiento </th>-->
+<!--					<th> Orientacion Sexual </th>-->
+<!--					<th> Nacionalidad </th>-->
+<!--					<th> Educacion </th>-->
+<!--					<th> Ocupación </th>-->
+<!--					<th> Domicilio </th>-->
+<!--					<th> Lugar de residencia </th>-->
+<!--					<th> Discapacidad </th>-->
+<!--					<th> Condicion Migratoria </th>-->
+<!--					<th> Etnia </th>-->
+<!--					<th> Medidas de protección </th>-->
+<!--					<th> Denuncias previas </th>-->
+<!--					<th> Hijos </th>-->
+<!--					<th> Generador </th>-->
+<!--					-->
+<!--					<th> Acciones </th>-->
+<!--					-->
+<!--					-->
+<!--				</tr>-->
+<!--	-->
+<!--			<tbody>-->
+<!--				-->
+<!--				<tr th:each = "dependiente: ${dependiente}">-->
+<!--					<td th:text = "${dependiente.CVDNI}"></td>-->
+<!--					<td th:text = "${dependiente.CVNombre}"></td>-->
+<!--					<td th:text = "${dependiente.CVApellidoPaterno}"></td>-->
+<!--					<td th:text = "${dependiente.CVApellidoMaterno}"></td>-->
+<!--					<td th:text = "${dependiente.CIEdad}"></td>-->
+<!--					<td th:text = "${dependiente.CVGenero}"></td>-->
+<!--					<td th:text = "${dependiente.CVLugarNac}"></td>-->
+<!--					<td th:text = "${dependiente.CVOrientaSex}"></td>-->
+<!--					<td th:text = "${dependiente.CVNacionalidad}"></td>-->
+<!--					<td th:text = "${dependiente.CIEducacion}"></td>-->
+<!--					<td th:text = "${dependiente.CVOcupacion}"></td>-->
+<!--					<td th:text = "${dependiente.CVDomicilio}"></td>-->
+<!--					<td th:text = "${dependiente.CVLugarResidencia}"></td>-->
+<!--					<td th:text = "${dependiente.CVDiscapacidad}"></td>-->
+<!--					<td th:text = "${dependiente.CVCondicionMigratoria}"></td>-->
+<!--					<td th:text = "${dependiente.CVEtnia}"></td>-->
+<!--					<td th:text = "${dependiente.CVMedidasProteccion}"></td>-->
+<!--					<td th:text = "${dependiente.CVDenunciasPrevias}"></td>-->
+<!--					<td th:text = "${dependiente.CIHijos}"></td>-->
+<!--					<td th:text = "${dependiente.CVGenerador}"></td>-->
+<!--				-->
+<!--					<td>-->
+<!--						<a th:href = "@{/dependiente/edit/{id}(id=${dependiente.CI_Id})}"-->
+<!--						 class = "btn btn-primary">Actualizar</a>-->
+<!--						-->
+<!--						<a th:href = "@{/dependiente/{id}(id=${dependiente.CI_Id})}"-->
+<!--						 class = "btn btn-danger">Eliminar</a>-->
+<!--						 -->
+<!--					</td>-->
+<!--				</tr>-->
+<!--			</tbody>-->
+
+<!--			</table> -->
+<!--			-->
+<!--		</div>-->
+<!--	</div>-->
+<!--</div>-->
+
+
+</body>
+</html>

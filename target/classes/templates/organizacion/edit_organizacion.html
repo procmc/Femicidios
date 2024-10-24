@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Organizacion Mantenimiento</title>
+    <th th:insert="~{header}"></th>
+</head>
+
+<body onload="noBack();">
+
+
+    <main class="page registration-page">
+        <section class="clean-block clean-form dark">
+            <div class="container justify-content-center">
+                <div class="block-heading">
+                    <h2 class="text-info">Actualizar Organizacion</h2>
+                </div>
+                <form th:action="@{/organizacion/{id} (id=${organizacion.CI_Codigo_Organizacion})}"
+                    th:object="${organizacion}" method="post" class="mw-100 m-3">
+
+                    <div class="mb-3"><label class="form-label" for="name">Nombre</label><input id="name"
+                            th:field="*{CVNombre}" class="form-control item" type="text"
+                            placeholder="Digite el nombre de la organizacion" required minlength="1" maxlength="50" />
+                    </div>
+
+                    <div class="mb-3"><label class="form-label" for="name">Dirección</label><input id="name-1"
+                        th:field="*{CVDireccion}" class="form-control item" type="text"
+                        placeholder="Digite la direccion de la organizacion" required minlength="1"
+                        maxlength="75" /></div>
+
+                <div class="mb-3"><label class="form-label" for="name">Teléfono</label><input id="name-1"
+                        th:field="*{CVTelefono}" class="form-control item" type="text"
+                        placeholder="Digite el teléfono de la organizacion" required minlength="1" maxlength="75" />
+                </div>
+
+                <div class="mb-3"><label class="form-label" for="name">Correo</label><input id="name-1"
+                        th:field="*{CVCorreo}" class="form-control item" type="text"
+                        placeholder="Digite el correo de la organizacion" required minlength="1" maxlength="75" />
+                </div>
+
+                <div class="mb-3"><label class="form-label" for="name">País</label>
+                    <select th:field="*{CodigoPais}" class="form-select" required>
+                        <option value="" disabled selected>Seleccione un país</option>
+                        <option th:each="pais : ${paises}" th:value="${pais.id}" th:text="${pais.spanish}"></option>
+                    </select>
+                </div>
+
+                    <div class="row align-items-end">
+                        <div class="w-100"></div>
+                        <div class="col">
+                            <div class="d-flex justify-content-center mb-3 mx-3">
+                                <button class="btn btn-primary" type="submit">Actualizar</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+
+
+
+    <script type="text/javascript">
+        //Para que no pueda retroceder una vez editó 
+        // y en la etiqueta body arriba se agrega el evento onload="noBack();"
+
+        function noBack() {
+            window.history.forward();
+        }
+
+        window.onload = noBack;
+        window.onpageshow = function (evt) {
+            if (evt.persisted) noBack();
+        };
+        window.onunload = function () {
+            null;
+        };
+    </script>
+
+</body>
+
+</html>

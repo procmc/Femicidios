@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Imputados</title>
+	<th th:insert="~{header}"></th>
+</head>
+
+
+<body>
+
+<main class="page">
+	<section class="p-5">
+		<div class="container-fluid">
+			<div class="card">
+				<div class="card-header py-3">
+					<div class="row align-items-center">
+						<div class="col-12 col-sm-5 col-md-6 text-start pt-1 pb-1">
+							<p class="text-primary m-0 fw-bold">Imputados</p>
+						</div>
+						<div class="col-12 col-sm-7 col-md-6 text-end pt-1 pb-1"><a
+								th:href="@{/imputados/new}" class="btn btn-primary btn-sm reset m-1">Crear
+							Imputado</a></div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-12">
+						<div class="table-responsive max-height-table">
+							<table class="table table-striped" id="ipi-table">
+								<thead class="thead-dark">
+								<tr>
+									<th class="text-center"> DNI</th>
+									<th class="text-center"> Nombre</th>
+									<th class="text-center"> Genero</th>
+									<th class="text-center"> Orientacion sexual</th>
+									<th class="text-center"> Sexo</th>
+									<th class="text-center"> Edad</th>
+									<th class="text-center"> Lugar de nacimiento</th>
+									<th class="text-center"> Nacionalidad</th>
+									<th class="text-center"> Educacion</th>
+									<th class="text-center"> Ocupacion</th>
+									<th class="text-center"> Domicilio</th>
+									<th class="text-center"> Residencia</th>
+									<th class="text-center"> Condicion Migratoria</th>
+									<th class="text-center"> Etnia</th>
+									<th class="text-center"> Situacion Juridica</th>
+									<th class="text-center"> Estado Conyugal</th>
+									<th class="text-center"> Permiso de Portacion de Armas</th>
+									<th class="text-center"> Pertenencia a Fuerzas de Seguridad</th>
+									<th class="text-center"> Antecedentes</th>
+									<th class="text-center"> Suicidio</th>
+									<th class="text-center"> Generador</th>
+									<th class="text-center"> Acciones</th>
+								</tr>
+								</thead>
+								<tbody class="text-center">
+								<tr th:each="imputado: ${imputados}">
+									<td th:text="${imputado.CVDni}"></td>
+									<td th:text="${imputado.CVNombre}"></td>
+									<td th:text="${imputado.CVGenero}"></td>
+									<td th:text="${imputado.CVOrientacionSexual}"></td>
+									<td th:text="${imputado.CVSexo}"></td>
+									<td th:text="${imputado.CIEdad}"></td>
+									<td th:text="${imputado.CVLugarNacimiento}"></td>
+									<td th:text="${imputado.CVNacionalidad}"></td>
+									<td th:text="${imputado.CVEducacion}"></td>
+									<td th:text="${imputado.CVOcupacion}"></td>
+									<td th:text="${imputado.CVDomicilio}"></td>
+									<td th:text="${imputado.CVLugarResidencia}"></td>
+									<td th:text="${imputado.CVCondicionMigratoria}"></td>
+									<td th:text="${imputado.CVEtnia}"></td>
+									<td th:text="${imputado.CVSituacionJuridica}"></td>
+									<td th:text="${imputado.CVEstadoConyugal}"></td>
+									<td th:text="${imputado.CVPermisoPortacionArmas}"></td>
+									<td th:text="${imputado.CVPertenenciaFuerzaSeguridad}"></td>
+									<td th:text="${imputado.CVAntecedentes}"></td>
+									<td th:text="${imputado.CVSuicidio}"></td>
+									<td th:text="${imputado.CVGenerador}"></td>
+
+									<td class="text-center align-middle h-50">
+<!--										<form th:action="@{/redireccionarAccionesHecho}" method="post">-->
+<!--											<select class="form-control" name="opcion" onchange="this.form.submit()">-->
+<!--												<option value="" disabled selected>Relaciones</option>-->
+<!--												<option th:value="${hecho.CI_Id} + '-agregarLugar'"> Agregar Lugar-->
+<!--												</option>-->
+<!--												<option th:value="${hecho.CI_Id} + '-mostrarLugar'"> Mostrar Lugares-->
+<!--												</option>-->
+<!--												<option th:value="${hecho.CI_Id} + '-agregarImputado'"> Agregar-->
+<!--													Imputado-->
+<!--												</option>-->
+<!--												<option th:value="${hecho.CI_Id} + '-mostrarImputado'"> Mostrar-->
+<!--													Imputados-->
+<!--												</option>-->
+<!--												<option th:value="${hecho.CI_Id} + '-agregarOrganismo'"> Agregar-->
+<!--													Organismo-->
+<!--												</option>-->
+<!--												<option th:value="${hecho.CI_Id} + '-mostrarOrganismo'"> Mostrar-->
+<!--													Organismo-->
+<!--												</option>-->
+<!--											</select>-->
+<!--										</form>-->
+										<form th:action="@{/redireccionarAccionesImputado}" method="post">
+											<select class="form-control" name="opcion" onchange="this.form.submit()">
+												<option value="" disabled selected>Relaciones</option>
+												<option th:value="${imputado.CI_Id} + '-agregarHecho'"> Agregar Hecho
+												</option>
+												<option th:value="${imputado.CI_Id} + '-mostrarHecho'"> Mostrar Hechos
+												</option>
+											</select>
+										</form>
+										<a class="btn btnMaterial btn-flat success" role="button"
+										   th:href="@{/imputados/edit/{id}(id=${imputado.CI_Id})}">
+											<i class="fas fa-pen"></i>
+										</a>
+										<a class="btn btnMaterial btn-flat accent btnNoBorders checkboxHover ms-1"
+										   role="button"
+										   th:href="@{/imputados/{id}(id=${imputado.CI_Id})}">
+											<i class="fas fa-trash btnNoBorders"></i>
+										</a>
+
+<!--										<a th:href="@{/hechoimputados/new/{id}(id=${imputado.CI_Id})}"-->
+<!--										   class="btn btn-secondary">Agregar hecho</a>-->
+
+<!--										<a th:href="@{/hechoimputados/{id}(id=${imputado.CI_Id})}"-->
+<!--										   class="btn btn-secondary">Mostrar hecho</a>-->
+									</td>
+								</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div class="card-footer">
+					<nav>
+						<ul class="pagination pagination-sm mb-0 justify-content-center">
+							<li class="page-item"><a class="page-link" aria-label="Previous"
+													 th:href="@{/imputados}"><span
+									aria-hidden="true">«</span></a></li>
+							<li th:each="nPagina : ${nPaginas}" class="page-item"
+								th:class="${PaginaActual == nPaginaStat.count ? 'active' : ''}"><a
+									th:text="${nPaginaStat.count}"
+									class="page-link" aria-label="Next"
+									th:href="@{/imputado/{pg}(pg=${nPaginaStat.count})}"><span
+									aria-hidden="true"></span></a>
+							</li>
+							<li class="page-item"><a class="page-link" aria-label="Next"
+													 th:href="@{/imputado/{pg}(pg=${nPaginas.size()})}"><span
+									aria-hidden="true">»</span></a></li>
+						</ul>
+					</nav>
+				</div>
+			</div>
+		</div>
+
+		<a th:href="@{/imputados/pdf}" class="btn btn-primary">Descargar PDF</a>
+
+		<a th:href="@{/imputados/excel}" class="btn btn-primary">Descargar Excel</a>
+
+	</section>
+
+</main>
+
+<!--<div class="container-fluid">-->
+<!--&lt;!&ndash;	<div class="row">&ndash;&gt;-->
+<!--&lt;!&ndash;		<div class="col-md-12">&ndash;&gt;-->
+<!--&lt;!&ndash;			<ul class="nav nav-pills flex-column flex-sm-row">&ndash;&gt;-->
+<!--&lt;!&ndash;				<li class="nav-item">&ndash;&gt;-->
+<!--&lt;!&ndash;					<a class="nav-link active" href="#">Inicio</a>&ndash;&gt;-->
+<!--&lt;!&ndash;				</li>&ndash;&gt;-->
+<!--&lt;!&ndash;				<li class="nav-item">&ndash;&gt;-->
+<!--&lt;!&ndash;					<a class="nav-link" th:href="@{/imputados}">Imputados</a>&ndash;&gt;-->
+<!--&lt;!&ndash;				</li>&ndash;&gt;-->
+<!--&lt;!&ndash;		&ndash;&gt;-->
+<!--&lt;!&ndash;			</ul>&ndash;&gt;-->
+<!--&lt;!&ndash;		</div>&ndash;&gt;-->
+<!--&lt;!&ndash;	</div>&ndash;&gt;-->
+<!--	-->
+<!--<div class = "row"> <h1></h1> </div>-->
+<!--<div class = "row"> <h1></h1> </div>-->
+
+<!--<div class="alert alert-primary" role="alert">-->
+<!--  Imputados-->
+<!--</div>-->
+
+<!--	<div class="row">-->
+<!--		<div class="col-md-12">-->
+<!--			 -->
+<!--			 <a th:href = "@{/imputados/new}" class = "btn btn-primary btn-lg"> Agregar imputado</a>-->
+<!--			 -->
+<!--	<div class = "row"> <h1></h1> </div>-->
+<!--<div class = "row"> <h1></h1> </div> -->
+<!--			-->
+<!--			<table class="table table-striped table-sm">-->
+<!--				<tr>-->
+<!--					<th> DNI</th>-->
+<!--					<th> Nombre</th>-->
+<!--		-->
+<!--					<th> Genero </th>-->
+<!--					<th> Orientacion sexual</th>-->
+<!--					<th> Edad</th>-->
+<!--		-->
+<!--					<th> Lugar de nacimiento </th>-->
+<!--					-->
+<!--					<th> Codigo pais </th>-->
+
+<!--					<th> Nacionalidad</th>-->
+<!--					<th> Educacion</th>-->
+<!--					<th> Ocupacion</th>-->
+
+<!--					<th> Domicilio </th>-->
+<!--					<th> Residencia</th>-->
+<!--					<th> Condicion Migratoria</th>-->
+
+<!--					<th> Etnia </th>-->
+
+<!--					<th> Situacion Juridica </th>-->
+
+<!--					<th> Estado Conyugal</th>-->
+<!--					<th> Permiso de Portacion de Armas</th>-->
+<!--					<th> Pertenencia a Fuerzas de Seguridad</th>-->
+<!--					<th> Antecedentes</th>-->
+
+<!--					<th> Suicidio </th>-->
+<!--					<th> Generador</th>-->
+
+<!--					<th> Acciones</th>-->
+<!--				</tr>-->
+<!--			-->
+<!--			<tbody>-->
+<!--				<tr th:each = "imputado: ${imputados}">-->
+<!--					<td th:text = "${imputado.CVDni}"></td>-->
+<!--					<td th:text = "${imputado.CVNombre}"></td>-->
+<!--					<td th:text = "${imputado.CVGenero}"></td>-->
+<!--					<td th:text = "${imputado.CVOrientacionSexual}"></td>-->
+<!--					<td th:text = "${imputado.CIEdad}"></td>-->
+<!--					<td th:text = "${imputado.CVLugarNacimiento}"></td>-->
+<!--					<td th:text = "${imputado.CVPais}"></td>-->
+<!--					<td th:text = "${imputado.CVNacionalidad}"></td>-->
+<!--					<td th:text = "${imputado.CVEducacion}"></td>-->
+<!--					<td th:text = "${imputado.CVOcupacion}"></td>-->
+<!--					<td th:text = "${imputado.CVDomicilio}"></td>-->
+<!--					<td th:text = "${imputado.CVLugarResidencia}"></td>-->
+<!--					<td th:text = "${imputado.CVCondicionMigratoria}"></td>-->
+<!--					<td th:text = "${imputado.CVEtnia}"></td>-->
+<!--					<td th:text = "${imputado.CVSituacionJuridica}"></td>-->
+<!--					<td th:text = "${imputado.CVEstadoConyugal}"></td>-->
+<!--					<td th:text = "${imputado.CVPermisoPortacionArmas}"></td>-->
+<!--					<td th:text = "${imputado.CVPertenenciaFuerzaSeguridad}"></td>-->
+<!--					<td th:text = "${imputado.CVAntecedentes}"></td>-->
+<!--					<td th:text = "${imputado.CVSuicidio}"></td>-->
+<!--					<td th:text = "${imputado.CVGenerador}"></td>-->
+<!--					<td>-->
+<!--						<a th:href = "@{/imputados/edit/{id}(id=${imputado.CI_Id})}"-->
+<!--						 class = "btn btn-primary">Actualizar</a>-->
+<!--						-->
+<!--						<a th:href = "@{/imputados/{id}(id=${imputado.CI_Id})}"-->
+<!--						 class = "btn btn-danger">Eliminar</a>-->
+
+<!--						<a th:href = "@{/hechoimputados/new/{id}(id=${imputado.CI_Id})}"-->
+<!--						   class = "btn btn-secondary">Agregar hecho</a>-->
+
+<!--						<a th:href = "@{/hechoimputados/{id}(id=${imputado.CI_Id})}"-->
+<!--						   class = "btn btn-secondary">Mostrar hecho</a>-->
+<!--					</td>-->
+<!--				</tr>-->
+<!--			</tbody>-->
+<!--			</table> -->
+<!--		</div>-->
+<!--	</div>-->
+<!--</div>-->
+</body>
+</html>

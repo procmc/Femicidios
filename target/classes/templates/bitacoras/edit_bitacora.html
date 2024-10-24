@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Actualizar bitacora</title>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous">
+	<th th:insert="~{header}"></th>
+</head>
+
+<body>
+<div class="row">
+		<div class="col-md-12">
+			<ul class="nav nav-pills flex-column flex-sm-row">
+				<li class="nav-item">
+					<a class="nav-link active" href="#">Inicio</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" th:href="@{bitacoras/bitacoras}">Bitacora</a>
+				</li>
+		
+			</ul>
+		</div>
+	</div>
+<br>
+<br>
+	<div class = "container">
+		<div class = "row">
+			<div class ="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
+				<h1 class = "text-center"> Actualizar bitacora </h1>
+				<div class = "card-body">
+					<form th:action="@{/bitacoras/{id} (id=${bitacora.CIIdBitacora})}" th:object = "${bitacora}" method="POST">	
+						<div class ="form-group">
+							<label>Nombre del usuario</label>
+							<input
+							type = "text"
+							name = "usuario"
+							th:field = "*{CVUsuario}"
+							class = "form-control"
+							placeholder="Digite el nombre del usuario" 
+							minlength="1"
+                            maxlength="50"
+                            required= "El campo nombre de usuario es requerido"
+							/>
+						</div>
+						
+						<div class ="form-group">
+							<label>Rol del usuario</label>
+							<input
+							type = "text"
+							name = "descripcion"
+							th:field = "*{CVRol}"
+							class = "form-control"
+							placeholder="Digite el del Usuario" 
+							minlength="1"
+                            maxlength="50"
+                            required= "El campo rol del usuario es requerido"
+							/>
+						</div>
+						
+						<div class ="form-group">
+							<label>Descripcion</label>
+							<input
+							type = "text"
+							name = "descripcion"
+							th:field = "*{CVDescripcion}"
+							class = "form-control"
+							placeholder="Digite la descripcion del dato eliminado" 
+							minlength="1"
+                            maxlength="50"
+                            required= "El campo descripcion es requerido"
+							/>
+						</div>
+						
+						<div class = "box-footer">
+							<button type="submit" class = "btn btn-primary">
+								Actualizar datos
+							</button>
+						</div>
+					</form>
+				
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

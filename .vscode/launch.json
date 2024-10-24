@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-FemicidiosApplication<femicidios>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.if7100.FemicidiosApplication",
+            "projectName": "femicidios",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

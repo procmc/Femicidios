@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Actualizar Identidad de Género</title>
+	<th th:insert="~{header}"></th>
+</head>
+<body>
+
+<main class="page registration-page">
+	<section class="clean-block clean-form dark">
+		<div class="container">
+			<div class="block-heading">
+				<h2 class="text-info">Actualizar Identidad Género</h2>
+			</div>
+			<form th:action="@{/identidadgenero/{id} (id=${identidadgenero.Id})}" th:object = "${identidadgenero}" method="POST">
+				<div class="mb-3"><label class="form-label" for="name">Nombre de la identidad de género</label><input
+						id="name" th:field="*{nombre}" class="form-control item" type="text"
+						placeholder="Digite el nombre de la identidad de género" required minlength="1" maxlength="50"/></div>
+				<div class="mb-3"><label class="form-label" for="name">Descripción de la identidad de género</label><input
+						id="name-1" th:field="*{descripcion}" class="form-control item" type="text"
+						placeholder="Digite la descripcion de la identidad de género" required minlength="1" maxlength="75"/></div>
+				<!--<div class="mb-3"><label class="form-label" for="name">Código de país</label><input
+						id="name-1" th:field="*{codigoPais}" class="form-control item" type="text"
+						placeholder="Digite el código del país" required minlength="1" maxlength="75"/></div>-->
+						
+				<button class="btn btn-primary" type="submit">Actualizar</button>
+			</form>
+		</div>
+	</section>
+</main>
+
+<!--	<div class="row">-->
+<!--		<div class="col-md-12">-->
+<!--			<ul class="nav nav-pills flex-column flex-sm-row">-->
+<!--				<li class="nav-item"><a class="nav-link active" href="#">Inicio</a>-->
+<!--				</li>-->
+<!--				<li class="nav-item"><a class="nav-link"-->
+<!--					th:href="@{/identidadgenero}">Editar Identidad</a></li>-->
+
+<!--			</ul>-->
+<!--		</div>-->
+<!--	</div>-->
+<!--	<br>-->
+<!--	<br>-->
+<!--	<div class="container">-->
+<!--		<div class="row">-->
+<!--			<div-->
+<!--				class="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">-->
+<!--				<h1 class="text-center">Actualizar Identidad Genero</h1>-->
+<!--				<div class="card-body">-->
+<!--					<form-->
+<!--						th:action="@{/identidadgenero/{id} (id=${identidadgenero.Id})}"-->
+<!--						th:object="${identidadgenero}" method="POST">-->
+<!--						<div class="form-floating mb-3">-->
+<!--							-->
+<!--							<input type="text"-->
+<!--								name="cedula" id="floatingInput" th:field="*{nombre}" class="form-control"-->
+<!--								placeholder="Digite el numero de la cedula" />-->
+<!--								 <label for="floatingInput">Nombre</label>-->
+<!--						</div>-->
+<!--						<div class="form-floating">-->
+<!--							<input type="text"-->
+<!--								name="descripcion" th:field="*{descripcion}" class="form-control" id="floating-postal"-->
+<!--								placeholder="Digite la descripcion" />-->
+<!--								<label for="floating-postal">Descripción </label> -->
+<!--						</div>-->
+<!--						&lt;!&ndash; -->
+<!--						<div class="form-group row">-->
+<!--							<label class="col-md-2" for="pais">Generos :</label> <select-->
+<!--								th:field="*{genero}" class="form-control-sm col-md-6"-->
+<!--								id="genero">-->
+<!--								<option th:each="genero:${generos}" th:value="${genero.id}"-->
+<!--									th:text="${genero.nombre}" />-->
+<!--							</select>-->
+<!--						</div>-->
+<!--						 &ndash;&gt;-->
+<!--&lt;!&ndash; -->
+
+<!--	                  <div class="form-group row">-->
+<!--							<label class="col-md-2" for="pais">Países:</label> <select th:field="*{codigoPais}" -->
+<!--								class="form-control-sm col-md-6" id="pais">-->
+<!--								<option th:each="pais:${paises}" th:value="${pais.Id}"-->
+<!--									th:text="${pais.spanish}" />-->
+<!--							</select>-->
+<!--						</div>-->
+<!-- &ndash;&gt;-->
+<!--				-->
+
+<!--						<div class="box-footer">-->
+<!--							<button type="submit" class="btn btn-primary">-->
+<!--								Actualizar datos</button>-->
+<!--						</div>-->
+<!--					</form>-->
+<!--					-->
+
+<!--				</div>-->
+<!--			</div>-->
+<!--		</div>-->
+<!--	</div>-->
+</body>
+</html>

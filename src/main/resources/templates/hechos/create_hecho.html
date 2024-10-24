@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script th:src="@{/HechoScripts/HechoScript.js}"></script>
+<title>Hecho Mantenimiento</title>
+<th th:insert="~{header}"></th>
+</head>
+<body>
+
+	<main class="page registration-page">
+		<section class="clean-block clean-form dark">
+			<div class="container justify-content-center">
+				<div class="block-heading">
+					<h2 class="text-info">Crear Hecho</h2>
+				</div>
+				<form th:action="@{/hechos}" th:object="${hecho}" method="POST"
+					class="mw-100 m-3">
+					<div class="row align-items-end">
+						<div class="w-100"></div>
+						<div class="col">
+							<div class="mb-3 mx-3">
+								<label class="form-label" for="name">Seleccione el tipo
+									de victima del hecho</label><select th:name="tipoVictima"
+									th:field="*{CITipoVictima}" id="name" class="form-select"
+									onfocus="ocultarError()" required>
+									<optgroup label="Tipo de victima">
+										<option th:each="tipoVictima: ${tipoVictima}"
+											th:value="${tipoVictima.CI_Codigo}"
+											th:text="${tipoVictima.CI_Codigo} + ' - ' + ${tipoVictima.CVTitulo}"></option>
+									</optgroup>
+								</select>
+							</div>
+						</div>
+						<div class="col">
+							<div class="mb-3 mx-3">
+								<label class="form-label" for="name">Seleccione la
+									victima</label><select th:name="victima" th:field="*{victima}"
+									onfocus="ocultarError()" id="name-1" class="form-select"
+									required>
+									<optgroup label="Victima del hecho">
+										<option th:each="victimas: ${victima}"
+											th:value="${victimas.CI_Id}"
+											th:text="${victimas.CI_Id} + ' - ' + ${victimas.CVDNI}"></option>
+									</optgroup>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row align-items-end">
+						<div class="w-100"></div>
+						<div class="col">
+							<div class="mb-3 mx-3">
+								<label class="form-label" for="name">Seleccione el tipo
+									de relacion con la victima</label><select th:name="tipoRelacion"
+									th:field="*{CITipoRelacion}" onfocus="ocultarError()"
+									id="name-2" class="form-select" required>
+									<optgroup label="Relacion de la victima">
+										<option th:each="tipoRelacion: ${tipoRelacion}"
+											th:value="${tipoRelacion.CI_Codigo}"
+											th:text="${tipoRelacion.CI_Codigo} + ' - ' + ${tipoRelacion.CVTitulo}"></option>
+									</optgroup>
+								</select>
+							</div>
+						</div>
+						<div class="col">
+							<div class="mb-3 mx-3">
+								<label class="form-label" for="name">Seleccione el proceso judicial
+								</label><select th:name="proceso" th:field="*{ProcesoJudicial}"
+									onfocus="ocultarError()" id="name-1" class="form-select"
+									required>
+									<optgroup label="Procesos judiciales">
+										<option th:each="prcoeso: ${ProcesoJudicial}"
+											th:value="${prcoeso.CI_Id}"
+											th:text="${prcoeso.CI_Id} + ' - ' + ${prcoeso.CVEstado}"></option>
+									</optgroup>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row align-items-end">
+						<div class="w-100"></div>
+						<div class="col">
+							<div class="mb-3 mx-3">
+								<label class="form-label" for="name">Seleccione la
+									modalidad o método del hecho</label><select th:name="modalidad"
+									th:field="*{CIModalidad}" onfocus="ocultarError()" id="name-4"
+									class="form-select" required>
+									<optgroup label="Modalidad del hecho">
+										<option th:each="modalidad: ${modalidad}"
+											th:value="${modalidad.CI_Codigo}"
+											th:text="${modalidad.CI_Codigo} + ' - ' + ${modalidad.CVTitulo}"></option>
+									</optgroup>
+								</select>
+							</div>
+						</div>
+						<div class="col">
+							<div class="mb-3 mx-3">
+								<label class="form-label" for="name">Seleccione el
+									organismo generador de datos</label><select th:name="organismo"
+									th:field="*{CIIdGenerador}" onfocus="ocultarError()"
+									id="name-5" class="form-select" required>
+									<optgroup label="Organismo">
+										<option th:each="organismos: ${organismo}"
+											th:value="${organismos.CI_Id}"
+											th:text="${organismos.CI_Id} + ' - ' + ${organismos.CVNombre}"></option>
+									</optgroup>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row align-items-end">
+						<div class="w-100"></div>
+						<div class="col">
+							<div class="mb-3 mx-3">
+								<label class="form-label" for="name">Seleccione si hubo
+									agresion sexual</label><select th:name="agresionSexual"
+									th:field="*{CVAgresionSexual}" onfocus="ocultarError()"
+									id="name-6" class="form-select" required>
+									<optgroup label="En el hecho hubo agresion sexual?">
+										<option th:value="Si">Si</option>
+										<option th:value="No">No</option>
+									</optgroup>
+								</select>
+							</div>
+						</div>
+						<div class="col">
+							<div class="mb-3 mx-3">
+								<label class="form-label" for="name">Seleccione si hubo
+									denuncia previa</label><select th:name="denunciaPrevia"
+									th:field="*{CVDenunciaPrevia}" onfocus="ocultarError()"
+									id="name-7" class="form-select" required>
+									<optgroup label="Hay denuncia previa del hecho?">
+										<option th:value="Si">Si</option>
+										<option th:value="No">No</option>
+									</optgroup>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row align-items-end">
+						<div class="w-100"></div>
+						<div class="col">
+							<div class="mb-3 mx-3">
+								<label class="form-label" for="name">Digite la fecha</label><input
+									th:field="*{CDFecha}" onfocus="ocultarError()" minlength="1"
+									id="name-8" class="form-control" type="datetime-local" />
+							</div>
+						</div>
+						<div class="col">
+							<div class="mb-3 mx-3">
+								<label class="form-label" for="name">Digite el pais del
+									hecho</label>
+									<select th:field="*{codigoPais}" class="form-select" required>
+										<option value="" disabled selected>Seleccione un país</option>
+										<option th:each="pais : ${paises}" th:value="${pais.id}" th:text="${pais.spanish}"></option>
+									</select> 
+							</div>
+						</div>
+					</div>
+					<div class="row align-items-end">
+						<div class="w-100"></div>
+						<div class="col">
+							<div class="mb-3 mx-3">
+								<label class="form-label" for="name">Observaciones
+									adicionales</label><input th:name="detalles" th:field="*{CVDetalles}"
+									onfocus="ocultarError()" id="name-10" class="form-control item"
+									type="text" minlength="1" maxlength="255" required
+									placeholder="Digite las observaciones adicionales del hecho" />
+							</div>
+						</div>
+					</div>
+
+					<div class="row align-items-end">
+						<div class="w-100"></div>
+						<div class="col">
+							<div class="d-flex justify-content-center mb-3 mx-3">
+								<button class="btn btn-primary" type="submit">Agregar</button>
+							</div>
+						</div>
+					</div>
+					<div id="error-message" th:if="${error}" class="alert alert-danger"
+						role="alert">
+						<p th:text="${error_message}"></p>
+					</div>
+				</form>
+			</div>
+		</section>
+	</main>
+
+	<!--<br>-->
+	<!--<br>-->
+
+	<!--<div class = "container">-->
+	<!--    <div class = "row">-->
+	<!--        <div class ="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">-->
+	<!--            <h1 class = "text-center">Crear Hecho</h1>-->
+	<!--            <div class = "card-body">-->
+	<!--                <form th:action="@{/hechos}" th:object = "${hecho}" method="POST">-->
+
+	<!--                    <div class ="form-group">-->
+	<!--                        <label>Selecciona el tipo de victima del hecho:</label>-->
+	<!--                        <select th:name="tipoVictima" th:field="*{CITipoVictima}" class = "form-control" onfocus="ocultarError()">-->
+	<!--                            <option th:each="tipoVictima: ${tipoVictima}" th:value="${tipoVictima.CI_Codigo}" th:text="${tipoVictima.CI_Codigo} + ' - ' + ${tipoVictima.CVTitulo}"></option>-->
+	<!--                        </select>-->
+	<!--                    </div>-->
+
+	<!--                    <div class ="form-group">-->
+	<!--                        <label>Selecciona el tipo de relacion del hecho:</label>-->
+	<!--                        <select th:name="tipoRelacion" th:field="*{CITipoRelacion}" class = "form-control" onfocus="ocultarError()">-->
+	<!--                            <option th:each="tipoRelacion: ${tipoRelacion}" th:value="${tipoRelacion.CI_Codigo}"-->
+	<!--                                    th:text="${tipoRelacion.CI_Codigo} + ' - ' + ${tipoRelacion.CVTitulo}"></option>-->
+	<!--                        </select>-->
+	<!--                    </div>-->
+
+	<!--                    <div class ="form-group">-->
+	<!--                        <label>Selecciona la modalidad del hecho:</label>-->
+	<!--                        <select th:name="modalidad" th:field="*{CIModalidad}" class = "form-control" onfocus="ocultarError()">-->
+	<!--                            <option th:each="modalidad: ${modalidad}" th:value="${modalidad.CI_Codigo}" th:text="${modalidad.CI_Codigo} + ' - ' + ${modalidad.CVTitulo}"></option>-->
+	<!--                        </select>-->
+	<!--                    </div>-->
+
+	<!--                    <div class ="form-group">-->
+	<!--                        <label>Selecciona la id de la victima:</label>-->
+	<!--                        <select name="victima" th:field="*{CIIdVictima}" class = "form-control" onfocus="ocultarError()">-->
+	<!--                            <option th:each="victima: ${victima}" th:value="${victima.CI_Id}" th:text="${victima.CI_Id} + ' - ' + ${victima.CVDNI}"></option>-->
+	<!--                        </select>-->
+	<!--                    </div>-->
+
+	<!--                    <div class ="form-group">-->
+	<!--                        <label>Selecciona la id del proceso judicial:</label>-->
+	<!--                        <select name="proceso" th:field="*{CIIdProceso}" class = "form-control" onfocus="ocultarError()">-->
+	<!--                            <option th:each="proceso: ${proceso}" th:value="${proceso.CI_Id}" th:text="${proceso.CI_Id} + ' - ' + ${proceso.CIDenunciante}"></option>-->
+	<!--                        </select>-->
+	<!--                    </div>-->
+
+	<!--                    <div class ="form-group">-->
+	<!--                        <label>Pais del hecho</label>-->
+	<!--                        <input-->
+	<!--                                type = "text"-->
+	<!--                                name = "pais"-->
+	<!--                                th:field = "*{CIPais}"-->
+	<!--                                class = "form-control"-->
+	<!--                                pattern="[0-9]{1,4}"-->
+	<!--                                maxlength="4"-->
+	<!--                                required-->
+	<!--                                placeholder="Digite el Codigo del pais del hecho"-->
+	<!--                                onfocus="ocultarError()"-->
+	<!--                        />-->
+	<!--                    </div>-->
+
+	<!--                    <div class ="form-group">-->
+	<!--                        <label>Seleccione si hubo agresion sexual:</label>-->
+	<!--                        <select name="agresionSexual" th:field="*{CVAgresionSexual}" class = "form-control" onfocus="ocultarError()">-->
+	<!--                            <option value="SI"> Si </option>-->
+	<!--                            <option value="NO"> No </option>-->
+	<!--                        </select>-->
+	<!--                    </div>-->
+
+	<!--                    <div class ="form-group">-->
+	<!--                        <label>Seleccione si hubo denuncia previa:</label>-->
+	<!--                        <select name="denunciaPrevia" th:field="*{CVDenunciaPrevia}" class = "form-control" onfocus="ocultarError()">-->
+	<!--                            <option value="SI"> Si </option>-->
+	<!--                            <option value="NO"> No </option>-->
+	<!--                        </select>-->
+	<!--                    </div>-->
+
+	<!--                    <div class ="form-group">-->
+	<!--                        <label>Selecciona el organismo generador de datos:</label>-->
+	<!--                        <select name="proceso" th:field="*{CIIdGenerador}" class = "form-control" onfocus="ocultarError()">-->
+	<!--                            <option th:each="organismo: ${organismo}" th:value="${organismo.CI_Id}" th:text="${organismo.CI_Id} + ' - ' + ${organismo.CVNombre}"></option>-->
+	<!--                        </select>-->
+	<!--                    </div>-->
+
+	<!--                    <div class="form-group">-->
+	<!--                        <label> Fecha</label>-->
+	<!--                        <input th:field = "*{CDFecha}" type="datetime-local" name="">-->
+	<!--                    </div>-->
+
+	<!--                    <div class ="form-group">-->
+	<!--                        <label>Detalles</label>-->
+	<!--                        <input-->
+	<!--                                type = "text"-->
+	<!--                                name = "detalles"-->
+	<!--                                th:field = "*{CVDetalles}"-->
+	<!--                                class = "form-control"-->
+	<!--                                maxlength="255"-->
+	<!--                                placeholder="Digite algun detalle del hecho"-->
+	<!--                                onfocus="ocultarError()"-->
+	<!--                        />-->
+	<!--                    </div>-->
+
+	<!--                    <div id="error-message" th:if="${error}" class="alert alert-danger" role="alert">-->
+	<!--                        <p th:text="${error_message}"></p>-->
+	<!--                    </div>-->
+
+	<!--                    <div class = "box-footer">-->
+	<!--                        <button type="submit" class = "btn btn-primary">-->
+	<!--                            Agregar-->
+	<!--                        </button>-->
+	<!--                    </div>-->
+	<!--                </form>-->
+
+	<!--            </div>-->
+	<!--        </div>-->
+	<!--    </div>-->
+	<!--</div>-->
+
+</body>
+</html>
