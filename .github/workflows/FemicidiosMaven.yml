@@ -61,3 +61,18 @@ jobs:
     #     file: ./Dockerfile
     #     push: true
     #     tags: ${{ secrets.DOCKER_USERNAME }}/femicidios:latest
+
+
+
+    - name: Build Docker image
+      run: docker build -t ${{ secrets.AZURE_REGISTRY_NAME }}.azurecr.io/femicidios:latest .
+
+    - name: Login to Azure Container Registry
+      uses: azure/docker-login@v1
+      with:
+        login-server: ${{ secrets.AZURE_REGISTRY_NAME }}.azurecr.io
+        username: ${{ secrets.AZURE_REGISTRY_USERNAME }}
+        password: ${{ secrets.AZURE_REGISTRY_PASSWORD }}
+
+    - name: Push Docker image to ACR
+      run: docker push ${{ secrets.AZURE_REGISTRY_NAME }}.azurecr.io/femicidios:latest
