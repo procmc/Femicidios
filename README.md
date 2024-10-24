@@ -15,10 +15,10 @@ Este repositorio contiene el código fuente y la documentación para un software
 - Tishary Sallar Foster Blake
 - Génesis Sequeira Navarro
 - Ronny Salgado Moraga
-- Dillan Guzmán On
-NO Julio Hernández Chavarría
 - Kendall Barrantes Paniagua
 - Ana Aguilar Vanegas
+
+Ajustes durante el 2024 por Mauricio Torres Fernandez
 
 ## Características
 
