@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class RedireccionController {
 
     @PostMapping("/redireccionarEntidades")
-    public String redireccionarEntidades(@RequestParam("opcion") String opcion) {
+    public String redireccionarEntidades(@RequestParam String opcion) {
 
         switch (opcion) {
             case "hecho" -> {
@@ -49,7 +49,7 @@ public class RedireccionController {
     }
 
     @PostMapping("/redireccionarCampos")
-    public String redireccionarCampos(@RequestParam("opcion") String opcion) {
+    public String redireccionarCampos(@RequestParam String opcion) {
 
         switch (opcion) {
             case "identidadGenero" -> {
@@ -95,7 +95,7 @@ public class RedireccionController {
     }
 
     @PostMapping("/redireccionarAccionesImputado")
-    public String redireccionarAccionesImputado(@RequestParam("opcion") String opcion) {
+    public String redireccionarAccionesImputado(@RequestParam String opcion) {
 
         String[] prueba = opcion.split("-");
         String accion = prueba[1];
@@ -117,7 +117,7 @@ public class RedireccionController {
     }
 
     @PostMapping("/redireccionarAccionesOrganismo")
-    public String redireccionarAccionesOrganismo(@RequestParam("opcion") String opcion) {
+    public String redireccionarAccionesOrganismo(@RequestParam String opcion) {
 
         String[] prueba = opcion.split("-");
         String accion = prueba[1];
@@ -139,7 +139,7 @@ public class RedireccionController {
     }
 
     @PostMapping("/redireccionarAccionesHecho")
-    public String redireccionarAccionesHecho(@RequestParam("opcion") String opcion) {
+    public String redireccionarAccionesHecho(@RequestParam String opcion) {
 
         String[] prueba = opcion.split("-");
         String accion = prueba[1];
@@ -173,7 +173,7 @@ public class RedireccionController {
     }
 
     @PostMapping("/redireccionarRelaciones")
-    public String redireccionarRelaciones(@RequestParam("opcion") String opcion) {
+    public String redireccionarRelaciones(@RequestParam String opcion) {
 
         switch (opcion) {
             case "hechoimputado" -> {

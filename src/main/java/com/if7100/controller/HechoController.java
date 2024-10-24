@@ -436,7 +436,7 @@ public class HechoController {
     }
 
     @PostMapping("/hechos")
-    public String saveHecho(@ModelAttribute("hecho") Hecho hecho, Model model) {
+    public String saveHecho(@ModelAttribute Hecho hecho, Model model) {
         try {
             hechoService.saveHecho(hecho);
 
@@ -506,7 +506,7 @@ public class HechoController {
     }
 
     @PostMapping("/hechos/{id}")
-    public String updateHecho(@PathVariable Integer id, @ModelAttribute("hecho") Hecho hecho, Model model) {
+    public String updateHecho(@PathVariable Integer id, @ModelAttribute Hecho hecho, Model model) {
         try {
             Hecho existingHecho = hechoService.getHechoById(id);
             String descripcion = "Actualizo en Hechos, de: " + existingHecho.getCI_Id() + " | a: " + id;

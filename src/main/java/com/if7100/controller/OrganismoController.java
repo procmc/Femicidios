@@ -155,7 +155,7 @@ OrganismoService organismoService, TipoOrganismoService tipoOrganismoService, Pe
  }
  
  @PostMapping("/organismos")
- public String savOrganismo(@ModelAttribute("organismo") Organismo organismo) {
+ public String savOrganismo(@ModelAttribute Organismo organismo) {
 	 
 	 if (!organismo.getCVNombre().equals("") && !organismo.getCVRol().equals("") && 
 	 !organismo.getCVContacto().equals("")){
@@ -210,7 +210,7 @@ OrganismoService organismoService, TipoOrganismoService tipoOrganismoService, Pe
  }
  
  @PostMapping("/organismos/{id}")
- public String updateOrganismo(@PathVariable int id, @ModelAttribute("organismo") Organismo organismo, Model model) {
+ public String updateOrganismo(@PathVariable int id, @ModelAttribute Organismo organismo, Model model) {
 	 Organismo existingOrganismo=organismoService.getOrganismoById(id);
 	 model.addAttribute("tipoOrganismo", tipoOrganismoService.getAllTipoOrganismos());
 

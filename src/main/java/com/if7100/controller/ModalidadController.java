@@ -138,7 +138,7 @@ private void validarPerfil() {
     }
 
     @PostMapping("/modalidades")
-    public String saveModalidad(@ModelAttribute("modalidad")Modalidad modalidad){
+    public String saveModalidad(@ModelAttribute Modalidad modalidad){
     	//INSERTAR EN BITACORA
     	String descripcion="Creo en Modalidad: " +modalidad.getCI_Codigo()+ modalidad.getCVTitulo()+
     	                   modalidad.getCVDescripcion();
@@ -194,7 +194,7 @@ private void validarPerfil() {
     
 
     @PostMapping("/modalidades/{id}")
-    public String updateModalidad(@PathVariable Integer id, @ModelAttribute("modalidad") Modalidad modalidad,Model model){
+    public String updateModalidad(@PathVariable Integer id, @ModelAttribute Modalidad modalidad,Model model){
     	//INSERTAR EN BITACORA
     	 Modalidad existingModalidad = modalidadService.getModalidadById(id);
     	String descripcion="Actualizo en Modalidad: ID " +id;

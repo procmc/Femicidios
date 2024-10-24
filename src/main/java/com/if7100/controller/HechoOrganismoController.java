@@ -266,7 +266,7 @@ HechoOrganismoService hechoOrganismoService, HechoService hechoService, Organism
     }
 
     @PostMapping("/hechosorganismo")
-    public String saveHechosOrganismo(@ModelAttribute("hechoOrganismo") HechoOrganismo hechoOrganismo, Model model){
+    public String saveHechosOrganismo(@ModelAttribute HechoOrganismo hechoOrganismo, Model model){
         try {
             hechoOrganismoService.saveHechoOrganismo(hechoOrganismo);
             String descripcion = "Creo en hecho de organismo: " + hechoOrganismo.getCI_Id();
@@ -282,7 +282,7 @@ HechoOrganismoService hechoOrganismoService, HechoService hechoService, Organism
     }
 
     @PostMapping("/hechoorganismos")
-    public String saveHechoOrganismos(@ModelAttribute("hechoOrganismo") HechoOrganismo hechoOrganismo, Model model){
+    public String saveHechoOrganismos(@ModelAttribute HechoOrganismo hechoOrganismo, Model model){
         try {
             hechoOrganismoService.saveHechoOrganismo(hechoOrganismo);
             String descripcion = "Creo en hecho de organismo: " + hechoOrganismo.getCI_Id();

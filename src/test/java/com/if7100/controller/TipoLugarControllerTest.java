@@ -18,16 +18,16 @@ public class TipoLugarControllerTest {
 
     private String Titulo= "prueba 1";
 	private String Descripcion= "1";
-	private TipoLugar tipoLugar = new TipoLugar(Titulo, "LOSSER");
+	private TipoLugar tipoLugar = new TipoLugar(Titulo, "Cambio");
 	private TipoLugar tipoLugarConsultado = new TipoLugar();
 	
 	@Test 
-	public void Test1() throws Exception{//agrega un tipo de lugar
+	public void Test1_Agregar() throws Exception{//agrega un tipo de lugar
 		tipoLugarRepository.save(tipoLugar);
 	}
 	
 	@Test 
-	public void Test2() throws Exception{//busca un tipoLugar por titulo
+	public void Test2_Actualizar() throws Exception{//busca un tipoLugar por titulo
 		tipoLugarConsultado = tipoLugarRepository.findByCVTitulo(Titulo);
 		assertEquals(tipoLugarConsultado.getCVTitulo(), Titulo);	
 		assertNotEquals(tipoLugarConsultado.getCVDescripcion(), Descripcion);//busca si la descripcion es diferente	

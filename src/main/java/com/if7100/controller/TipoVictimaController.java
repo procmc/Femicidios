@@ -121,7 +121,7 @@ TipoVictimaService tipoVictimaService, PerfilService perfilService, UsuarioRepos
     }
 
     @PostMapping("/tipovictimas")
-    public String saveTipoVictima(@ModelAttribute("tipoVictima") TipoVictima tipoVictima){
+    public String saveTipoVictima(@ModelAttribute TipoVictima tipoVictima){
         tipoVictimaService.saveTipoVictima(tipoVictima);
         String descripcion="Creo un Tipo de Victima con id: "+ tipoVictima.getCI_Codigo() ;
         Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
@@ -170,7 +170,7 @@ TipoVictimaService tipoVictimaService, PerfilService perfilService, UsuarioRepos
     }
 
     @PostMapping("/tipovictimas/{id}")
-    public String updateTipoVictima(@PathVariable Integer id, @ModelAttribute("tipoVictima") TipoVictima tipoVictima){
+    public String updateTipoVictima(@PathVariable Integer id, @ModelAttribute TipoVictima tipoVictima){
         TipoVictima existingTipoVictima = tipoVictimaService.getTipoVictimaById(id);
         existingTipoVictima.setCI_Codigo(id);
         existingTipoVictima.setCVTitulo(tipoVictima.getCVTitulo());

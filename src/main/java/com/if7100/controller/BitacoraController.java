@@ -118,7 +118,7 @@ private void validarPerfil() {
     }
 
     @PostMapping("/bitacoras")
-    public String saveBitacora(@ModelAttribute("bitacora")Bitacora bitacora){
+    public String saveBitacora(@ModelAttribute Bitacora bitacora){
     	bitacoraService.saveBitacora(bitacora);
         return "redirect:/bitacoras";
     }
@@ -167,7 +167,7 @@ private void validarPerfil() {
 
 
     @PostMapping("/bitacoras/{id}")
-    public String updateModalidad(@PathVariable Integer id, @ModelAttribute("bitacora") Bitacora bitacora){
+    public String updateModalidad(@PathVariable Integer id, @ModelAttribute Bitacora bitacora){
         Bitacora existingBitacora = bitacoraService.getBitacoraById(id);
         existingBitacora.setCIIdBitacora(id);
         existingBitacora.setCVUsuario(bitacora.getCVUsuario());

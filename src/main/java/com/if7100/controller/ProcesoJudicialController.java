@@ -351,7 +351,7 @@ private Usuario usuario;
  }
  
  @PostMapping("/procesosJudiciales")
- public String saveProcesoJudicial(@ModelAttribute("procesoJudicial") ProcesoJudicial procesoJudicial) {
+ public String saveProcesoJudicial(@ModelAttribute ProcesoJudicial procesoJudicial) {
 	 procesoJudicialService.saveProcesoJudicial(procesoJudicial);
 	 
 	 String descripcion = "Crea en Proceso Judicial";
@@ -402,7 +402,7 @@ private Usuario usuario;
  }
  
  @PostMapping("/procesosJudiciales/{id}")
- public String updateProcesoJudicial(@PathVariable int id, @ModelAttribute("procesoJudicial") ProcesoJudicial procesoJudicial, Model model) {
+ public String updateProcesoJudicial(@PathVariable int id, @ModelAttribute ProcesoJudicial procesoJudicial, Model model) {
 	 ProcesoJudicial existingProcesoJudicial=procesoJudicialService.getProcesoJudicialById(id);
 	 existingProcesoJudicial.setCI_Id(id);
 	 existingProcesoJudicial.setCVEstado(procesoJudicial.getCVEstado());

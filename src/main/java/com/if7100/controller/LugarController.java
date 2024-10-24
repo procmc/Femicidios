@@ -28,7 +28,6 @@ import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -386,7 +385,7 @@ public class LugarController {
 	}
 
 	@PostMapping("/lugares/{id}")
-	public String updateLugar(@PathVariable Integer id, @ModelAttribute("lugar") Lugar lugar, Model model) {
+	public String updateLugar(@PathVariable Integer id, @ModelAttribute Lugar lugar, Model model) {
 		try {
 			Lugar existingLugar = lugarService.getLugarById(id);
 			existingLugar.setCI_Codigo(id);
@@ -558,7 +557,7 @@ public class LugarController {
 	}
 
 	@PostMapping("/lugar")
-	public String saveLugar(@ModelAttribute("lugar") Lugar lugar, Model model) {
+	public String saveLugar(@ModelAttribute Lugar lugar, Model model) {
 		try {
 			lugarService.saveLugar(lugar);
 			String descripcion = "Creo en Lugar:" + lugar.getCI_Codigo();
@@ -576,7 +575,7 @@ public class LugarController {
 	}
 
 	@PostMapping("/hecholugar")
-	public String saveHechoLugar(@ModelAttribute("lugar") Lugar lugar, Model model) {
+	public String saveHechoLugar(@ModelAttribute Lugar lugar, Model model) {
 		try {
 			lugarService.saveLugar(lugar);
 			String descripcion = "Creo en HechoLugar: " + lugar.getCI_Codigo();

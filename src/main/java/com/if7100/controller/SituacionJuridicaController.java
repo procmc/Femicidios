@@ -119,7 +119,7 @@ public class SituacionJuridicaController {
     }
 
     @PostMapping("/situacionesjuridicas")
-    public String saveSituacionJuridica(@ModelAttribute("situacionJuridica") SituacionJuridica situacionJuridica){
+    public String saveSituacionJuridica(@ModelAttribute SituacionJuridica situacionJuridica){
 
         try {
             this.validarPerfil();
@@ -176,7 +176,7 @@ public class SituacionJuridicaController {
     }
 
     @PostMapping("/situacionesjuridicas/{id}")
-    public String updateSituacionJuridica(@PathVariable Integer id, @ModelAttribute("situacionJuridica") SituacionJuridica situacionJuridica){
+    public String updateSituacionJuridica(@PathVariable Integer id, @ModelAttribute SituacionJuridica situacionJuridica){
 
         try {
             this.validarPerfil();

@@ -133,7 +133,7 @@ TipoLugarService tipoLugarService, PerfilService perfilService, UsuarioRepositor
 	}
 
 	@PostMapping("/tipolugares")// guarda el usuario y lo devuelve a la pagina usuarios con los datos nuevos
-	public String saveTipoLugar (@ModelAttribute("tipoLugar") TipoLugar tipoLugar) {
+	public String saveTipoLugar (@ModelAttribute TipoLugar tipoLugar) {
 	    tipoLugarService.saveTipoLugar(tipoLugar);
 	    
 	    //funcionalidad de bitacora
@@ -188,7 +188,7 @@ TipoLugarService tipoLugarService, PerfilService perfilService, UsuarioRepositor
 	}
 
 	@PostMapping("/tipolugares/{Codigo}")// guarda el cambio y lo devuelve a la pagina usuarios con los datos nuevos
-	public String updateTipoLugar (@PathVariable Integer Codigo ,@ModelAttribute("tipoLugar") TipoLugar tipoLugar, Model model) {
+	public String updateTipoLugar (@PathVariable Integer Codigo ,@ModelAttribute TipoLugar tipoLugar, Model model) {
 
 		TipoLugar existingTipoLugar = tipoLugarService.getTipoLugarByCodigo(Codigo);
 	    existingTipoLugar.setCI_Codigo(Codigo);

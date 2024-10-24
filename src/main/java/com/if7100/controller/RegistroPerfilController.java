@@ -136,7 +136,7 @@ PerfilService perfilService, UsuarioRepository usuarioRepository) {
 	}
 	
 	@PostMapping("/registroPerfil")
-	public String savePerfil (@ModelAttribute("perfil") Perfil perfil) {
+	public String savePerfil (@ModelAttribute Perfil perfil) {
 		
 		perfilService.savePerfil(perfil);
 		
@@ -188,7 +188,7 @@ PerfilService perfilService, UsuarioRepository usuarioRepository) {
 	}
 	
 	@PostMapping("/perfiles/{id}")
-	public String updateUsuario (@PathVariable Integer id, @ModelAttribute("perfil") Perfil perfil) {
+	public String updateUsuario (@PathVariable Integer id, @ModelAttribute Perfil perfil) {
 		
 		Perfil existingUsuario = perfilService.getPerfilById(id);
 		existingUsuario.setCI_Id(id);

@@ -150,7 +150,7 @@ public class IdentidadGeneroController {
 	}
 
 	@PostMapping("/identidadgenero")
-	public String saveIdentidadGenero(@ModelAttribute("identidadgenero") IdentidadGenero identidadgenero, @RequestParam List<String> paisesSeleccionados) {
+	public String saveIdentidadGenero(@ModelAttribute IdentidadGenero identidadgenero, @RequestParam List<String> paisesSeleccionados) {
 
 
 		identidadGeneroService.saveIdentidadGenero(identidadgenero);
@@ -192,7 +192,7 @@ public class IdentidadGeneroController {
 
 	@PostMapping("/identidadgenero/{id}")
 	public String updateUsuario(@PathVariable Integer id,
-			@ModelAttribute("identidadgenero") IdentidadGenero identidadgenero, Model model) {
+			@ModelAttribute IdentidadGenero identidadgenero, Model model) {
 		IdentidadGenero existingIdentidadGenero = identidadGeneroService.getIdentidadGeneroById(id);
 		existingIdentidadGenero.setId(id);
 		existingIdentidadGenero.setNombre(identidadgenero.getNombre());

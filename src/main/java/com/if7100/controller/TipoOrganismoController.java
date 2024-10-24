@@ -132,7 +132,7 @@ TipoOrganismoService tipoOrganismoService, PaisesService paisesService, PerfilSe
 	}
 	
 	@PostMapping("/tipoOrganismo")
-	public String saveTipoOrganismo (@ModelAttribute("tipoOrganismo") TipoOrganismo tipoOrganismo) {
+	public String saveTipoOrganismo (@ModelAttribute TipoOrganismo tipoOrganismo) {
 	    tipoOrganismoService.saveTipoOrganismo(tipoOrganismo);
 		return "redirect:/tipoOrganismo";	
 	}
@@ -181,7 +181,7 @@ TipoOrganismoService tipoOrganismoService, PaisesService paisesService, PerfilSe
 	}
 	
 	@PostMapping("/tipoOrganismo/{Codigo}")
-	public String updateOrganismoLugar (@PathVariable Integer Codigo ,@ModelAttribute("tipoOrganismo") TipoOrganismo tipoOrganismo, Model model) {
+	public String updateOrganismoLugar (@PathVariable Integer Codigo ,@ModelAttribute TipoOrganismo tipoOrganismo, Model model) {
 	   
 		TipoOrganismo existingTipoOrganismo = tipoOrganismoService.getTipoOrganismoByCodigo(Codigo);
 		model.addAttribute("paises", paisesService.getAllPaises());

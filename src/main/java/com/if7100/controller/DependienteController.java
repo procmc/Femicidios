@@ -417,7 +417,7 @@ public class DependienteController {
 	}
 
 	@PostMapping("/dependientes")
-	public String saveDependiente(@ModelAttribute("dependiente") Dependiente dependiente,
+	public String saveDependiente(@ModelAttribute Dependiente dependiente,
 			@RequestParam("victima") Integer idVictima,
 			Model model) {
 
@@ -512,7 +512,7 @@ public class DependienteController {
 
 	@PostMapping("/dependientes/{id}")
 	public String updatedependiente(@PathVariable Integer id,
-			@ModelAttribute("dependiente") Dependiente dependiente, @RequestParam("victima") Integer idVictima,
+			@ModelAttribute Dependiente dependiente, @RequestParam("victima") Integer idVictima,
 			Model model) {
 
 		Dependiente existingDependiente = dependienteService.getDependienteById(id);

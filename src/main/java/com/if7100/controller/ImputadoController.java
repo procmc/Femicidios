@@ -476,7 +476,7 @@ public class ImputadoController {
 	}
 
 	@PostMapping("/imputados")
-	public String SaveImputado(@ModelAttribute("imputado") Imputado imputado, Model model) {
+	public String SaveImputado(@ModelAttribute Imputado imputado, Model model) {
 		try {
 			imputadoService.saveImputado(imputado);
 			bitacoraService.saveBitacora(new Bitacora(this.usuario.getCI_Id(),
@@ -545,7 +545,7 @@ public class ImputadoController {
 	}
 
 	@PostMapping("/imputados/{id}")
-	public String updateUsuario(@PathVariable int id, @ModelAttribute("imputado") Imputado imputado, Model model) {
+	public String updateUsuario(@PathVariable int id, @ModelAttribute Imputado imputado, Model model) {
 		Imputado existingImputado = imputadoService.getImputadoById(id);
 
 		existingImputado.setCodigoPais(imputado.getCodigoPais());// actualiza codigo pais

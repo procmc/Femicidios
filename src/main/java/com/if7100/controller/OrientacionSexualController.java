@@ -154,7 +154,7 @@ OrientacionSexualService orientacionService, PerfilService perfilService, Usuari
  }
  
  @PostMapping("/orientacionesSexuales")
- public String saveOrientacion(@ModelAttribute("orientacion") OrientacionSexual orientacion) {
+ public String saveOrientacion(@ModelAttribute OrientacionSexual orientacion) {
 	 orientacionService.saveOrientacionSexual(orientacion);
 	 String descripcion = "Creó en orientacion sexual: "+ orientacion.getCVTitulo();
 	 Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), descripcion, this.perfil.getCVRol());
@@ -205,7 +205,7 @@ OrientacionSexualService orientacionService, PerfilService perfilService, Usuari
  }
  
  @PostMapping("/orientacionesSexuales/{id}")
- public String updateOrientacionSexual(@PathVariable int id, @ModelAttribute("orientacion") OrientacionSexual orientacion, Model model) {
+ public String updateOrientacionSexual(@PathVariable int id, @ModelAttribute OrientacionSexual orientacion, Model model) {
 	 OrientacionSexual existingOrientacion=orientacionService.getOrientacionSexualByCodigo(id);
 	 String orientacionAnt = existingOrientacion.getCVTitulo(); 
 	 existingOrientacion.setCI_Codigo(id);

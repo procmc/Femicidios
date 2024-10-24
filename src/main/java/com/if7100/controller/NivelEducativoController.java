@@ -131,7 +131,7 @@ public class NivelEducativoController {
     }
 
     @PostMapping("/nivelEducativo")
-    public String saveNivelEducativo(@ModelAttribute("nivelEducativo") NivelEducativo nivelEducativo) {
+    public String saveNivelEducativo(@ModelAttribute NivelEducativo nivelEducativo) {
         nivelEducativoService.saveNivelEducativo(nivelEducativo);
         String descripcion = "Creo nivel educativo:";
         Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
@@ -183,7 +183,7 @@ public class NivelEducativoController {
     }
 
     @PostMapping("/nivelEducativo/{id}")
-    public String updateNivelEducativo(@PathVariable Integer id, @ModelAttribute("nivelEducativo") NivelEducativo nivelEducativo, Model model) {
+    public String updateNivelEducativo(@PathVariable Integer id, @ModelAttribute NivelEducativo nivelEducativo, Model model) {
         NivelEducativo existingNivelEducativo = nivelEducativoService.getNivelEducativoById(id);
         model.addAttribute("paises", paisesService.getAllPaises());
         existingNivelEducativo.setCI_Id(id);

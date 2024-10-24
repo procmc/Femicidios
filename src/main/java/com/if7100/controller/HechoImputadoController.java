@@ -265,7 +265,7 @@ public class HechoImputadoController {
     }
 
     @PostMapping("/hechosimputado")
-    public String saveHechosImputado(@ModelAttribute("hechoImputado") HechoImputado hechoImputado, Model model){
+    public String saveHechosImputado(@ModelAttribute HechoImputado hechoImputado, Model model){
         try {
             hechoImputadoService.saveHechoImputado(hechoImputado);
             String descripcion="Creo en Hechos Imputado: " + hechoImputado.getCI_Id();
@@ -281,7 +281,7 @@ public class HechoImputadoController {
     }
 
     @PostMapping("/hechoimputados")
-    public String saveHechoImputados(@ModelAttribute("hechoImputado") HechoImputado hechoImputado, Model model){
+    public String saveHechoImputados(@ModelAttribute HechoImputado hechoImputado, Model model){
         try {
             hechoImputadoService.saveHechoImputado(hechoImputado);
             String descripcion="Creo en Hechos Imputado: " + hechoImputado.getCI_Id();

@@ -479,7 +479,7 @@ public class VictimaController {
 	
 	
 	@PostMapping("/victimas")
-	public String saveVictima (@ModelAttribute("victima") Victima victima) {
+	public String saveVictima (@ModelAttribute Victima victima) {
 		
 		victimaService.saveVictima(victima);
 		return "redirect:/victimas";
@@ -542,7 +542,7 @@ public class VictimaController {
 	
 	@PostMapping("/victimas/{id}")
 	public String updateVictima (@PathVariable Integer id, 
-								 @ModelAttribute("victima") Victima victima,
+								 @ModelAttribute Victima victima,
 								 Model model) {
 		
 		Victima existingVictima = victimaService.getVictimaById(id);

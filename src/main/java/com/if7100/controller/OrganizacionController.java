@@ -149,7 +149,7 @@ public class OrganizacionController {
 	}
 
 	@PostMapping("/organizacion")
-	public String saveOrganizacion(@ModelAttribute("organizacion") Organizacion organizacion) {
+	public String saveOrganizacion(@ModelAttribute Organizacion organizacion) {
 
 
 		organizacionService.saveOrganizacion(organizacion);
@@ -184,7 +184,7 @@ public class OrganizacionController {
 
 	@PostMapping("/organizacion/{id}")
 	public String updateOrganizacion(@PathVariable Integer id,
-			@ModelAttribute("organizacion") Organizacion organizacion, Model model) {
+			@ModelAttribute Organizacion organizacion, Model model) {
 			
 				Organizacion existingOrganizacion= organizacionService.getOrganizacionById(id);
 

@@ -31,10 +31,10 @@ public class SecurityController {
 	
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(request -> 
+        http.authorizeHttpRequests(request ->
                 request.requestMatchers(ENDPOINTS_WHITELIST).permitAll()
                         .anyRequest().authenticated())
-                .csrf().disable()
+                .csrf(csrf -> csrf.disable())
                 .formLogin(form -> form
                         .loginPage(LOGIN_URL)
                         .loginProcessingUrl(LOGIN_URL)

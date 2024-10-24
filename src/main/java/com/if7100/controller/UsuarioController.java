@@ -184,7 +184,7 @@ public class UsuarioController {
 	}
 
 	@PostMapping("/usuarios")
-	public String saveUsuario(@Valid @ModelAttribute("usuario") Usuario usuario, BindingResult result) {
+	public String saveUsuario(@Valid @ModelAttribute Usuario usuario, BindingResult result) {
 		if (result.hasErrors()) {
 			return "usuarios/create_usuario";
 		} else {
@@ -248,7 +248,7 @@ public class UsuarioController {
 	}
 
 	@PostMapping("/usuarios/{Id}")
-	public String updateUsuario(@PathVariable Integer Id, @ModelAttribute("usuario") Usuario usuario) {
+	public String updateUsuario(@PathVariable Integer Id, @ModelAttribute Usuario usuario) {
 		Usuario existingUsuario = usuarioService.getUsuarioById(Id);
 		existingUsuario.setCI_Id(Id);
 		existingUsuario.setCVCedula(usuario.getCVCedula());
