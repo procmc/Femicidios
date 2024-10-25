@@ -5,12 +5,13 @@
 /target/
 /bin/
 /build/
+/.vscode/
 
 # Ignorar archivos de usuario específicos de IDE
 /.project
 /.classpath
 /.settings/
-/.vscode/
+#/.vscode/
 
 # Archivos de sistema
 .DS_Store
