@@ -28,14 +28,14 @@ public class TipoLugarControllerTest {
 
     @Test
     @Order(1)
-    public void Test1_Agregar() throws Exception {
+    public void Test1_AgregartipoLugar() throws Exception {
         // Agrega un tipo de lugar
         tipoLugarRepository.save(tipoLugar);
     }
 
     @Test
     @Order(2)
-    public void Test2_Consultar() throws Exception {
+    public void Test2_ConsultartipoLugar() throws Exception {
         // Busca un tipoLugar por título
         tipoLugarConsultado = tipoLugarRepository.findByCVTitulo(Titulo);
         assertEquals(Titulo, tipoLugarConsultado.getCVTitulo());
@@ -44,7 +44,7 @@ public class TipoLugarControllerTest {
 
     @Test
     @Order(3)
-    public void Test3_Actualizar() throws Exception {
+    public void Test3_ActualizartipoLugar() throws Exception {
         // Actualiza la descripción y verifica el cambio
         tipoLugarConsultado = tipoLugarRepository.findByCVTitulo(Titulo);
         tipoLugarConsultado.setCVDescripcion(Descripcion);
@@ -56,7 +56,7 @@ public class TipoLugarControllerTest {
 
     @Test
     @Order(4)
-    public void Test4_Eliminar() throws Exception {
+    public void Test4_EliminartipoLugar() throws Exception {
         // Elimina el tipoLugar por título
         tipoLugarConsultado = tipoLugarRepository.findByCVTitulo(Titulo);
         tipoLugarRepository.deleteById(tipoLugarConsultado.getCI_Codigo());

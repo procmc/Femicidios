@@ -1,0 +1,21 @@
+# Ignorar archivos de configuración sensibles}
+/src/main/resources/application-dev.properties
+
+# Ignorar directorios de compilación y salida
+/target/
+/bin/
+/build/
+
+# Ignorar archivos de usuario específicos de IDE
+/.project
+/.classpath
+/.settings/
+/.vscode/
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+
+# Ignorar logs y archivos temporales
+*.log
+*.tmp
