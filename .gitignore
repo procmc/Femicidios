@@ -1,5 +1,6 @@
 # Ignorar archivos de configuración sensibles}
 /src/main/resources/application-dev.properties
+/src/test/java/com/if7100/resources/application-test.properties
 
 # Ignorar directorios de compilación y salida
 /target/
