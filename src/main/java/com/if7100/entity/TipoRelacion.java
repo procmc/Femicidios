@@ -35,7 +35,7 @@ public class TipoRelacion {
     public TipoRelacion(String CVTitulo, String CVDescripcion,String CV_Pais) {
     	this.CVTitulo = CVTitulo;
         this.CVDescripcion = CVDescripcion;
-        this.CVPais= CVPais;
+        this.CVPais= CV_Pais;
 
     }
 

@@ -3,15 +3,22 @@ package com.if7100.controller;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.if7100.entity.Hecho;
 import com.if7100.entity.Lugar;
 import com.if7100.repository.LugarRepository;
 import com.if7100.service.LugarService;
+import org.junit.jupiter.api.*;
+import org.springframework.test.context.ActiveProfiles;
 
+@ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class LugarControllerTest {
 
 	
@@ -29,8 +36,13 @@ public class LugarControllerTest {
 	private String canton="Prueba";
 	private String distrito="Prueba";
 
-	private Lugar lugar= new Lugar(Hecho, Descripcion, Tipo_Lugar, Direccion, Ciudad, codigoPostal, provincia, canton, distrito);
-	private Lugar LugarConsultado= new Lugar();
+	private Lugar lugar;
+	private Lugar LugarConsultado;
+
+	 @BeforeAll
+    public void setUp() {
+		lugar = new Lugar(Hecho, Descripcion, Tipo_Lugar, Direccion, Ciudad, codigoPostal, provincia, canton, distrito);
+    }
 	
 	@Test
 	public void Test1() throws Exception{
@@ -39,27 +51,23 @@ public class LugarControllerTest {
 	
 	@Test
 	public void Test2() throws Exception{
-		LugarConsultado= lugarRepository.findById(5).get();
-		assertEquals(LugarConsultado.getCIHecho(), Hecho);
-		assertNotEquals(LugarConsultado.getCITipoLugar(), Tipo_Lugar);
+		LugarConsultado= lugarRepository.findById(lugar.getCI_Codigo()).get();
+		assertEquals(Hecho, LugarConsultado.getCIHecho());
+		assertNotEquals(Tipo_Lugar, LugarConsultado.getCIHecho());
 	}
 	
 	@Test
 	public void Test3() throws Exception{
-		LugarConsultado= lugarRepository.findById(5).get();
-		LugarConsultado.setCI_Codigo(5);
-		LugarConsultado.setCIHecho(LugarConsultado.getCIHecho());
-		LugarConsultado.setCV_Descripcion("hhhhhh");
-		LugarConsultado.setCITipoLugar(lugar.getCITipoLugar());
-		LugarConsultado.setCV_Direccion(lugar.getCV_Direccion());
-		LugarConsultado.setCV_Ciudad(lugar.getCV_Ciudad());
-		LugarConsultado.setCI_Codigo_Postal(lugar.getCI_Codigo_Postal());
+		LugarConsultado= lugarRepository.findById(lugar.getCI_Codigo()).get();
+		LugarConsultado.setCV_Descripcion("Actualizado");
+
 		lugarRepository.save(LugarConsultado);
 	}
 	
 	@Test
 	public void Test4() throws Exception{
-		lugarRepository.deleteById(8);
+		LugarConsultado= lugarRepository.findById(lugar.getCI_Codigo()).get();
+		lugarRepository.deleteById(LugarConsultado.getCI_Codigo());
 	}
 }
 

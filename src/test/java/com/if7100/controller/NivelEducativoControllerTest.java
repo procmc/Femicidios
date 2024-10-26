@@ -1,5 +1,4 @@
 package com.if7100.controller;
-import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -10,46 +9,57 @@ import com.if7100.repository.NivelEducativoRepository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import org.junit.jupiter.api.*;
+import org.springframework.test.context.ActiveProfiles;
 
-
+@ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class NivelEducativoControllerTest {
-	
+
 	@Autowired
 	private NivelEducativoRepository nivelEducativoRepository;
-	
-	private String Titulo ="secundaria baja";
-	private String Descripion ="Educacion secundaria baja";
-	
-	
-	
-	private NivelEducativo nivelEducativo = new NivelEducativo(Titulo, "Educacion secundaria baja","Costa Rica");
+
+	private String Titulo = "prueba uni";
+	private String Descripion = "descripcion de prueba uni";
+	private String Pais = "Costa Rica";
+
+	private NivelEducativo nivelEducativo;
+	private NivelEducativo nivelEducativoConsultada;
+
+	@BeforeAll
+	public void setUp() {
+		nivelEducativo = new NivelEducativo(Titulo, Descripion, Pais);
+	}
+
 	@Test
-	public void Test1() throws Exception{
-		
+	public void Test1() throws Exception {
+
 		nivelEducativoRepository.save(nivelEducativo);
 
-}
-	 @Test
-	    public void test2() throws Exception{
-	        Test1();
-	       nivelEducativo = nivelEducativoRepository.findByCVTitulo(Titulo);
-	        assertEquals(nivelEducativo.getCVTitulo(), Titulo);
-	        assertNotEquals(nivelEducativo.getCVDescripcion(), Descripion);
-	    }
+	}
 
-	    @Test
-	    public void test3() throws Exception{
-//	      nivelEducativoConsultada = nivelEducativoRepository.findByCV_Titulo(titulo);
-//	        nivelEducativoConsultada.setCV_Descripcion(descripcion);
-//	       nivelEducativoRepository.save(nivelEducativoConsultada);
-//	        assertEquals(nivelEducativoConsultada.getCV_Descripcion(), descripcion);
-	    }
+	@Test
+	public void test2() throws Exception {
+		nivelEducativo = nivelEducativoRepository.findByCVTitulo(Titulo);
+		assertEquals(Titulo, nivelEducativo.getCVTitulo());
+		assertNotEquals("aefe", nivelEducativo.getCVDescripcion());
+	}
 
-	    @Test
-	    public void test4() throws Exception{
-//	      nivelEducativoConsultada = nivelEducativoRepository.findByCV_Titulo(titulo);
-//	        nivelEducativoRepository.deleteById(nivelEducativoConsultada.getCI_Id());
-	    }
+	@Test
+	public void test3() throws Exception {
+		nivelEducativoConsultada = nivelEducativoRepository.findByCVTitulo(Titulo);
+		nivelEducativoConsultada.setCVDescripcion("descripcion modificada");
+		nivelEducativoRepository.save(nivelEducativoConsultada);
+		assertEquals("descripcion modificada", nivelEducativoConsultada.getCVDescripcion());
+	}
+
+	@Test
+	public void test4() throws Exception {
+		nivelEducativoConsultada = nivelEducativoRepository.findByCVTitulo(Titulo);
+		nivelEducativoRepository.deleteById(nivelEducativoConsultada.getCI_Id());
+	}
 }

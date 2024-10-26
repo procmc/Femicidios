@@ -8,44 +8,61 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import org.junit.jupiter.api.*;
+import org.springframework.test.context.ActiveProfiles;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+@ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class TipoVictimaControllerTest {
 
     @Autowired
     private TipoVictimaRepository tipoVictimaRepository;
 
-    private Integer codigo = 1;
-
     private String titulo = "Principal";
-
     private String descripcion = "La victima principal del feminicidio";
 
-    private TipoVictima tipoVictima = new TipoVictima(2, "Vinculado", "Victima vinculada al crimen principal");
+    private TipoVictima tipoVictima;
+    private  TipoVictima tipoVictimaConsultada;
 
-    private  TipoVictima tipoVictimaConsultada = new TipoVictima();
+    @BeforeAll
+    public void setUp() {
+        tipoVictima = new TipoVictima(titulo, descripcion);
+    }
+
 
     @Test
+    @Order(1)
     public void testUno() throws  Exception{
         tipoVictimaRepository.save(tipoVictima);
     }
 
     @Test
+    @Order(2)
     public void testDos() throws Exception{
-        //testUno();
         tipoVictimaConsultada = tipoVictimaRepository.findByCVTitulo(titulo);
-        assertEquals(tipoVictimaConsultada.getCVTitulo(), titulo);
-        assertNotEquals(tipoVictimaConsultada.getCVDescripcion(), descripcion);
+        assertEquals(titulo, tipoVictimaConsultada.getCVTitulo());
+        assertNotEquals(titulo, tipoVictimaConsultada.getCVDescripcion());
     }
 
     @Test
+    @Order(3)
     public void testTres() throws Exception{
         tipoVictimaConsultada = tipoVictimaRepository.findByCVTitulo(titulo);
-        tipoVictimaConsultada.setCVDescripcion(descripcion);
+        tipoVictimaConsultada.setCVDescripcion("descripcion modificada");
+
         tipoVictimaRepository.save(tipoVictimaConsultada);
-        assertEquals(tipoVictimaConsultada.getCVDescripcion(), descripcion);
+        assertEquals("descripcion modificada", tipoVictimaConsultada.getCVDescripcion());
     }
 
     @Test
+    @Order(4)
     public void testCuatro() throws Exception{
         tipoVictimaConsultada = tipoVictimaRepository.findByCVTitulo(titulo);
         tipoVictimaRepository.deleteById(tipoVictimaConsultada.getCI_Codigo());

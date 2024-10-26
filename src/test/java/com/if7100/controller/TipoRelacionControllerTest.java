@@ -8,48 +8,62 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import java.sql.Date;
+import org.junit.jupiter.api.*;
+import org.springframework.test.context.ActiveProfiles;
+
+@ActiveProfiles("test")
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class TipoRelacionControllerTest {
 
     @Autowired
     private TipoRelacionRepository tipoRelacionRepository;
 
-    private Integer codigo = 1;
-
     private String titulo = "Vinculado";
-
     private String descripcion = "La Victima vinculada al crimen principal";
     private String pais = "Costa Rica";
 
 
-    private TipoRelacion tipoRelacion = new TipoRelacion("Se desconoce", "Se desconoce el tipo de relación.","Costa Rica");
+    private TipoRelacion tipoRelacion;
+    private  TipoRelacion tipoRelacionConsultada;
 
-    private  TipoRelacion tipoRelacionConsultada = new TipoRelacion();
+    @BeforeAll
+    public void setUp() {
+        tipoRelacion = new TipoRelacion(titulo, descripcion, pais);
+    }
 
     @Test
+    @Order(1)
     public void testUno() throws  Exception{
         tipoRelacionRepository.save(tipoRelacion);
     }
 
     @Test
+    @Order(2)
     public void testDos() throws Exception{
-        //testUno();
         tipoRelacionConsultada = tipoRelacionRepository.findByCVTitulo(titulo);
-        System.out.println(tipoRelacionConsultada.getCVTitulo() + tipoRelacionConsultada.getCVDescripcion());
-        assertEquals(tipoRelacionConsultada.getCVTitulo(), titulo);
-        assertNotEquals(tipoRelacionConsultada.getCVDescripcion(), descripcion);
+        assertEquals(titulo, tipoRelacionConsultada.getCVTitulo());
+        assertNotEquals(titulo, tipoRelacionConsultada.getCVDescripcion());
     }
 
     @Test
+    @Order(3)
     public void testTres() throws Exception{
         tipoRelacionConsultada = tipoRelacionRepository.findByCVTitulo(titulo);
-        tipoRelacionConsultada.setCVDescripcion(descripcion);
+        tipoRelacionConsultada.setCVDescripcion("descripcion modificada");
         tipoRelacionRepository.save(tipoRelacionConsultada);
-        assertEquals(tipoRelacionConsultada.getCVDescripcion(), descripcion);
+
+
+        assertEquals("descripcion modificada", tipoRelacionConsultada.getCVDescripcion());
     }
 
     @Test
+    @Order(4)
     public void testCuatro() throws Exception{
         tipoRelacionConsultada = tipoRelacionRepository.findByCVTitulo(titulo);
         tipoRelacionRepository.deleteById(tipoRelacionConsultada.getCI_Codigo());

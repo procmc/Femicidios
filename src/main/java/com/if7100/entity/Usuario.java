@@ -69,7 +69,6 @@ public class Usuario{
 	}
 	
 	public Usuario(Usuario usuario) {
-		this.CI_Id = usuario.CI_Id;
 		this.CVCedula = usuario.CVCedula;
 		this.CVNombre = usuario.CVNombre;
 		this.CVApellidos = usuario.CVApellidos;

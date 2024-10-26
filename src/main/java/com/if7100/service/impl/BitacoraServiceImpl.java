@@ -24,6 +24,7 @@ public class BitacoraServiceImpl implements BitacoraService{
 	
 	private BitacoraRepository bitacoraRepository;
 	
+
 	public BitacoraServiceImpl (BitacoraRepository bitacoraRepository) {
 		super();
 		this.bitacoraRepository= bitacoraRepository;

@@ -26,7 +26,7 @@ public class OrientacionSexual {
 		super();
 		this.CVTitulo = CVTitulo;
 		this.CVDescripcion = CVDescripcion;
-		
+	
 	}
 	
 	@Id

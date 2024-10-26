@@ -23,8 +23,7 @@ public class TipoVictima {
     public TipoVictima() {
     }
 
-    public TipoVictima(Integer CI_Codigo, String CVTitulo, String CVDescripcion) {
-        this.CI_Codigo = CI_Codigo;
+    public TipoVictima( String CVTitulo, String CVDescripcion) {
         this.CVTitulo = CVTitulo;
         this.CVDescripcion = CVDescripcion;
     }

@@ -26,12 +26,13 @@ public class NivelEducativo {
 	public NivelEducativo() {
 		// TODO Auto-generated constructor stub
 	}
+
 	public NivelEducativo(String CV_Titulo, String CV_Descripcion,String CV_Pais) {
 		
 		super();
 		this.CVTitulo = CV_Titulo;
 		this.CVDescripcion = CV_Descripcion;
-		 this.CVPais= CVPais;
+		 this.CVPais= CV_Pais;
 		
 	}
 	@Id

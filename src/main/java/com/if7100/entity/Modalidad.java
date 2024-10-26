@@ -28,11 +28,10 @@ public class Modalidad {
     public Modalidad() {
     }
 
-    public Modalidad(Integer CI_Codigo, String CVTitulo, String CVDescripcion, String CV_Pais) {
-        this.CI_Codigo = CI_Codigo;
+    public Modalidad(String CVTitulo, String CVDescripcion, String CV_Pais) {
         this.CVTitulo = CVTitulo;
         this.CVDescripcion = CVDescripcion;
-        this.CVPais= CVPais;
+        this.CVPais= CV_Pais;
     }
 
     public Integer getCI_Codigo() {

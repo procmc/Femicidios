@@ -29,8 +29,8 @@ public class Hecho {
     // @Column(name = "CI_Id_Victima", nullable = false)
     // private Integer CIIdVictima;
 
-    //@Column(name = "CI_Id_Proceso", nullable = false)
-    //private Integer CIIdProceso;
+    // @Column(name = "CI_Id_Proceso", nullable = false)
+    // private Integer CIIdProceso;
 
     @Column(name = "CV_Agresion_Sexual", nullable = false)
     private String CVAgresionSexual;
@@ -57,23 +57,25 @@ public class Hecho {
     @JoinColumn(name = "CI_Id_Proceso", referencedColumnName = "CI_Id", nullable = false)
     private ProcesoJudicial procesoJudicial;
 
-
     @Column(name = "ci_codigo_pais", nullable = false)
     private Integer codigoPais;
 
     public Hecho() {
+        // TODO Auto-generated constructor stub
     }
 
-    public Hecho(Integer CI_Id, Integer CITipoVictima, Integer CITipoRelacion, Integer CIModalidad,
-            /* Integer CIIdVictima,  Integer CIIdProceso,*/ String CVAgresionSexual,
+    public Hecho(Integer CITipoVictima, Integer CITipoRelacion, Integer CIModalidad,
+            ProcesoJudicial procesoJudicial, Victima victima, String CVAgresionSexual,
             String CVDenunciaPrevia, Integer CIIdGenerador, String CDFecha, String CVDetalles, int codigoPais) {
-        this.CI_Id = CI_Id;
-        
+
+        super();
         this.CITipoVictima = CITipoVictima;
         this.CITipoRelacion = CITipoRelacion;
         this.CIModalidad = CIModalidad;
+        this.procesoJudicial = procesoJudicial;
+        this.victima = victima;
         // this.CIIdVictima = CIIdVictima;
-        //this.CIIdProceso = CIIdProceso;
+        // this.CIIdProceso = CIIdProceso;
         this.CVAgresionSexual = CVAgresionSexual;
         this.CVDenunciaPrevia = CVDenunciaPrevia;
         this.CIIdGenerador = CIIdGenerador;
@@ -82,7 +84,7 @@ public class Hecho {
         this.codigoPais = codigoPais;
     }
 
-    //get y set de relacion de hecho con victima
+    // get y set de relacion de hecho con victima
     public Victima getVictima() {
         return victima;
     }
@@ -91,7 +93,7 @@ public class Hecho {
         this.victima = victima;
     }
 
-    //get y set de relacion de hecho con proceso judicial
+    // get y set de relacion de hecho con proceso judicial
     public ProcesoJudicial getProcesoJudicial() {
         return procesoJudicial;
     }
@@ -99,7 +101,6 @@ public class Hecho {
     public void setProcesoJudicial(ProcesoJudicial procesoJudicial) {
         this.procesoJudicial = procesoJudicial;
     }
-
 
     public String getCVDetalles() {
         return CVDetalles;
@@ -149,16 +150,16 @@ public class Hecho {
      * public void setCIIdVictima(Integer CIIdVictima) {
      * this.CIIdVictima = CIIdVictima;
      * }
-     
-
-    public Integer getCIIdProceso() {
-        return CIIdProceso;
-    }
-
-    public void setCIIdProceso(Integer CIIdProceso) {
-        this.CIIdProceso = CIIdProceso;
-    }
-    */
+     * 
+     * 
+     * public Integer getCIIdProceso() {
+     * return CIIdProceso;
+     * }
+     * 
+     * public void setCIIdProceso(Integer CIIdProceso) {
+     * this.CIIdProceso = CIIdProceso;
+     * }
+     */
 
     public Integer getCI_Id() {
         return CI_Id;

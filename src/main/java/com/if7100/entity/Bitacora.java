@@ -27,7 +27,6 @@ public class Bitacora {
 
 	}
 	public Bitacora(Integer CIId, String CV_DNI_Usuario, String CV_Rol, String CV_Descripcion) {
-		super();
 		this.CIId = CIId; 
 		this.CVUsuario = CV_DNI_Usuario;
 		this.CVRol= CV_Rol;

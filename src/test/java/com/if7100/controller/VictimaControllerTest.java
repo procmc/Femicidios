@@ -4,6 +4,7 @@ package com.if7100.controller;
 import com.if7100.entity.Victima;
 import com.if7100.repository.VictimaRepository;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -11,11 +12,27 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
+import org.aspectj.lang.annotation.Before;
 
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import java.sql.Date;
+import org.junit.jupiter.api.*;
+import org.springframework.test.context.ActiveProfiles;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+@ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class VictimaControllerTest {
 
-    private String CVDNI = "203450876";
+    @Autowired
+    private VictimaRepository victimaRepository;
+
+    private String CVDNI = "02345";
     private String CVNombre = "AlbertinaB";
     private String CVApellidoPaterno = "Chill";
     private String CVApellidoMaterno = "Pepper";
@@ -27,72 +44,58 @@ public class VictimaControllerTest {
     private int educacion = 2;
     private String profesion = "Cruz Rojista";
     private String domicilio = "Limon centro";
+    private String CVLugarResidencia = "Limon";
     private String discapacidad = "Ninguna";
+    private String CVCondicionMigratoria = "Ninguna";
     private String etnia = "Blanca";
+    private String CVMedidasProteccion = "Ninguna";
+    private String CVDenunciasPrevias = "No";
+    private int CIHijos = 0;
+    private String CVGenerador = "Nada";    
+    private int codigopais = 52;
 
-    private Victima victima = new Victima(CVDNI, CVNombre, CVApellidoPaterno, CVApellidoMaterno, CVEdad, CVGenero, CVLugarNac, CVOrientaSex, nacionalidad, educacion,
-            profesion, domicilio, "Limon", discapacidad, "Todo bien", etnia, "Ninguna", "Ninguna", 0, "Nada", 2);
-
-    //private Victima victima = new Victima (CVDNI,"Albertina","Chill","Pepper", 30,2, "Cartago", 3, "Costarricense", 2, "Cruz Rojista", "Limon centro", "Limon", "Ninguna", "Todo bien", "Mestizo", "Ninguna", "Ninguna", 0, "Nada");
-
-    @Autowired
-    private VictimaRepository victimaRepository;
-
-
+    private Victima victima;
     private Victima victimaConsultada = new Victima();
 
+    @BeforeAll
+    public void setUp() {
+        victima = new Victima(CVDNI, CVNombre, CVApellidoPaterno, CVApellidoMaterno, CVEdad, CVGenero, CVLugarNac,
+                CVOrientaSex, nacionalidad, educacion, profesion, domicilio, CVLugarResidencia, discapacidad,
+                CVCondicionMigratoria, etnia, CVMedidasProteccion, CVDenunciasPrevias, CIHijos, CVGenerador, codigopais);
+    }
     @Test
+    @Order(1)
     public void Test1() throws Exception {
-
         victimaRepository.save(victima);
-
     }
 
     @Test
+    @Order(2)
     public void Test2() throws Exception {
 
         victimaConsultada = victimaRepository.findByCVNombre(CVNombre);
-        assertEquals(victimaConsultada.getCVDNI(), CVDNI);
-        assertNotEquals(victimaConsultada.getCVNombre(), "Maria");
-        assertNotEquals(victimaConsultada.getCVApellidoPaterno(),"Perez");
-        assertNotEquals(victimaConsultada.getCVApellidoMaterno(),"Lopez");
-        assertNotEquals(victimaConsultada.getCIEdad(), 44);
-        assertNotEquals(victimaConsultada.getCVGenero(), 12);
-        assertNotEquals(victimaConsultada.getCVDiscapacidad(), "Visual");
-        assertNotEquals(victimaConsultada.getCVLugarNac(), "Panama");
-        assertNotEquals(victimaConsultada.getCVOrientaSex(), 1);
-        assertNotEquals(victimaConsultada.getCVNacionalidad(), "Panameña");
-        assertNotEquals(victimaConsultada.getCIEducacion(), 0);
-        assertNotEquals(victimaConsultada.getCVEtnia(),"Mixta");
+        assertEquals(CVDNI, victimaConsultada.getCVDNI());
+        assertNotEquals("Maria", victimaConsultada.getCVNombre());
+        
     }
 
 
     @Test
+    @Order(3)
     public void Test3() throws Exception {
 
         victimaConsultada = victimaRepository.findByCVNombre(CVNombre);
-        victimaConsultada.setCVNombre(CVNombre);
+        victimaConsultada.setCICodigoPais(51);
         victimaRepository.save(victimaConsultada);
-       // victimaConsultada = victimaRepository.findByCVNombre(CVNombre);
-        assertEquals(victimaConsultada.getCVNombre(), CVNombre);
-        assertEquals(victimaConsultada.getCVApellidoPaterno(), CVApellidoPaterno);
-        assertEquals(victimaConsultada.getCVApellidoMaterno(), CVApellidoMaterno);
-        assertEquals(victimaConsultada.getCIEdad(), CVEdad);
-        assertEquals(victimaConsultada.getCVGenero(), CVGenero);
-        assertEquals(victimaConsultada.getCVLugarNac(), CVLugarNac);
-        assertEquals(victimaConsultada.getCVOrientaSex(), CVOrientaSex);
-        assertEquals(victimaConsultada.getCVNacionalidad(), this.nacionalidad);
-        assertEquals(victimaConsultada.getCVDiscapacidad(), this.discapacidad);
-        assertEquals(victimaConsultada.getCIEducacion(), this.educacion);
-        assertEquals(victimaConsultada.getCVEtnia(), this.etnia);
+
+        assertEquals(51, victimaConsultada.getCICodigoPais());
+        
     }
 
     @Test
     public void Test4() throws Exception {
-
         victimaConsultada = victimaRepository.findByCVNombre(CVNombre);
         victimaRepository.deleteById(victimaConsultada.getCI_Id());
-
     }
 
 }

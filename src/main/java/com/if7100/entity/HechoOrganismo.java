@@ -6,10 +6,6 @@ import jakarta.persistence.*;
 @Table(name = "ta_hechos_organismos")
 public class HechoOrganismo {
 
-
-
-
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer CI_Id;

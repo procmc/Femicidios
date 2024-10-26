@@ -1,70 +1,82 @@
 package com.if7100.controller;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.junit.jupiter.api.Test;
 
 import com.if7100.entity.Organizacion;
 import com.if7100.entity.Usuario;
+import com.if7100.repository.OrganizacionRepository;
 import com.if7100.repository.UsuarioRepository;
-import com.if7100.service.UsuarioService;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import java.sql.Date;
+import org.junit.jupiter.api.*;
+import org.springframework.test.context.ActiveProfiles;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+@ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class UsuarioControllerTest {
-	
-	
-@Autowired
-private UsuarioService usuarioService;
-private UsuarioRepository usuarioRepository;
- 
-private String Cedula= "604540581";
-private String Nombre="David";
-private String Apellido="Jimene";
-private int perfil=1;
-private String Contrasena="Liss";
-private int UsuarioAct=1;
-private String Nombre2="Reichell";
-private Organizacion organizacion;
 
-private Usuario usuario= new Usuario(Cedula, Nombre, Apellido, perfil, UsuarioAct, Contrasena, organizacion);
-private Usuario usuarioConsultado= new Usuario();
+	@Autowired
+	private UsuarioRepository usuarioRepository;
 
+	@Autowired
+	private OrganizacionRepository organizacionRepository;
 
-@Test
-public void Test1() throws Exception{
-	usuarioService.saveUsuario(usuario);
+	private String Cedula = "0011223344";
+	private String Nombre = "David";
+	private String Apellido = "Jimene";
+	private int perfil = 1;
+	private String Contrasena = "Liss";
+	private int codigo_pais = 52;
+	private Organizacion organizacion = new Organizacion( "nombreO", "DireccionO", "TelefonoO", "CorreoO", 52);
+
+	private Usuario usuario;
+	private Usuario usuarioConsultado;
+
+	@BeforeAll
+	public void setUp() {
+		organizacionRepository.save(organizacion);
+		
+		usuario = new Usuario(Cedula, Nombre, Apellido, perfil, codigo_pais, Contrasena, organizacion);
+	}
+
+	@Test
+	@Order(1)
+	public void Test1() throws Exception {
+		usuarioRepository.save(usuario);
+	}
+
+	@Test
+	@Order(2)
+	public void Test2() throws Exception {
+		usuarioConsultado = usuarioRepository.findByCVCedula(Cedula);
+		assertEquals(usuarioConsultado.getCVNombre(), Nombre);
+		assertNotEquals(Nombre, usuarioConsultado.getCVApellidos());
+	}
+
+	@Test
+	@Order(3)
+	public void Test3() throws Exception {
+		usuarioConsultado = usuarioRepository.findByCVCedula(Cedula);
+		usuarioConsultado.setCodigoPais(51);
+		usuarioRepository.save(usuarioConsultado);
+
+		assertEquals(51, usuarioConsultado.getCodigoPais());
+	}
+
+	@Test
+	@Order(4)
+	public void Test4() throws Exception{
+		usuarioRepository.deleteById(usuarioConsultado.getCI_Id());
+	}
+
 }
-
-@Test
-public void Test2() throws Exception{
-	usuarioConsultado= usuarioService.getUsuarioById(1);
-	assertEquals(usuarioConsultado.getCVNombre(), Nombre);
-	assertNotEquals(usuarioConsultado.getCVApellidos(), Apellido);
-}
-
-
-@Test
-public void Test3() throws Exception{
-	usuarioService.deleteUsuarioById(7);
-}
-
-@Test
-public void Test4() throws Exception{
-	 Usuario existingUsuario=usuarioService.getUsuarioById(UsuarioAct);
-	 existingUsuario.setCI_Id(UsuarioAct);
-	 existingUsuario.setCVCedula(usuario.getCVCedula());
-	 existingUsuario.setCVNombre("Johnny");
-	 existingUsuario.setCVApellidos(usuario.getCVApellidos());
-	 existingUsuario.setCIPerfil(usuario.getCIPerfil());
-	 existingUsuario.setTCClave(usuario.getTCClave());
-	 usuarioService.updateUsuario(existingUsuario);
-}
-
-}
-
-
-

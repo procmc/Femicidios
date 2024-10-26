@@ -28,10 +28,10 @@ public class ProcesoJudicial {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public ProcesoJudicial(int CI_Id, String CVEstado, int CIPersonasImputadas, String CVAgravantes, String CVTipoDelito) {
+	public ProcesoJudicial(String CVEstado, Date CDFechaApertura, int CIPersonasImputadas, String CVAgravantes, String CVTipoDelito) {
 		super();
-		this.CI_Id = CI_Id;
 		this.CVEstado=CVEstado;
+		this.CDFechaApertura= CDFechaApertura;
 		this.CIPersonasImputadas=CIPersonasImputadas;
 		this.CVAgravantes=CVAgravantes;
 		this.CVTipoDelito=CVTipoDelito;

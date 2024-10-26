@@ -1,9 +1,10 @@
 package com.if7100.controller;
 
+import com.if7100.entity.OrientacionSexual;
 import com.if7100.entity.SituacionJuridica;
 import com.if7100.repository.SituacionJuridicaRepository;
 import com.if7100.service.SituacionJuridicaService;
-import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
@@ -12,8 +13,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import java.util.List;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import org.junit.jupiter.api.*;
+import org.springframework.test.context.ActiveProfiles;
 
+@ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class SituacionJuridicaControllerTest {
 
     @Autowired
@@ -22,42 +30,43 @@ public class SituacionJuridicaControllerTest {
     @Autowired
     private SituacionJuridicaService situacionJuridicaService;
 
-    @Test
-    public void testUno() throws Exception{
+    private String Titulo = "PruebaSJ";
+	private String Descripcion = "situacion juridica test";
 
-//        Pageable pageRequest = PageRequest.of(0,2);
-//        Page<SituacionJuridica> situacionJuridicaPages = situacionJuridicaRepository.findAll(pageRequest);
-//        System.out.println(situacionJuridicaPages.getTotalPages());
-//        do {
-//            situacionJuridicaPages = situacionJuridicaRepository.findAll(pageRequest);
-//            for (SituacionJuridica situacionJuridica :
-//                    situacionJuridicaPages.getContent()) {
-//                System.out.println(situacionJuridica.getCI_Codigo());
-//            }
-//            pageRequest = pageRequest.next();
-//        } while (!situacionJuridicaPages.isLast());
+	private SituacionJuridica situacionJuridica;
+	private SituacionJuridica situacionJuridicaConultada;
 
-        int numeroPagina = 0; // Número de página actual (0 para la primera página)
-        int elementosPorPagina = 10; // Número máximo de elementos por página
-        int paginasDeseadas = 5; // Número deseado de páginas
+	@BeforeAll
+	public void setUp() {
+		situacionJuridica = new SituacionJuridica(Titulo, Descripcion);
+	}
 
-        Pageable pageable = PageRequest.of(numeroPagina, elementosPorPagina);
+	@Test
+	public void Test1() throws Exception {
+		situacionJuridicaRepository.save(situacionJuridica);
+	}
 
-        Page<SituacionJuridica> situacionJuridicaPage = situacionJuridicaRepository.findAll(pageable);
+	@Test
+	public void Test2() throws Exception {
+		situacionJuridicaConultada = situacionJuridicaRepository.findByCVTitulo(Titulo);
+		assertEquals(Titulo, situacionJuridicaConultada.getCVTitulo());
+		assertNotEquals("fallo", situacionJuridicaConultada.getCVDescripcion());
+	}
 
-// Ajustar el tamaño de página para garantizar 5 páginas
-        long numeroTotalElementos = situacionJuridicaPage.getTotalElements();
-        int tamanoPagina = (int) Math.ceil(numeroTotalElementos / (double) paginasDeseadas);
+	@Test
+	public void Test3() throws Exception {
+		situacionJuridicaConultada = situacionJuridicaRepository.findByCVTitulo(Titulo);
+		situacionJuridicaConultada.setCVDescripcion("Descripcion modificada");
+		situacionJuridicaRepository.save(situacionJuridicaConultada);
+		
+		situacionJuridicaConultada = situacionJuridicaRepository.findByCVTitulo(Titulo);
+		assertEquals("Descripcion modificada", situacionJuridicaConultada.getCVDescripcion());
+	}
 
-        pageable = PageRequest.of(numeroPagina, tamanoPagina);
-
-        situacionJuridicaPage = situacionJuridicaRepository.findAll(pageable);
-        System.out.println(situacionJuridicaPage.getTotalPages());
-        for (SituacionJuridica situacionJuridica :
-                situacionJuridicaPage.getContent()) {
-            System.out.println(situacionJuridica.getCI_Codigo());
-        }
-
-    }
+	@Test
+	public void Test4() throws Exception {
+		situacionJuridicaConultada = situacionJuridicaRepository.findByCVTitulo(Titulo);
+		situacionJuridicaRepository.deleteById(situacionJuridicaConultada.getCI_Codigo());
+	}
 
 }

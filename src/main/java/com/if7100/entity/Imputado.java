@@ -26,8 +26,11 @@ public class Imputado {
 	}
 
 	public Imputado(String cV_DNI, String cVNombre, String cVGenero, String cVOrientacionSexual, char CVSexo,
-			String cIEdad,
-			String cVLugarNacimiento, int codigoPais) {
+			String cIEdad, String cVLugarNacimiento, String CVNacionalidad, String CVEducacion,
+			String CVOcupacion, String CVDomicilio, String CVLugarResidencia, String CVCondicionMigratoria,
+			String CVEtnia, String CVSituacionJuridica, String CVEstadoConyugal, String CVPermisoPortacionArmas,
+			String CVPertenenciaFuerzaSeguridad, String CVAntecedentes, String CVSuicidio, String CVGenerador,int codigoPais) {
+
 		super();
 		this.CVDni = cV_DNI;
 		this.CVNombre = cVNombre;
@@ -37,6 +40,20 @@ public class Imputado {
 		this.CIEdad = cIEdad;
 		this.CVLugarNacimiento = cVLugarNacimiento;
 		this.codigoPais = codigoPais;
+		this.CVNacionalidad = CVNacionalidad;
+		this.CVEducacion = CVEducacion;
+		this.CVOcupacion = CVOcupacion;
+		this.CVDomicilio = CVDomicilio;
+		this.CVLugarResidencia = CVLugarResidencia;
+		this.CVCondicionMigratoria = CVCondicionMigratoria;
+		this.CVEtnia = CVEtnia;
+		this.CVSituacionJuridica = CVSituacionJuridica;
+		this.CVEstadoConyugal = CVEstadoConyugal;
+		this.CVPermisoPortacionArmas = CVPermisoPortacionArmas;
+		this.CVPertenenciaFuerzaSeguridad = CVPertenenciaFuerzaSeguridad;
+		this.CVAntecedentes = CVAntecedentes;
+		this.CVSuicidio = CVSuicidio;
+		this.CVGenerador = CVGenerador;
 
 	}
 

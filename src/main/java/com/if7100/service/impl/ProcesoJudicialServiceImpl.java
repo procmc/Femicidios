@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import com.if7100.entity.Hecho;
 import com.if7100.entity.ProcesoJudicial;
 import com.if7100.repository.ProcesoJudicialRepository;
 import com.if7100.service.ProcesoJudicialService;
@@ -15,6 +17,12 @@ public class ProcesoJudicialServiceImpl implements ProcesoJudicialService {
 	
 	private ProcesoJudicialRepository procesoJudicialRepository;
 	
+
+	@Override
+    public ProcesoJudicial findByCVEstado(String CVEstado) {
+        return procesoJudicialRepository.findByCVEstado(CVEstado);
+    }
+
 	public ProcesoJudicialServiceImpl(ProcesoJudicialRepository procesoJudicialRepository) {
 		super();
 		this.procesoJudicialRepository=procesoJudicialRepository;

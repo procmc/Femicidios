@@ -25,4 +25,6 @@ public interface BitacoraService {
 
 
     Page<Bitacora> getAllBitacorasPage(Pageable pageable);
+
+
 }

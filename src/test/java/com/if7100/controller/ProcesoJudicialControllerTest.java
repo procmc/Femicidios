@@ -11,39 +11,67 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
+import java.sql.Date;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import org.junit.jupiter.api.*;
+import org.springframework.test.context.ActiveProfiles;
 
-@SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
+@ActiveProfiles("test")
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class ProcesoJudicialControllerTest {
-	private ProcesoJudicial proceso = new ProcesoJudicial (1010, "Completado", 1,"Agravante1","Homicidio");
-	
-	ProcesoJudicial consultado= new ProcesoJudicial();
-	
+
 	@Autowired
-	private ProcesoJudicialRepository procesoJudicialRepository; 
-	
+	private ProcesoJudicialRepository procesoJudicialRepository;
+
+	private String CVEstado = "Prueba estado";
+	Date fecha = Date.valueOf("2024-10-25");
+	private int CIPersonasImputadas = 1;
+	private String CVAgravantes = "Ninguna";
+	private String CVTipoDelito = "Ninguna";
+
+	private ProcesoJudicial proceso;
+
+	private ProcesoJudicial consultado;
+
+	@BeforeAll
+	public void setUp() {
+		proceso = new ProcesoJudicial(CVEstado, fecha, CIPersonasImputadas, CVAgravantes, CVTipoDelito);
+	}
+
 	@Test
-	public void Test1() throws Exception{
+	@Order(1)
+	public void Test1() throws Exception {
 		procesoJudicialRepository.save(proceso);
 	}
-	
-	/*
-	 * @Test public void testDos() throws Exception{
-	 * consultado=procesoJudicialRepository.findByCIDenunciante(701230456);
-	 * assertEquals(consultado.getCIDenunciante(), 701230456);
-	 * assertNotEquals(consultado.getCIDenunciante(), 110510384); }
-	 * 
-	 * @Test public void testTres() throws Exception{
-	 * consultado=procesoJudicialRepository.findByCIDenunciante(701230456);
-	 * consultado.setCIDenunciante(701230456);
-	 * procesoJudicialRepository.save(consultado);
-	 * consultado=procesoJudicialRepository.findByCIDenunciante(701230456);
-	 * assertNotEquals(consultado.getCIDenunciante(),701230456); }
-	 * 
-	 * @Test public void testCuatro() throws Exception{ consultado =
-	 * procesoJudicialRepository.findByCIDenunciante(701230456);
-	 * procesoJudicialRepository.delete(consultado); }
-	 */
-	
-	
+
+	@Test
+	@Order(2)
+	public void testDos() throws Exception {
+		consultado = procesoJudicialRepository.findByCVEstado(CVEstado);
+		assertEquals(CIPersonasImputadas, consultado.getCIPersonasImputadas());
+		assertNotEquals("Prueba fallo", consultado.getCVAgravantes());
+	}
+
+	@Test
+	@Order(3)
+	public void testTres() throws Exception {
+		consultado = procesoJudicialRepository.findByCVEstado(CVEstado);
+		consultado.setCVAgravantes("Agravantes modificados");
+		procesoJudicialRepository.save(consultado);
+
+		consultado = procesoJudicialRepository.findByCVEstado(CVEstado);
+		assertNotEquals(CVEstado, consultado.getCVAgravantes());
+	}
+
+
+	@Test
+	@Order(4)
+	public void testCuatro() throws Exception {
+		consultado = procesoJudicialRepository.findByCVEstado(CVEstado);
+		procesoJudicialRepository.delete(consultado);
+	}
 
 }
