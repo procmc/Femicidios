@@ -28,13 +28,14 @@ public class ProcesoJudicial {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public ProcesoJudicial(String CVEstado, Date CDFechaApertura, int CIPersonasImputadas, String CVAgravantes, String CVTipoDelito) {
+	public ProcesoJudicial(String CVEstado, Date CDFechaApertura, int CIPersonasImputadas, String CVAgravantes, String CVTipoDelito, Integer CICodigoPais) {
 		super();
 		this.CVEstado=CVEstado;
 		this.CDFechaApertura= CDFechaApertura;
 		this.CIPersonasImputadas=CIPersonasImputadas;
 		this.CVAgravantes=CVAgravantes;
 		this.CVTipoDelito=CVTipoDelito;
+		this.CICodigoPais = CICodigoPais;
 	}
 	
 	@Id
@@ -57,6 +58,8 @@ public class ProcesoJudicial {
 	@Column(name="CV_Tipo_Delito",nullable=false)
 	private String CVTipoDelito;
 	
+	@Column(name = "CI_CodigoPais", nullable = false)
+    private Integer CICodigoPais;
 
 	/**
 	 * @return the cI_IdProceso
@@ -140,6 +143,13 @@ public class ProcesoJudicial {
 		CDFechaApertura = new Date();
     }
 
+	public int getCICodigoPais() {
+		return CICodigoPais;
+	}
+
+	public void setCICodigoPais(int CICodigoPais) {
+		this.CICodigoPais = CICodigoPais;
+	}
 	
 	
 }

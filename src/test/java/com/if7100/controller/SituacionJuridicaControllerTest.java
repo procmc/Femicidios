@@ -42,19 +42,22 @@ public class SituacionJuridicaControllerTest {
 	}
 
 	@Test
-	public void Test1() throws Exception {
+	@Order(1)
+	public void Test1_GuardarSituacionJuridica() throws Exception {
 		situacionJuridicaRepository.save(situacionJuridica);
 	}
 
 	@Test
-	public void Test2() throws Exception {
+	@Order(2)
+	public void Test2_ConsultarSituacionJuridica() throws Exception {
 		situacionJuridicaConultada = situacionJuridicaRepository.findByCVTitulo(Titulo);
 		assertEquals(Titulo, situacionJuridicaConultada.getCVTitulo());
 		assertNotEquals("fallo", situacionJuridicaConultada.getCVDescripcion());
 	}
 
 	@Test
-	public void Test3() throws Exception {
+	@Order(3)
+	public void Test3_ActualizarSituacionJuridica() throws Exception {
 		situacionJuridicaConultada = situacionJuridicaRepository.findByCVTitulo(Titulo);
 		situacionJuridicaConultada.setCVDescripcion("Descripcion modificada");
 		situacionJuridicaRepository.save(situacionJuridicaConultada);
@@ -64,7 +67,8 @@ public class SituacionJuridicaControllerTest {
 	}
 
 	@Test
-	public void Test4() throws Exception {
+	@Order(4)
+	public void Test4_EliminarSituacionJuridica() throws Exception {
 		situacionJuridicaConultada = situacionJuridicaRepository.findByCVTitulo(Titulo);
 		situacionJuridicaRepository.deleteById(situacionJuridicaConultada.getCI_Codigo());
 	}

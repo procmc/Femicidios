@@ -39,13 +39,13 @@ public class TipoRelacionControllerTest {
 
     @Test
     @Order(1)
-    public void testUno() throws  Exception{
+    public void testUno_GuardarTipoRelacion() throws  Exception{
         tipoRelacionRepository.save(tipoRelacion);
     }
 
     @Test
     @Order(2)
-    public void testDos() throws Exception{
+    public void testDos_ConsultarTipoRelacion() throws Exception{
         tipoRelacionConsultada = tipoRelacionRepository.findByCVTitulo(titulo);
         assertEquals(titulo, tipoRelacionConsultada.getCVTitulo());
         assertNotEquals(titulo, tipoRelacionConsultada.getCVDescripcion());
@@ -53,7 +53,7 @@ public class TipoRelacionControllerTest {
 
     @Test
     @Order(3)
-    public void testTres() throws Exception{
+    public void testTres_ActualizarTipoRelacion() throws Exception{
         tipoRelacionConsultada = tipoRelacionRepository.findByCVTitulo(titulo);
         tipoRelacionConsultada.setCVDescripcion("descripcion modificada");
         tipoRelacionRepository.save(tipoRelacionConsultada);
@@ -64,7 +64,7 @@ public class TipoRelacionControllerTest {
 
     @Test
     @Order(4)
-    public void testCuatro() throws Exception{
+    public void testCuatro_EliminarTipoRelacion() throws Exception{
         tipoRelacionConsultada = tipoRelacionRepository.findByCVTitulo(titulo);
         tipoRelacionRepository.deleteById(tipoRelacionConsultada.getCI_Codigo());
     }

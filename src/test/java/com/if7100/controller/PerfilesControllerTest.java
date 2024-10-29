@@ -9,6 +9,8 @@ import com.if7100.repository.PerfilRepository;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
+import org.junit.jupiter.api.Order;
+
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class PerfilesControllerTest {
 	@Autowired
@@ -17,18 +19,21 @@ public class PerfilesControllerTest {
 	Perfil org=new Perfil("Hago todo","SOYADMIN");
 	Perfil consultado= new Perfil();
 	@Test
-	private void Test1() throws Exception{
+	@Order(1)
+	private void Test1_GuardarPerfil() throws Exception{
 		perfilRepository.save(org);
 	}
 	@Test
-	private void Test2() throws Exception{
+	@Order(2)
+	private void Test2_ConsultarPerfil() throws Exception{
 		consultado=perfilRepository.findByCVDescripcion("Hago todo");
 		assertEquals(consultado.getCVRol(),"Hago todo");
 		assertNotEquals(consultado.getCVDescripcion(),"Hago todo");
 	}
 	
 	@Test
-	private void Test3() throws Exception{
+	@Order(3)	
+	private void Test3_ActualizarPerfil() throws Exception{
 		consultado=perfilRepository.findByCVDescripcion("Hago todo");
 		consultado.setCVRol("aaa");
 		perfilRepository.save(consultado);
@@ -37,7 +42,8 @@ public class PerfilesControllerTest {
 	}
 	
 	@Test
-	private void Test4() throws Exception{
+	@Order(4)
+	private void Test4_EliminarPerfil() throws Exception{
 		consultado=perfilRepository.findByCVDescripcion("Hago todo");
 		perfilRepository.deleteById(consultado.getCI_Id());
 	}

@@ -34,19 +34,22 @@ public class OrientacionSexualControllerTest {
 	}
 
 	@Test
-	public void Test1() throws Exception {
+	@Order(1)
+	public void Test1_GuardarOrientacionSexual() throws Exception {
 		orientacionRepository.save(orientacion);
 	}
 
 	@Test
-	public void Test2() throws Exception {
+	@Order(2)
+	public void Test2_ConsultarOrientacionSexual() throws Exception {
 		orientacionConsultada = orientacionRepository.findByCVTitulo(Titulo);
 		assertEquals(Titulo, orientacionConsultada.getCVTitulo());
 		assertNotEquals("fallo", orientacionConsultada.getCVDescripcion());
 	}
 
 	@Test
-	public void Test3() throws Exception {
+	@Order(3)
+	public void Test3_ActualizarOrientacionSexual() throws Exception {
 		orientacionConsultada = orientacionRepository.findByCVTitulo(Titulo);
 		orientacionConsultada.setCVDescripcion("Descripcion modificada");
 		orientacionRepository.save(orientacionConsultada);
@@ -56,7 +59,7 @@ public class OrientacionSexualControllerTest {
 	}
 
 	@Test
-	public void Test4() throws Exception {
+	public void Test4_EliminarOrientacionSexual() throws Exception {
 		orientacionConsultada = orientacionRepository.findByCVTitulo(Titulo);
 		orientacionRepository.deleteById(orientacionConsultada.getCI_Codigo());
 	}

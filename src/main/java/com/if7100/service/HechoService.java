@@ -71,7 +71,7 @@ public interface HechoService {
 
 
 
-	public List<Hecho> findByCodigoPais(Integer codigoPais);
+	List<Hecho> findByCodigoPais(Integer codigoPais);
 
 
 }

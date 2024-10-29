@@ -35,13 +35,13 @@ public class ModalidadControllerTest {
 
     @Test
     @Order(1)
-    public void testUno() throws  Exception{
+    public void testUno_GuardarModalidad() throws  Exception{
         modalidadRepository.save(modalidad);
     }
 
     @Test
     @Order(2)
-    public void testDos() throws Exception{
+    public void testDos_ConsultarModalidad() throws Exception{
         modalidadConsultada = modalidadRepository.findByCVTitulo(titulo);
         assertEquals(titulo, modalidadConsultada.getCVTitulo());
         assertNotEquals( "34de", modalidadConsultada.getCVDescripcion());
@@ -49,7 +49,7 @@ public class ModalidadControllerTest {
 
     @Test
     @Order(3)
-    public void testTres() throws Exception{
+    public void testTres_ActualizarModalidad() throws Exception{
         modalidadConsultada = modalidadRepository.findByCVTitulo(titulo);
         modalidadConsultada.setCVDescripcion("descripcion modificada");
         modalidadRepository.save(modalidadConsultada);
@@ -58,7 +58,7 @@ public class ModalidadControllerTest {
 
     @Test
     @Order(4)
-    public void testCuatro() throws Exception{
+    public void testCuatro_EliminarModalidad() throws Exception{
         modalidadConsultada = modalidadRepository.findByCVTitulo(titulo);
         modalidadRepository.deleteById(modalidadConsultada.getCI_Codigo());
     }

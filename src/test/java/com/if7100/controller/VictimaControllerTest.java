@@ -65,13 +65,13 @@ public class VictimaControllerTest {
     }
     @Test
     @Order(1)
-    public void Test1() throws Exception {
+    public void Test1_GuardarVictima() throws Exception {
         victimaRepository.save(victima);
     }
 
     @Test
     @Order(2)
-    public void Test2() throws Exception {
+    public void Test2_ConsultarVictima() throws Exception {
 
         victimaConsultada = victimaRepository.findByCVNombre(CVNombre);
         assertEquals(CVDNI, victimaConsultada.getCVDNI());
@@ -82,7 +82,7 @@ public class VictimaControllerTest {
 
     @Test
     @Order(3)
-    public void Test3() throws Exception {
+    public void Test3_ActualizarVictima() throws Exception {
 
         victimaConsultada = victimaRepository.findByCVNombre(CVNombre);
         victimaConsultada.setCICodigoPais(51);
@@ -93,7 +93,7 @@ public class VictimaControllerTest {
     }
 
     @Test
-    public void Test4() throws Exception {
+    public void Test4_EliminarVictima() throws Exception {
         victimaConsultada = victimaRepository.findByCVNombre(CVNombre);
         victimaRepository.deleteById(victimaConsultada.getCI_Id());
     }

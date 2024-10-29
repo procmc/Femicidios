@@ -493,7 +493,6 @@ public class VictimaController {
 
 	@PostMapping("/victimas")
 	public String saveVictima(@ModelAttribute Victima victima) {
-		this.validarPerfil();
 		victimaService.saveVictima(victima);
 		return "redirect:/victimas";
 	}

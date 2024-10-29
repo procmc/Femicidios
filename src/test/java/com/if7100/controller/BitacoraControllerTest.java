@@ -45,14 +45,14 @@ public class BitacoraControllerTest {
 
     @Test
     @Order(1)
-    public void testUno() throws  Exception{
+    public void testUno_GuardarBitacora() throws  Exception{
         System.out.println("Testsad "+bitacora.getCIIdBitacora());
         bitacoraRepository.save(bitacora);
     }
 
     @Test
     @Order(2)
-    public void testDos() throws Exception{
+    public void testDos_ConsultarBitacora() throws Exception{
         bitacoraConsultada = bitacoraRepository.findById(Integer.valueOf(bitacora.getCIIdBitacora())).get();
         assertEquals(CV_DNI_Usuario, bitacoraConsultada.getCVUsuario());
         assertNotEquals("Amini",bitacoraConsultada.getCVRol());
@@ -60,7 +60,7 @@ public class BitacoraControllerTest {
 
     @Test
     @Order(3)
-    public void testTres() throws Exception{
+    public void testTres_ActualizarBitacora() throws Exception{
     	bitacoraConsultada = bitacoraRepository.findById(Integer.valueOf(bitacora.getCIIdBitacora())).get();
     	bitacoraConsultada.setCVRol("Administrador");
         bitacoraRepository.save(bitacoraConsultada);
@@ -70,7 +70,7 @@ public class BitacoraControllerTest {
 
     @Test
     @Order(4)
-    public void testCuatro() throws Exception{
+    public void testCuatro_EliminarBitacora() throws Exception{
         bitacoraConsultada = bitacoraRepository.findById(Integer.valueOf(bitacora.getCIIdBitacora())).get();
         bitacoraRepository.deleteById(bitacoraConsultada.getCIIdBitacora());
     }

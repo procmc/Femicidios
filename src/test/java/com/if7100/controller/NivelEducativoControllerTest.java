@@ -36,21 +36,24 @@ public class NivelEducativoControllerTest {
 	}
 
 	@Test
-	public void Test1() throws Exception {
+	@Order(1)
+	public void Test1_GuardarNivelEducativo() throws Exception {
 
 		nivelEducativoRepository.save(nivelEducativo);
 
 	}
 
 	@Test
-	public void test2() throws Exception {
+	@Order(2)
+	public void test2_ConsultarNivelEducativo() throws Exception {
 		nivelEducativo = nivelEducativoRepository.findByCVTitulo(Titulo);
 		assertEquals(Titulo, nivelEducativo.getCVTitulo());
 		assertNotEquals("aefe", nivelEducativo.getCVDescripcion());
 	}
 
 	@Test
-	public void test3() throws Exception {
+	@Order(3)
+	public void test3_ActualizarNivelEducativo() throws Exception {
 		nivelEducativoConsultada = nivelEducativoRepository.findByCVTitulo(Titulo);
 		nivelEducativoConsultada.setCVDescripcion("descripcion modificada");
 		nivelEducativoRepository.save(nivelEducativoConsultada);
@@ -58,7 +61,8 @@ public class NivelEducativoControllerTest {
 	}
 
 	@Test
-	public void test4() throws Exception {
+	@Order(4)
+	public void test4_EliminarNivelEducativo() throws Exception {
 		nivelEducativoConsultada = nivelEducativoRepository.findByCVTitulo(Titulo);
 		nivelEducativoRepository.deleteById(nivelEducativoConsultada.getCI_Id());
 	}

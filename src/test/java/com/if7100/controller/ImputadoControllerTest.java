@@ -62,14 +62,14 @@ public class ImputadoControllerTest {
 
     @Test
     @Order(1)
-    public void testUno() throws Exception {
+    public void testUno_GuardrImputado() throws Exception {
         imputadoRepository.save(imputado);
 
     }
 
     @Test
     @Order(2)
-    public void testDos() throws Exception {
+    public void testDos_ConsultarImputado() throws Exception {
         imputadoConsultado = imputadoRepository.findByCVNombre(cv_nombre);
         assertEquals(cv_nombre, imputadoConsultado.getCVNombre());
         assertNotEquals(cv_genero, imputadoConsultado.getCVNombre());
@@ -77,7 +77,7 @@ public class ImputadoControllerTest {
 
     @Test
     @Order(3)
-    public void testTres() throws Exception {
+    public void testTres_ActualizarImputado() throws Exception {
         imputadoConsultado = imputadoRepository.findByCVNombre(cv_nombre);
         imputadoConsultado.setCVDni("120103");
         imputadoRepository.save(imputadoConsultado);
@@ -88,7 +88,7 @@ public class ImputadoControllerTest {
 
     @Test
     @Order(4)
-    public void testCuatro() throws Exception {
+    public void testCuatro_EliminarImputado() throws Exception {
         imputadoConsultado = imputadoRepository.findByCVNombre(cv_nombre);
         imputadoRepository.deleteById(imputadoConsultado.getCI_Id());
     }

@@ -5,6 +5,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
+import org.junit.jupiter.api.Order;
+
 import com.if7100.entity.Organismo;
 
 import com.if7100.repository.OrganismoRepository;
@@ -18,18 +20,20 @@ public class OrganismoControllerTest {
 	Organismo org=new Organismo("aaa","aaa", "aaa", "aaa", 52);
 	Organismo consultado= new Organismo();
 	@Test
-	private void Test1() throws Exception{
+	@Order(1)
+	private void Test1_GuardarOrganismo() throws Exception{
 		organismoRepository.save(org);
 	}
 	@Test
-	private void Test2() throws Exception{
+	private void Test2_ConsultarOrganismo() throws Exception{
 		consultado=organismoRepository.findByCVNombre("aaa");
 		assertEquals(consultado.getCVRol(),"aaa");
 		assertNotEquals(consultado.getCodigoPais(),"aaa");
 	}
 	
 	@Test
-	private void Test3() throws Exception{
+	@Order(3)
+	private void Test3_ActualizarOrganismo() throws Exception{
 		consultado=organismoRepository.findByCVNombre("aaa");
 		consultado.setCVRol("aaa");
 		organismoRepository.save(consultado);
@@ -38,7 +42,7 @@ public class OrganismoControllerTest {
 	}
 	
 	@Test
-	private void Test4() throws Exception{
+	private void Test4_EliminarOrganismo() throws Exception{
 		consultado=organismoRepository.findByCVNombre("aaa");
 		organismoRepository.deleteById(consultado.getCI_Id());
 	}

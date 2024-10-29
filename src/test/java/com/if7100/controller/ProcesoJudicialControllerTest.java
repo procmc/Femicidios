@@ -31,25 +31,25 @@ public class ProcesoJudicialControllerTest {
 	private int CIPersonasImputadas = 1;
 	private String CVAgravantes = "Ninguna";
 	private String CVTipoDelito = "Ninguna";
-
+	private Integer CICodigoPais = 52;
 	private ProcesoJudicial proceso;
 
 	private ProcesoJudicial consultado;
 
 	@BeforeAll
 	public void setUp() {
-		proceso = new ProcesoJudicial(CVEstado, fecha, CIPersonasImputadas, CVAgravantes, CVTipoDelito);
+		proceso = new ProcesoJudicial(CVEstado, fecha, CIPersonasImputadas, CVAgravantes, CVTipoDelito, CICodigoPais);
 	}
 
 	@Test
 	@Order(1)
-	public void Test1() throws Exception {
+	public void Test1_GuardarProcesoJudicial() throws Exception {
 		procesoJudicialRepository.save(proceso);
 	}
 
 	@Test
 	@Order(2)
-	public void testDos() throws Exception {
+	public void testDos_ConsultarProcesoJudicial() throws Exception {
 		consultado = procesoJudicialRepository.findByCVEstado(CVEstado);
 		assertEquals(CIPersonasImputadas, consultado.getCIPersonasImputadas());
 		assertNotEquals("Prueba fallo", consultado.getCVAgravantes());
@@ -57,7 +57,7 @@ public class ProcesoJudicialControllerTest {
 
 	@Test
 	@Order(3)
-	public void testTres() throws Exception {
+	public void testTres_ActualizarProcesoJudicial() throws Exception {
 		consultado = procesoJudicialRepository.findByCVEstado(CVEstado);
 		consultado.setCVAgravantes("Agravantes modificados");
 		procesoJudicialRepository.save(consultado);
@@ -69,7 +69,7 @@ public class ProcesoJudicialControllerTest {
 
 	@Test
 	@Order(4)
-	public void testCuatro() throws Exception {
+	public void testCuatro_EliminarProcesoJudicial() throws Exception {
 		consultado = procesoJudicialRepository.findByCVEstado(CVEstado);
 		procesoJudicialRepository.delete(consultado);
 	}

@@ -50,13 +50,13 @@ public class UsuarioControllerTest {
 
 	@Test
 	@Order(1)
-	public void Test1() throws Exception {
+	public void Test1_GuardarUsuario() throws Exception {
 		usuarioRepository.save(usuario);
 	}
 
 	@Test
 	@Order(2)
-	public void Test2() throws Exception {
+	public void Test2_ConsultarUsuario() throws Exception {
 		usuarioConsultado = usuarioRepository.findByCVCedula(Cedula);
 		assertEquals(usuarioConsultado.getCVNombre(), Nombre);
 		assertNotEquals(Nombre, usuarioConsultado.getCVApellidos());
@@ -64,7 +64,7 @@ public class UsuarioControllerTest {
 
 	@Test
 	@Order(3)
-	public void Test3() throws Exception {
+	public void Test3_ActualizarUsuario() throws Exception {
 		usuarioConsultado = usuarioRepository.findByCVCedula(Cedula);
 		usuarioConsultado.setCVApellidos("Jimenez");
 		usuarioRepository.save(usuarioConsultado);
@@ -74,7 +74,7 @@ public class UsuarioControllerTest {
 
 	@Test
 	@Order(4)
-	public void Test4() throws Exception{
+	public void Test4_EliminarUsuario() throws Exception{
 		usuarioRepository.deleteById(usuarioConsultado.getCI_Id());
 		organizacionRepository.deleteById(organizacion.getCI_Codigo_Organizacion());
 	}

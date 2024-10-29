@@ -13,8 +13,10 @@ import com.if7100.entity.ProcesoJudicial;
 @Repository
 public interface ProcesoJudicialRepository extends JpaRepository<ProcesoJudicial, Integer> {
 
-	@Query("SELECT DISTINCT h.procesoJudicial FROM Hecho h WHERE h.codigoPais = :codigoPais")
-	List<ProcesoJudicial> findProcesosByCodigoPais(@Param("codigoPais") Integer codigoPais);
+	//@Query("SELECT DISTINCT h.procesoJudicial FROM Hecho h WHERE h.codigoPais = :codigoPais")
+	//List<ProcesoJudicial> findProcesosByCodigoPais(@Param("codigoPais") Integer codigoPais);
+
+	List<ProcesoJudicial> findProcesoJudicialByCICodigoPais(Integer codigoPais);
 
 	ProcesoJudicial findByCVEstado(String CVEstado);
 	

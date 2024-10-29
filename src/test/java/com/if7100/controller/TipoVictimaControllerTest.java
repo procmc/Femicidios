@@ -39,13 +39,13 @@ public class TipoVictimaControllerTest {
 
     @Test
     @Order(1)
-    public void testUno() throws  Exception{
+    public void testUno_GuardarTipoVictima() throws  Exception{
         tipoVictimaRepository.save(tipoVictima);
     }
 
     @Test
     @Order(2)
-    public void testDos() throws Exception{
+    public void testDos_ConsultarTipoVictima() throws Exception{
         tipoVictimaConsultada = tipoVictimaRepository.findByCVTitulo(titulo);
         assertEquals(titulo, tipoVictimaConsultada.getCVTitulo());
         assertNotEquals(titulo, tipoVictimaConsultada.getCVDescripcion());
@@ -53,7 +53,7 @@ public class TipoVictimaControllerTest {
 
     @Test
     @Order(3)
-    public void testTres() throws Exception{
+    public void testTres_ActualizarTipoVictima() throws Exception{
         tipoVictimaConsultada = tipoVictimaRepository.findByCVTitulo(titulo);
         tipoVictimaConsultada.setCVDescripcion("descripcion modificada");
 
@@ -63,7 +63,7 @@ public class TipoVictimaControllerTest {
 
     @Test
     @Order(4)
-    public void testCuatro() throws Exception{
+    public void testCuatro_EliminarTipoVictima() throws Exception{
         tipoVictimaConsultada = tipoVictimaRepository.findByCVTitulo(titulo);
         tipoVictimaRepository.deleteById(tipoVictimaConsultada.getCI_Codigo());
     }

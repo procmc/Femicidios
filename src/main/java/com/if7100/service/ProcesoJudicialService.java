@@ -31,5 +31,8 @@ ProcesoJudicial findByCVEstado(String CVEstado);
 
  Page<ProcesoJudicial> getAllProcesosJudicialesPage(Pageable pageable);
 
- List<ProcesoJudicial> getProcesosJudicialesByCodigoPaisUsuario(Integer codigoPaisUsuario);
+ //List<ProcesoJudicial> getProcesosJudicialesByCodigoPaisUsuario(Integer codigoPaisUsuario);
+
+ List<ProcesoJudicial> findProcesoJudicialByCICodigoPais(Integer codigoPaisUsuario);
+
 }

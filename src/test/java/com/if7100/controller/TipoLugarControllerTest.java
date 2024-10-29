@@ -49,11 +49,11 @@ public class TipoLugarControllerTest {
     public void Test3_ActualizartipoLugar() throws Exception {
         // Actualiza la descripción y verifica el cambio
         tipoLugarConsultado = tipoLugarRepository.findByCVTitulo(Titulo);
-        tipoLugarConsultado.setCVDescripcion(Descripcion);
+        tipoLugarConsultado.setCVDescripcion("Descripcion actualizada");
         tipoLugarRepository.save(tipoLugarConsultado);
 
         tipoLugarConsultado = tipoLugarRepository.findByCVTitulo(Titulo);
-        assertEquals(Descripcion, tipoLugarConsultado.getCVDescripcion());
+        assertEquals("Descripcion actualizada", tipoLugarConsultado.getCVDescripcion());
     }
 
     @Test

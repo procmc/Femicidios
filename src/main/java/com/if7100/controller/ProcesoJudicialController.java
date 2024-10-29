@@ -3,8 +3,10 @@ package com.if7100.controller;
 import com.if7100.entity.Bitacora;
 import com.if7100.entity.Imputado;
 import com.if7100.entity.Organizacion;
+import com.if7100.entity.Paises;
 import com.if7100.entity.Usuario;
 import com.if7100.service.BitacoraService;
+import com.if7100.service.PaisesService;
 
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.FillPatternType;
@@ -55,6 +57,7 @@ import java.util.stream.IntStream;
 @Controller
 public class ProcesoJudicialController {
 
+    private PaisesService paisesService;
     private ProcesoJudicialService procesoJudicialService;
     // instancias para control de acceso
     private UsuarioRepository usuarioRepository;
@@ -65,12 +68,13 @@ public class ProcesoJudicialController {
     private Usuario usuario;
 
     public ProcesoJudicialController(BitacoraService bitacoraService, ProcesoJudicialService procesoJudicialService,
-            PerfilService perfilService, UsuarioRepository usuarioRepository) {
+            PerfilService perfilService, UsuarioRepository usuarioRepository, PaisesService paisesService) {
         super();
         this.procesoJudicialService = procesoJudicialService;
         this.perfilService = perfilService;
         this.usuarioRepository = usuarioRepository;
         this.bitacoraService = bitacoraService;
+        this.paisesService = paisesService;
 
     }
 
@@ -125,7 +129,7 @@ public class ProcesoJudicialController {
         // Obtener la lista de imputados filtrados por país
         Integer codigoPaisUsuario = this.usuario.getOrganizacion().getCodigoPais();
         List<ProcesoJudicial> procesoJudiciales = procesoJudicialService
-                .getProcesosJudicialesByCodigoPaisUsuario(codigoPaisUsuario);
+                .findProcesoJudicialByCICodigoPais(codigoPaisUsuario);
 
         // Recorrer los imputados y agregarlos a la tabla
         for (ProcesoJudicial procesoJudicial : procesoJudiciales) {
@@ -215,7 +219,7 @@ public class ProcesoJudicialController {
         // Obtener la lista de procesos judiciales filtrados por país
         Integer codigoPaisUsuario = this.usuario.getOrganizacion().getCodigoPais();
         List<ProcesoJudicial> procesoJudiciales = procesoJudicialService
-                .getProcesosJudicialesByCodigoPaisUsuario(codigoPaisUsuario);
+                .findProcesoJudicialByCICodigoPais(codigoPaisUsuario);
         // Paises pais = paisesService.getPaisByID(codigoPaisUsuario);
 
         // Rellenar las filas con los datos
@@ -307,7 +311,7 @@ public class ProcesoJudicialController {
 
         // Obtener los procesos judiciales filtrados por el código de país
         List<ProcesoJudicial> procesosJudicialesFiltrados = procesoJudicialService
-                .getProcesosJudicialesByCodigoPaisUsuario(organizacion.getCodigoPais());
+                .findProcesoJudicialByCICodigoPais(organizacion.getCodigoPais());
 
         int numeroTotalElementos = procesosJudicialesFiltrados.size();
 
@@ -342,6 +346,9 @@ public class ProcesoJudicialController {
 
                 model.addAttribute("procesoJudicial", new ProcesoJudicial());
 
+                List<Paises> paises = paisesService.getAllPaises();
+                model.addAttribute("paises", paises);
+
                 return "procesosJudiciales/create_procesosJudiciales";
             } else {
                 return "SinAcceso";
@@ -356,6 +363,7 @@ public class ProcesoJudicialController {
     @PostMapping("/procesosJudiciales")
     public String saveProcesoJudicial(@ModelAttribute ProcesoJudicial procesoJudicial) {
         this.validarPerfil();
+
         procesoJudicialService.saveProcesoJudicial(procesoJudicial);
 
         String descripcion = "Crea en Proceso Judicial";
@@ -396,6 +404,7 @@ public class ProcesoJudicialController {
             if (!this.perfil.getCVRol().equals("Consulta")) {
 
                 model.addAttribute("procesoJudicial", procesoJudicialService.getProcesoJudicialById(id));
+                model.addAttribute("paises", paisesService.getAllPaises());
 
                 return "procesosJudiciales/edit_procesosJudiciales";
             } else {
@@ -414,6 +423,7 @@ public class ProcesoJudicialController {
         this.validarPerfil();
         ProcesoJudicial existingProcesoJudicial = procesoJudicialService.getProcesoJudicialById(id);
         existingProcesoJudicial.setCI_Id(id);
+        existingProcesoJudicial.setCICodigoPais(procesoJudicial.getCICodigoPais());
         existingProcesoJudicial.setCVEstado(procesoJudicial.getCVEstado());
         // existingProcesoJudicial.setCDFechaApertura(procesoJudicial.getCDFechaApertura());
         existingProcesoJudicial.setCIPersonasImputadas(procesoJudicial.getCIPersonasImputadas());

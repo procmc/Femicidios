@@ -45,19 +45,22 @@ public class LugarControllerTest {
     }
 	
 	@Test
-	public void Test1() throws Exception{
+	@Order(1)
+	public void Test1_GuardarLugar() throws Exception{
 		lugarRepository.save(lugar);
 	}
 	
 	@Test
-	public void Test2() throws Exception{
+	@Order(2)
+	public void Test2_ConsultarLugar() throws Exception{
 		LugarConsultado= lugarRepository.findById(lugar.getCI_Codigo()).get();
 		assertEquals(Hecho, LugarConsultado.getCIHecho());
 		assertNotEquals(Tipo_Lugar, LugarConsultado.getCIHecho());
 	}
 	
 	@Test
-	public void Test3() throws Exception{
+	@Order(3)
+	public void Test3_ActualizarLugar() throws Exception{
 		LugarConsultado= lugarRepository.findById(lugar.getCI_Codigo()).get();
 		LugarConsultado.setCV_Descripcion("Actualizado");
 
@@ -65,7 +68,8 @@ public class LugarControllerTest {
 	}
 	
 	@Test
-	public void Test4() throws Exception{
+	@Order(4)
+	public void Test4_EliminarLugar() throws Exception{
 		LugarConsultado= lugarRepository.findById(lugar.getCI_Codigo()).get();
 		lugarRepository.deleteById(LugarConsultado.getCI_Codigo());
 	}

@@ -40,7 +40,7 @@ public class HechoControllerTest {
             "Nada", 2);
 
     Date fecha = Date.valueOf("2024-10-25");
-    private final ProcesoJudicial procesoJudicial = new ProcesoJudicial("Abierto", fecha, 1, "Ninguna", "Ninguna");
+    private final ProcesoJudicial procesoJudicial = new ProcesoJudicial("Abierto", fecha, 1, "Ninguna", "Ninguna", 52);
 
     private final String CVAgresionSexual = "No";
     private final String CVDenunciaPrevia = "No";
