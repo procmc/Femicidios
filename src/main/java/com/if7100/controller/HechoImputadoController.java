@@ -84,14 +84,18 @@ public class HechoImputadoController {
 
     @GetMapping("/hechoimputado")
     public String listHechoImputado(Model model){
+        this.validarPerfil();
         return "redirect:/hechosimputados/1";
     }
 
     @GetMapping("/hechosimputados/{pg}")
     public String listHechosImputados(Model model, @PathVariable Integer pg){
+        this.validarPerfil();
+
         if (pg < 1){
             return "redirect:/hechosimputados/1";
         }
+        
         int numeroTotalElementos = hechoImputadoService.getAllHechoImputado().size();
 
         Pageable pageable = initPages(pg,5,numeroTotalElementos);

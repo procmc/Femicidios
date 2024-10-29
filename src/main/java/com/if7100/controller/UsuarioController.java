@@ -100,6 +100,7 @@ public class UsuarioController {
 
 	@GetMapping("/usuarios")
 	public String listStudents(Model model) {
+		this.validarPerfil();
 		return "redirect:/usuario/1";
 	}
 
@@ -110,12 +111,13 @@ public class UsuarioController {
 			if (this.perfil.getCVRol().equals("Administrador")) {
 
 				// Obtener el código de país del usuario logueado
-				Integer codigoPaisUsuarioLogueado = this.usuario.getCodigoPais();
+				Organizacion organizacion = this.usuario.getOrganizacion();
 
 				// Filtrar usuarios según el código de país almacenado en la organización
+				// a partir del usuario logueado compara con el resto de usuarios el codigo del pais
 				List<Usuario> usuariosFiltrados = usuarioService.getAllUsuarios().stream()
 				.filter(usuario -> usuario.getOrganizacion() != null && 
-								   usuario.getOrganizacion().getCodigoPais().equals(codigoPaisUsuarioLogueado))
+								   usuario.getOrganizacion().getCodigoPais().equals(organizacion.getCodigoPais()))
 				.collect(Collectors.toList());
 
 				// Paginación
@@ -136,7 +138,7 @@ public class UsuarioController {
 						.boxed()
 						.toList();
 				// Obtener la organización asociada al usuario
-				Organizacion organizacion = usuario.getOrganizacion();
+				//Organizacion organizacion = usuario.getOrganizacion();
 				
 				// Enviar datos al modelo
 				model.addAttribute("PaginaActual", pg);
@@ -256,7 +258,7 @@ public class UsuarioController {
 		existingUsuario.setCVApellidos(usuario.getCVApellidos());
 		existingUsuario.setCIPerfil(usuario.getCIPerfil());
 		existingUsuario.setTCClave(usuario.getTCClave());
-		existingUsuario.setCodigoPais(usuario.getCodigoPais()); // Actualiza el país seleccionado
+		//existingUsuario.setCodigoPais(usuario.getCodigoPais()); // Actualiza el país seleccionado
 		existingUsuario.setOrganizacion(usuario.getOrganizacion());
 
 		usuarioService.updateUsuario(existingUsuario);

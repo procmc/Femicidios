@@ -113,4 +113,8 @@ public class VictimaServiceImpl implements VictimaService{
 	public List<Victima> findVictimasByCodigoPaisHecho(Integer codigoPais) {
         return victimaRepository.findByHechos_CodigoPais(codigoPais);
     }
+
+	public List<Victima> findVictimasByCICodigoPais(Integer codigoPais) {
+        return victimaRepository.findVictimasByCICodigoPais(codigoPais);
+    }
 }

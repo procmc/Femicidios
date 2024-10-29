@@ -14,4 +14,7 @@ public interface VictimaRepository extends JpaRepository<Victima, Integer> {
 
 	 //obtener las victimas a partir del pais del hecho al que se relaciona
 	 List<Victima> findByHechos_CodigoPais(Integer codigoPais);
+
+	 List<Victima> findVictimasByCICodigoPais(Integer codigoPais);
+
 }

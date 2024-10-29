@@ -151,7 +151,7 @@ public class ImputadoController {
         }
 
         // Obtener la lista de imputados filtrados por país
-        Integer codigoPaisUsuario = this.usuario.getCodigoPais();
+        Integer codigoPaisUsuario = this.usuario.getOrganizacion().getCodigoPais();
         List<Imputado> imputados = imputadoService.findByCodigoPais(codigoPaisUsuario);
 
         // Recorrer los imputados y agregarlos a la tabla
@@ -257,7 +257,7 @@ public class ImputadoController {
 		}
 
 		// Obtener la lista de imputados filtrados por país
-		Integer codigoPaisUsuario = this.usuario.getCodigoPais();
+		Integer codigoPaisUsuario = this.usuario.getOrganizacion().getCodigoPais();
 		List<Imputado> imputados = imputadoService.findByCodigoPais(codigoPaisUsuario);
 		Paises pais = paisesService.getPaisByID(codigoPaisUsuario);
 
@@ -413,8 +413,8 @@ public class ImputadoController {
 		this.validarPerfil();
 
 		// Obtener el código de país del usuario logueado
-		Integer codigoPaisUsuarioLogueado = this.usuario.getCodigoPais();
-
+		Integer codigoPaisUsuarioLogueado = this.usuario.getOrganizacion().getCodigoPais();
+		
 		// Filtrar imputados por el código de país del usuario logueado
 		List<Imputado> imputadosFiltrados = imputadoService.findByCodigoPais(codigoPaisUsuarioLogueado);
 

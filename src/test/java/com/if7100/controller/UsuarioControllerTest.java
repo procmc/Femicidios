@@ -36,7 +36,6 @@ public class UsuarioControllerTest {
 	private String Apellido = "Jimene";
 	private int perfil = 1;
 	private String Contrasena = "Liss";
-	private int codigo_pais = 52;
 	private Organizacion organizacion = new Organizacion( "nombreO", "DireccionO", "TelefonoO", "CorreoO", 52);
 
 	private Usuario usuario;
@@ -46,7 +45,7 @@ public class UsuarioControllerTest {
 	public void setUp() {
 		organizacionRepository.save(organizacion);
 		
-		usuario = new Usuario(Cedula, Nombre, Apellido, perfil, codigo_pais, Contrasena, organizacion);
+		usuario = new Usuario(Cedula, Nombre, Apellido, perfil, Contrasena, organizacion);
 	}
 
 	@Test
@@ -67,16 +66,17 @@ public class UsuarioControllerTest {
 	@Order(3)
 	public void Test3() throws Exception {
 		usuarioConsultado = usuarioRepository.findByCVCedula(Cedula);
-		usuarioConsultado.setCodigoPais(51);
+		usuarioConsultado.setCVApellidos("Jimenez");
 		usuarioRepository.save(usuarioConsultado);
 
-		assertEquals(51, usuarioConsultado.getCodigoPais());
+		assertEquals("Jimenez", usuarioConsultado.getCVApellidos());
 	}
 
 	@Test
 	@Order(4)
 	public void Test4() throws Exception{
 		usuarioRepository.deleteById(usuarioConsultado.getCI_Id());
+		organizacionRepository.deleteById(organizacion.getCI_Codigo_Organizacion());
 	}
 
 }

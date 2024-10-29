@@ -47,8 +47,8 @@ public class Usuario{
 	@Column(name = "TC_Clave", nullable = false)
 	private String TCClave;
 	
-	@Column(name = "codigo_pais", nullable = false)
-	private Integer codigoPais;
+	/*@Column(name = "codigo_pais", nullable = false)
+	private Integer codigoPais;*/
 	
 	@ManyToOne
 	@JoinColumn(name = "CI_Codigo_Organizacion", referencedColumnName = "CI_Codigo_Organizacion", nullable = false)
@@ -73,19 +73,19 @@ public class Usuario{
 		this.CVNombre = usuario.CVNombre;
 		this.CVApellidos = usuario.CVApellidos;
 		this.CIPerfil = usuario.CIPerfil;
-		this.codigoPais = usuario.codigoPais;
+		//this.codigoPais = usuario.codigoPais;
 		this.TCClave = usuario.TCClave;
 		this.organizacion = usuario.organizacion;
 	}
 	
 
-	public Usuario(String cVCedula, String cVNombre, String cVApellidos, int cIPerfil, int codigoPais, String tCClave, Organizacion organizacion) {
+	public Usuario(String cVCedula, String cVNombre, String cVApellidos, int cIPerfil, String tCClave, Organizacion organizacion) {
 		super();
 		CVCedula = cVCedula;
 		CVNombre = cVNombre;
 		CVApellidos = cVApellidos;
 		CIPerfil = cIPerfil;
-		this.codigoPais = codigoPais;
+		//this.codigoPais = codigoPais;
 		TCClave = tCClave;
 		this.organizacion = organizacion;
 	}
@@ -140,13 +140,13 @@ public class Usuario{
 	}
 	
 	//pais
-	public Integer getCodigoPais() {
+	/*public Integer getCodigoPais() {
 		return this.codigoPais;
 	}
 
 	public void setCodigoPais(int codigoPais) {
 		this.codigoPais = codigoPais;
-	}
+	}*/
 
 	public Organizacion getOrganizacion() {
 		return this.organizacion;

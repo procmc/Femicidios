@@ -96,7 +96,7 @@ public class OrganizacionController {
 		
 		this.validarPerfil();
 
-		Integer codigoPaisUsuario = this.usuario.getCodigoPais();
+		Integer codigoPaisUsuario = this.usuario.getOrganizacion().getCodigoPais();
 
 		List<Organizacion> organizacionfiltradas = organizacionService.findByCodigoPais(codigoPaisUsuario);
 

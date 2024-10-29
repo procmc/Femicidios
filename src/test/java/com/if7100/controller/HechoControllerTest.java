@@ -95,6 +95,8 @@ public class HechoControllerTest {
 
         hechoConsultado = hechoRepository.findByCVDenunciaPrevia(CVDenunciaPrevia);
         hechoRepository.deleteById(hechoConsultado.getCI_Id());
+        victimaRepository.deleteById(victima.getCI_Id());
+        procesoJudicialRepository.deleteById(procesoJudicial.getCI_Id());
     }
 
 }

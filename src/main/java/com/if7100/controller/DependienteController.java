@@ -102,6 +102,8 @@ public class DependienteController {
 
 	@GetMapping("/dependiente/pdf")
 	public void exportToPDF(HttpServletResponse response) throws IOException, java.io.IOException {
+
+		this.validarPerfil();
 		response.setContentType("application/pdf");
 		String headerKey = "Content-Disposition";
 		String headerValue = "attachment; filename=dependientes_filtrados.pdf";
@@ -146,7 +148,7 @@ public class DependienteController {
 		}
 
 		// Obtener la lista de imputados filtrados por país
-		Integer codigoPaisUsuario = this.usuario.getCodigoPais();
+		Integer codigoPaisUsuario = this.usuario.getOrganizacion().getCodigoPais();
 
 		// Obtener la lista de dependientes filtrados por país de la víctima
 		List<DependienteVictima> todasRelaciones = dependienteVictimaService.getAllDependienteVictima();
@@ -175,13 +177,13 @@ public class DependienteController {
 					.setTextAlignment(TextAlignment.CENTER));
 
 			Victima victima = dependienteVictimaMap.get(dependiente.getCI_Codigo());
-				if (victima != null) {
-					table.addCell(new Cell().add(new Paragraph(victima.getCVNombre()))
-					.setTextAlignment(TextAlignment.CENTER));
-				} else {
-					table.addCell(new Cell().add(new Paragraph("Sin víctima"))
-					.setTextAlignment(TextAlignment.CENTER));
-				}
+			if (victima != null) {
+				table.addCell(new Cell().add(new Paragraph(victima.getCVNombre()))
+						.setTextAlignment(TextAlignment.CENTER));
+			} else {
+				table.addCell(new Cell().add(new Paragraph("Sin víctima"))
+						.setTextAlignment(TextAlignment.CENTER));
+			}
 
 		}
 
@@ -198,6 +200,7 @@ public class DependienteController {
 	@GetMapping("/dependiente/excel")
 	public void exportToExcel(HttpServletResponse response) throws IOException, java.io.IOException {
 
+		this.validarPerfil();
 		response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
 		String headerKey = "Content-Disposition";
 		String headerValue = "attachment; filename=dependientes_filtrados.xlsx";
@@ -246,8 +249,8 @@ public class DependienteController {
 			cell.setCellStyle(headerStyle); // Aplicar estilo de encabezado
 		}
 
-		Integer codigoPaisUsuario = this.usuario.getCodigoPais();
-
+		Integer codigoPaisUsuario = this.usuario.getOrganizacion().getCodigoPais();
+		
 		// Obtener la lista de dependientes filtrados por país de la víctima
 		List<DependienteVictima> todasRelaciones = dependienteVictimaService.getAllDependienteVictima();
 		List<DependienteVictima> relacionesFiltradas = todasRelaciones.stream()
@@ -338,22 +341,23 @@ public class DependienteController {
 
 	@GetMapping("/dependientes")
 	public String listdependientes(Model model) {
+		this.validarPerfil();
 		return "redirect:/dependiente/1";
 	}
 
 	@GetMapping("/dependiente/{pg}")
 	public String listDependiente(Model model, @PathVariable Integer pg) {
-		// Validar el perfil, asumo que tienes la lógica correcta aquí
+
 		this.validarPerfil();
 
-		// Obtener el usuario logueado (ajusta según tu lógica)
-		int codigoPaisUsuario = this.usuario.getCodigoPais(); // Obtenemos el código de país del usuario logueado
+		// obtiene la organizacion del usuario
+		Organizacion organizacion = this.usuario.getOrganizacion();
 
 		// Obtener todas las relaciones dependiente-victima y filtrar según el código
 		// del país de la víctima
 		List<DependienteVictima> todasRelaciones = dependienteVictimaService.getAllDependienteVictima();
 		List<DependienteVictima> relacionesFiltradas = todasRelaciones.stream()
-				.filter(dv -> dv.getVictima().getCICodigoPais() == codigoPaisUsuario)
+				.filter(dv -> dv.getVictima().getCICodigoPais() == organizacion.getCodigoPais())
 				.collect(Collectors.toList());
 
 		// Filtrar los dependientes basados en las relaciones filtradas
@@ -421,6 +425,7 @@ public class DependienteController {
 			@RequestParam("victima") Integer idVictima,
 			Model model) {
 
+		this.validarPerfil();
 		Victima victima = victimaService.getVictimaById(idVictima);
 
 		if (victima != null) {
@@ -515,6 +520,7 @@ public class DependienteController {
 			@ModelAttribute Dependiente dependiente, @RequestParam("victima") Integer idVictima,
 			Model model) {
 
+		this.validarPerfil();
 		Dependiente existingDependiente = dependienteService.getDependienteById(id);
 		existingDependiente.setCI_Codigo(id);
 		existingDependiente.setCVDNI(dependiente.getCVDNI());

@@ -81,6 +81,7 @@ public class LugarController {
 
 	@GetMapping("/lugar/pdf")
 	public void exportToPDF(HttpServletResponse response) throws IOException, java.io.IOException {
+		this.validarPerfil();
 		response.setContentType("application/pdf");
 		String headerKey = "Content-Disposition";
 		String headerValue = "attachment; filename=lugares_filtrados.pdf";
@@ -125,7 +126,7 @@ public class LugarController {
 		}
 
 		// Obtener la lista de hechos filtrados por país
-		Integer codigoPaisUsuario = this.usuario.getCodigoPais();
+		Integer codigoPaisUsuario = this.usuario.getOrganizacion().getCodigoPais();
 		List<Lugar> lugares = lugarService.getLugarByCodigoPaisUsuario(codigoPaisUsuario);
 
 		// Recorrer los hechos y agregarlos a la tabla
@@ -222,7 +223,7 @@ public class LugarController {
 		}
 
 		// Obtener la lista de lugares filtrados por país
-		Integer codigoPaisUsuario = this.usuario.getCodigoPais();
+		Integer codigoPaisUsuario = this.usuario.getOrganizacion().getCodigoPais();
 
 		List<Lugar> lugares = lugarService.getLugarByCodigoPaisUsuario(codigoPaisUsuario);
 
@@ -314,16 +315,6 @@ public class LugarController {
 		return PageRequest.of(numeroPagina, tamanoPagina);
 	}
 
-	// // Mostrar todos lugares
-	// @GetMapping("/lugar/{Id}")
-	// public String listStudents(Model model, @PathVariable Integer Id, HttpSession
-	// session) {
-	// session.setAttribute("idLugarHecho", Id);
-	// List<Lugar> listaLugar = lugarService.getAllLugares(Id);
-	// model.addAttribute("lugar", listaLugar);
-	// return "lugares/lugares";
-	// }
-
 	// Eliminar Lugar
 	@GetMapping("/lugares/{Id}")
 	public String deleteLugar(@PathVariable Integer Id, HttpSession session) {
@@ -387,6 +378,7 @@ public class LugarController {
 	@PostMapping("/lugares/{id}")
 	public String updateLugar(@PathVariable Integer id, @ModelAttribute Lugar lugar, Model model) {
 		try {
+			this.validarPerfil();
 			Lugar existingLugar = lugarService.getLugarById(id);
 			existingLugar.setCI_Codigo(id);
 			existingLugar.setCIHecho(lugar.getCIHecho());
@@ -457,6 +449,7 @@ public class LugarController {
 
 	@GetMapping("/lugares")
 	public String listLugares(Model model) {
+		this.validarPerfil();
 		return "redirect:/lugar/1";
 	}
 
@@ -465,10 +458,10 @@ public class LugarController {
 
 		this.validarPerfil();
 
-		Integer codigoPaisUsuario = this.usuario.getCodigoPais();
+		Organizacion organizacion = this.usuario.getOrganizacion();
 
 		// Obtener los procesos judiciales filtrados por el código de país
-		List<Lugar> lugaresFiltrados = lugarService.getLugarByCodigoPaisUsuario(codigoPaisUsuario);
+		List<Lugar> lugaresFiltrados = lugarService.getLugarByCodigoPaisUsuario(organizacion.getCodigoPais());
 
 		int numeroTotalElementos = lugaresFiltrados.size();
 
@@ -496,6 +489,7 @@ public class LugarController {
 
 	@GetMapping("/hecholugar/{id}")
 	public String listHechoLugares(Model model, @PathVariable Integer id) {
+		this.validarPerfil();
 		return "redirect:/hecholugar/".concat(String.valueOf(id)).concat("/1");
 	}
 
@@ -503,10 +497,10 @@ public class LugarController {
 	public String listHechoLugar(Model model, @PathVariable Integer id, @PathVariable Integer pg) {
 		this.validarPerfil();
 
-		Integer codigoPaisUsuario = this.usuario.getCodigoPais();
+		Organizacion organizacion = this.usuario.getOrganizacion();
 
 		// Obtener los procesos judiciales filtrados por el código de país
-		List<Lugar> lugaresFiltrados = lugarService.getLugarByCodigoPaisUsuario(codigoPaisUsuario);
+		List<Lugar> lugaresFiltrados = lugarService.getLugarByCodigoPaisUsuario(organizacion.getCodigoPais());
 
 		int numeroTotalElementos = lugaresFiltrados.size();
 
@@ -559,6 +553,7 @@ public class LugarController {
 	@PostMapping("/lugar")
 	public String saveLugar(@ModelAttribute Lugar lugar, Model model) {
 		try {
+			this.validarPerfil();
 			lugarService.saveLugar(lugar);
 			String descripcion = "Creo en Lugar:" + lugar.getCI_Codigo();
 			Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),
@@ -577,6 +572,7 @@ public class LugarController {
 	@PostMapping("/hecholugar")
 	public String saveHechoLugar(@ModelAttribute Lugar lugar, Model model) {
 		try {
+			this.validarPerfil();
 			lugarService.saveLugar(lugar);
 			String descripcion = "Creo en HechoLugar: " + lugar.getCI_Codigo();
 			;

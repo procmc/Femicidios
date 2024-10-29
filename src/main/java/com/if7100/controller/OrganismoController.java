@@ -102,7 +102,7 @@ OrganismoService organismoService, TipoOrganismoService tipoOrganismoService, Pe
 	 this.validarPerfil();
 
 	// Obtener el código de país del usuario logueado
-	Integer codigoPaisUsuarioLogueado = this.usuario.getCodigoPais();
+	Integer codigoPaisUsuarioLogueado = this.usuario.getOrganizacion().getCodigoPais();
 // Buscar el país por el código del país almacenado en Hecho
 	Paises pais = paisesService.getPaisByID(codigoPaisUsuarioLogueado);
 

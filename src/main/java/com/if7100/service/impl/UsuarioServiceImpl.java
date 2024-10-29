@@ -72,10 +72,4 @@ public class UsuarioServiceImpl implements UsuarioService {
         usuarioRepository.deleteById(Id);
     }
 
-    // obtiene los usuarios por codigo país
-    @Override
-    public List<Usuario> getUsuariosByCodigoPais(Integer codigoPais) {
-        return usuarioRepository.findByCodigoPais(codigoPais);
-    }
-
 }

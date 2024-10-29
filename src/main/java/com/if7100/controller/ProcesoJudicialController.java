@@ -2,6 +2,7 @@ package com.if7100.controller;
 
 import com.if7100.entity.Bitacora;
 import com.if7100.entity.Imputado;
+import com.if7100.entity.Organizacion;
 import com.if7100.entity.Usuario;
 import com.if7100.service.BitacoraService;
 
@@ -53,28 +54,30 @@ import java.util.stream.IntStream;
 
 @Controller
 public class ProcesoJudicialController {
-	
- private ProcesoJudicialService procesoJudicialService;
-//instancias para control de acceso
- private UsuarioRepository usuarioRepository;
- private Perfil perfil;
- private PerfilService perfilService;
-//instancias para control de bitacora
-private BitacoraService bitacoraService;
-private Usuario usuario;
 
- 
- public ProcesoJudicialController (BitacoraService bitacoraService,ProcesoJudicialService procesoJudicialService, PerfilService perfilService, UsuarioRepository usuarioRepository) {
-	 super();
-	 this.procesoJudicialService=procesoJudicialService;
-	 this.perfilService = perfilService;
-     this.usuarioRepository = usuarioRepository;
-     this.bitacoraService= bitacoraService;
+    private ProcesoJudicialService procesoJudicialService;
+    // instancias para control de acceso
+    private UsuarioRepository usuarioRepository;
+    private Perfil perfil;
+    private PerfilService perfilService;
+    // instancias para control de bitacora
+    private BitacoraService bitacoraService;
+    private Usuario usuario;
 
- }
+    public ProcesoJudicialController(BitacoraService bitacoraService, ProcesoJudicialService procesoJudicialService,
+            PerfilService perfilService, UsuarioRepository usuarioRepository) {
+        super();
+        this.procesoJudicialService = procesoJudicialService;
+        this.perfilService = perfilService;
+        this.usuarioRepository = usuarioRepository;
+        this.bitacoraService = bitacoraService;
 
- @GetMapping("/procesojudicial/pdf")
+    }
+
+    @GetMapping("/procesojudicial/pdf")
     public void exportToPDF(HttpServletResponse response) throws IOException, java.io.IOException {
+
+        this.validarPerfil();
         response.setContentType("application/pdf");
         String headerKey = "Content-Disposition";
         String headerValue = "attachment; filename=procesosjudiciales_filtrados.pdf";
@@ -111,7 +114,7 @@ private Usuario usuario;
 
         // Agregar encabezado de tabla con estilo
         String[] headers = { "ID", "Estado", "Fecha de apertura", "Cantidad de personas imputadas", "Agravantes",
-		"Tipo de delito"};
+                "Tipo de delito" };
 
         for (String header : headers) {
             table.addHeaderCell(new Cell().add(new Paragraph(header).setBold())
@@ -120,8 +123,9 @@ private Usuario usuario;
         }
 
         // Obtener la lista de imputados filtrados por país
-        Integer codigoPaisUsuario = this.usuario.getCodigoPais();
-        List<ProcesoJudicial> procesoJudiciales = procesoJudicialService.getProcesosJudicialesByCodigoPaisUsuario(codigoPaisUsuario);
+        Integer codigoPaisUsuario = this.usuario.getOrganizacion().getCodigoPais();
+        List<ProcesoJudicial> procesoJudiciales = procesoJudicialService
+                .getProcesosJudicialesByCodigoPaisUsuario(codigoPaisUsuario);
 
         // Recorrer los imputados y agregarlos a la tabla
         for (ProcesoJudicial procesoJudicial : procesoJudiciales) {
@@ -135,7 +139,7 @@ private Usuario usuario;
             table.addCell(new Cell().add(new Paragraph(procesoJudicial.getCDFechaApertura().toString()))
                     .setTextAlignment(TextAlignment.CENTER));
 
-			table.addCell(new Cell().add(new Paragraph(String.valueOf(procesoJudicial.getCIPersonasImputadas())))
+            table.addCell(new Cell().add(new Paragraph(String.valueOf(procesoJudicial.getCIPersonasImputadas())))
                     .setTextAlignment(TextAlignment.CENTER));
 
             table.addCell(new Cell().add(new Paragraph(procesoJudicial.getCVAgravantes()))
@@ -143,7 +147,7 @@ private Usuario usuario;
 
             table.addCell(new Cell().add(new Paragraph(procesoJudicial.getCVTipoDelito()))//
                     .setTextAlignment(TextAlignment.CENTER));
-          
+
         }
 
         // Asegurar que la tabla ocupe el espacio disponible sin distorsionarse
@@ -156,13 +160,12 @@ private Usuario usuario;
         document.close();
     }
 
- 
- @GetMapping("/procesojudicial/excel")
+    @GetMapping("/procesojudicial/excel")
     public void exportToExcel(HttpServletResponse response) throws IOException, java.io.IOException {
         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-        
-		this.validarPerfil();
-		String headerKey = "Content-Disposition";
+
+        this.validarPerfil();
+        String headerKey = "Content-Disposition";
         String headerValue = "attachment; filename=procesosjudiciales_filtrados.xlsx";
         response.setHeader(headerKey, headerValue);
 
@@ -202,7 +205,7 @@ private Usuario usuario;
         // Crear la fila de encabezado
         XSSFRow headerRow = sheet.createRow(0);
         String[] headers = { "ID", "Estado", "Fecha de apertura", "Cantidad de personas imputadas", "Agravantes",
-                "Tipo de delito",};
+                "Tipo de delito", };
         for (int i = 0; i < headers.length; i++) {
             XSSFCell cell = headerRow.createCell(i);
             cell.setCellValue(headers[i]);
@@ -210,9 +213,10 @@ private Usuario usuario;
         }
 
         // Obtener la lista de procesos judiciales filtrados por país
-        Integer codigoPaisUsuario = this.usuario.getCodigoPais();
-        List<ProcesoJudicial> procesoJudiciales = procesoJudicialService.getProcesosJudicialesByCodigoPaisUsuario(codigoPaisUsuario);
-        //Paises pais = paisesService.getPaisByID(codigoPaisUsuario);
+        Integer codigoPaisUsuario = this.usuario.getOrganizacion().getCodigoPais();
+        List<ProcesoJudicial> procesoJudiciales = procesoJudicialService
+                .getProcesosJudicialesByCodigoPaisUsuario(codigoPaisUsuario);
+        // Paises pais = paisesService.getPaisByID(codigoPaisUsuario);
 
         // Rellenar las filas con los datos
         int rowNum = 1;
@@ -227,10 +231,10 @@ private Usuario usuario;
             row.createCell(1).setCellValue(procesoJudicial.getCVEstado());
             row.getCell(1).setCellStyle(cellStyle);
 
-			 // Fecha (formato de fecha)
-			 XSSFCell fechaCell = row.createCell(2);
-			 fechaCell.setCellValue(procesoJudicial.getCDFechaApertura());
-			 fechaCell.setCellStyle(dateCellStyle);
+            // Fecha (formato de fecha)
+            XSSFCell fechaCell = row.createCell(2);
+            fechaCell.setCellValue(procesoJudicial.getCDFechaApertura());
+            fechaCell.setCellStyle(dateCellStyle);
 
             // Modalidad
             row.createCell(3).setCellValue(procesoJudicial.getCIPersonasImputadas());
@@ -258,169 +262,172 @@ private Usuario usuario;
         workbook.close();
     }
 
+    private void validarPerfil() {
 
+        try {
+            Usuario usuario = new Usuario();
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName();
 
- private void validarPerfil() {
-  	
-		try {
-			Usuario usuario=new Usuario();
-			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		    String username = authentication.getName();
-		    
-		    this.usuario= new Usuario(usuarioRepository.findByCVCedula(username));
+            this.usuario = new Usuario(usuarioRepository.findByCVCedula(username));
 
-			this.perfil = new Perfil(perfilService.getPerfilById(usuarioRepository.findByCVCedula(username).getCIPerfil()));
-			
-		}catch (Exception e) {
-			// TODO: handle exception
-		}
-		
-	}
+            this.perfil = new Perfil(
+                    perfilService.getPerfilById(usuarioRepository.findByCVCedula(username).getCIPerfil()));
 
-	private Pageable initPages(int pg, int paginasDeseadas, int numeroTotalElementos){
-		int numeroPagina = pg-1;
-		if (numeroTotalElementos < 10){
-			paginasDeseadas = 1;
-		}
-		if (numeroTotalElementos < 1){
-			numeroTotalElementos = 1;
-		}
-		int tamanoPagina = (int) Math.ceil(numeroTotalElementos / (double) paginasDeseadas);
-		return PageRequest.of(numeroPagina, tamanoPagina);
-	}
- 
- @GetMapping("/procesosJudiciales")
- public String listStudents(Model model) {
-	 
-	 return "redirect:/procesojudicial/1";
- }
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
 
- @GetMapping("/procesojudicial/{pg}")
- public String listProcesoJudicial(Model model, @PathVariable Integer pg){
+    }
 
-	 validarPerfil();
+    private Pageable initPages(int pg, int paginasDeseadas, int numeroTotalElementos) {
+        int numeroPagina = pg - 1;
+        if (numeroTotalElementos < 10) {
+            paginasDeseadas = 1;
+        }
+        if (numeroTotalElementos < 1) {
+            numeroTotalElementos = 1;
+        }
+        int tamanoPagina = (int) Math.ceil(numeroTotalElementos / (double) paginasDeseadas);
+        return PageRequest.of(numeroPagina, tamanoPagina);
+    }
 
-	 Integer codigoPaisUsuario = this.usuario.getCodigoPais();
+    @GetMapping("/procesosJudiciales")
+    public String listStudents(Model model) {
+        this.validarPerfil();
+        return "redirect:/procesojudicial/1";
+    }
 
-	 // Obtener los procesos judiciales filtrados por el código de país
-	 List<ProcesoJudicial> procesosJudicialesFiltrados = procesoJudicialService.getProcesosJudicialesByCodigoPaisUsuario(codigoPaisUsuario);
-    
-	 int numeroTotalElementos = procesosJudicialesFiltrados.size();
+    @GetMapping("/procesojudicial/{pg}")
+    public String listProcesoJudicial(Model model, @PathVariable Integer pg) {
 
-	 Pageable pageable = initPages(pg, 5, numeroTotalElementos);
+        validarPerfil();
 
-	 int tamanoPagina = pageable.getPageSize();
-     int numeroPagina = pageable.getPageNumber();
+        Organizacion organizacion = this.usuario.getOrganizacion();
 
-	 List<ProcesoJudicial> procesoJudicialesPaginados = procesosJudicialesFiltrados.stream()
-			.skip((long) numeroPagina * tamanoPagina)
-			.limit(tamanoPagina)
-			.collect(Collectors.toList());
+        // Obtener los procesos judiciales filtrados por el código de país
+        List<ProcesoJudicial> procesosJudicialesFiltrados = procesoJudicialService
+                .getProcesosJudicialesByCodigoPaisUsuario(organizacion.getCodigoPais());
 
-		List<Integer> nPaginas = IntStream.rangeClosed(1, (int) Math.ceil((double) numeroTotalElementos / tamanoPagina))
-			.boxed()
-			.toList();
+        int numeroTotalElementos = procesosJudicialesFiltrados.size();
 
+        Pageable pageable = initPages(pg, 5, numeroTotalElementos);
 
-	 model.addAttribute("PaginaActual", pg);
-	 model.addAttribute("nPaginas", nPaginas);
-	 model.addAttribute("procesosJudiciales", procesoJudicialesPaginados);
+        int tamanoPagina = pageable.getPageSize();
+        int numeroPagina = pageable.getPageNumber();
 
-	 return "procesosJudiciales/procesosJudiciales";
+        List<ProcesoJudicial> procesoJudicialesPaginados = procesosJudicialesFiltrados.stream()
+                .skip((long) numeroPagina * tamanoPagina)
+                .limit(tamanoPagina)
+                .collect(Collectors.toList());
 
- }
- 
- @GetMapping("/procesosJudiciales/new")
- public String createProcesoJudicialForm(Model model) {
-	 
-	 try {
-			this.validarPerfil();
-			if(!this.perfil.getCVRol().equals("Consulta")) {
-				
-				model.addAttribute("procesoJudicial",new ProcesoJudicial());
-				
-				return "procesosJudiciales/create_procesosJudiciales";
-			}else {
-				return "SinAcceso";
-			}
-			
-		}catch (Exception e) {
-			return "SinAcceso";
-		}
-	 
- }
- 
- @PostMapping("/procesosJudiciales")
- public String saveProcesoJudicial(@ModelAttribute ProcesoJudicial procesoJudicial) {
-	 procesoJudicialService.saveProcesoJudicial(procesoJudicial);
-	 
-	 String descripcion = "Crea en Proceso Judicial";
-	 Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),this.perfil.getCVRol(),descripcion);
-	 bitacoraService.saveBitacora(bitacora);
-	 
-	 return "redirect:/procesosJudiciales";
- }
- 
- @GetMapping("/procesosJudiciales/{id}")
- public String deleteProcesoJudicial(@PathVariable int id) {
-	 
-	 try {
-			this.validarPerfil();
-			if(!this.perfil.getCVRol().equals("Consulta")) {
-				
-				procesoJudicialService.deleteProcesoJudicialById(id);
-				String descripcion = "Elimino un proceso judicial";
-				Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(),descripcion);
-				bitacoraService.saveBitacora(bitacora);
-				return "redirect:/procesosJudiciales";
-			}else {
-				return "SinAcceso";
-			}
-			
-		}catch (Exception e) {
-			return "SinAcceso";
-		}
- }
- 
- @GetMapping("/procesosJudiciales/edit/{id}")
- public String editProcesoJudicialForm(Model model,@PathVariable int id) {
-	 
-	 try {
-			this.validarPerfil();
-			if(!this.perfil.getCVRol().equals("Consulta")) {
-				
-				model.addAttribute("procesoJudicial", procesoJudicialService.getProcesoJudicialById(id));
-				
-				 return "procesosJudiciales/edit_procesosJudiciales";
-			}else {
-				return "SinAcceso";
-			}
-			
-		}catch (Exception e) {
-			return "SinAcceso";
-		}	 
- }
- 
- @PostMapping("/procesosJudiciales/{id}")
- public String updateProcesoJudicial(@PathVariable int id, @ModelAttribute ProcesoJudicial procesoJudicial, Model model) {
-	 ProcesoJudicial existingProcesoJudicial=procesoJudicialService.getProcesoJudicialById(id);
-	 existingProcesoJudicial.setCI_Id(id);
-	 existingProcesoJudicial.setCVEstado(procesoJudicial.getCVEstado());
-	 //existingProcesoJudicial.setCDFechaApertura(procesoJudicial.getCDFechaApertura());
-	 existingProcesoJudicial.setCIPersonasImputadas(procesoJudicial.getCIPersonasImputadas());
-	 existingProcesoJudicial.setCVAgravantes(procesoJudicial.getCVAgravantes());
-	 existingProcesoJudicial.setCVTipoDelito(procesoJudicial.getCVTipoDelito());
-	 
-	 procesoJudicialService.updateProcesoJudicial(existingProcesoJudicial);
-	 
-	 String descripcion="Actualiza en Proceso Judicial";
-	 Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),this.perfil.getCVRol(),descripcion);
-	 bitacoraService.saveBitacora(bitacora);
-		
-	 return "redirect:/procesosJudiciales";
- }
- 
- 
- 
- 
+        List<Integer> nPaginas = IntStream.rangeClosed(1, (int) Math.ceil((double) numeroTotalElementos / tamanoPagina))
+                .boxed()
+                .toList();
+
+        model.addAttribute("PaginaActual", pg);
+        model.addAttribute("nPaginas", nPaginas);
+        model.addAttribute("procesosJudiciales", procesoJudicialesPaginados);
+
+        return "procesosJudiciales/procesosJudiciales";
+
+    }
+
+    @GetMapping("/procesosJudiciales/new")
+    public String createProcesoJudicialForm(Model model) {
+
+        try {
+            this.validarPerfil();
+            if (!this.perfil.getCVRol().equals("Consulta")) {
+
+                model.addAttribute("procesoJudicial", new ProcesoJudicial());
+
+                return "procesosJudiciales/create_procesosJudiciales";
+            } else {
+                return "SinAcceso";
+            }
+
+        } catch (Exception e) {
+            return "SinAcceso";
+        }
+
+    }
+
+    @PostMapping("/procesosJudiciales")
+    public String saveProcesoJudicial(@ModelAttribute ProcesoJudicial procesoJudicial) {
+        this.validarPerfil();
+        procesoJudicialService.saveProcesoJudicial(procesoJudicial);
+
+        String descripcion = "Crea en Proceso Judicial";
+        Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(),
+                descripcion);
+        bitacoraService.saveBitacora(bitacora);
+
+        return "redirect:/procesosJudiciales";
+    }
+
+    @GetMapping("/procesosJudiciales/{id}")
+    public String deleteProcesoJudicial(@PathVariable int id) {
+
+        try {
+            this.validarPerfil();
+            if (!this.perfil.getCVRol().equals("Consulta")) {
+
+                procesoJudicialService.deleteProcesoJudicialById(id);
+                String descripcion = "Elimino un proceso judicial";
+                Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),
+                        this.perfil.getCVRol(), descripcion);
+                bitacoraService.saveBitacora(bitacora);
+                return "redirect:/procesosJudiciales";
+            } else {
+                return "SinAcceso";
+            }
+
+        } catch (Exception e) {
+            return "SinAcceso";
+        }
+    }
+
+    @GetMapping("/procesosJudiciales/edit/{id}")
+    public String editProcesoJudicialForm(Model model, @PathVariable int id) {
+
+        try {
+            this.validarPerfil();
+            if (!this.perfil.getCVRol().equals("Consulta")) {
+
+                model.addAttribute("procesoJudicial", procesoJudicialService.getProcesoJudicialById(id));
+
+                return "procesosJudiciales/edit_procesosJudiciales";
+            } else {
+                return "SinAcceso";
+            }
+
+        } catch (Exception e) {
+            return "SinAcceso";
+        }
+    }
+
+    @PostMapping("/procesosJudiciales/{id}")
+    public String updateProcesoJudicial(@PathVariable int id, @ModelAttribute ProcesoJudicial procesoJudicial,
+            Model model) {
+
+        this.validarPerfil();
+        ProcesoJudicial existingProcesoJudicial = procesoJudicialService.getProcesoJudicialById(id);
+        existingProcesoJudicial.setCI_Id(id);
+        existingProcesoJudicial.setCVEstado(procesoJudicial.getCVEstado());
+        // existingProcesoJudicial.setCDFechaApertura(procesoJudicial.getCDFechaApertura());
+        existingProcesoJudicial.setCIPersonasImputadas(procesoJudicial.getCIPersonasImputadas());
+        existingProcesoJudicial.setCVAgravantes(procesoJudicial.getCVAgravantes());
+        existingProcesoJudicial.setCVTipoDelito(procesoJudicial.getCVTipoDelito());
+
+        procesoJudicialService.updateProcesoJudicial(existingProcesoJudicial);
+
+        String descripcion = "Actualiza en Proceso Judicial";
+        Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(),
+                descripcion);
+        bitacoraService.saveBitacora(bitacora);
+
+        return "redirect:/procesosJudiciales";
+    }
+
 }

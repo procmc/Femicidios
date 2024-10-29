@@ -2,6 +2,7 @@ package com.if7100.controller;
 
 import com.if7100.entity.Hecho;
 import com.if7100.entity.Imputado;
+import com.if7100.entity.Organizacion;
 import com.if7100.entity.Paises;
 import com.if7100.entity.Perfil;
 import com.if7100.entity.ProcesoJudicial;
@@ -113,6 +114,7 @@ public class HechoController {
 
     @GetMapping("/hechos/pdf")
     public void exportToPDF(HttpServletResponse response) throws IOException, java.io.IOException {
+        this.validarPerfil();
         response.setContentType("application/pdf");
         String headerKey = "Content-Disposition";
         String headerValue = "attachment; filename=hechos_filtrados.pdf";
@@ -157,7 +159,7 @@ public class HechoController {
         }
 
         // Obtener la lista de hechos filtrados por país
-        Integer codigoPaisUsuario = this.usuario.getCodigoPais();
+        Integer codigoPaisUsuario = this.usuario.getOrganizacion().getCodigoPais();
         List<Hecho> hechos = hechoService.findByCodigoPais(codigoPaisUsuario);
 
         // Recorrer los hechos y agregarlos a la tabla
@@ -253,7 +255,7 @@ public class HechoController {
         }
 
         // Obtener la lista de hechos filtrados por país
-        Integer codigoPaisUsuario = this.usuario.getCodigoPais();
+        Integer codigoPaisUsuario = this.usuario.getOrganizacion().getCodigoPais();
         List<Hecho> hechos = hechoService.findByCodigoPais(codigoPaisUsuario);
         Paises pais = paisesService.getPaisByID(codigoPaisUsuario);
 
@@ -357,6 +359,7 @@ public class HechoController {
 
     @GetMapping("/hechos")
     public String listHechos(Model model) {
+       this.validarPerfil();
         return "redirect:/hecho/1";
     }
 
@@ -365,11 +368,14 @@ public class HechoController {
 
         this.validarPerfil();
 
-        Integer codigoPaisUsuario = this.usuario.getCodigoPais();
-        List<Hecho> hechosFiltrados = hechoService.findByCodigoPais(codigoPaisUsuario);
+        //obtiene la organizacion del usuario
+        Organizacion organizacion = this.usuario.getOrganizacion();
+
+        //obtiene el id del pais del hecho segun el pais de la organizacion del usuario
+        List<Hecho> hechosFiltrados = hechoService.findByCodigoPais(organizacion.getCodigoPais());
 
         // Buscar el país por el código del país almacenado en Hecho
-        Paises pais = paisesService.getPaisByID(codigoPaisUsuario);
+        Paises pais = paisesService.getPaisByID(organizacion.getCodigoPais());
 
         int numeroTotalElementos = hechosFiltrados.size();
 
@@ -438,6 +444,7 @@ public class HechoController {
     @PostMapping("/hechos")
     public String saveHecho(@ModelAttribute Hecho hecho, Model model) {
         try {
+            this.validarPerfil();
             hechoService.saveHecho(hecho);
 
             String descripcion = "Creo en Hechos: " + hecho.getCI_Id();
@@ -508,6 +515,7 @@ public class HechoController {
     @PostMapping("/hechos/{id}")
     public String updateHecho(@PathVariable Integer id, @ModelAttribute Hecho hecho, Model model) {
         try {
+            this.validarPerfil();
             Hecho existingHecho = hechoService.getHechoById(id);
             String descripcion = "Actualizo en Hechos, de: " + existingHecho.getCI_Id() + " | a: " + id;
             existingHecho.setCI_Id(id);

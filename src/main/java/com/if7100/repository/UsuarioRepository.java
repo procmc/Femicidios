@@ -10,7 +10,4 @@ import java.util.List;
 public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 	 Usuario findByCVCedula(String CV_Cedula);
 
-	 //usuario por codigo de pais
-	 List<Usuario> findByCodigoPais(Integer codigoPais);
-
 }

@@ -1,10 +1,4 @@
-/**
- * 
- */
 package com.if7100.controller;
-
-
-
 
 import com.if7100.entity.Bitacora;
 import com.if7100.entity.Usuario;
@@ -103,12 +97,14 @@ public class IdentidadGeneroController {
 	public String listStudents(Model model) {
 //		model.addAttribute("identidadgenero", identidadGeneroService.getAllIdentidadGenero());
 //		return "identidadGeneros/identidadgenero";
+		this.validarPerfil();
 		return "redirect:/identidadesgenero/1";
 	}
 
 	@GetMapping("identidadesgenero/{pg}")
 	public String listIdentidadesGeneros(Model model, @PathVariable Integer pg){
 
+		this.validarPerfil();
 		if (pg < 1){
 			return "redirect:/identidadesgenero/1";
 		}

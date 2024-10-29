@@ -29,8 +29,6 @@ public interface UsuarioService {
 
     Usuario updateUsuario(Usuario usuario);
 
-    public List<Usuario> getUsuariosByCodigoPais(Integer codigoPais);// obtiene los usuarios por codigo país
-
     void deleteUsuarioById(Integer Id);
 
     Page<Usuario> getAllUsuariosPage(Pageable pageable);

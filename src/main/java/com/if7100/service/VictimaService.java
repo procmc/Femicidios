@@ -32,4 +32,7 @@ public interface VictimaService
 
 	//obtener las victimas a partir del pais del hecho al que se relaciona
 	List<Victima> findVictimasByCodigoPaisHecho(Integer codigoPais);
+
+	List<Victima> findVictimasByCICodigoPais(Integer codigoPais);
+
 }

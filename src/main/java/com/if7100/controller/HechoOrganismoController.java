@@ -83,11 +83,16 @@ HechoOrganismoService hechoOrganismoService, HechoService hechoService, Organism
 
     @GetMapping("/hechoorganismo")
     public String listHechoOrganismo(Model model){
+       
+        this.validarPerfil();
         return "redirect:/hechosorganismos/1";
     }
 
     @GetMapping("/hechosorganismos/{pg}")
     public String listHechosOrganismos(Model model, @PathVariable Integer pg){
+       
+        this.validarPerfil();
+        
         if (pg < 1){
             return "redirect:/hechosorganismos/1";
         }
