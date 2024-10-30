@@ -321,10 +321,11 @@ public class LugarController {
 		try {
 			this.validarPerfil();
 			if (!this.perfil.getCVRol().equals("Consulta")) {
-				String descripcion = "Elimino un lugar: " + Id;
-				Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),
-						this.perfil.getCVRol(), descripcion);
-				bitacoraService.saveBitacora(bitacora);
+				
+				bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en lugares"));
+
+				
 				lugarService.deleteLugarById(Id);
 				return "redirect:/lugares";
 			} else {
@@ -341,10 +342,11 @@ public class LugarController {
 			this.validarPerfil();
 			if (!this.perfil.getCVRol().equals("Consulta")) {
 				lugarService.deleteLugarById(id);
-				String descripcion = "Elimino un lugar: " + id;
-				Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), descripcion,
-						this.perfil.getCVRol());
-				bitacoraService.saveBitacora(bitacora);
+				
+				bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en lugares"));
+
+
 				return "redirect:/hecholugar/".concat(String.valueOf(idLugar));
 			} else {
 				return "SinAcceso";
@@ -392,10 +394,11 @@ public class LugarController {
 			existingLugar.setCVDistrito(lugar.getCVDistrito());
 
 			lugarService.updateLugar(existingLugar);
-			String descripcion = "Actualizo en Lugares el id: " + id;
-			Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),
-					this.perfil.getCVRol(), descripcion);
-			bitacoraService.saveBitacora(bitacora);
+			
+			bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en lugares"));
+
+			
 			return "redirect:/lugares";
 		} catch (DataIntegrityViolationException e) {
 			String mensaje = "No se puede guardar el hecho debido a un error de integridad de datos.";
@@ -555,10 +558,11 @@ public class LugarController {
 		try {
 			this.validarPerfil();
 			lugarService.saveLugar(lugar);
-			String descripcion = "Creo en Lugar:" + lugar.getCI_Codigo();
-			Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),
-					this.perfil.getCVRol(), descripcion);
-			bitacoraService.saveBitacora(bitacora);
+			
+			bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en lugares"));
+
+			
 			return "redirect:/lugares";
 		} catch (DataIntegrityViolationException e) {
 			String mensaje = "No se puede guardar el hecho debido a un error de integridad de datos.";
@@ -574,11 +578,11 @@ public class LugarController {
 		try {
 			this.validarPerfil();
 			lugarService.saveLugar(lugar);
-			String descripcion = "Creo en HechoLugar: " + lugar.getCI_Codigo();
-			;
-			Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),
-					this.perfil.getCVRol(), descripcion);
-			bitacoraService.saveBitacora(bitacora);
+			
+			bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en lugares"));
+
+			
 			return "redirect:/hecholugar/".concat(String.valueOf(lugar.getCIHecho()));
 		} catch (DataIntegrityViolationException e) {
 			String mensaje = "No se puede guardar el hecho debido a un error de integridad de datos.";

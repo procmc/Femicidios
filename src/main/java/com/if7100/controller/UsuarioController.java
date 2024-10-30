@@ -190,13 +190,12 @@ public class UsuarioController {
 		if (result.hasErrors()) {
 			return "usuarios/create_usuario";
 		} else {
+
 			usuarioService.saveUsuario(usuario);
 
-			String descripcion = "Creo un Nuevo Usuario con id: " + usuario.getCI_Id();
-			Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),
-					this.perfil.getCVRol(), descripcion);
-			bitacoraService.saveBitacora(bitacora);
-
+			bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en usuarios"));
+		
 			return "redirect:/usuarios";
 		}
 	}
@@ -209,11 +208,10 @@ public class UsuarioController {
 			this.validarPerfil();
 			if (this.perfil.getCVRol().equals("Administrador")) {
 
-				String descripcion = "Elimino un usuario con id: " + Id;
-				Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),
-						this.perfil.getCVRol(), descripcion);
-				bitacoraService.saveBitacora(bitacora);
-
+				
+				bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en usuarios"));
+		
 				usuarioService.deleteUsuarioById(Id);
 				return "redirect:/usuarios?Exito";
 			} else {
@@ -262,10 +260,11 @@ public class UsuarioController {
 		existingUsuario.setOrganizacion(usuario.getOrganizacion());
 
 		usuarioService.updateUsuario(existingUsuario);
-		String descripcion = "Actualizo un Usuario con id: " + Id;
-		Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(),
-				descripcion);
-		bitacoraService.saveBitacora(bitacora);
+		
+		bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Atualiza en usuarios"));
+		
+		
 		return "redirect:/usuarios";
 	}
 }

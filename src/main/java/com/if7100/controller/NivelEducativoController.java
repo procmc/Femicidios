@@ -133,9 +133,11 @@ public class NivelEducativoController {
     @PostMapping("/nivelEducativo")
     public String saveNivelEducativo(@ModelAttribute NivelEducativo nivelEducativo) {
         nivelEducativoService.saveNivelEducativo(nivelEducativo);
-        String descripcion = "Creo nivel educativo:";
-        Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
-        bitacoraService.saveBitacora(bitacora);
+        
+        bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en nivel educativo"));
+
+        
         return "redirect:/nivelEducativo";
 
 
@@ -148,9 +150,8 @@ public class NivelEducativoController {
             this.validarPerfil();
             if (!this.perfil.getCVRol().equals("Consulta")) {
 
-                String descripcion = "Elimino un nivel educativo: ID "+ id;
-                Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
-                bitacoraService.saveBitacora(bitacora);
+                bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en nivel educativo"));
 
                 nivelEducativoService.deleteNivelEducativoById(id);
                 return "redirect:/nivelEducativo";
@@ -190,9 +191,8 @@ public class NivelEducativoController {
         existingNivelEducativo.setCVTitulo(nivelEducativo.getCVTitulo());
         existingNivelEducativo.setCVDescripcion(nivelEducativo.getCVDescripcion());
         existingNivelEducativo.setCVPais(nivelEducativo.getCVPais());
-        String descripcion = "Actualizo nivel educativo: ID " + id;
-        Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
-        bitacoraService.saveBitacora(bitacora);
+        bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en nivel educativo"));
 
         nivelEducativoService.updateNivelEducativo(existingNivelEducativo);
         return "redirect:/nivelEducativo";

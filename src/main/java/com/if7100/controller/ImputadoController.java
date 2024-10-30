@@ -452,17 +452,12 @@ public class ImputadoController {
 				// Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(),
 				// this.usuario.getCVNombre(),this.perfil.getCVRol(),descripcion);
 				// bitacoraService.saveBitacora(bitacora);
-				model.addAttribute("paises", paisesService.getAllPaises());
 				model.addAttribute("orientacionSexual", orientacionSexualService.getAllOrientacionesSexuales());
 				model.addAttribute("identidadGenero", identidadGeneroService.getAllIdentidadGenero());
 				model.addAttribute("nivelEducativo", nivelEducativoService.getAllNivelEducativo());
 				model.addAttribute("situacionJuridica", situacionJuridicaService.getAllSituacionJuridica());
 				model.addAttribute("listaOrganismo", organismoService.getAllOrganismos());
 				model.addAttribute("imputado", new Imputado());
-
-				// Obtener lista de países y enviarla al modelo
-				List<Paises> paises = paisesService.getAllPaises();
-				model.addAttribute("paises", paises);
 
 				return "imputados/create_imputado";
 
@@ -478,10 +473,15 @@ public class ImputadoController {
 	@PostMapping("/imputados")
 	public String SaveImputado(@ModelAttribute Imputado imputado, Model model) {
 		try {
+
+			imputado.setCodigoPais(this.usuario.getOrganizacion().getCodigoPais());
 			imputadoService.saveImputado(imputado);
-			bitacoraService.saveBitacora(new Bitacora(this.usuario.getCI_Id(),
-					this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en Imputado"));
+
+			bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en imputados"));
+
 			return "redirect:/imputados";
+
 		} catch (DataIntegrityViolationException e) {
 			String mensaje = "No se puede guardar el imputado debido a un error de integridad de datos.";
 			model.addAttribute("error_message", mensaje);
@@ -498,8 +498,10 @@ public class ImputadoController {
 			if (!this.perfil.getCVRol().equals("Consulta")) {
 
 				imputadoService.deleteImputadoById(id);
-				bitacoraService.saveBitacora(new Bitacora(this.usuario.getCI_Id(),
-						this.usuario.getCVNombre(), this.perfil.getCVRol(), "Eliminó en Imputado"));
+				
+				bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Guarda en imputados"));
+
 				return "redirect:/imputados";
 			} else {
 				return "SinAcceso";
@@ -521,9 +523,6 @@ public class ImputadoController {
 			response.setHeader("Expires", "0");
 
 			if (!this.perfil.getCVRol().equals("Consulta")) {
-
-				List<Paises> paises = paisesService.getAllPaises(); // Obtiene la lista de países
-				model.addAttribute("paises", paises); // Envía la lista de países al modelo
 
 				model.addAttribute("paises", paisesService.getAllPaises());
 				model.addAttribute("orientacionSexual", orientacionSexualService.getAllOrientacionesSexuales());
@@ -548,7 +547,6 @@ public class ImputadoController {
 	public String updateUsuario(@PathVariable int id, @ModelAttribute Imputado imputado, Model model) {
 		Imputado existingImputado = imputadoService.getImputadoById(id);
 
-		existingImputado.setCodigoPais(imputado.getCodigoPais());// actualiza codigo pais
 		existingImputado.setCVDni(imputado.getCVDni());
 		existingImputado.setCVGenero(imputado.getCVGenero());
 		existingImputado.setCVNombre(imputado.getCVNombre());
@@ -572,8 +570,10 @@ public class ImputadoController {
 		existingImputado.setCVDomicilio(imputado.getCVDomicilio());
 
 		imputadoService.updateImputado(existingImputado);
-		bitacoraService.saveBitacora(new Bitacora(this.usuario.getCI_Id(),
-				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualizó en Imputado"));
+		
+		bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en imputados"));
+
 		return "redirect:/imputados";
 	}
 

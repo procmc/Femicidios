@@ -26,16 +26,16 @@ public class Bitacora {
 	public Bitacora() {
 
 	}
-	public Bitacora(Integer CIId, String CV_DNI_Usuario, String CV_Rol, String CV_Descripcion) {
-		this.CIId = CIId; 
+	public Bitacora(String CVCedulaUsuario, String CV_DNI_Usuario, String CV_Rol, String CV_Descripcion) {
+		this.CVCedulaUsuario = CVCedulaUsuario; 
 		this.CVUsuario = CV_DNI_Usuario;
 		this.CVRol= CV_Rol;
 		this.CVDescripcion = CV_Descripcion;
 		this.CTFecha = new Date();
 	}
-	public Bitacora(Integer CIId, String CV_DNI_Usuario, String CV_Rol, String CV_Descripcion, Date CT_Fecha) {
+	public Bitacora(String CVCedulaUsuario, String CV_DNI_Usuario, String CV_Rol, String CV_Descripcion, Date CT_Fecha) {
 		super();
-		this.CIId = CIId; 
+		this.CVCedulaUsuario = CVCedulaUsuario; 
 		this.CVUsuario = CV_DNI_Usuario;
 		this.CVRol= CV_Rol;
 		this.CVDescripcion = CV_Descripcion;
@@ -46,8 +46,8 @@ public class Bitacora {
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	private Integer CI_Id_Bitacora;
 
-	@Column (name = "CI_Id", nullable = false)
-	private Integer CIId;
+	@Column (name = "CV_Cedula_Usuario", nullable = false)
+	private String CVCedulaUsuario;
 
 
 	@Column (name = "CV_DNI_Usuario", nullable = false)
@@ -73,13 +73,13 @@ public class Bitacora {
 	}
 
 
-	public Integer getCIId() {
-		return CIId;
+	public String getCVCedulaUsuario() {
+		return CVCedulaUsuario;
 	}
 
 
-	public void setCIId(Integer cIId) {
-		CIId = cIId;
+	public void setCVCedulaUsuario(String CVCedulaUsuario) {
+		this.CVCedulaUsuario = CVCedulaUsuario;
 	}
 
 

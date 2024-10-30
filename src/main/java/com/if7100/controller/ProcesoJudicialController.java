@@ -19,6 +19,7 @@ import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -26,6 +27,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -49,6 +51,8 @@ import com.itextpdf.layout.property.UnitValue;
 
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -270,7 +274,9 @@ public class ProcesoJudicialController {
 
         try {
             Usuario usuario = new Usuario();
+
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
             String username = authentication.getName();
 
             this.usuario = new Usuario(usuarioRepository.findByCVCedula(username));
@@ -346,9 +352,8 @@ public class ProcesoJudicialController {
 
                 model.addAttribute("procesoJudicial", new ProcesoJudicial());
 
-                List<Paises> paises = paisesService.getAllPaises();
-                model.addAttribute("paises", paises);
-
+                System.out.println("useres ");
+                System.out.println(this.usuario.getCI_Id());
                 return "procesosJudiciales/create_procesosJudiciales";
             } else {
                 return "SinAcceso";
@@ -361,17 +366,24 @@ public class ProcesoJudicialController {
     }
 
     @PostMapping("/procesosJudiciales")
-    public String saveProcesoJudicial(@ModelAttribute ProcesoJudicial procesoJudicial) {
-        this.validarPerfil();
+    public String saveProcesoJudicial(@ModelAttribute ProcesoJudicial procesoJudicial, Model model) {
 
-        procesoJudicialService.saveProcesoJudicial(procesoJudicial);
+        try {
+            procesoJudicial.setCICodigoPais(this.usuario.getOrganizacion().getCodigoPais());
+            procesoJudicialService.saveProcesoJudicial(procesoJudicial);
 
-        String descripcion = "Crea en Proceso Judicial";
-        Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(),
-                descripcion);
-        bitacoraService.saveBitacora(bitacora);
+            bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en proceso judicial"));
 
-        return "redirect:/procesosJudiciales";
+            return "redirect:/procesosJudiciales";
+
+        } catch (DataIntegrityViolationException e) {
+            String mensaje = "No se puede guardar el proceso judicial debido a un error de integridad de datos.";
+            model.addAttribute("error_message", mensaje);
+            model.addAttribute("error", true);
+            System.out.println("Erroring de mierda: " + e.getMessage());
+            return createProcesoJudicialForm(model);
+        }
     }
 
     @GetMapping("/procesosJudiciales/{id}")
@@ -382,10 +394,10 @@ public class ProcesoJudicialController {
             if (!this.perfil.getCVRol().equals("Consulta")) {
 
                 procesoJudicialService.deleteProcesoJudicialById(id);
-                String descripcion = "Elimino un proceso judicial";
-                Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),
-                        this.perfil.getCVRol(), descripcion);
-                bitacoraService.saveBitacora(bitacora);
+
+                bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en proceso judicial"));
+
                 return "redirect:/procesosJudiciales";
             } else {
                 return "SinAcceso";
@@ -432,10 +444,8 @@ public class ProcesoJudicialController {
 
         procesoJudicialService.updateProcesoJudicial(existingProcesoJudicial);
 
-        String descripcion = "Actualiza en Proceso Judicial";
-        Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(),
-                descripcion);
-        bitacoraService.saveBitacora(bitacora);
+        bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en proceso judicial"));
 
         return "redirect:/procesosJudiciales";
     }

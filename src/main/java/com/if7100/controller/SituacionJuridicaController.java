@@ -125,9 +125,11 @@ public class SituacionJuridicaController {
             this.validarPerfil();
             if(!this.perfil.getCVRol().equals("Consulta")) {
                 situacionJuridicaService.saveSituacionJuridica(situacionJuridica);
-                String descripcion = "Creo una situacion juridica";
-                Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
-                bitacoraService.saveBitacora(bitacora);
+                
+                bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en situacion juridica"));
+
+                
                 return "redirect:/situacionesjuridicas";
             }else {
                 return "SinAcceso";
@@ -146,9 +148,11 @@ public class SituacionJuridicaController {
             this.validarPerfil();
             if(!this.perfil.getCVRol().equals("Consulta")) {
                 situacionJuridicaService.deleteSituacionJuridicaById(id);
-                String descripcion = "Elimino una situacion juridica";
-                Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
-                bitacoraService.saveBitacora(bitacora);
+                
+                bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en situacion juridica"));
+
+                
                 return "redirect:/situacionesjuridicas";
             }else {
                 return "SinAcceso";
@@ -186,9 +190,10 @@ public class SituacionJuridicaController {
                 existingSituacionJuridica.setCVTitulo(situacionJuridica.getCVTitulo());
                 existingSituacionJuridica.setCVDescripcion(situacionJuridica.getCVDescripcion());
                 situacionJuridicaService.updateSituacionJuridica(existingSituacionJuridica);
-                String descripcion = "Actualizo una situacion juridica";
-                Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
-                bitacoraService.saveBitacora(bitacora);
+                
+                bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en situacion juridica"));
+                
                 return "redirect:/situacionesjuridicas";
             }else {
                 return "SinAcceso";

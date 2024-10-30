@@ -97,7 +97,7 @@ public class VictimaController {
 	public VictimaController(VictimaService victimaService, UsuarioRepository usuarioRepository,
 			PerfilService perfilService, BitacoraService bitacoraService, OrganismoService organismoService,
 			OrientacionSexualService orientacionSexualService, IdentidadGeneroService identidadGeneroService,
-			NivelEducativoService nivelEducativoService) {
+			NivelEducativoService nivelEducativoService, PaisesService paisesService) {
 		super();
 		this.victimaService = victimaService;
 		this.usuarioRepository = usuarioRepository;
@@ -107,6 +107,7 @@ public class VictimaController {
 		this.orientacionSexualService = orientacionSexualService;
 		this.identidadGeneroService = identidadGeneroService;
 		this.nivelEducativoService = nivelEducativoService;
+		this.paisesService = paisesService;
 	}
 
 	@GetMapping("/victima/pdf")
@@ -474,25 +475,27 @@ public class VictimaController {
 				model.addAttribute("listaOrganismo", organismoService.getAllOrganismos());
 				model.addAttribute("victima", victima);
 				model.addAttribute("nivelEducativo", nivelEducativoService.getAllNivelEducativo());
+				model.addAttribute("paises", paisesService.getAllPaises());
 
-				// Obtener lista de países y enviarla al modelo
-				// List<Paises> paises = paisesService.getAllPaises();
-				// model.addAttribute("paises", paises);
 
-				bitacoraService.saveBitacora(new Bitacora(this.usuario.getCI_Id(),
-						this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en Victima"));
+				//bitacoraService.saveBitacora(new Bitacora(this.usuario.getCI_Id(),
+				//		this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en Victima"));
 				return "victimas/create_victima";
 			} else {
 				return "SinAcceso";
 			}
 
 		} catch (Exception e) {
+
+			System.out.println("errores aqui "+e);
 			return "SinAcceso";
 		}
 	}
 
 	@PostMapping("/victimas")
 	public String saveVictima(@ModelAttribute Victima victima) {
+
+		victima.setCICodigoPais(this.usuario.getOrganizacion().getCodigoPais());
 		victimaService.saveVictima(victima);
 		return "redirect:/victimas";
 	}
@@ -504,14 +507,8 @@ public class VictimaController {
 			this.validarPerfil();
 			if (!this.perfil.getCVRol().equals("Consulta")) {
 
-				String descripcion = "Elimino una victima";
-				Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), descripcion,
-						this.perfil.getCVRol());
-				bitacoraService.saveBitacora(bitacora);
 
 				victimaService.deleteVictimaById(Id);
-				bitacoraService.saveBitacora(new Bitacora(this.usuario.getCI_Id(),
-						this.usuario.getCVNombre(), this.perfil.getCVRol(), "Eliminó en Victima"));
 				return "redirect:/victimas";
 			} else {
 				return "SinAcceso";
@@ -584,9 +581,7 @@ public class VictimaController {
 
 		victimaService.updateVictima(existingVictima);
 
-		bitacoraService.saveBitacora(new Bitacora(this.usuario.getCI_Id(),
-				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualizó en Victima"));
-
+	
 		return "redirect:/victimas";
 
 	}

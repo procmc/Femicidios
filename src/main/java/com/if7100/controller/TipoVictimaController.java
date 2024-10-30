@@ -123,9 +123,11 @@ TipoVictimaService tipoVictimaService, PerfilService perfilService, UsuarioRepos
     @PostMapping("/tipovictimas")
     public String saveTipoVictima(@ModelAttribute TipoVictima tipoVictima){
         tipoVictimaService.saveTipoVictima(tipoVictima);
-        String descripcion="Creo un Tipo de Victima con id: "+ tipoVictima.getCI_Codigo() ;
-        Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
-        bitacoraService.saveBitacora(bitacora);
+        
+        bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en tipos de victimas"));
+		
+        
         return "redirect:/tipovictimas";
     }
 
@@ -136,10 +138,9 @@ TipoVictimaService tipoVictimaService, PerfilService perfilService, UsuarioRepos
 			this.validarPerfil();
 			if(!this.perfil.getCVRol().equals("Consulta")) {
 				
-				String descripcion = "Elimino un tipo de victima con Id: "+ id;
-				Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
-				bitacoraService.saveBitacora(bitacora);
-				
+				bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en tipos de victimas"));
+		
 				tipoVictimaService.deleteTipoVictimaById(id);
 		        return "redirect:/tipovictimas";
 			}else {
@@ -176,9 +177,11 @@ TipoVictimaService tipoVictimaService, PerfilService perfilService, UsuarioRepos
         existingTipoVictima.setCVTitulo(tipoVictima.getCVTitulo());
         existingTipoVictima.setCVDescripcion(tipoVictima.getCVDescripcion());
         tipoVictimaService.updateTipoVictima(existingTipoVictima);
-        String descripcion="Actualizo un tipo de victima con id: " + id;
-        Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
-        bitacoraService.saveBitacora(bitacora);
+        
+        bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en tipos de victimas"));
+		
+        
         return "redirect:/tipovictimas";
     }
 

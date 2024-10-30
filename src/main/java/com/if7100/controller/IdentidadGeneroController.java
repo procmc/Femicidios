@@ -48,20 +48,18 @@ public class IdentidadGeneroController {
 	private Usuario usuario;
 
 	@Autowired
-    private PaisesidentIdadesgenerosService paisesIdentidadGeneroService; // Servicio para manejar la relación
-    @Autowired
-    private PaisesService paisesService;  // Servicio para manejar los países
+	private PaisesidentIdadesgenerosService paisesIdentidadGeneroService; // Servicio para manejar la relación
+	@Autowired
+	private PaisesService paisesService; // Servicio para manejar los países
 
 	public IdentidadGeneroController(BitacoraService bitacoraService, IdentidadGeneroService identidadGeneroService,
-			PerfilService perfilService, UsuarioRepository usuarioRepository
-			) {
+			PerfilService perfilService, UsuarioRepository usuarioRepository) {
 		super();
 		this.identidadGeneroService = identidadGeneroService;
 		this.perfilService = perfilService;
 		this.usuarioRepository = usuarioRepository;
 		this.bitacoraService = bitacoraService;
-		
-	
+
 	}
 
 	private void validarPerfil() {
@@ -81,31 +79,32 @@ public class IdentidadGeneroController {
 
 	}
 
-	private Pageable initPages(int pg, int paginasDeseadas, int numeroTotalElementos){
-		int numeroPagina = pg-1;
-		if (numeroTotalElementos < 10){
+	private Pageable initPages(int pg, int paginasDeseadas, int numeroTotalElementos) {
+		int numeroPagina = pg - 1;
+		if (numeroTotalElementos < 10) {
 			paginasDeseadas = 1;
 		}
-		if (numeroTotalElementos < 1){
+		if (numeroTotalElementos < 1) {
 			numeroTotalElementos = 1;
 		}
 		int tamanoPagina = (int) Math.ceil(numeroTotalElementos / (double) paginasDeseadas);
 		return PageRequest.of(numeroPagina, tamanoPagina);
 	}
-	
+
 	@GetMapping("/identidadgenero")
 	public String listStudents(Model model) {
-//		model.addAttribute("identidadgenero", identidadGeneroService.getAllIdentidadGenero());
-//		return "identidadGeneros/identidadgenero";
+		// model.addAttribute("identidadgenero",
+		// identidadGeneroService.getAllIdentidadGenero());
+		// return "identidadGeneros/identidadgenero";
 		this.validarPerfil();
 		return "redirect:/identidadesgenero/1";
 	}
 
 	@GetMapping("identidadesgenero/{pg}")
-	public String listIdentidadesGeneros(Model model, @PathVariable Integer pg){
+	public String listIdentidadesGeneros(Model model, @PathVariable Integer pg) {
 
 		this.validarPerfil();
-		if (pg < 1){
+		if (pg < 1) {
 			return "redirect:/identidadesgenero/1";
 		}
 
@@ -146,28 +145,27 @@ public class IdentidadGeneroController {
 	}
 
 	@PostMapping("/identidadgenero")
-	public String saveIdentidadGenero(@ModelAttribute IdentidadGenero identidadgenero, @RequestParam List<String> paisesSeleccionados) {
-
+	public String saveIdentidadGenero(@ModelAttribute IdentidadGenero identidadgenero,
+			@RequestParam List<String> paisesSeleccionados) {
 
 		identidadGeneroService.saveIdentidadGenero(identidadgenero);
 
-		        // Guardar la relación entre identidad de género y países seleccionados
-				for (String iso2 : paisesSeleccionados) {
-					Paises pais = paisesService.getPaisByISO2(iso2);  // Obtener el país por ISO2
-					if (pais != null) {
-						PaisesidentIdadesgeneros relacion = new PaisesidentIdadesgeneros();
-						relacion.setIdentidadGenero(identidadgenero);
-						relacion.setPais(pais);
-						paisesIdentidadGeneroService.save(relacion);
-					}
-				}
-		String descripcion = "Guardo una identidad de genero";
-		Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),this.perfil.getCVRol() ,
-				descripcion);
-		bitacoraService.saveBitacora(bitacora);
+		// Guardar la relación entre identidad de género y países seleccionados
+		for (String iso2 : paisesSeleccionados) {
+			Paises pais = paisesService.getPaisByISO2(iso2); // Obtener el país por ISO2
+			if (pais != null) {
+				PaisesidentIdadesgeneros relacion = new PaisesidentIdadesgeneros();
+				relacion.setIdentidadGenero(identidadgenero);
+				relacion.setPais(pais);
+				paisesIdentidadGeneroService.save(relacion);
+			}
+		}
+		bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en identidadgenero"));
+
 		return "redirect:/identidadgenero";
 	}
-	
+
 	@GetMapping("/identidadgenero/edit/{id}")
 	public String editIdentidadGenero(@PathVariable Integer id, Model model) {
 		try {
@@ -175,7 +173,7 @@ public class IdentidadGeneroController {
 			if (!this.perfil.getCVRol().equals("Consulta")) {
 
 				model.addAttribute("identidadgenero", identidadGeneroService.getIdentidadGeneroById(id));
-				
+
 				return "identidadGeneros/edit_identidadgenero";
 			} else {
 				return "SinAcceso";
@@ -193,25 +191,23 @@ public class IdentidadGeneroController {
 		existingIdentidadGenero.setId(id);
 		existingIdentidadGenero.setNombre(identidadgenero.getNombre());
 		existingIdentidadGenero.setDescripcion(identidadgenero.getDescripcion());
-		//existingIdentidadGenero.setCodigoPais(identidadgenero.getCodigoPais());
+		// existingIdentidadGenero.setCodigoPais(identidadgenero.getCodigoPais());
 		identidadGeneroService.updateIdentidadGenero(identidadgenero);
-		String descripcion = "Actualizo una identidad de genero";
-		Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),this.perfil.getCVRol() ,
-				descripcion);
-		bitacoraService.saveBitacora(bitacora);
+		
+		bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en identidadgenero"));
+
 		return "redirect:/identidadgenero";
 	}
-	
+
 	@GetMapping("/identidadgenero/{Id}")
 	public String deleteidentidadgenero(@PathVariable Integer Id) {
 		try {
 			this.validarPerfil();
 			if (!this.perfil.getCVRol().equals("Consulta")) {
 
-				String descripcion = "Elimino una identidad de genero";
-				Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),this.perfil.getCVRol() ,
-						descripcion);
-				bitacoraService.saveBitacora(bitacora);
+				bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en identidadgenero"));
 
 				identidadGeneroService.deleteIdentidadGeneroById(Id);
 				return "redirect:/identidadgenero";
@@ -223,6 +219,5 @@ public class IdentidadGeneroController {
 			return "SinAcceso";
 		}
 	}
-
 
 }

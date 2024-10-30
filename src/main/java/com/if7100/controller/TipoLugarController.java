@@ -137,10 +137,9 @@ TipoLugarService tipoLugarService, PerfilService perfilService, UsuarioRepositor
 	    tipoLugarService.saveTipoLugar(tipoLugar);
 	    
 	    //funcionalidad de bitacora
-	    String descripcion="Agrego en tipos de lugares con id: "+ tipoLugar.getCI_Codigo();
-        Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),this.perfil.getCVRol(),descripcion);
-        bitacoraService.saveBitacora(bitacora);
-        
+	    bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en tipos de lugares"));
+
 		return "redirect:/tipolugares";
 	}
 
@@ -153,10 +152,9 @@ TipoLugarService tipoLugarService, PerfilService perfilService, UsuarioRepositor
 			if(!this.perfil.getCVRol().equals("Consulta")) {
 				
 				  //funcionalidad de bitacora
-			    String descripcion="Elimino en tipos de lugares el tipo de lugar con id: "+ Codigo;
-		        Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),this.perfil.getCVRol(),descripcion);
-		        bitacoraService.saveBitacora(bitacora);
-				
+				  bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+				  this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en tipos de lugares"));
+  
 				tipoLugarService.deleteTipoLugarByCodigo(Codigo);
 				return "redirect:/tipolugares";
 			}else {
@@ -196,10 +194,10 @@ TipoLugarService tipoLugarService, PerfilService perfilService, UsuarioRepositor
 	    existingTipoLugar.setCVDescripcion(tipoLugar.getCVDescripcion());
 		tipoLugarService.updateTipoLugar(existingTipoLugar);
 		//funcionalidad bitacora
-		String descripcion="Actualizo en tipos de lugares el tipo lugar con Id: "+ Codigo;
-        Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),this.perfil.getCVRol(),descripcion);
-        bitacoraService.saveBitacora(bitacora);
-        
+		
+		bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en tipos de lugares"));
+
 		return "redirect:/tipolugares";
 	}
 

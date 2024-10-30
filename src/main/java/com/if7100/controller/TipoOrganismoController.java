@@ -4,7 +4,6 @@
 package com.if7100.controller;
 
 import com.if7100.entity.*;
-import com.if7100.entity.Paises;
 import com.if7100.service.*;
 import com.if7100.service.PaisesService;
 import com.if7100.service.BitacoraService;
@@ -145,10 +144,9 @@ TipoOrganismoService tipoOrganismoService, PaisesService paisesService, PerfilSe
 			this.validarPerfil();
 			if(!this.perfil.getCVRol().equals("Consulta")) {
 				
-				String descripcion = "Elimino un tipo de organismo";
-				Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), descripcion, this.perfil.getCVRol());
-				bitacoraService.saveBitacora(bitacora);
-				
+				bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en tipos de organismos"));
+
 				tipoOrganismoService.deleteTipoOrganismoByCodigo(Codigo);
 				return "redirect:/tipoOrganismo";	
 			}else {

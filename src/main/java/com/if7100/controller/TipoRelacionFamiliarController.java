@@ -130,10 +130,10 @@ public class TipoRelacionFamiliarController {
 	@PostMapping("/tiporelacionfamiliar")
 	public String saveTiporelacionfamiliar(@ModelAttribute("tiporelacionfamiliar") TipoRelacionFamiliar tipoRelacionFamiliar) {
 		tipoRelacionFamiliarService.saveTipoRelacionFamiliar(tipoRelacionFamiliar);
-		String descripcion = "Guardo una Tipo Relacion de genero";
-		Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),this.perfil.getCVRol() ,
-				descripcion);
-		bitacoraService.saveBitacora(bitacora);
+		
+		bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en tipos de relaciones familiares"));
+		
 		return "redirect:/tiporelacionfamiliar";
 	}
 	@GetMapping("/tiporelacionfamiliar/edit/{id}")
@@ -162,10 +162,11 @@ public class TipoRelacionFamiliarController {
 		existingTipoRelacionFamiliar.setNombre(tipoRelacionFamiliar.getNombre());
 		existingTipoRelacionFamiliar.setDescripcion(tipoRelacionFamiliar.getDescripcion());
 		tipoRelacionFamiliarService.updateTipoRelacionFamiliar(existingTipoRelacionFamiliar);
-		String descripcion = "Actualizo una Tipo Relacion Familiar de genero";
-		Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),this.perfil.getCVRol() ,
-				descripcion);
-		bitacoraService.saveBitacora(bitacora);
+		
+		bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en tipos de relaciones familiares"));
+		
+		
 		return "redirect:/tiporelacionfamiliar";
 	}
 	
@@ -175,11 +176,9 @@ public class TipoRelacionFamiliarController {
 			this.validarPerfil();
 			if (!this.perfil.getCVRol().equals("Consulta")) {
 
-				String descripcion = "Elimino un  Tipo de Relación Familiar";
-				Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),this.perfil.getCVRol() ,
-						descripcion);
-				bitacoraService.saveBitacora(bitacora);
-
+				bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en tipos de relaciones familiares"));
+		
 				tipoRelacionFamiliarService.deleteTipoRelacionFamiliarById(Id);
 				return "redirect:/tiporelacionfamiliar";
 			} else {

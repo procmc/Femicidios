@@ -215,10 +215,11 @@ public class HechoImputadoController {
 			this.validarPerfil();
 			if(!this.perfil.getCVRol().equals("Consulta")) {
                 hechoImputadoService.deleteHechoImputadoById(id);
-				String descripcion = "Elimino en hechoImputado: " + id;
-                Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
-                bitacoraService.saveBitacora(bitacora);
-		        return "redirect:/hechoimputado";
+				
+                bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en hecho_imputado"));
+
+                return "redirect:/hechoimputado";
 			}else {
 				return "SinAcceso";
 			}
@@ -235,9 +236,11 @@ public class HechoImputadoController {
             this.validarPerfil();
             if(!this.perfil.getCVRol().equals("Consulta")) {
                 hechoImputadoService.deleteHechoImputadoById(id);
-                String descripcion = "Elimino en hechoImputado: " + id;
-                Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
-                bitacoraService.saveBitacora(bitacora);
+               
+                bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en hecho_imputado"));
+
+               
                 return "redirect:/hechosimputado/".concat(String.valueOf(idhecho));
             }else {
                 return "SinAcceso";
@@ -255,9 +258,11 @@ public class HechoImputadoController {
             this.validarPerfil();
             if(!this.perfil.getCVRol().equals("Consulta")) {
                 hechoImputadoService.deleteHechoImputadoById(id);
-                String descripcion = "Elimino en hechoImputado: " + id;
-                Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
-                bitacoraService.saveBitacora(bitacora);
+                
+                bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en hecho_imputado"));
+
+
                 return "redirect:/hechoimputados/".concat(String.valueOf(idhecho));
             }else {
                 return "SinAcceso";
@@ -272,9 +277,11 @@ public class HechoImputadoController {
     public String saveHechosImputado(@ModelAttribute HechoImputado hechoImputado, Model model){
         try {
             hechoImputadoService.saveHechoImputado(hechoImputado);
-            String descripcion="Creo en Hechos Imputado: " + hechoImputado.getCI_Id();
-            Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
-            bitacoraService.saveBitacora(bitacora);
+            
+            bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en hecho_imputado"));
+
+            
             return "redirect:/hechosimputado/" + hechoImputado.getCIHecho();
         }catch (DataIntegrityViolationException e){
             String mensaje = "No se puede guardar el hecho debido a un error de integridad de datos.";
@@ -288,9 +295,9 @@ public class HechoImputadoController {
     public String saveHechoImputados(@ModelAttribute HechoImputado hechoImputado, Model model){
         try {
             hechoImputadoService.saveHechoImputado(hechoImputado);
-            String descripcion="Creo en Hechos Imputado: " + hechoImputado.getCI_Id();
-            Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
-            bitacoraService.saveBitacora(bitacora);
+            bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en hecho_imputado"));
+
             return "redirect:/hechoimputados/" + hechoImputado.getCIImputado();
         }catch (DataIntegrityViolationException e){
             String mensaje = "No se puede guardar el hecho debido a un error de integridad de datos.";
@@ -330,8 +337,9 @@ public class HechoImputadoController {
             existingHechoImputado.setCIImputado(hechoImputado.getCIImputado());
             hechoImputadoService.updateHechoImputado(existingHechoImputado);
 
-            Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
-            bitacoraService.saveBitacora(bitacora);
+            bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en hecho_imputado"));
+
             return "redirect:/hechoimputado";
         } catch (DataIntegrityViolationException e){
             String mensaje = "No se puede guardar el hecho - imputado debido a un error de integridad de datos.";

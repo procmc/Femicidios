@@ -35,8 +35,8 @@ import java.util.stream.IntStream;
 
 @Controller
 public class OrganizacionController {
-    
-    private OrganizacionService organizacionService;
+
+	private OrganizacionService organizacionService;
 
 	// instancias para control de acceso
 	private UsuarioRepository usuarioRepository;
@@ -47,17 +47,18 @@ public class OrganizacionController {
 	private Usuario usuario;
 
 	@Autowired
-    private PaisesService paisesService;  // Servicio para manejar los países
+	private PaisesService paisesService; // Servicio para manejar los países
 
-    OrganizacionController  (OrganizacionService organizacionService, BitacoraService bitacoraService, PerfilService perfilService, UsuarioRepository usuarioRepository){
+	OrganizacionController(OrganizacionService organizacionService, BitacoraService bitacoraService,
+			PerfilService perfilService, UsuarioRepository usuarioRepository) {
 
 		this.organizacionService = organizacionService;
-        this.perfilService = perfilService;
+		this.perfilService = perfilService;
 		this.bitacoraService = bitacoraService;
-        this.usuarioRepository = usuarioRepository;
-    }
+		this.usuarioRepository = usuarioRepository;
+	}
 
-    private void validarPerfil() {
+	private void validarPerfil() {
 
 		try {
 			Usuario usuario = new Usuario();
@@ -74,55 +75,54 @@ public class OrganizacionController {
 
 	}
 
-    private Pageable initPages(int pg, int paginasDeseadas, int numeroTotalElementos){
-		int numeroPagina = pg-1;
-		if (numeroTotalElementos < 10){
+	private Pageable initPages(int pg, int paginasDeseadas, int numeroTotalElementos) {
+		int numeroPagina = pg - 1;
+		if (numeroTotalElementos < 10) {
 			paginasDeseadas = 1;
 		}
-		if (numeroTotalElementos < 1){
+		if (numeroTotalElementos < 1) {
 			numeroTotalElementos = 1;
 		}
 		int tamanoPagina = (int) Math.ceil(numeroTotalElementos / (double) paginasDeseadas);
 		return PageRequest.of(numeroPagina, tamanoPagina);
 	}
-	
+
 	@GetMapping("/organizacion")
 	public String listOrganizaciones(Model model) {
 		return "redirect:/organizacion/1";
 	}
 
 	@GetMapping("organizacion/{pg}")
-	public String listOrganizacion(Model model, @PathVariable Integer pg){
-		
+	public String listOrganizacion(Model model, @PathVariable Integer pg) {
+
 		this.validarPerfil();
 
 		Integer codigoPaisUsuario = this.usuario.getOrganizacion().getCodigoPais();
 
 		List<Organizacion> organizacionfiltradas = organizacionService.findByCodigoPais(codigoPaisUsuario);
 
-
 		int numeroTotalElementos = organizacionfiltradas.size();
 		Pageable pageable = initPages(pg, 5, numeroTotalElementos);
 
-		 // Buscar el país por el código del país almacenado en Hecho
-		 Paises pais = paisesService.getPaisByID(codigoPaisUsuario);
+		// Buscar el país por el código del país almacenado en Hecho
+		Paises pais = paisesService.getPaisByID(codigoPaisUsuario);
 
-		 int tamanoPagina = pageable.getPageSize();
-        int numeroPagina = pageable.getPageNumber();
+		int tamanoPagina = pageable.getPageSize();
+		int numeroPagina = pageable.getPageNumber();
 
-        List<Organizacion> OrganizacionPaginados = organizacionfiltradas.stream()
-                .skip((long) numeroPagina * tamanoPagina)
-                .limit(tamanoPagina)
-                .collect(Collectors.toList());
+		List<Organizacion> OrganizacionPaginados = organizacionfiltradas.stream()
+				.skip((long) numeroPagina * tamanoPagina)
+				.limit(tamanoPagina)
+				.collect(Collectors.toList());
 
-        List<Integer> nPaginas = IntStream.rangeClosed(1, (int) Math.ceil((double) numeroTotalElementos / tamanoPagina))
-                .boxed()
-                .toList();
+		List<Integer> nPaginas = IntStream.rangeClosed(1, (int) Math.ceil((double) numeroTotalElementos / tamanoPagina))
+				.boxed()
+				.toList();
 
 		model.addAttribute("PaginaActual", pg);
 		model.addAttribute("nPaginas", nPaginas);
 		model.addAttribute("organizacion", OrganizacionPaginados);
-        model.addAttribute("nombrePais", pais.getSpanish());
+		model.addAttribute("nombrePais", pais.getSpanish());
 
 		return "organizacion/organizacion";
 	}
@@ -151,27 +151,26 @@ public class OrganizacionController {
 	@PostMapping("/organizacion")
 	public String saveOrganizacion(@ModelAttribute Organizacion organizacion) {
 
-
+		organizacion.setCodigoPais(this.usuario.getOrganizacion().getCodigoPais());
 		organizacionService.saveOrganizacion(organizacion);
 
-		String descripcion = "Guardo una organizacion";
-		Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),this.perfil.getCVRol() ,
-				descripcion);
-		bitacoraService.saveBitacora(bitacora);
+		bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en organizacion"));
+
 		return "redirect:/organizacion";
 	}
-	
+
 	@GetMapping("/organizacion/edit/{id}")
 	public String editOrganizacion(@PathVariable Integer id, Model model) {
 		try {
 			this.validarPerfil();
 			if (!this.perfil.getCVRol().equals("Consulta")) {
 
-				List<Paises> paises = paisesService.getAllPaises();  // Obtiene la lista de países
-				
-				model.addAttribute("paises", paises);  // Envía la lista de países al modelo
+				List<Paises> paises = paisesService.getAllPaises(); // Obtiene la lista de países
+
+				model.addAttribute("paises", paises); // Envía la lista de países al modelo
 				model.addAttribute("organizacion", organizacionService.getOrganizacionById(id));
-				
+
 				return "organizacion/edit_organizacion";
 			} else {
 				return "SinAcceso";
@@ -185,25 +184,23 @@ public class OrganizacionController {
 	@PostMapping("/organizacion/{id}")
 	public String updateOrganizacion(@PathVariable Integer id,
 			@ModelAttribute Organizacion organizacion, Model model) {
-			
-				Organizacion existingOrganizacion= organizacionService.getOrganizacionById(id);
 
-				existingOrganizacion.setCI_Codigo_Organizacion(id);
-				existingOrganizacion.setCVNombre(organizacion.getCVNombre());
-				existingOrganizacion.setCVDireccion(organizacion.getCVDireccion());
-				existingOrganizacion.setCVTelefono(organizacion.getCVTelefono());
-				existingOrganizacion.setCVCorreo(organizacion.getCVCorreo());
-				existingOrganizacion.setCodigoPais(organizacion.getCodigoPais());//actualiza codigo pais
+		Organizacion existingOrganizacion = organizacionService.getOrganizacionById(id);
+
+		existingOrganizacion.setCI_Codigo_Organizacion(id);
+		existingOrganizacion.setCVNombre(organizacion.getCVNombre());
+		existingOrganizacion.setCVDireccion(organizacion.getCVDireccion());
+		existingOrganizacion.setCVTelefono(organizacion.getCVTelefono());
+		existingOrganizacion.setCVCorreo(organizacion.getCVCorreo());
 
 		organizacionService.updateOrganizacion(existingOrganizacion);
 
-		String descripcion = "Actualizo una organizacion";
-		Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),this.perfil.getCVRol() ,
-				descripcion);
-		bitacoraService.saveBitacora(bitacora);
+		bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en organizacion"));
+
 		return "redirect:/organizacion";
 	}
-	
+
 	@GetMapping("/organizacion/eliminar/{id}")
 	public String deleteOrganizacion(@PathVariable Integer id, Model model) {
 		try {
@@ -211,19 +208,18 @@ public class OrganizacionController {
 			if (!this.perfil.getCVRol().equals("Consulta")) {
 
 				try {
-					String descripcion = "Elimino una organizacion";
-				Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),this.perfil.getCVRol() ,
-						descripcion);
-				bitacoraService.saveBitacora(bitacora);
 
-				organizacionService.deleteOrganizacionById(id);
+					bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+							this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en organizacion"));
+
+					organizacionService.deleteOrganizacionById(id);
 
 				} catch (DataIntegrityViolationException e) {
 
-                    String mensaje = "Error, No se puede eliminar una organización si tiene usuarios asociados";
-                    model.addAttribute("error_message", mensaje);
-                    model.addAttribute("error", true);
-                    return listOrganizacion(model, 1);
+					String mensaje = "Error, No se puede eliminar una organización si tiene usuarios asociados";
+					model.addAttribute("error_message", mensaje);
+					model.addAttribute("error", true);
+					return listOrganizacion(model, 1);
 				}
 				return "redirect:/organizacion";
 
@@ -232,10 +228,9 @@ public class OrganizacionController {
 			}
 
 		} catch (Exception e) {
-			
+
 			return "SinAcceso";
 		}
 	}
 
 }
-

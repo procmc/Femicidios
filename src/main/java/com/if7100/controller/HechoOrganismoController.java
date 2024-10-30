@@ -217,9 +217,10 @@ HechoOrganismoService hechoOrganismoService, HechoService hechoService, Organism
             this.validarPerfil();
             if(!this.perfil.getCVRol().equals("Consulta")) {
                 hechoOrganismoService.deleteHechoOrganismoById(id);
-                String descripcion = "Elimino en hechoOrganismo: " + id;
-                Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
-                bitacoraService.saveBitacora(bitacora);
+                
+                bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en hecho_organismo"));
+
                 return "redirect:/hechoorganismo";
             }else {
                 return "SinAcceso";
@@ -237,9 +238,9 @@ HechoOrganismoService hechoOrganismoService, HechoService hechoService, Organism
             this.validarPerfil();
             if(!this.perfil.getCVRol().equals("Consulta")) {
                 hechoOrganismoService.deleteHechoOrganismoById(id);
-                String descripcion = "Elimino en hechoOrganismo: " + id;
-                Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
-                bitacoraService.saveBitacora(bitacora);
+                bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en hecho_organismo"));
+
                 return "redirect:/hechosorganismo/".concat(String.valueOf(idhecho));
             }else {
                 return "SinAcceso";
@@ -257,9 +258,9 @@ HechoOrganismoService hechoOrganismoService, HechoService hechoService, Organism
             this.validarPerfil();
             if(!this.perfil.getCVRol().equals("Consulta")) {
                 hechoOrganismoService.deleteHechoOrganismoById(id);
-                String descripcion = "Elimino en hechoOrganismo: " + id;
-                Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
-                bitacoraService.saveBitacora(bitacora);
+                bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en hecho_organismo"));
+
                 return "redirect:/hechoorganismos/".concat(String.valueOf(idhecho));
             }else {
                 return "SinAcceso";
@@ -274,9 +275,10 @@ HechoOrganismoService hechoOrganismoService, HechoService hechoService, Organism
     public String saveHechosOrganismo(@ModelAttribute HechoOrganismo hechoOrganismo, Model model){
         try {
             hechoOrganismoService.saveHechoOrganismo(hechoOrganismo);
-            String descripcion = "Creo en hecho de organismo: " + hechoOrganismo.getCI_Id();
-            Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
-            bitacoraService.saveBitacora(bitacora);
+            
+            bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en hecho_organismo"));
+
             return "redirect:/hechosorganismo/" + hechoOrganismo.getCIHecho();
         }catch (DataIntegrityViolationException e){
             String mensaje = "No se puede guardar el hecho debido a un error de integridad de datos.";
@@ -290,9 +292,9 @@ HechoOrganismoService hechoOrganismoService, HechoService hechoService, Organism
     public String saveHechoOrganismos(@ModelAttribute HechoOrganismo hechoOrganismo, Model model){
         try {
             hechoOrganismoService.saveHechoOrganismo(hechoOrganismo);
-            String descripcion = "Creo en hecho de organismo: " + hechoOrganismo.getCI_Id();
-            Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
-            bitacoraService.saveBitacora(bitacora);
+            bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en hecho_organismo"));
+
             return "redirect:/hechoorganismos/" + hechoOrganismo.getCIOrganismo();
         }catch (DataIntegrityViolationException e){
             String mensaje = "No se puede guardar el hecho debido a un error de integridad de datos.";
@@ -332,8 +334,9 @@ HechoOrganismoService hechoOrganismoService, HechoService hechoService, Organism
             existingHechoOrganismo.setCIOrganismo(hechoOrganismo.getCIOrganismo());
             hechoOrganismoService.updateHechoOrganismo(existingHechoOrganismo);
 
-            Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
-            bitacoraService.saveBitacora(bitacora);
+            bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en hecho_organismo"));
+
             return "redirect:/hechoorganismo";
         } catch (DataIntegrityViolationException e){
             String mensaje = "No se puede guardar el hecho - organismo debido a un error de integridad de datos.";

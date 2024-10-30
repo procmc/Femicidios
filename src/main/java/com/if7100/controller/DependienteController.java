@@ -408,8 +408,7 @@ public class DependienteController {
 
 				model.addAttribute("dependiente", dependiente);
 				modelAttributes(model);
-				bitacoraService.saveBitacora(new Bitacora(this.usuario.getCI_Id(),
-						this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en Dependiente"));
+			
 				return "dependientes/create_dependiente";
 			} else {
 				return "SinAcceso";
@@ -434,12 +433,13 @@ public class DependienteController {
 
 			DependienteVictima dependienteVictima = new DependienteVictima();
 			dependienteVictima.setDependiente(dependiente);
+			
 			dependienteVictima.setVictima(victima);
 
 			dependienteService.saveDependienteVictima(dependienteVictima);
 
-			bitacoraService.saveBitacora(new Bitacora(this.usuario.getCI_Id(),
-					this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea Dependiente con asociación a víctima"));
+			bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en dependientes"));
 
 		} else {
 			model.addAttribute("error", "La víctima seleccionada no es válida.");
@@ -455,18 +455,14 @@ public class DependienteController {
 		try {
 			this.validarPerfil();
 			if (!this.perfil.getCVRol().equals("Consulta")) {
-
-				String descripcion = "Elimino un dependiente(familiar)";
-				Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), descripcion,
-						this.perfil.getCVRol());
-				bitacoraService.saveBitacora(bitacora);
+				
+				bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en dependientes"));
 
 				dependienteVictimaService.deleteByDependienteId(Id);
 
 				dependienteService.deleteDependienteById(Id);
 
-				bitacoraService.saveBitacora(new Bitacora(this.usuario.getCI_Id(),
-						this.usuario.getCVNombre(), this.perfil.getCVRol(), "Eliminó en Denpendiente(familiar)"));
 				return "redirect:/dependientes";
 			} else {
 				return "SinAcceso";
@@ -537,8 +533,8 @@ public class DependienteController {
 
 		dependienteService.updateDependienteVictima(existingDependienteVictima);
 
-		bitacoraService.saveBitacora(new Bitacora(this.usuario.getCI_Id(),
-				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualizó en Dependiente"));
+		bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en dependientes"));
 
 		return "redirect:/dependientes";
 

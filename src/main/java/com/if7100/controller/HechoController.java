@@ -445,12 +445,13 @@ public class HechoController {
     public String saveHecho(@ModelAttribute Hecho hecho, Model model) {
         try {
             this.validarPerfil();
+            //guarda codigo pais internamente
+            hecho.setCodigoPais(this.usuario.getOrganizacion().getCodigoPais());
             hechoService.saveHecho(hecho);
 
-            String descripcion = "Creo en Hechos: " + hecho.getCI_Id();
-            Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),
-                    this.perfil.getCVRol(), descripcion);
-            bitacoraService.saveBitacora(bitacora);
+            bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en hechos"));
+
             return "redirect:/hechos";
         } catch (DataIntegrityViolationException e) {
             String mensaje = "No se puede guardar el hecho debido a un error de integridad de datos.";
@@ -469,10 +470,11 @@ public class HechoController {
 
                 try {
                     hechoService.deleteHechoById(id);
-                    String descripcion = "Elimino en Hechos: " + id;
-                    Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),
-                            this.perfil.getCVRol(), descripcion);
-                    bitacoraService.saveBitacora(bitacora);
+                    
+                    bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en hechos"));
+
+
                 } catch (DataIntegrityViolationException e) {
 
                     String mensaje = "Error, No se puede eliminar un hecho si tiene un lugar registrado";
@@ -519,7 +521,6 @@ public class HechoController {
             Hecho existingHecho = hechoService.getHechoById(id);
             String descripcion = "Actualizo en Hechos, de: " + existingHecho.getCI_Id() + " | a: " + id;
             existingHecho.setCI_Id(id);
-            existingHecho.setCodigoPais(hecho.getCodigoPais());
             existingHecho.setCITipoVictima(hecho.getCITipoVictima());
             existingHecho.setCITipoRelacion(hecho.getCITipoRelacion());
             existingHecho.setCIModalidad(hecho.getCIModalidad());
@@ -536,10 +537,10 @@ public class HechoController {
 
             hechoService.updateHecho(existingHecho);
 
-            Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),
-                    this.perfil.getCVRol(), descripcion);
-            bitacoraService.saveBitacora(bitacora);
-            return "redirect:/hechos";
+            bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en hechos"));
+
+           return "redirect:/hechos";
         } catch (DataIntegrityViolationException e) {
             String mensaje = "No se puede guardar el hecho debido a un error de integridad de datos.";
             model.addAttribute("error_message", mensaje);

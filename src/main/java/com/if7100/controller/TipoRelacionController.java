@@ -136,10 +136,10 @@ TipoRelacionService tipoRelacionService, PerfilService perfilService, UsuarioRep
     @PostMapping("/tiporelaciones")
     public String saveTipoRelacion(@ModelAttribute TipoRelacion tipoRelacion){
         tipoRelacionService.saveTipoRelacion(tipoRelacion);
-        String descripcion="Crea un Tipo de Relacion: ID " + tipoRelacion.getCI_Codigo();
-        Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), this.perfil.getCVRol(), descripcion);
-        bitacoraService.saveBitacora(bitacora);
         
+        bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en tipos de relaciones"));
+
         return "redirect:/tiporelaciones";
     }
 
@@ -150,10 +150,9 @@ TipoRelacionService tipoRelacionService, PerfilService perfilService, UsuarioRep
 			this.validarPerfil();
 			if(!this.perfil.getCVRol().equals("Consulta")) {
 				
-				String descripcion = "Se eliminó el tipo de relacion ID: " + id;
-				Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),this.perfil.getCVRol(), descripcion);
-				bitacoraService.saveBitacora(bitacora);
-				
+				bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en tipos de relaciones"));
+
 				tipoRelacionService.deleteTipoRelacionById(id);
 		        return "redirect:/tiporelaciones";
 			}else {
@@ -187,10 +186,11 @@ TipoRelacionService tipoRelacionService, PerfilService perfilService, UsuarioRep
     @PostMapping("/tiporelaciones/{id}")
     public String updateTipoRelacion(@PathVariable Integer id, @ModelAttribute TipoRelacion tipoRelacion, Model model){
         TipoRelacion existingTipoRelacion = tipoRelacionService.getTipoRelacionById(id);
-    	String descripcion="Actualizó en Tipo Relación: ID " + id;
-		Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(),this.perfil.getCVRol(),descripcion);
-		bitacoraService.saveBitacora(bitacora);
-		
+    	
+        bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en tipos de relaciones"));
+
+
         model.addAttribute("paises", paisesService.getAllPaises());
 
         existingTipoRelacion.setCI_Codigo(id);

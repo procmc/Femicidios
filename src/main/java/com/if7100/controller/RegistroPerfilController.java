@@ -140,10 +140,9 @@ PerfilService perfilService, UsuarioRepository usuarioRepository) {
 		
 		perfilService.savePerfil(perfil);
 		
-		String descripcion = "Agregó un perfil";
-		Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), descripcion, this.perfil.getCVRol());
-		bitacoraService.saveBitacora(bitacora);
-		
+		bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en registro de perfil"));
+
 		return "redirect:/perfiles";
 	}
 	
@@ -154,10 +153,9 @@ PerfilService perfilService, UsuarioRepository usuarioRepository) {
 			this.validarPerfil();
 			if(this.perfil.getCVRol().equals("Administrador")) {
 				
-				String descripcion = "Elimino un perfil";
-				Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), descripcion, this.perfil.getCVRol());
-				bitacoraService.saveBitacora(bitacora);
-				
+				bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en registro de perfil"));
+
 				perfilService.deletePerfilById(id);
 				return "redirect:/perfiles";
 			}else {
@@ -197,10 +195,9 @@ PerfilService perfilService, UsuarioRepository usuarioRepository) {
 		
 		perfilService.updatePerfil(existingUsuario);
 		
-		String descripcion = "Editó un perfil";
-		Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(), this.usuario.getCVNombre(), descripcion, this.perfil.getCVRol());
-		bitacoraService.saveBitacora(bitacora);
-		
+		bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en registro de perfil"));
+
 		return "redirect:/perfiles";
 	}
 }

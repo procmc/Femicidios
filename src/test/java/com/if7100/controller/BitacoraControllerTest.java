@@ -28,9 +28,8 @@ public class BitacoraControllerTest {
     @Autowired
     private BitacoraRepository bitacoraRepository;
 
-    private final Integer CIId = 7;
+    private final String CVCedulaUsuario = "12345";
     private final String CV_DNI_Usuario = "8";
-    private final String nombreUsuario = "TisharyPrueba";
     private final String rol = "Convencional";
     private final String descripcion = "Elimino en Test";
     private final Date fecha = Date.valueOf("2024-10-25");
@@ -40,7 +39,7 @@ public class BitacoraControllerTest {
 
     @BeforeAll
     public void setUp() {
-        bitacora = new Bitacora(CIId, CV_DNI_Usuario, rol, descripcion, fecha);
+        bitacora = new Bitacora(CVCedulaUsuario, CV_DNI_Usuario, rol, descripcion, fecha);
     }
 
     @Test
