@@ -87,11 +87,13 @@ TipoRelacionService tipoRelacionService, PerfilService perfilService, UsuarioRep
 
     @GetMapping("/tiporelaciones")
     public String listTipoRelaciones(Model model){
+        this.validarPerfil();
         return "redirect:/tiporelacion/1";
     }
 
     @GetMapping("/tiporelacion/{pg}")
     public String listTipoRelacion(Model model,@PathVariable Integer pg){
+        this.validarPerfil();
         if (pg < 1){
             return "redirect:/tiporelaciones";
         }
@@ -135,6 +137,7 @@ TipoRelacionService tipoRelacionService, PerfilService perfilService, UsuarioRep
 
     @PostMapping("/tiporelaciones")
     public String saveTipoRelacion(@ModelAttribute TipoRelacion tipoRelacion){
+        this.validarPerfil();
         tipoRelacionService.saveTipoRelacion(tipoRelacion);
         
         bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
@@ -185,6 +188,8 @@ TipoRelacionService tipoRelacionService, PerfilService perfilService, UsuarioRep
 
     @PostMapping("/tiporelaciones/{id}")
     public String updateTipoRelacion(@PathVariable Integer id, @ModelAttribute TipoRelacion tipoRelacion, Model model){
+        this.validarPerfil();
+
         TipoRelacion existingTipoRelacion = tipoRelacionService.getTipoRelacionById(id);
     	
         bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),

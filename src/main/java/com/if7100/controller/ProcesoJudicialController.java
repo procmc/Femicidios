@@ -369,6 +369,7 @@ public class ProcesoJudicialController {
     public String saveProcesoJudicial(@ModelAttribute ProcesoJudicial procesoJudicial, Model model) {
 
         try {
+            this.validarPerfil();
             procesoJudicial.setCICodigoPais(this.usuario.getOrganizacion().getCodigoPais());
             procesoJudicialService.saveProcesoJudicial(procesoJudicial);
 

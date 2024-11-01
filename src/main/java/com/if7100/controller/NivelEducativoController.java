@@ -85,11 +85,14 @@ public class NivelEducativoController {
 
     @GetMapping("/nivelEducativo")
     public String listNivelEducativo(Model model) {
+        this.validarPerfil();
         return "redirect:/niveleducativo/1";
     }
 
     @GetMapping("/niveleducativo/{pg}")
     public String listNivelesEducativos(Model model, @PathVariable Integer pg) {
+        this.validarPerfil();
+
         if (pg < 1) {
             return "redirect:/niveleducativo/1";
         }
@@ -132,6 +135,7 @@ public class NivelEducativoController {
 
     @PostMapping("/nivelEducativo")
     public String saveNivelEducativo(@ModelAttribute NivelEducativo nivelEducativo) {
+        this.validarPerfil();
         nivelEducativoService.saveNivelEducativo(nivelEducativo);
         
         bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
@@ -185,6 +189,7 @@ public class NivelEducativoController {
 
     @PostMapping("/nivelEducativo/{id}")
     public String updateNivelEducativo(@PathVariable Integer id, @ModelAttribute NivelEducativo nivelEducativo, Model model) {
+        this.validarPerfil();
         NivelEducativo existingNivelEducativo = nivelEducativoService.getNivelEducativoById(id);
         model.addAttribute("paises", paisesService.getAllPaises());
         existingNivelEducativo.setCI_Id(id);

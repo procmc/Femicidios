@@ -43,8 +43,8 @@
                                         <!-- Acceder a la información del dependiente (entry.key) -->
                                         <td th:text="${dependiente.CI_Codigo}"></td>
                                         <td th:text="${dependiente.CVDNI}"></td>
-                                        <td th:text="${dependiente.tipoRelacionFamiliar.nombre}"></td>
-                                        <td th:text="${dependienteVictimaMap[dependiente.CI_Codigo]?.CVNombre}">Nombre de la víctima</td>
+                                        <td th:text="${tipoRelacionesfamiliares.get(dependienteStat.index).nombre}"></td>
+                                        <td th:text="${victimas.get(dependienteStat.index).CVDNI}"></td>
 
                                         
                             

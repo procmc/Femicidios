@@ -89,6 +89,7 @@ public class OrganizacionController {
 
 	@GetMapping("/organizacion")
 	public String listOrganizaciones(Model model) {
+		this.validarPerfil();
 		return "redirect:/organizacion/1";
 	}
 
@@ -150,7 +151,7 @@ public class OrganizacionController {
 
 	@PostMapping("/organizacion")
 	public String saveOrganizacion(@ModelAttribute Organizacion organizacion) {
-
+		this.validarPerfil();
 		organizacion.setCodigoPais(this.usuario.getOrganizacion().getCodigoPais());
 		organizacionService.saveOrganizacion(organizacion);
 
@@ -184,6 +185,7 @@ public class OrganizacionController {
 	@PostMapping("/organizacion/{id}")
 	public String updateOrganizacion(@PathVariable Integer id,
 			@ModelAttribute Organizacion organizacion, Model model) {
+		this.validarPerfil();
 
 		Organizacion existingOrganizacion = organizacionService.getOrganizacionById(id);
 

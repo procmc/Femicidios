@@ -86,12 +86,13 @@ TipoLugarService tipoLugarService, PerfilService perfilService, UsuarioRepositor
     //consultar
     @GetMapping("/tipolugares")//muestra el listado de usuarios
     public String listTipoLugares(Model model) {
-        return "redirect:/tipolugar/1";
+		this.validarPerfil();
+		return "redirect:/tipolugar/1";
     }
 
 	@GetMapping("/tipolugar/{pg}")
 	public String listTiposLugares(Model model, @PathVariable Integer pg){
-
+        this.validarPerfil();
 		if (pg < 1){
 			return "redirect:/tipolugar/1";
 		}
@@ -134,7 +135,8 @@ TipoLugarService tipoLugarService, PerfilService perfilService, UsuarioRepositor
 
 	@PostMapping("/tipolugares")// guarda el usuario y lo devuelve a la pagina usuarios con los datos nuevos
 	public String saveTipoLugar (@ModelAttribute TipoLugar tipoLugar) {
-	    tipoLugarService.saveTipoLugar(tipoLugar);
+		this.validarPerfil();
+		tipoLugarService.saveTipoLugar(tipoLugar);
 	    
 	    //funcionalidad de bitacora
 	    bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
@@ -188,6 +190,7 @@ TipoLugarService tipoLugarService, PerfilService perfilService, UsuarioRepositor
 	@PostMapping("/tipolugares/{Codigo}")// guarda el cambio y lo devuelve a la pagina usuarios con los datos nuevos
 	public String updateTipoLugar (@PathVariable Integer Codigo ,@ModelAttribute TipoLugar tipoLugar, Model model) {
 
+		this.validarPerfil();
 		TipoLugar existingTipoLugar = tipoLugarService.getTipoLugarByCodigo(Codigo);
 	    existingTipoLugar.setCI_Codigo(Codigo);
 	    existingTipoLugar.setCVTitulo(tipoLugar.getCVTitulo());

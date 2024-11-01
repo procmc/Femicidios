@@ -519,7 +519,6 @@ public class HechoController {
         try {
             this.validarPerfil();
             Hecho existingHecho = hechoService.getHechoById(id);
-            String descripcion = "Actualizo en Hechos, de: " + existingHecho.getCI_Id() + " | a: " + id;
             existingHecho.setCI_Id(id);
             existingHecho.setCITipoVictima(hecho.getCITipoVictima());
             existingHecho.setCITipoRelacion(hecho.getCITipoRelacion());

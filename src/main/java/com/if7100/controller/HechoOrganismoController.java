@@ -328,7 +328,6 @@ HechoOrganismoService hechoOrganismoService, HechoService hechoService, Organism
     public String updateHechoOrganismo(@PathVariable Integer id, @ModelAttribute("hechoorganismo") HechoOrganismo hechoOrganismo, Model model){
         try {
             HechoOrganismo existingHechoOrganismo = hechoOrganismoService.getHechoOrganismoById(id);
-            String descripcion = "Actualizo en hecho de organismo, de: " + existingHechoOrganismo.getCI_Id() + " | a: " + id;
             existingHechoOrganismo.setCI_Id(id);
             existingHechoOrganismo.setCIHecho(hechoOrganismo.getCIHecho());
             existingHechoOrganismo.setCIOrganismo(hechoOrganismo.getCIOrganismo());

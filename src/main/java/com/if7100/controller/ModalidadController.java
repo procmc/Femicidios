@@ -90,11 +90,15 @@ public class ModalidadController {
 
 	@GetMapping("/modalidades")
 	public String listModalidades(Model model) {
+		this.validarPerfil();
 		return "redirect:/modalidad/1";
 	}
 
 	@GetMapping("/modalidad/{pg}")
 	public String listModalidad(Model model, @PathVariable Integer pg) {
+		
+		this.validarPerfil();
+
 		if (pg < 1) {
 			return "redirect:/modalidad/1";
 		}
@@ -139,6 +143,7 @@ public class ModalidadController {
 	@PostMapping("/modalidades")
 	public String saveModalidad(@ModelAttribute Modalidad modalidad) {
 		// INSERTAR EN BITACORA
+		this.validarPerfil();
 		String descripcion = "Creo en Modalidad: " + modalidad.getCI_Codigo() + modalidad.getCVTitulo() +
 				modalidad.getCVDescripcion();
 
@@ -193,6 +198,7 @@ public class ModalidadController {
 	@PostMapping("/modalidades/{id}")
 	public String updateModalidad(@PathVariable Integer id, @ModelAttribute Modalidad modalidad, Model model) {
 		// INSERTAR EN BITACORA
+		this.validarPerfil();
 		Modalidad existingModalidad = modalidadService.getModalidadById(id);
 		
 		bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),

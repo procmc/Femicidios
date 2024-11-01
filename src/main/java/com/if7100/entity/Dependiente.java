@@ -27,21 +27,22 @@ public class Dependiente {
 	@Column(name="CV_Dni", nullable =false)
 	private String CVDNI;
 	
-	
     @ManyToOne
     @JoinColumn(name = "CI_Tiporelacion",referencedColumnName = "CI_Codigo", nullable = false)
     private TipoRelacionFamiliar tipoRelacionFamiliar;
 
-	@OneToMany(mappedBy = "dependiente")
-    private List<DependienteVictima> dependienteVictimas;
+	@ManyToOne
+    @JoinColumn(name = "CI_Id_Victima",referencedColumnName = "CI_Id", nullable = false)
+    private Victima victima;
 
 	public Dependiente(  ) {}
 
-	public Dependiente(int CI_Codigo, String cVDNI, TipoRelacionFamiliar tipoRelacionFamiliar) {
+	public Dependiente(int CI_Codigo, String cVDNI, TipoRelacionFamiliar tipoRelacionFamiliar, Victima victima) {
 		super();
 		this.CI_Codigo = CI_Codigo;
 		CVDNI = cVDNI;
 		this.tipoRelacionFamiliar = tipoRelacionFamiliar;
+		this.victima = victima;
 	}
 
 	public int getCI_Codigo() {
@@ -66,6 +67,14 @@ public class Dependiente {
 
 	public void setTipoRelacionFamiliar(TipoRelacionFamiliar tipoRelacionFamiliar) {
 		this.tipoRelacionFamiliar = tipoRelacionFamiliar;
+	}
+
+	public Victima getVictima() {
+		return victima;
+	}
+
+	public void setVictima(Victima victima) {
+		this.victima = victima;
 	}
 
 }

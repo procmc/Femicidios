@@ -79,6 +79,7 @@ PerfilService perfilService, UsuarioRepository usuarioRepository) {
 	
 	@GetMapping("/perfiles")
 	public String listPerfiles(Model model) {
+		this.validarPerfil();
 		return "redirect:/perfil/1";
 	}
 
@@ -137,7 +138,7 @@ PerfilService perfilService, UsuarioRepository usuarioRepository) {
 	
 	@PostMapping("/registroPerfil")
 	public String savePerfil (@ModelAttribute Perfil perfil) {
-		
+		this.validarPerfil();
 		perfilService.savePerfil(perfil);
 		
 		bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
@@ -187,7 +188,7 @@ PerfilService perfilService, UsuarioRepository usuarioRepository) {
 	
 	@PostMapping("/perfiles/{id}")
 	public String updateUsuario (@PathVariable Integer id, @ModelAttribute Perfil perfil) {
-		
+		this.validarPerfil();
 		Perfil existingUsuario = perfilService.getPerfilById(id);
 		existingUsuario.setCI_Id(id);
 		existingUsuario.setCVDescripcion(perfil.getCVDescripcion());

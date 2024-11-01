@@ -76,11 +76,15 @@ TipoVictimaService tipoVictimaService, PerfilService perfilService, UsuarioRepos
 
     @GetMapping("/tipovictimas")
     public String listTipoVictimas(Model model){
+        this.validarPerfil();
+
         return "redirect:/tipovictima/1";
     }
 
     @GetMapping("/tipovictima/{pg}")
     public String listTipoVictima(Model model, @PathVariable Integer pg){
+        this.validarPerfil();
+
         if (pg < 1){
             return "redirect:/tipovictima/1";
         }
@@ -122,6 +126,8 @@ TipoVictimaService tipoVictimaService, PerfilService perfilService, UsuarioRepos
 
     @PostMapping("/tipovictimas")
     public String saveTipoVictima(@ModelAttribute TipoVictima tipoVictima){
+        this.validarPerfil();
+
         tipoVictimaService.saveTipoVictima(tipoVictima);
         
         bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
@@ -172,6 +178,8 @@ TipoVictimaService tipoVictimaService, PerfilService perfilService, UsuarioRepos
 
     @PostMapping("/tipovictimas/{id}")
     public String updateTipoVictima(@PathVariable Integer id, @ModelAttribute TipoVictima tipoVictima){
+        this.validarPerfil();
+
         TipoVictima existingTipoVictima = tipoVictimaService.getTipoVictimaById(id);
         existingTipoVictima.setCI_Codigo(id);
         existingTipoVictima.setCVTitulo(tipoVictima.getCVTitulo());

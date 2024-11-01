@@ -6,7 +6,6 @@ package com.if7100.controller;
 import com.if7100.entity.*;
 import com.if7100.service.BitacoraService;
 import com.if7100.service.DependienteService;
-import com.if7100.service.DependienteVictimaService;
 
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.FillPatternType;
@@ -50,8 +49,6 @@ import com.itextpdf.layout.property.UnitValue;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
 
-import com.if7100.repository.DependienteVictimaRepository;
-
 /**
  * @author Hadji
  *
@@ -68,8 +65,6 @@ import java.util.stream.IntStream;
 
 @Controller
 public class DependienteController {
-	@Autowired
-	private DependienteVictimaService dependienteVictimaService;
 
 	private DependienteService dependienteService;
 
@@ -147,22 +142,10 @@ public class DependienteController {
 					.setBackgroundColor(ColorConstants.LIGHT_GRAY));
 		}
 
-		// Obtener la lista de imputados filtrados por país
-		Integer codigoPaisUsuario = this.usuario.getOrganizacion().getCodigoPais();
+		Organizacion organizacion = this.usuario.getOrganizacion();
 
-		// Obtener la lista de dependientes filtrados por país de la víctima
-		List<DependienteVictima> todasRelaciones = dependienteVictimaService.getAllDependienteVictima();
-		List<DependienteVictima> relacionesFiltradas = todasRelaciones.stream()
-				.filter(dv -> dv.getVictima().getCICodigoPais() == codigoPaisUsuario)
-				.collect(Collectors.toList());
-
-		List<Dependiente> dependientesFiltrados = relacionesFiltradas.stream()
-				.map(DependienteVictima::getDependiente)
-				.distinct() // Para evitar duplicados en caso de múltiples víctimas
-				.collect(Collectors.toList());
-
-		Map<Integer, Victima> dependienteVictimaMap = relacionesFiltradas.stream()
-				.collect(Collectors.toMap(dv -> dv.getDependiente().getCI_Codigo(), DependienteVictima::getVictima));
+		List<Dependiente> dependientesFiltrados = dependienteService
+				.getDependientesByCodigoPais(organizacion.getCodigoPais());
 
 		// Recorrer los imputados y agregarlos a la tabla
 		for (Dependiente dependiente : dependientesFiltrados) {
@@ -176,14 +159,8 @@ public class DependienteController {
 			table.addCell(new Cell().add(new Paragraph(dependiente.getTipoRelacionFamiliar().getNombre()))
 					.setTextAlignment(TextAlignment.CENTER));
 
-			Victima victima = dependienteVictimaMap.get(dependiente.getCI_Codigo());
-			if (victima != null) {
-				table.addCell(new Cell().add(new Paragraph(victima.getCVNombre()))
-						.setTextAlignment(TextAlignment.CENTER));
-			} else {
-				table.addCell(new Cell().add(new Paragraph("Sin víctima"))
-						.setTextAlignment(TextAlignment.CENTER));
-			}
+			table.addCell(new Cell().add(new Paragraph(dependiente.getVictima().getCVDNI()))
+					.setTextAlignment(TextAlignment.CENTER));
 
 		}
 
@@ -250,20 +227,11 @@ public class DependienteController {
 		}
 
 		Integer codigoPaisUsuario = this.usuario.getOrganizacion().getCodigoPais();
-		
-		// Obtener la lista de dependientes filtrados por país de la víctima
-		List<DependienteVictima> todasRelaciones = dependienteVictimaService.getAllDependienteVictima();
-		List<DependienteVictima> relacionesFiltradas = todasRelaciones.stream()
-				.filter(dv -> dv.getVictima().getCICodigoPais() == codigoPaisUsuario)
-				.collect(Collectors.toList());
 
-		List<Dependiente> dependientesFiltrados = relacionesFiltradas.stream()
-				.map(DependienteVictima::getDependiente)
-				.distinct() // Para evitar duplicados en caso de múltiples víctimas
-				.collect(Collectors.toList());
+		Organizacion organizacion = this.usuario.getOrganizacion();
 
-		Map<Integer, Victima> dependienteVictimaMap = relacionesFiltradas.stream()
-				.collect(Collectors.toMap(dv -> dv.getDependiente().getCI_Codigo(), DependienteVictima::getVictima));
+		List<Dependiente> dependientesFiltrados = dependienteService
+				.getDependientesByCodigoPais(organizacion.getCodigoPais());
 
 		// Rellenar las filas con los datos
 		int rowNum = 1;
@@ -282,12 +250,10 @@ public class DependienteController {
 			row.createCell(2).setCellValue(dependiente.getTipoRelacionFamiliar().getNombre());
 			row.getCell(2).setCellStyle(cellStyle);
 
-			Victima victima = dependienteVictimaMap.get(dependiente.getCI_Codigo());
-			if (victima != null) {
-				row.createCell(3).setCellValue(victima.getCVNombre());
-			} else {
-				row.createCell(3).setCellValue("Sin víctima");
-			}
+			// victima
+			row.createCell(2).setCellValue(dependiente.getVictima().getCVDNI());
+			row.getCell(2).setCellStyle(cellStyle);
+
 			row.getCell(3).setCellStyle(cellStyle);
 
 		}
@@ -353,42 +319,32 @@ public class DependienteController {
 		// obtiene la organizacion del usuario
 		Organizacion organizacion = this.usuario.getOrganizacion();
 
-		// Obtener todas las relaciones dependiente-victima y filtrar según el código
-		// del país de la víctima
-		List<DependienteVictima> todasRelaciones = dependienteVictimaService.getAllDependienteVictima();
-		List<DependienteVictima> relacionesFiltradas = todasRelaciones.stream()
-				.filter(dv -> dv.getVictima().getCICodigoPais() == organizacion.getCodigoPais())
-				.collect(Collectors.toList());
-
-		// Filtrar los dependientes basados en las relaciones filtradas
-		List<Dependiente> dependientesFiltrados = relacionesFiltradas.stream()
-				.map(DependienteVictima::getDependiente)
-				.distinct() // Para evitar duplicados en caso de múltiples víctimas
-				.collect(Collectors.toList());
+		List<Dependiente> dependientesFiltrados = dependienteService
+				.getDependientesByCodigoPais(organizacion.getCodigoPais());
 
 		// Obtener la cantidad total de elementos para la paginación
 		int numeroTotalElementos = dependientesFiltrados.size();
 
-		// Crear la paginación utilizando el servicio
 		Pageable pageable = initPages(pg, 5, numeroTotalElementos);
+
+		int tamanoPagina = pageable.getPageSize();
+		int numeroPagina = pageable.getPageNumber();
+
 		List<Dependiente> dependientesPaginados = dependientesFiltrados.stream()
-				.skip((long) pageable.getPageNumber() * pageable.getPageSize())
-				.limit(pageable.getPageSize())
+				.skip((long) numeroPagina * tamanoPagina)
+				.limit(tamanoPagina)
 				.collect(Collectors.toList());
 
-		// Crear un mapa que relacione el ID del dependiente con la víctima
-		// correspondiente
-		Map<Integer, Victima> dependienteVictimaMap = relacionesFiltradas.stream()
-				.collect(Collectors.toMap(dv -> dv.getDependiente().getCI_Codigo(), DependienteVictima::getVictima));
+		List<Integer> nPaginas = IntStream.rangeClosed(1, (int) Math.ceil((double) numeroTotalElementos / tamanoPagina))
+				.boxed()
+				.toList();
 
 		// Añadir atributos al modelo
 		model.addAttribute("PaginaActual", pg);
-		model.addAttribute("nPaginas",
-				IntStream.rangeClosed(1, (int) Math.ceil((double) numeroTotalElementos / pageable.getPageSize()))
-						.boxed().toList());
+		model.addAttribute("nPaginas", nPaginas);
 		model.addAttribute("dependientes", dependientesPaginados); // Dependientes filtrados y paginados
-		model.addAttribute("dependienteVictimaMap", dependienteVictimaMap); // Mapa de dependientes y sus víctimas
-
+		 model.addAttribute("victimas", dependienteService.getAllVictimasPage(pageable));
+		model.addAttribute("tipoRelacionesfamiliares", dependienteService.getAllTipoRelacionesFamiliaresPage(pageable));
 		// Retornar la vista de dependientes
 		return "dependientes/dependiente";
 	}
@@ -408,7 +364,7 @@ public class DependienteController {
 
 				model.addAttribute("dependiente", dependiente);
 				modelAttributes(model);
-			
+
 				return "dependientes/create_dependiente";
 			} else {
 				return "SinAcceso";
@@ -431,15 +387,8 @@ public class DependienteController {
 
 			dependienteService.saveDependiente(dependiente);
 
-			DependienteVictima dependienteVictima = new DependienteVictima();
-			dependienteVictima.setDependiente(dependiente);
-			
-			dependienteVictima.setVictima(victima);
-
-			dependienteService.saveDependienteVictima(dependienteVictima);
-
 			bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en dependientes"));
+					this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en dependientes"));
 
 		} else {
 			model.addAttribute("error", "La víctima seleccionada no es válida.");
@@ -455,11 +404,9 @@ public class DependienteController {
 		try {
 			this.validarPerfil();
 			if (!this.perfil.getCVRol().equals("Consulta")) {
-				
-				bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en dependientes"));
 
-				dependienteVictimaService.deleteByDependienteId(Id);
+				bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+						this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en dependientes"));
 
 				dependienteService.deleteDependienteById(Id);
 
@@ -482,21 +429,11 @@ public class DependienteController {
 
 				model.addAttribute("dependiente", dependienteService.getDependienteById(id));
 
-				// Obtener la relación de dependiente-víctima desde la tabla intermedia
-				List<DependienteVictima> dependienteVictimaRelaciones = dependienteVictimaService
-						.findBydependiente(dependienteService.getDependienteById(id));
-
 				// Obtener todas las víctimas y agregarlas al modelo
 				List<Victima> victimas = victimaService.getAllVictima();
 
-				// Extraer las víctimas relacionadas con el dependiente
-				List<Victima> victimasRelacionadas = dependienteVictimaRelaciones.stream()
-						.map(DependienteVictima::getVictima)
-						.collect(Collectors.toList());
-
 				model.addAttribute("dependiente", dependienteService.getDependienteById(id));
 				model.addAttribute("victimas", victimas);
-				model.addAttribute("victimasRelacionadas", victimasRelacionadas);
 
 				modelAttributes(model);
 				return "dependientes/edit_dependiente";
@@ -522,19 +459,12 @@ public class DependienteController {
 		existingDependiente.setCVDNI(dependiente.getCVDNI());
 		existingDependiente.setTipoRelacionFamiliar(dependiente.getTipoRelacionFamiliar());
 
-		dependienteService.updateDependiente(existingDependiente);
+		// dependienteService.updateDependiente(existingDependiente);
 
 		Victima victima = victimaService.getVictimaById(idVictima);
 
-		DependienteVictima existingDependienteVictima = dependienteVictimaService.findBydependiente(existingDependiente)
-				.get(0);
-		existingDependienteVictima.setDependiente(existingDependiente);
-		existingDependienteVictima.setVictima(victima);
-
-		dependienteService.updateDependienteVictima(existingDependienteVictima);
-
 		bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en dependientes"));
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en dependientes"));
 
 		return "redirect:/dependientes";
 

@@ -422,10 +422,8 @@ public class VictimaController {
 
 		// Filtrar Victimas por el código de país del usuario logueado
 		List<Victima> victimasFiltradas = victimaService.findVictimasByCICodigoPais(organizacion.getCodigoPais());
-		// List<Victima> victimasFiltradas =
-		// victimaService.findVictimasByCodigoPaisHecho(organizacion.getCodigoPais());
 
-		int numeroTotalElementos = victimaService.getAllVictima().size();
+		int numeroTotalElementos = victimasFiltradas.size();
 
 		Pageable pageable = initPages(pg, 5, numeroTotalElementos);
 
@@ -477,9 +475,6 @@ public class VictimaController {
 				model.addAttribute("nivelEducativo", nivelEducativoService.getAllNivelEducativo());
 				model.addAttribute("paises", paisesService.getAllPaises());
 
-
-				//bitacoraService.saveBitacora(new Bitacora(this.usuario.getCI_Id(),
-				//		this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en Victima"));
 				return "victimas/create_victima";
 			} else {
 				return "SinAcceso";
@@ -494,9 +489,14 @@ public class VictimaController {
 
 	@PostMapping("/victimas")
 	public String saveVictima(@ModelAttribute Victima victima) {
+        this.validarPerfil();
 
 		victima.setCICodigoPais(this.usuario.getOrganizacion().getCodigoPais());
 		victimaService.saveVictima(victima);
+
+		bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en victimas"));
+
 		return "redirect:/victimas";
 	}
 
@@ -507,8 +507,11 @@ public class VictimaController {
 			this.validarPerfil();
 			if (!this.perfil.getCVRol().equals("Consulta")) {
 
-
 				victimaService.deleteVictimaById(Id);
+
+				bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en victimas"));
+
 				return "redirect:/victimas";
 			} else {
 				return "SinAcceso";
@@ -581,6 +584,8 @@ public class VictimaController {
 
 		victimaService.updateVictima(existingVictima);
 
+		bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en victimas"));
 	
 		return "redirect:/victimas";
 

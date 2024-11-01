@@ -72,12 +72,13 @@ public class SituacionJuridicaController {
 
     @GetMapping("/situacionesjuridicas")
     private String listSituacionesJuridicas(Model model){
+        this.validarPerfil();
         return "redirect:/situacionjuridica/1";
     }
 
     @GetMapping("/situacionjuridica/{pg}")
     public String listSituacionJuridica(Model model, @PathVariable Integer pg){
-
+        this.validarPerfil();
         if (pg < 1){
             return "redirect:/situacionjuridica/1";
         }

@@ -106,7 +106,8 @@ public class ImputadoController {
 
 	@GetMapping("/imputados/pdf")
     public void exportToPDF(HttpServletResponse response) throws IOException, java.io.IOException {
-        response.setContentType("application/pdf");
+        this.validarPerfil();
+		response.setContentType("application/pdf");
         String headerKey = "Content-Disposition";
         String headerValue = "attachment; filename=imputados_filtrados.pdf";
         response.setHeader(headerKey, headerValue);
@@ -404,7 +405,7 @@ public class ImputadoController {
 
 	@GetMapping("/imputados")
 	public String ListImputados(Model model) {
-
+        this.validarPerfil();
 		return "redirect:/imputado/1";
 	}
 
@@ -473,7 +474,7 @@ public class ImputadoController {
 	@PostMapping("/imputados")
 	public String SaveImputado(@ModelAttribute Imputado imputado, Model model) {
 		try {
-
+			this.validarPerfil();
 			imputado.setCodigoPais(this.usuario.getOrganizacion().getCodigoPais());
 			imputadoService.saveImputado(imputado);
 
@@ -500,7 +501,7 @@ public class ImputadoController {
 				imputadoService.deleteImputadoById(id);
 				
 				bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Guarda en imputados"));
+                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en imputados"));
 
 				return "redirect:/imputados";
 			} else {
@@ -545,6 +546,8 @@ public class ImputadoController {
 
 	@PostMapping("/imputados/{id}")
 	public String updateUsuario(@PathVariable int id, @ModelAttribute Imputado imputado, Model model) {
+		this.validarPerfil();
+		
 		Imputado existingImputado = imputadoService.getImputadoById(id);
 
 		existingImputado.setCVDni(imputado.getCVDni());

@@ -85,11 +85,13 @@ TipoOrganismoService tipoOrganismoService, PaisesService paisesService, PerfilSe
 
 	@GetMapping("/tipoOrganismo")
 	public String listStudents(Model model) {
+		this.validarPerfil();
 		return "redirect:/tipoorganismo/1";
 	}
 
 	@GetMapping("/tipoorganismo/{pg}")
 	public  String listOrganismo(Model model, @PathVariable Integer pg){
+		this.validarPerfil();
 		if (pg < 1){
 			return "redirect:/tipoorganismo/1";
 		}
@@ -132,7 +134,13 @@ TipoOrganismoService tipoOrganismoService, PaisesService paisesService, PerfilSe
 	
 	@PostMapping("/tipoOrganismo")
 	public String saveTipoOrganismo (@ModelAttribute TipoOrganismo tipoOrganismo) {
-	    tipoOrganismoService.saveTipoOrganismo(tipoOrganismo);
+		this.validarPerfil();
+
+		tipoOrganismoService.saveTipoOrganismo(tipoOrganismo);
+
+		bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en tipos de organismos"));
+
 		return "redirect:/tipoOrganismo";	
 	}
 	
@@ -180,7 +188,7 @@ TipoOrganismoService tipoOrganismoService, PaisesService paisesService, PerfilSe
 	
 	@PostMapping("/tipoOrganismo/{Codigo}")
 	public String updateOrganismoLugar (@PathVariable Integer Codigo ,@ModelAttribute TipoOrganismo tipoOrganismo, Model model) {
-	   
+		this.validarPerfil();
 		TipoOrganismo existingTipoOrganismo = tipoOrganismoService.getTipoOrganismoByCodigo(Codigo);
 		model.addAttribute("paises", paisesService.getAllPaises());
 		
@@ -189,6 +197,10 @@ TipoOrganismoService tipoOrganismoService, PaisesService paisesService, PerfilSe
 	    existingTipoOrganismo.setCVDescripcion(tipoOrganismo.getCVDescripcion());
 	    existingTipoOrganismo.setCVPaises(tipoOrganismo.getCVPaises());
 		tipoOrganismoService.updateTipoOrganismo(existingTipoOrganismo);
+
+		bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en tipos de organismos"));
+
 		return "redirect:/tipoOrganismo";	
 	}
 }

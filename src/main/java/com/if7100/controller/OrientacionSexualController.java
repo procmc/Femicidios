@@ -85,13 +85,14 @@ OrientacionSexualService orientacionService, PerfilService perfilService, Usuari
  
  @GetMapping("/orientacionesSexuales")
  public String listOrientacionesSexuales(Model model) {
-	 
+	this.validarPerfil();
 	 return "redirect:/orientacionessexuales/1";
  }
 
  @GetMapping("/orientacionessexuales/{pg}")
  public String listOrientacionesSexuales(Model model, @PathVariable Integer pg){
-	 if (pg < 1){
+	this.validarPerfil();
+	if (pg < 1){
 		 return "redirect:/orientacionessexuales/1";
 	 }
 
@@ -113,7 +114,7 @@ OrientacionSexualService orientacionService, PerfilService perfilService, Usuari
  
  @GetMapping("/orientacionessexuales/new")
  public String createOrientacionSexualForm(Model model) {
-	 
+	this.validarPerfil();
 	 try {
 			this.validarPerfil();
 			if(!this.perfil.getCVRol().equals("Consulta")) {
@@ -155,7 +156,8 @@ OrientacionSexualService orientacionService, PerfilService perfilService, Usuari
  
  @PostMapping("/orientacionesSexuales")
  public String saveOrientacion(@ModelAttribute OrientacionSexual orientacion) {
-	 orientacionService.saveOrientacionSexual(orientacion);
+	this.validarPerfil();
+	orientacionService.saveOrientacionSexual(orientacion);
 	 
 	 bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
 				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en orientacion sexual"));
@@ -208,7 +210,8 @@ OrientacionSexualService orientacionService, PerfilService perfilService, Usuari
  
  @PostMapping("/orientacionesSexuales/{id}")
  public String updateOrientacionSexual(@PathVariable int id, @ModelAttribute OrientacionSexual orientacion, Model model) {
-	 OrientacionSexual existingOrientacion=orientacionService.getOrientacionSexualByCodigo(id);
+	this.validarPerfil();
+	OrientacionSexual existingOrientacion=orientacionService.getOrientacionSexualByCodigo(id);
 	 String orientacionAnt = existingOrientacion.getCVTitulo(); 
 	 existingOrientacion.setCI_Codigo(id);
 	 existingOrientacion.setCVTitulo(orientacion.getCVTitulo());

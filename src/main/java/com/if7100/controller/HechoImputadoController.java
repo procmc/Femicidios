@@ -331,7 +331,6 @@ public class HechoImputadoController {
     public String updateHechoImputado(@PathVariable Integer id, @ModelAttribute("hechoimputado") HechoImputado hechoImputado, Model model){
         try {
             HechoImputado existingHechoImputado = hechoImputadoService.getHechoImputadoById(id);
-            String descripcion="Editó en Hechos Imputado, de: " + existingHechoImputado.getCI_Id() + " | a: " + id;
             existingHechoImputado.setCI_Id(id);
             existingHechoImputado.setCIHecho(hechoImputado.getCIHecho());
             existingHechoImputado.setCIImputado(hechoImputado.getCIImputado());
