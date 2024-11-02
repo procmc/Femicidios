@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.if7100.service.PerfilService;
 import com.if7100.service.TipoRelacionFamiliarService;
+import com.if7100.service.UsuarioPerfilService;
 import com.if7100.service.VictimaService;
 import com.itextpdf.io.IOException;
 import com.itextpdf.kernel.colors.ColorConstants;
@@ -48,6 +49,8 @@ import com.itextpdf.layout.property.UnitValue;
 
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
+
+import com.if7100.repository.UsuarioPerfilRepository;
 
 /**
  * @author Hadji
@@ -70,6 +73,8 @@ public class DependienteController {
 
 	// instancias para control de acceso
 	private UsuarioRepository usuarioRepository;
+	private UsuarioPerfilRepository usuarioPerfilRepository;
+	private UsuarioPerfilService usuarioPerfilService;
 	private Perfil perfil;
 	private PerfilService perfilService;
 	// instancias para control de bitacora
@@ -85,7 +90,7 @@ public class DependienteController {
 	public DependienteController(DependienteService dependienteService, UsuarioRepository usuarioRepository,
 			PerfilService perfilService, BitacoraService bitacoraService,
 			TipoRelacionFamiliarService tipoRelacionFamiliarService,
-			VictimaService victimaservice) {
+			VictimaService victimaservice, UsuarioPerfilService usuarioPerfilService, UsuarioPerfilRepository usuarioPerfilRepository) {
 		super();
 		this.dependienteService = dependienteService;
 		this.usuarioRepository = usuarioRepository;
@@ -93,6 +98,8 @@ public class DependienteController {
 		this.bitacoraService = bitacoraService;
 		this.tipoRelacionFamiliarService = tipoRelacionFamiliarService;
 		this.victimaService = victimaservice;
+		this.usuarioPerfilService = usuarioPerfilService;
+		this.usuarioPerfilRepository = usuarioPerfilRepository;
 	}
 
 	@GetMapping("/dependiente/pdf")
@@ -228,10 +235,8 @@ public class DependienteController {
 
 		Integer codigoPaisUsuario = this.usuario.getOrganizacion().getCodigoPais();
 
-		Organizacion organizacion = this.usuario.getOrganizacion();
-
 		List<Dependiente> dependientesFiltrados = dependienteService
-				.getDependientesByCodigoPais(organizacion.getCodigoPais());
+				.getDependientesByCodigoPais(codigoPaisUsuario);
 
 		// Rellenar las filas con los datos
 		int rowNum = 1;
@@ -279,8 +284,10 @@ public class DependienteController {
 			String username = authentication.getName();
 			this.usuario = new Usuario(usuarioRepository.findByCVCedula(username));
 
-			this.perfil = new Perfil(
-					perfilService.getPerfilById(usuarioRepository.findByCVCedula(username).getCIPerfil()));
+			List<UsuarioPerfil> usuarioPerfiles = usuarioPerfilRepository.findByUsuario(this.usuario);
+
+            this.perfil = new Perfil(
+                    perfilService.getPerfilById(usuarioPerfiles.get(0).getPerfil().getCI_Id()));
 
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -354,7 +361,8 @@ public class DependienteController {
 
 		try {
 			this.validarPerfil();
-			if (!this.perfil.getCVRol().equals("Consulta")) {
+			if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
+            || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 
 				Dependiente dependiente = new Dependiente();
 
@@ -403,7 +411,8 @@ public class DependienteController {
 
 		try {
 			this.validarPerfil();
-			if (!this.perfil.getCVRol().equals("Consulta")) {
+			if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
+            || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 
 				bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
 						this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en dependientes"));
@@ -425,14 +434,14 @@ public class DependienteController {
 
 		try {
 			this.validarPerfil();
-			if (!this.perfil.getCVRol().equals("Consulta")) {
+			if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
+            || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 
 				model.addAttribute("dependiente", dependienteService.getDependienteById(id));
 
 				// Obtener todas las víctimas y agregarlas al modelo
 				List<Victima> victimas = victimaService.getAllVictima();
 
-				model.addAttribute("dependiente", dependienteService.getDependienteById(id));
 				model.addAttribute("victimas", victimas);
 
 				modelAttributes(model);
@@ -458,6 +467,7 @@ public class DependienteController {
 		existingDependiente.setCI_Codigo(id);
 		existingDependiente.setCVDNI(dependiente.getCVDNI());
 		existingDependiente.setTipoRelacionFamiliar(dependiente.getTipoRelacionFamiliar());
+		existingDependiente.setVictima(dependiente.getVictima());
 
 		// dependienteService.updateDependiente(existingDependiente);
 

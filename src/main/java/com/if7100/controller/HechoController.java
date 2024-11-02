@@ -8,8 +8,10 @@ import com.if7100.entity.Perfil;
 import com.if7100.entity.ProcesoJudicial;
 import com.if7100.entity.TipoVictima;
 import com.if7100.entity.Usuario;
+import com.if7100.entity.UsuarioPerfil;
 import com.if7100.entity.Victima;
 import com.if7100.entity.Bitacora;
+import com.if7100.repository.UsuarioPerfilRepository;
 import com.if7100.repository.UsuarioRepository;
 import com.if7100.service.*;
 import com.if7100.util.ExportExcelUtil;
@@ -77,11 +79,12 @@ public class HechoController {
     private VictimaService victimaService;
 
     private ProcesoJudicialService procesoJudicialService;
-
+    private UsuarioPerfilService usuarioPerfilService;
     private OrganismoService organismoService;
 
     // instancias para control de acceso
     private UsuarioRepository usuarioRepository;
+    private UsuarioPerfilRepository usuarioPerfilRepository;
     private Perfil perfil;
     private PerfilService perfilService;
     // instancias para control de bitacora
@@ -97,7 +100,7 @@ public class HechoController {
             TipoVictimaService tipoVictimaService, TipoRelacionService tipoRelacionService,
             VictimaService victimaService, ProcesoJudicialService procesoJudicialService,
             OrganismoService organismoService, PerfilService perfilService, UsuarioRepository usuarioRepository,
-            BitacoraService bitacoraService) {
+            BitacoraService bitacoraService, UsuarioPerfilService usuarioPerfilService, UsuarioPerfilRepository usuarioPerfilRepository) {
         super();
         this.hechoService = hechoService;
         this.paisesService = paisesService;
@@ -110,6 +113,8 @@ public class HechoController {
         this.perfilService = perfilService;
         this.usuarioRepository = usuarioRepository;
         this.bitacoraService = bitacoraService;
+        this.usuarioPerfilService = usuarioPerfilService;
+        this.usuarioPerfilRepository = usuarioPerfilRepository;
     }
 
     @GetMapping("/hechos/pdf")
@@ -336,8 +341,12 @@ public class HechoController {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String username = authentication.getName();
             this.usuario = new Usuario(usuarioRepository.findByCVCedula(username));
+
+
+            List<UsuarioPerfil> usuarioPerfiles = usuarioPerfilRepository.findByUsuario(this.usuario);
+
             this.perfil = new Perfil(
-                    perfilService.getPerfilById(usuarioRepository.findByCVCedula(username).getCIPerfil()));
+                    perfilService.getPerfilById(usuarioPerfiles.get(0).getPerfil().getCI_Id()));
 
         } catch (Exception e) {
             // TODO: handle exception
@@ -412,7 +421,10 @@ public class HechoController {
 
         try {
             this.validarPerfil();
-            if (!this.perfil.getCVRol().equals("Consulta")) {
+
+            if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
+            || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
+
                 Hecho hecho = new Hecho();
                 model.addAttribute("hecho", hecho);
                 modelAttributes(model);
@@ -466,7 +478,8 @@ public class HechoController {
 
         try {
             this.validarPerfil();
-            if (!this.perfil.getCVRol().equals("Consulta")) {
+            if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
+            || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 
                 try {
                     hechoService.deleteHechoById(id);
@@ -497,7 +510,8 @@ public class HechoController {
 
         try {
             this.validarPerfil();
-            if (!this.perfil.getCVRol().equals("Consulta")) {
+            if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
+            || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 
                 model.addAttribute("victima", victimaService.getAllVictima());
                 model.addAttribute("ProcesoJudicial", procesoJudicialService.getAllProcesosJudiciales());

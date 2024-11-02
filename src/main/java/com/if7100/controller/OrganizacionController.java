@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import com.if7100.entity.Bitacora;
 import com.if7100.entity.Hecho;
 import com.if7100.entity.Usuario;
+import com.if7100.entity.UsuarioPerfil;
 import com.if7100.entity.Paises;
 import com.if7100.service.BitacoraService;
 
@@ -16,12 +17,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import com.if7100.repository.UsuarioPerfilRepository;
 import com.if7100.repository.UsuarioRepository;
 import com.if7100.entity.Organizacion;
 import com.if7100.entity.Perfil;
 import com.if7100.service.OrganizacionService;
 import com.if7100.service.PaisesService;
 import com.if7100.service.PerfilService;
+import com.if7100.service.UsuarioPerfilService;
 
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,9 +40,10 @@ import java.util.stream.IntStream;
 public class OrganizacionController {
 
 	private OrganizacionService organizacionService;
-
+	private UsuarioPerfilService usuarioPerfilService;
 	// instancias para control de acceso
 	private UsuarioRepository usuarioRepository;
+	private UsuarioPerfilRepository usuarioPerfilRepository;
 	private Perfil perfil;
 	private PerfilService perfilService;
 	// instancias para control de bitacora
@@ -50,12 +54,15 @@ public class OrganizacionController {
 	private PaisesService paisesService; // Servicio para manejar los países
 
 	OrganizacionController(OrganizacionService organizacionService, BitacoraService bitacoraService,
-			PerfilService perfilService, UsuarioRepository usuarioRepository) {
+			PerfilService perfilService, UsuarioRepository usuarioRepository, UsuarioPerfilService usuarioPerfilService,
+			UsuarioPerfilRepository usuarioPerfilRepository) {
 
 		this.organizacionService = organizacionService;
 		this.perfilService = perfilService;
 		this.bitacoraService = bitacoraService;
 		this.usuarioRepository = usuarioRepository;
+		this.usuarioPerfilService = usuarioPerfilService;
+		this.usuarioPerfilRepository = usuarioPerfilRepository;
 	}
 
 	private void validarPerfil() {
@@ -66,8 +73,10 @@ public class OrganizacionController {
 			String username = authentication.getName();
 			this.usuario = new Usuario(usuarioRepository.findByCVCedula(username));
 
-			this.perfil = new Perfil(
-					perfilService.getPerfilById(usuarioRepository.findByCVCedula(username).getCIPerfil()));
+			List<UsuarioPerfil> usuarioPerfiles = usuarioPerfilRepository.findByUsuario(this.usuario);
+
+            this.perfil = new Perfil(
+                    perfilService.getPerfilById(usuarioPerfiles.get(0).getPerfil().getCI_Id()));
 
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -133,7 +142,8 @@ public class OrganizacionController {
 
 		try {
 			this.validarPerfil();
-			if (!this.perfil.getCVRol().equals("Consulta")) {
+			if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
+            || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 				Organizacion organizacion = new Organizacion();
 				List<Paises> paises = paisesService.getAllPaises();
 				model.addAttribute("organizacion", organizacion);
@@ -165,7 +175,8 @@ public class OrganizacionController {
 	public String editOrganizacion(@PathVariable Integer id, Model model) {
 		try {
 			this.validarPerfil();
-			if (!this.perfil.getCVRol().equals("Consulta")) {
+			if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
+            || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 
 				List<Paises> paises = paisesService.getAllPaises(); // Obtiene la lista de países
 
@@ -207,7 +218,8 @@ public class OrganizacionController {
 	public String deleteOrganizacion(@PathVariable Integer id, Model model) {
 		try {
 			this.validarPerfil();
-			if (!this.perfil.getCVRol().equals("Consulta")) {
+			if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
+            || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 
 				try {
 

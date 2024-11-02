@@ -5,6 +5,7 @@ import com.if7100.entity.Imputado;
 import com.if7100.entity.Organizacion;
 import com.if7100.entity.Paises;
 import com.if7100.entity.Usuario;
+import com.if7100.entity.UsuarioPerfil;
 import com.if7100.service.BitacoraService;
 import com.if7100.service.PaisesService;
 
@@ -35,9 +36,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.if7100.entity.Perfil;
 import com.if7100.entity.ProcesoJudicial;
+import com.if7100.repository.UsuarioPerfilRepository;
 import com.if7100.repository.UsuarioRepository;
 import com.if7100.service.PerfilService;
 import com.if7100.service.ProcesoJudicialService;
+import com.if7100.service.UsuarioPerfilService;
 import com.itextpdf.io.IOException;
 import com.itextpdf.kernel.colors.ColorConstants;
 import com.itextpdf.kernel.pdf.PdfDocument;
@@ -63,8 +66,10 @@ public class ProcesoJudicialController {
 
     private PaisesService paisesService;
     private ProcesoJudicialService procesoJudicialService;
+    private UsuarioPerfilService usuarioPerfilService;
     // instancias para control de acceso
     private UsuarioRepository usuarioRepository;
+    private UsuarioPerfilRepository usuarioPerfilRepository;
     private Perfil perfil;
     private PerfilService perfilService;
     // instancias para control de bitacora
@@ -72,13 +77,16 @@ public class ProcesoJudicialController {
     private Usuario usuario;
 
     public ProcesoJudicialController(BitacoraService bitacoraService, ProcesoJudicialService procesoJudicialService,
-            PerfilService perfilService, UsuarioRepository usuarioRepository, PaisesService paisesService) {
+            PerfilService perfilService, UsuarioRepository usuarioRepository, PaisesService paisesService,
+            UsuarioPerfilService usuarioPerfilService, UsuarioPerfilRepository usuarioPerfilRepository) {
         super();
         this.procesoJudicialService = procesoJudicialService;
         this.perfilService = perfilService;
         this.usuarioRepository = usuarioRepository;
         this.bitacoraService = bitacoraService;
         this.paisesService = paisesService;
+        this.usuarioPerfilService = usuarioPerfilService;
+        this.usuarioPerfilRepository = usuarioPerfilRepository;
 
     }
 
@@ -281,8 +289,10 @@ public class ProcesoJudicialController {
 
             this.usuario = new Usuario(usuarioRepository.findByCVCedula(username));
 
+            List<UsuarioPerfil> usuarioPerfiles = usuarioPerfilRepository.findByUsuario(this.usuario);
+
             this.perfil = new Perfil(
-                    perfilService.getPerfilById(usuarioRepository.findByCVCedula(username).getCIPerfil()));
+                    perfilService.getPerfilById(usuarioPerfiles.get(0).getPerfil().getCI_Id()));
 
         } catch (Exception e) {
             // TODO: handle exception
@@ -348,7 +358,8 @@ public class ProcesoJudicialController {
 
         try {
             this.validarPerfil();
-            if (!this.perfil.getCVRol().equals("Consulta")) {
+            if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
+            || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 
                 model.addAttribute("procesoJudicial", new ProcesoJudicial());
 
@@ -392,7 +403,8 @@ public class ProcesoJudicialController {
 
         try {
             this.validarPerfil();
-            if (!this.perfil.getCVRol().equals("Consulta")) {
+            if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
+            || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 
                 procesoJudicialService.deleteProcesoJudicialById(id);
 
@@ -414,7 +426,8 @@ public class ProcesoJudicialController {
 
         try {
             this.validarPerfil();
-            if (!this.perfil.getCVRol().equals("Consulta")) {
+            if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
+            || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 
                 model.addAttribute("procesoJudicial", procesoJudicialService.getProcesoJudicialById(id));
                 model.addAttribute("paises", paisesService.getAllPaises());

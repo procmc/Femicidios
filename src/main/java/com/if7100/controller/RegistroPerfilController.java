@@ -4,6 +4,7 @@
 package com.if7100.controller;
 import com.if7100.entity.Bitacora; 
 import com.if7100.entity.Usuario;
+import com.if7100.entity.UsuarioPerfil;
 import com.if7100.service.BitacoraService;
 
 import org.springframework.data.domain.Page;
@@ -20,8 +21,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.if7100.entity.Hecho;
 import com.if7100.entity.Perfil;
+import com.if7100.repository.UsuarioPerfilRepository;
 import com.if7100.repository.UsuarioRepository;
 import com.if7100.service.PerfilService;
+import com.if7100.service.UsuarioPerfilService;
 
 import java.util.List;
 import java.util.stream.IntStream;
@@ -31,8 +34,10 @@ import java.util.stream.IntStream;
 public class RegistroPerfilController {
 
 	private PerfilService perfilService;
+	private UsuarioPerfilService usuarioPerfilService;
 	//instancias para control de acceso
     private UsuarioRepository usuarioRepository;
+	private UsuarioPerfilRepository usuarioPerfilRepository;
     private Perfil perfil;
   //instancias para control de bitacora
     private BitacoraService bitacoraService;
@@ -40,11 +45,14 @@ public class RegistroPerfilController {
 
 
 	public RegistroPerfilController(BitacoraService bitacoraService,
-PerfilService perfilService, UsuarioRepository usuarioRepository) {
+PerfilService perfilService, UsuarioRepository usuarioRepository, UsuarioPerfilService usuarioPerfilService,
+UsuarioPerfilRepository usuarioPerfilRepository) {
 		super();
 		this.perfilService = perfilService;
 		this.usuarioRepository = usuarioRepository;
 		this.bitacoraService= bitacoraService;
+		this.usuarioPerfilService = usuarioPerfilService;
+		this.usuarioPerfilRepository = usuarioPerfilRepository;
 
 	}
 	
@@ -57,8 +65,11 @@ PerfilService perfilService, UsuarioRepository usuarioRepository) {
 			   
 			    this.usuario= new Usuario(usuarioRepository.findByCVCedula(username));
 
-				this.perfil = new Perfil(perfilService.getPerfilById(usuarioRepository.findByCVCedula(username).getCIPerfil()));
-				
+				List<UsuarioPerfil> usuarioPerfiles = usuarioPerfilRepository.findByUsuario(this.usuario);
+
+				this.perfil = new Perfil(
+						perfilService.getPerfilById(usuarioPerfiles.get(0).getPerfil().getCI_Id()));
+					
 			}catch (Exception e) {
 				// TODO: handle exception
 			}
@@ -88,7 +99,7 @@ PerfilService perfilService, UsuarioRepository usuarioRepository) {
 
 		try {
 			this.validarPerfil();
-			if(this.perfil.getCVRol().equals("Administrador")) {
+			if(usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)) {
 
 				if (pg < 1){
 					return "redirect:/perfil/1";
@@ -122,7 +133,7 @@ PerfilService perfilService, UsuarioRepository usuarioRepository) {
 		
 		try {
 			this.validarPerfil();
-			if(this.perfil.getCVRol().equals("Administrador")) {
+			if(usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)) {
 				
 				Perfil perfil = new Perfil();
 				model.addAttribute("perfil", perfil);
@@ -152,7 +163,7 @@ PerfilService perfilService, UsuarioRepository usuarioRepository) {
 		
 		try {
 			this.validarPerfil();
-			if(this.perfil.getCVRol().equals("Administrador")) {
+			if(usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)) {
 				
 				bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
 				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en registro de perfil"));
@@ -173,7 +184,7 @@ PerfilService perfilService, UsuarioRepository usuarioRepository) {
 		
 		try {
 			this.validarPerfil();
-			if(this.perfil.getCVRol().equals("Administrador")) {
+			if(usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)) {
 				
 				model.addAttribute("perfil", perfilService.getPerfilById(id));
 				return "perfiles/edit_perfil";

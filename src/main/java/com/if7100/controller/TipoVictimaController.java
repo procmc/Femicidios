@@ -2,10 +2,11 @@ package com.if7100.controller;
 
 import com.if7100.entity.*;
 import com.if7100.service.BitacoraService;
-
+import com.if7100.repository.UsuarioPerfilRepository;
 import com.if7100.repository.UsuarioRepository;
 import com.if7100.service.PerfilService;
 import com.if7100.service.TipoVictimaService;
+import com.if7100.service.UsuarioPerfilService;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -26,8 +27,10 @@ import java.util.stream.IntStream;
 public class TipoVictimaController {
 
     private TipoVictimaService tipoVictimaService;
+    private UsuarioPerfilService usuarioPerfilService;
   //instancias para control de acceso
     private UsuarioRepository usuarioRepository;
+    private UsuarioPerfilRepository usuarioPerfilRepository;
     private Perfil perfil;
     private PerfilService perfilService;
   //instancias para control de bitacora
@@ -36,12 +39,15 @@ public class TipoVictimaController {
 
 
     public TipoVictimaController(BitacoraService bitacoraService,
-TipoVictimaService tipoVictimaService, PerfilService perfilService, UsuarioRepository usuarioRepository) {
+TipoVictimaService tipoVictimaService, PerfilService perfilService, UsuarioRepository usuarioRepository,
+UsuarioPerfilService usuarioPerfilService, UsuarioPerfilRepository usuarioPerfilRepository) {
         super();
         this.tipoVictimaService = tipoVictimaService;
         this.perfilService = perfilService;
         this.usuarioRepository = usuarioRepository;
         this.bitacoraService= bitacoraService;
+        this.usuarioPerfilService = usuarioPerfilService;
+        this.usuarioPerfilRepository = usuarioPerfilRepository;
 
     }
     
@@ -54,7 +60,10 @@ TipoVictimaService tipoVictimaService, PerfilService perfilService, UsuarioRepos
 		    String username = authentication.getName();
 		    this.usuario= new Usuario(usuarioRepository.findByCVCedula(username));
 
-			this.perfil = new Perfil(perfilService.getPerfilById(usuarioRepository.findByCVCedula(username).getCIPerfil()));
+            List<UsuarioPerfil> usuarioPerfiles = usuarioPerfilRepository.findByUsuario(this.usuario);
+
+            this.perfil = new Perfil(
+                    perfilService.getPerfilById(usuarioPerfiles.get(0).getPerfil().getCI_Id()));
 			
 		}catch (Exception e) {
 			// TODO: handle exception
@@ -110,7 +119,8 @@ TipoVictimaService tipoVictimaService, PerfilService perfilService, UsuarioRepos
     	
     	try {
 			this.validarPerfil();
-			if(!this.perfil.getCVRol().equals("Consulta")) {
+			if(usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
+            || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 				
 				TipoVictima tipoVictima = new TipoVictima();
 		        model.addAttribute("tipoVictima", tipoVictima);
@@ -142,7 +152,8 @@ TipoVictimaService tipoVictimaService, PerfilService perfilService, UsuarioRepos
     	
     	try {
 			this.validarPerfil();
-			if(!this.perfil.getCVRol().equals("Consulta")) {
+			if(usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
+            || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 				
 				bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
 				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en tipos de victimas"));
@@ -163,7 +174,8 @@ TipoVictimaService tipoVictimaService, PerfilService perfilService, UsuarioRepos
     	
     	try {
 			this.validarPerfil();
-			if(!this.perfil.getCVRol().equals("Consulta")) {
+			if(usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
+            || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 				
 				model.addAttribute("tipoVictima", tipoVictimaService.getTipoVictimaById(id));
 		        return "tipoVictimas/edit_tipoVictima";

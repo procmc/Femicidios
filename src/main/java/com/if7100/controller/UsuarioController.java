@@ -6,6 +6,8 @@ package com.if7100.controller;
 import com.if7100.entity.Bitacora;
 import com.if7100.entity.Organizacion;
 import com.if7100.entity.Usuario;
+import com.if7100.entity.UsuarioPerfil;
+import com.if7100.entity.UsuarioPerfil.UsuarioPerfilId;
 import com.if7100.service.BitacoraService;
 import com.if7100.service.OrganizacionService;
 import com.if7100.service.PaisesService;
@@ -26,9 +28,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.if7100.entity.Paises;
 import com.if7100.entity.Perfil;
-
+import com.if7100.repository.UsuarioPerfilRepository;
 import com.if7100.repository.UsuarioRepository;
 import com.if7100.service.PerfilService;
+import com.if7100.service.UsuarioPerfilService;
 import com.if7100.service.UsuarioService;
 import jakarta.validation.Valid;
 
@@ -41,9 +44,10 @@ public class UsuarioController {
 	@Autowired
 
 	private UsuarioService usuarioService;
-
+	private UsuarioPerfilService usuarioPerfilService;
 	// instancias para control de acceso
 	private UsuarioRepository usuarioRepository;
+	private UsuarioPerfilRepository usuarioPerfilRepository;
 	private Perfil perfil;
 	private PerfilService perfilService;
 	// instancias para control de bitacora
@@ -59,13 +63,15 @@ public class UsuarioController {
 
 	public UsuarioController(BitacoraService bitacoraService,
 			UsuarioService usuarioService, PerfilService perfilService, UsuarioRepository usuarioRepository,
-			OrganizacionService organizacionService) {
+			OrganizacionService organizacionService, UsuarioPerfilService usuarioPerfilService, UsuarioPerfilRepository usuarioPerfilRepository) {
 		super();
 		this.usuarioService = usuarioService;
 		this.perfilService = perfilService;
 		this.usuarioRepository = usuarioRepository;
 		this.bitacoraService = bitacoraService;
 		this.organizacionService = organizacionService;
+		this.usuarioPerfilService = usuarioPerfilService;
+		this.usuarioPerfilRepository = usuarioPerfilRepository;
 	}
 
 	private void validarPerfil() {
@@ -77,8 +83,10 @@ public class UsuarioController {
 			String username = authentication.getName();
 			this.usuario = new Usuario(usuarioRepository.findByCVCedula(username));
 
-			this.perfil = new Perfil(
-					perfilService.getPerfilById(usuarioRepository.findByCVCedula(username).getCIPerfil()));
+			List<UsuarioPerfil> usuarioPerfiles = usuarioPerfilRepository.findByUsuario(this.usuario);
+
+            this.perfil = new Perfil(
+                    perfilService.getPerfilById(usuarioPerfiles.get(0).getPerfil().getCI_Id()));
 
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -108,7 +116,7 @@ public class UsuarioController {
 	public String listUsuario(Model model, @PathVariable Integer pg) {
 		try {
 			this.validarPerfil();
-			if (this.perfil.getCVRol().equals("Administrador")) {
+			if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)) {
 
 				// Obtener el código de país del usuario logueado
 				Organizacion organizacion = this.usuario.getOrganizacion();
@@ -162,7 +170,7 @@ public class UsuarioController {
 
 		try {
 			this.validarPerfil();
-			if (this.perfil.getCVRol().equals("Administrador")) {
+			if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)) {
 
 				Usuario usuario = new Usuario();
 				model.addAttribute("usuario", usuario);
@@ -208,7 +216,7 @@ public class UsuarioController {
 
 		try {
 			this.validarPerfil();
-			if (this.perfil.getCVRol().equals("Administrador")) {
+			if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)) {
 
 				
 				bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
@@ -231,7 +239,7 @@ public class UsuarioController {
 
 		try {
 			this.validarPerfil();
-			if (this.perfil.getCVRol().equals("Administrador")) {
+			if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)) {
 
 				List<Paises> paises = paisesService.getAllPaises();
 				model.addAttribute("paises", paises); 

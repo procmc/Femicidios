@@ -38,6 +38,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import com.if7100.repository.UsuarioPerfilRepository;
 /**
  * @author Julio Jarquin
  * Fecha: 20 de abril del 2023
@@ -52,6 +53,7 @@ import jakarta.servlet.http.HttpSession;
 public class LugarController {
 
 	private LugarService lugarService;
+	private UsuarioPerfilService usuarioPerfilService;
 	private TipoLugarService tipoLugarService;
 
 	private HechoService hechoService;
@@ -59,6 +61,7 @@ public class LugarController {
 	private PaisesService paisesService;
 	// instancias para control de acceso
 	private UsuarioRepository usuarioRepository;
+	private UsuarioPerfilRepository usuarioPerfilRepository;
 	private Perfil perfil;
 	private PerfilService perfilService;
 	// instancias para control de bitacora
@@ -67,7 +70,7 @@ public class LugarController {
 
 	public LugarController(BitacoraService bitacoraService, PaisesService paisesService, LugarService lugarService,
 			TipoLugarService tipoLugarService, HechoService hechoService, PerfilService perfilService,
-			UsuarioRepository usuarioRepository) {
+			UsuarioRepository usuarioRepository, UsuarioPerfilService usuarioPerfilService, UsuarioPerfilRepository usuarioPerfilRepository) {
 		super();
 		this.lugarService = lugarService;
 		this.paisesService = paisesService;
@@ -76,6 +79,8 @@ public class LugarController {
 		this.perfilService = perfilService;
 		this.usuarioRepository = usuarioRepository;
 		this.bitacoraService = bitacoraService;
+		this.usuarioPerfilService = usuarioPerfilService;
+		this.usuarioPerfilRepository = usuarioPerfilRepository;
 
 	}
 
@@ -294,8 +299,10 @@ public class LugarController {
 			String username = authentication.getName();
 			this.usuario = new Usuario(usuarioRepository.findByCVCedula(username));
 
-			this.perfil = new Perfil(
-					perfilService.getPerfilById(usuarioRepository.findByCVCedula(username).getCIPerfil()));
+			List<UsuarioPerfil> usuarioPerfiles = usuarioPerfilRepository.findByUsuario(this.usuario);
+
+            this.perfil = new Perfil(
+                    perfilService.getPerfilById(usuarioPerfiles.get(0).getPerfil().getCI_Id()));
 
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -320,7 +327,8 @@ public class LugarController {
 	public String deleteLugar(@PathVariable Integer Id, HttpSession session) {
 		try {
 			this.validarPerfil();
-			if (!this.perfil.getCVRol().equals("Consulta")) {
+			if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
+            || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 				
 				bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
 				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en lugares"));
@@ -340,7 +348,8 @@ public class LugarController {
 	public String deleteLugar(@PathVariable Integer id, @PathVariable Integer idLugar) {
 		try {
 			this.validarPerfil();
-			if (!this.perfil.getCVRol().equals("Consulta")) {
+			if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
+            || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 				lugarService.deleteLugarById(id);
 				
 				bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
@@ -362,7 +371,8 @@ public class LugarController {
 
 		try {
 			this.validarPerfil();
-			if (!this.perfil.getCVRol().equals("Consulta")) {
+			if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
+            || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 
 				model.addAttribute("lugar", lugarService.getLugarById(Id));
 				model.addAttribute("hechos", hechoService.getAllHechos());
@@ -538,7 +548,8 @@ public class LugarController {
 	public String createLugarForm(Model model) {
 		try {
 			this.validarPerfil();
-			if (!this.perfil.getCVRol().equals("Consulta")) {
+			if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
+            || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 				Lugar lugar = new Lugar();
 				model.addAttribute("lugar", lugar);
 				// model.addAttribute("paises", paisesService.getAllPaises());
@@ -597,7 +608,8 @@ public class LugarController {
 	public String createHechoLugarForm(Model model, @PathVariable Integer Id) {
 		try {
 			this.validarPerfil();
-			if (!this.perfil.getCVRol().equals("Consulta")) {
+			if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
+            || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 				Lugar lugar = new Lugar();
 				lugar.setCIHecho(Id);
 				model.addAttribute("lugar", lugar);

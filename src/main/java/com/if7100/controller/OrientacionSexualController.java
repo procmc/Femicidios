@@ -1,16 +1,19 @@
 package com.if7100.controller;
 
-import com.if7100.entity.Bitacora; 
+import com.if7100.entity.Bitacora;
 
 import com.if7100.entity.Usuario;
+import com.if7100.entity.UsuarioPerfil;
 import com.if7100.service.BitacoraService;
 
 import com.if7100.entity.Hecho;
 import com.if7100.entity.OrientacionSexual;
 import com.if7100.entity.Perfil;
+import com.if7100.repository.UsuarioPerfilRepository;
 import com.if7100.repository.UsuarioRepository;
 import com.if7100.service.OrientacionSexualService;
 import com.if7100.service.PerfilService;
+import com.if7100.service.UsuarioPerfilService;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -32,209 +35,214 @@ import java.util.stream.IntStream;
 
 @Controller
 public class OrientacionSexualController {
-	
- private OrientacionSexualService orientacionService;
-//instancias para control de acceso
- private UsuarioRepository usuarioRepository;
- private Perfil perfil;
- private PerfilService perfilService;
-//instancias para control de bitacora
-private BitacoraService bitacoraService;
-private Usuario usuario;
 
- 
- public OrientacionSexualController(BitacoraService bitacoraService,
-OrientacionSexualService orientacionService, PerfilService perfilService, UsuarioRepository usuarioRepository) {
-	 super();
-	 this.orientacionService=orientacionService;
-	 this.perfilService = perfilService;
-     this.usuarioRepository = usuarioRepository;
-     this.bitacoraService= bitacoraService;
+	private OrientacionSexualService orientacionService;
+	private UsuarioPerfilService usuarioPerfilService;
+	// instancias para control de acceso
+	private UsuarioRepository usuarioRepository;
+	private UsuarioPerfilRepository usuarioPerfilRepository;
+	private Perfil perfil;
+	private PerfilService perfilService;
+	// instancias para control de bitacora
+	private BitacoraService bitacoraService;
+	private Usuario usuario;
 
- }
- 
+	public OrientacionSexualController(BitacoraService bitacoraService,
+			OrientacionSexualService orientacionService, PerfilService perfilService,
+			UsuarioRepository usuarioRepository, UsuarioPerfilService usuarioPerfilService, UsuarioPerfilRepository usuarioPerfilRepository) {
+		super();
+		this.orientacionService = orientacionService;
+		this.perfilService = perfilService;
+		this.usuarioRepository = usuarioRepository;
+		this.bitacoraService = bitacoraService;
+		this.usuarioPerfilService = usuarioPerfilService;
+		this.usuarioPerfilRepository = usuarioPerfilRepository;
 
- private void validarPerfil() {
- 	
-		try {
-			Usuario usuario=new Usuario();
-			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		    String username = authentication.getName();
-		    
-		    this.usuario= new Usuario(usuarioRepository.findByCVCedula(username));
-
-			this.perfil = new Perfil(perfilService.getPerfilById(usuarioRepository.findByCVCedula(username).getCIPerfil()));
-			
-		}catch (Exception e) {
-			// TODO: handle exception
-		}
-		
 	}
 
-	private Pageable initPages(int pg, int paginasDeseadas, int numeroTotalElementos){
-		int numeroPagina = pg-1;
-		if (numeroTotalElementos < 10){
+	private void validarPerfil() {
+
+		try {
+			Usuario usuario = new Usuario();
+			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+			String username = authentication.getName();
+
+			this.usuario = new Usuario(usuarioRepository.findByCVCedula(username));
+
+			List<UsuarioPerfil> usuarioPerfiles = usuarioPerfilRepository.findByUsuario(this.usuario);
+
+            this.perfil = new Perfil(
+                    perfilService.getPerfilById(usuarioPerfiles.get(0).getPerfil().getCI_Id()));
+
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
+	}
+
+	private Pageable initPages(int pg, int paginasDeseadas, int numeroTotalElementos) {
+		int numeroPagina = pg - 1;
+		if (numeroTotalElementos < 10) {
 			paginasDeseadas = 1;
 		}
-		if (numeroTotalElementos < 1){
+		if (numeroTotalElementos < 1) {
 			numeroTotalElementos = 1;
 		}
 		int tamanoPagina = (int) Math.ceil(numeroTotalElementos / (double) paginasDeseadas);
 		return PageRequest.of(numeroPagina, tamanoPagina);
 	}
- 
- @GetMapping("/orientacionesSexuales")
- public String listOrientacionesSexuales(Model model) {
-	this.validarPerfil();
-	 return "redirect:/orientacionessexuales/1";
- }
 
- @GetMapping("/orientacionessexuales/{pg}")
- public String listOrientacionesSexuales(Model model, @PathVariable Integer pg){
-	this.validarPerfil();
-	if (pg < 1){
-		 return "redirect:/orientacionessexuales/1";
-	 }
+	@GetMapping("/orientacionesSexuales")
+	public String listOrientacionesSexuales(Model model) {
+		this.validarPerfil();
+		return "redirect:/orientacionessexuales/1";
+	}
 
-	 int numeroTotalElementos = orientacionService.getAllOrientacionesSexuales().size();
+	@GetMapping("/orientacionessexuales/{pg}")
+	public String listOrientacionesSexuales(Model model, @PathVariable Integer pg) {
+		this.validarPerfil();
+		if (pg < 1) {
+			return "redirect:/orientacionessexuales/1";
+		}
 
-	 Pageable pageable = initPages(pg, 5, numeroTotalElementos);
+		int numeroTotalElementos = orientacionService.getAllOrientacionesSexuales().size();
 
-	 Page<OrientacionSexual> orientacionSexualPage = orientacionService.getAllOrientacionesSexualesPage(pageable);
+		Pageable pageable = initPages(pg, 5, numeroTotalElementos);
 
-	 List<Integer> nPaginas = IntStream.rangeClosed(1, orientacionSexualPage.getTotalPages())
-			 .boxed()
-			 .toList();
+		Page<OrientacionSexual> orientacionSexualPage = orientacionService.getAllOrientacionesSexualesPage(pageable);
 
-	 model.addAttribute("PaginaActual", pg);
-	 model.addAttribute("nPaginas", nPaginas);
-	 model.addAttribute("orientacionessexuales", orientacionSexualPage.getContent());
-	 return "orientacionesSexuales/orientacionesSexuales";
- }
- 
- @GetMapping("/orientacionessexuales/new")
- public String createOrientacionSexualForm(Model model) {
-	this.validarPerfil();
-	 try {
+		List<Integer> nPaginas = IntStream.rangeClosed(1, orientacionSexualPage.getTotalPages())
+				.boxed()
+				.toList();
+
+		model.addAttribute("PaginaActual", pg);
+		model.addAttribute("nPaginas", nPaginas);
+		model.addAttribute("orientacionessexuales", orientacionSexualPage.getContent());
+		return "orientacionesSexuales/orientacionesSexuales";
+	}
+
+	@GetMapping("/orientacionessexuales/new")
+	public String createOrientacionSexualForm(Model model) {
+		this.validarPerfil();
+		try {
 			this.validarPerfil();
-			if(!this.perfil.getCVRol().equals("Consulta")) {
-				
-				model.addAttribute("orientacionSexual",new OrientacionSexual());
+			if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
+            || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
+
+				model.addAttribute("orientacionSexual", new OrientacionSexual());
 				return "orientacionesSexuales/create_orientacionSexual";
-			}else {
+			} else {
 				return "SinAcceso";
 			}
-			
-		}catch (Exception e) {
-			return "SinAcceso";
-		}
- }
 
-// @GetMapping("/orientacionesSexuales")
-// public String listStudents(Model model) {
-//
-//	 model.addAttribute("orientacionesSexuales",orientacionService.getAllOrientacionesSexuales());
-//	 return "orientacionessexuales/orientacionesSexuales";
-// }
- 
- @GetMapping("/orientacionesSexuales/new")
- public String createUsuarioForm(Model model) {
-	 
-	 try {
-			this.validarPerfil();
-			if(!this.perfil.getCVRol().equals("Consulta")) {
-				model.addAttribute("orientacion",new OrientacionSexual());
-				return "orientacionesSexuales/create_orientacionesSexuales";
-			}else {
-				return "SinAcceso";
-			}
-			
-		}catch (Exception e) {
+		} catch (Exception e) {
 			return "SinAcceso";
 		}
- }
- 
- @PostMapping("/orientacionesSexuales")
- public String saveOrientacion(@ModelAttribute OrientacionSexual orientacion) {
-	this.validarPerfil();
-	orientacionService.saveOrientacionSexual(orientacion);
-	 
-	 bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+	}
+
+	// @GetMapping("/orientacionesSexuales")
+	// public String listStudents(Model model) {
+	//
+	// model.addAttribute("orientacionesSexuales",orientacionService.getAllOrientacionesSexuales());
+	// return "orientacionessexuales/orientacionesSexuales";
+	// }
+
+	@GetMapping("/orientacionesSexuales/new")
+	public String createUsuarioForm(Model model) {
+
+		try {
+			this.validarPerfil();
+			if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
+            || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
+				model.addAttribute("orientacion", new OrientacionSexual());
+				return "orientacionesSexuales/create_orientacionesSexuales";
+			} else {
+				return "SinAcceso";
+			}
+
+		} catch (Exception e) {
+			return "SinAcceso";
+		}
+	}
+
+	@PostMapping("/orientacionesSexuales")
+	public String saveOrientacion(@ModelAttribute OrientacionSexual orientacion) {
+		this.validarPerfil();
+		orientacionService.saveOrientacionSexual(orientacion);
+
+		bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
 				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en orientacion sexual"));
 
-	 return "redirect:/orientacionesSexuales";
- }
- 
- @GetMapping("/orientacionesSexuales/{id}")
- public String deleteOrientacion(@PathVariable int id) {
+		return "redirect:/orientacionesSexuales";
+	}
 
-	 try {
+	@GetMapping("/orientacionesSexuales/{id}")
+	public String deleteOrientacion(@PathVariable int id) {
+
+		try {
 			this.validarPerfil();
-			if(!this.perfil.getCVRol().equals("Consulta")) {
-				
-				orientacionService.getOrientacionSexualByCodigo(id).getCVTitulo();
-				
-				bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en orientacion sexual"));
+			if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
+            || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 
+				orientacionService.getOrientacionSexualByCodigo(id).getCVTitulo();
+
+				bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+						this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en orientacion sexual"));
 
 				orientacionService.deleteOrientacionSexualByCodigo(id);
-				 return "redirect:/orientacionesSexuales";
-			}else {
+				return "redirect:/orientacionesSexuales";
+			} else {
 				return "SinAcceso";
 			}
-			
-		}catch (Exception e) {
+
+		} catch (Exception e) {
 			return "SinAcceso";
 		}
- }
- 
- @GetMapping("/orientacionesSexuales/edit/{id}")
- public String editOrientacionForm(Model model,@PathVariable int id) {
-	 try {
-			this.validarPerfil();
-			if(!this.perfil.getCVRol().equals("Consulta")) {
-				
-				
-				
-				model.addAttribute("orientacion", orientacionService.getOrientacionSexualByCodigo(id));
-				 return "orientacionesSexuales/edit_orientacionesSexuales";
-			}else {
-				return "SinAcceso";
-			}
-			
-		}catch (Exception e) {
-			return "SinAcceso";
-		}
- }
- 
- @PostMapping("/orientacionesSexuales/{id}")
- public String updateOrientacionSexual(@PathVariable int id, @ModelAttribute OrientacionSexual orientacion, Model model) {
-	this.validarPerfil();
-	OrientacionSexual existingOrientacion=orientacionService.getOrientacionSexualByCodigo(id);
-	 String orientacionAnt = existingOrientacion.getCVTitulo(); 
-	 existingOrientacion.setCI_Codigo(id);
-	 existingOrientacion.setCVTitulo(orientacion.getCVTitulo());
-	 existingOrientacion.setCVDescripcion(orientacion.getCVDescripcion());
-	 
-	 orientacionService.updateOrientacionSexual(existingOrientacion);
-	 if (orientacionAnt.equals(orientacionService.getOrientacionSexualByCodigo(id).getCVTitulo())) {
-				    orientacionService.getOrientacionSexualByCodigo(id).getCVTitulo();
-		 
-					bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en orientacion sexual"));
-
-	}else {
-	    orientacionService.getOrientacionSexualByCodigo(id).getCVTitulo()  ;
-	    bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en orientacion sexual"));
-
 	}
-		
-	 return "redirect:/orientacionesSexuales";
- }
- 
- 
- 
- 
+
+	@GetMapping("/orientacionesSexuales/edit/{id}")
+	public String editOrientacionForm(Model model, @PathVariable int id) {
+		try {
+			this.validarPerfil();
+			if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
+            || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
+
+				model.addAttribute("orientacion", orientacionService.getOrientacionSexualByCodigo(id));
+				return "orientacionesSexuales/edit_orientacionesSexuales";
+			} else {
+				return "SinAcceso";
+			}
+
+		} catch (Exception e) {
+			return "SinAcceso";
+		}
+	}
+
+	@PostMapping("/orientacionesSexuales/{id}")
+	public String updateOrientacionSexual(@PathVariable int id, @ModelAttribute OrientacionSexual orientacion,
+			Model model) {
+		this.validarPerfil();
+		OrientacionSexual existingOrientacion = orientacionService.getOrientacionSexualByCodigo(id);
+		String orientacionAnt = existingOrientacion.getCVTitulo();
+		existingOrientacion.setCI_Codigo(id);
+		existingOrientacion.setCVTitulo(orientacion.getCVTitulo());
+		existingOrientacion.setCVDescripcion(orientacion.getCVDescripcion());
+
+		orientacionService.updateOrientacionSexual(existingOrientacion);
+		if (orientacionAnt.equals(orientacionService.getOrientacionSexualByCodigo(id).getCVTitulo())) {
+			orientacionService.getOrientacionSexualByCodigo(id).getCVTitulo();
+
+			bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+					this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en orientacion sexual"));
+
+		} else {
+			orientacionService.getOrientacionSexualByCodigo(id).getCVTitulo();
+			bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+					this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en orientacion sexual"));
+
+		}
+
+		return "redirect:/orientacionesSexuales";
+	}
+
 }

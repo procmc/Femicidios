@@ -2,6 +2,7 @@ package com.if7100.controller;
 
 import com.if7100.entity.Bitacora;
 import com.if7100.entity.Usuario;
+import com.if7100.entity.UsuarioPerfil;
 import com.if7100.service.BitacoraService;
 
 import java.util.List;
@@ -23,23 +24,26 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.if7100.entity.Organismo;
 import com.if7100.entity.Paises;
 import com.if7100.entity.Perfil;
+import com.if7100.repository.UsuarioPerfilRepository;
 import com.if7100.repository.UsuarioRepository;
 import com.if7100.service.OrganismoService;
 import com.if7100.service.PaisesService;
 import com.if7100.service.PerfilService;
 import com.if7100.service.TipoOrganismoService;
+import com.if7100.service.UsuarioPerfilService;
 
 @Controller
 public class OrganismoController {
 
 	@Autowired
 	private PaisesService paisesService;
-
+	private UsuarioPerfilService usuarioPerfilService;
 	private OrganismoService organismoService;
 	private TipoOrganismoService tipoOrganismoService;
 
 	// instancias para control de acceso
 	private UsuarioRepository usuarioRepository;
+	private UsuarioPerfilRepository usuarioPerfilRepository;
 	private Perfil perfil;
 	private PerfilService perfilService;
 	// instancias para control de bitacora
@@ -48,13 +52,16 @@ public class OrganismoController {
 
 	public OrganismoController(BitacoraService bitacoraService,
 			OrganismoService organismoService, TipoOrganismoService tipoOrganismoService, PerfilService perfilService,
-			UsuarioRepository usuarioRepository) {
+			UsuarioRepository usuarioRepository, UsuarioPerfilService usuarioPerfilService,
+			UsuarioPerfilRepository usuarioPerfilRepository) {
 		super();
 		this.organismoService = organismoService;
 		this.perfilService = perfilService;
 		this.usuarioRepository = usuarioRepository;
 		this.tipoOrganismoService = tipoOrganismoService;
 		this.bitacoraService = bitacoraService;
+		this.usuarioPerfilService = usuarioPerfilService;
+		this.usuarioPerfilRepository = usuarioPerfilRepository;
 
 	}
 
@@ -67,8 +74,10 @@ public class OrganismoController {
 
 			this.usuario = new Usuario(usuarioRepository.findByCVCedula(username));
 
-			this.perfil = new Perfil(
-					perfilService.getPerfilById(usuarioRepository.findByCVCedula(username).getCIPerfil()));
+			List<UsuarioPerfil> usuarioPerfiles = usuarioPerfilRepository.findByUsuario(this.usuario);
+
+            this.perfil = new Perfil(
+                    perfilService.getPerfilById(usuarioPerfiles.get(0).getPerfil().getCI_Id()));
 
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -133,7 +142,8 @@ public class OrganismoController {
 	public String createOrganismoForm(Model model) {
 		try {
 			this.validarPerfil();
-			if (!this.perfil.getCVRol().equals("Consulta")) {
+			if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
+            || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 
 				model.addAttribute("organismo", new Organismo());
 				model.addAttribute("tipoOrganismo", tipoOrganismoService.getAllTipoOrganismos());
@@ -173,7 +183,8 @@ public class OrganismoController {
 
 		try {
 			this.validarPerfil();
-			if (!this.perfil.getCVRol().equals("Consulta")) {
+			if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
+            || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 
 				bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
 						this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en organismos"));
@@ -193,7 +204,8 @@ public class OrganismoController {
 	public String editOrganismoForm(Model model, @PathVariable int id) {
 		try {
 			this.validarPerfil();
-			if (!this.perfil.getCVRol().equals("Consulta")) {
+			if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
+            || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 				List<Paises> paises = paisesService.getAllPaises(); // Obtiene la lista de países
 				model.addAttribute("paises", paises); // Envía la lista de países al modelo
 

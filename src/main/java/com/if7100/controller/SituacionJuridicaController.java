@@ -1,10 +1,13 @@
 package com.if7100.controller;
 
 import com.if7100.entity.*;
+import com.if7100.repository.UsuarioPerfilRepository;
 import com.if7100.repository.UsuarioRepository;
 import com.if7100.service.BitacoraService;
 import com.if7100.service.PerfilService;
 import com.if7100.service.SituacionJuridicaService;
+import com.if7100.service.UsuarioPerfilService;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -24,8 +27,10 @@ import java.util.stream.IntStream;
 public class SituacionJuridicaController {
 
     private SituacionJuridicaService situacionJuridicaService;
+    private UsuarioPerfilService usuarioPerfilService;
 
     private UsuarioRepository usuarioRepository;
+    private UsuarioPerfilRepository usuarioPerfilRepository;
 
     private PerfilService perfilService;
 
@@ -35,35 +40,43 @@ public class SituacionJuridicaController {
 
     private Perfil perfil;
 
-    public SituacionJuridicaController(SituacionJuridicaService situacionJuridicaService, UsuarioRepository usuarioRepository, PerfilService perfilService, BitacoraService bitacoraService) {
+    public SituacionJuridicaController(SituacionJuridicaService situacionJuridicaService,
+            UsuarioRepository usuarioRepository, PerfilService perfilService, BitacoraService bitacoraService,
+            UsuarioPerfilService usuarioPerfilService, UsuarioPerfilRepository usuarioPerfilRepository) {
         super();
         this.situacionJuridicaService = situacionJuridicaService;
         this.usuarioRepository = usuarioRepository;
         this.perfilService = perfilService;
         this.bitacoraService = bitacoraService;
+        this.usuarioPerfilService = usuarioPerfilService;
+        this.usuarioPerfilRepository = usuarioPerfilRepository;
     }
 
     private void validarPerfil() {
 
         try {
-            Usuario usuario=new Usuario();
+            Usuario usuario = new Usuario();
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String username = authentication.getName();
-            this.usuario= new Usuario(usuarioRepository.findByCVCedula(username));
-            this.perfil = new Perfil(perfilService.getPerfilById(usuarioRepository.findByCVCedula(username).getCIPerfil()));
+            this.usuario = new Usuario(usuarioRepository.findByCVCedula(username));
+            
+            List<UsuarioPerfil> usuarioPerfiles = usuarioPerfilRepository.findByUsuario(this.usuario);
 
-        }catch (Exception e) {
+            this.perfil = new Perfil(
+                    perfilService.getPerfilById(usuarioPerfiles.get(0).getPerfil().getCI_Id()));
+
+        } catch (Exception e) {
             // TODO: handle exception
         }
 
     }
 
-    private Pageable initPages(int pg, int paginasDeseadas, int numeroTotalElementos){
-        int numeroPagina = pg-1;
-        if (numeroTotalElementos < 10){
+    private Pageable initPages(int pg, int paginasDeseadas, int numeroTotalElementos) {
+        int numeroPagina = pg - 1;
+        if (numeroTotalElementos < 10) {
             paginasDeseadas = 1;
         }
-        if (numeroTotalElementos < 1){
+        if (numeroTotalElementos < 1) {
             numeroTotalElementos = 1;
         }
         int tamanoPagina = (int) Math.ceil(numeroTotalElementos / (double) paginasDeseadas);
@@ -71,15 +84,15 @@ public class SituacionJuridicaController {
     }
 
     @GetMapping("/situacionesjuridicas")
-    private String listSituacionesJuridicas(Model model){
+    private String listSituacionesJuridicas(Model model) {
         this.validarPerfil();
         return "redirect:/situacionjuridica/1";
     }
 
     @GetMapping("/situacionjuridica/{pg}")
-    public String listSituacionJuridica(Model model, @PathVariable Integer pg){
+    public String listSituacionJuridica(Model model, @PathVariable Integer pg) {
         this.validarPerfil();
-        if (pg < 1){
+        if (pg < 1) {
             return "redirect:/situacionjuridica/1";
         }
 
@@ -100,111 +113,115 @@ public class SituacionJuridicaController {
     }
 
     @GetMapping("situacionesjuridicas/new")
-    public String createSituacionJuridica(Model model){
+    public String createSituacionJuridica(Model model) {
 
         try {
             this.validarPerfil();
-            if(!this.perfil.getCVRol().equals("Consulta")) {
+            if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
+                    || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 
                 SituacionJuridica situacionJuridica = new SituacionJuridica();
                 model.addAttribute("situacionJuridica", situacionJuridica);
                 return "situacionJuridica/create_situacionJuridica";
-            }else {
+            } else {
                 return "SinAcceso";
             }
 
-        }catch (Exception e) {
+        } catch (Exception e) {
             return "SinAcceso";
         }
 
     }
 
     @PostMapping("/situacionesjuridicas")
-    public String saveSituacionJuridica(@ModelAttribute SituacionJuridica situacionJuridica){
+    public String saveSituacionJuridica(@ModelAttribute SituacionJuridica situacionJuridica) {
 
         try {
             this.validarPerfil();
-            if(!this.perfil.getCVRol().equals("Consulta")) {
+            if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
+                    || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
                 situacionJuridicaService.saveSituacionJuridica(situacionJuridica);
-                
-                bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en situacion juridica"));
 
-                
+                bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+                        this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en situacion juridica"));
+
                 return "redirect:/situacionesjuridicas";
-            }else {
+            } else {
                 return "SinAcceso";
             }
 
-        }catch (Exception e) {
+        } catch (Exception e) {
             return "SinAcceso";
         }
 
     }
 
     @GetMapping("/situacionesjuridicas/{id}")
-    public String deleteSituacionesJuridicas(@PathVariable Integer id){
+    public String deleteSituacionesJuridicas(@PathVariable Integer id) {
 
         try {
             this.validarPerfil();
-            if(!this.perfil.getCVRol().equals("Consulta")) {
+            if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
+                    || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
                 situacionJuridicaService.deleteSituacionJuridicaById(id);
-                
-                bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en situacion juridica"));
 
-                
+                bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+                        this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en situacion juridica"));
+
                 return "redirect:/situacionesjuridicas";
-            }else {
+            } else {
                 return "SinAcceso";
             }
 
-        }catch (Exception e) {
+        } catch (Exception e) {
             return "SinAcceso";
         }
     }
+
     @GetMapping("/situacionesjuridicas/edit/{id}")
-    public String editSituacionJuridicaForm(@PathVariable Integer id, Model model){
+    public String editSituacionJuridicaForm(@PathVariable Integer id, Model model) {
         try {
             this.validarPerfil();
-            if(!this.perfil.getCVRol().equals("Consulta")) {
+            if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
+                    || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 
                 model.addAttribute("situacionJuridica", situacionJuridicaService.getSituacionJuridicaById(id));
                 return "situacionJuridica/edit_situacionJuridica";
-            }else {
+            } else {
                 return "SinAcceso";
             }
 
-        }catch (Exception e) {
+        } catch (Exception e) {
             return "SinAcceso";
         }
     }
 
     @PostMapping("/situacionesjuridicas/{id}")
-    public String updateSituacionJuridica(@PathVariable Integer id, @ModelAttribute SituacionJuridica situacionJuridica){
+    public String updateSituacionJuridica(@PathVariable Integer id,
+            @ModelAttribute SituacionJuridica situacionJuridica) {
 
         try {
             this.validarPerfil();
-            if(!this.perfil.getCVRol().equals("Consulta")) {
+            if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
+                    || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
                 SituacionJuridica existingSituacionJuridica = situacionJuridicaService.getSituacionJuridicaById(id);
                 existingSituacionJuridica.setCI_Codigo(id);
                 existingSituacionJuridica.setCVTitulo(situacionJuridica.getCVTitulo());
                 existingSituacionJuridica.setCVDescripcion(situacionJuridica.getCVDescripcion());
                 situacionJuridicaService.updateSituacionJuridica(existingSituacionJuridica);
-                
+
                 bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en situacion juridica"));
-                
+                        this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en situacion juridica"));
+
                 return "redirect:/situacionesjuridicas";
-            }else {
+            } else {
                 return "SinAcceso";
             }
 
-        }catch (Exception e) {
+        } catch (Exception e) {
             return "SinAcceso";
         }
 
     }
-
 
 }

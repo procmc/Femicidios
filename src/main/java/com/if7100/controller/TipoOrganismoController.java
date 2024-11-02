@@ -4,9 +4,10 @@
 package com.if7100.controller;
 
 import com.if7100.entity.*;
+/**
+ * @author Adam Smasher
+ */
 import com.if7100.service.*;
-import com.if7100.service.PaisesService;
-import com.if7100.service.BitacoraService;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,11 +21,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.if7100.service.PerfilService;
-/**
- * @author Adam Smasher
- */
-import com.if7100.service.TipoOrganismoService;
+import com.if7100.repository.UsuarioPerfilRepository;
 import com.if7100.repository.UsuarioRepository;
 
 import java.util.List;
@@ -32,51 +29,59 @@ import java.util.stream.IntStream;
 
 @Controller
 public class TipoOrganismoController {
-private TipoOrganismoService tipoOrganismoService;
-private PaisesService paisesService;
-//instancias para control de acceso
-private UsuarioRepository usuarioRepository;
-private Perfil perfil;
-private Paises paises;
-private PerfilService perfilService;
-//instancias para control de bitacora
-private BitacoraService bitacoraService;
-private Usuario usuario;
+	private TipoOrganismoService tipoOrganismoService;
+	private UsuarioPerfilService usuarioPerfilService;
+	private PaisesService paisesService;
+	// instancias para control de acceso
+	private UsuarioRepository usuarioRepository;
+	private UsuarioPerfilRepository usuarioPerfilRepository;
+	private Perfil perfil;
+	private Paises paises;
+	private PerfilService perfilService;
+	// instancias para control de bitacora
+	private BitacoraService bitacoraService;
+	private Usuario usuario;
 
 	public TipoOrganismoController(BitacoraService bitacoraService,
-TipoOrganismoService tipoOrganismoService, PaisesService paisesService, PerfilService perfilService, UsuarioRepository usuarioRepository) {
-	super();
-	this.tipoOrganismoService= tipoOrganismoService;
-	this.perfilService = perfilService;
-    this.usuarioRepository = usuarioRepository;
-    this.bitacoraService= bitacoraService;
-    this.paisesService = paisesService;
-
-}
-	
-	private void validarPerfil() {
-	
-		try {
-			Usuario usuario=new Usuario();
-
-			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		    String username = authentication.getName();
-		    this.usuario= new Usuario(usuarioRepository.findByCVCedula(username));
-
-			this.perfil = new Perfil(perfilService.getPerfilById(usuarioRepository.findByCVCedula(username).getCIPerfil()));
-			
-		}catch (Exception e) {
-			// TODO: handle exception
-		}
-		
+			TipoOrganismoService tipoOrganismoService, PaisesService paisesService, PerfilService perfilService,
+			UsuarioRepository usuarioRepository,
+			UsuarioPerfilService usuarioPerfilService, UsuarioPerfilRepository usuarioPerfilRepository) {
+		super();
+		this.tipoOrganismoService = tipoOrganismoService;
+		this.perfilService = perfilService;
+		this.usuarioRepository = usuarioRepository;
+		this.bitacoraService = bitacoraService;
+		this.paisesService = paisesService;
+		this.usuarioPerfilService = usuarioPerfilService;
+		this.usuarioPerfilRepository = usuarioPerfilRepository;
 	}
 
-	private Pageable initPages(int pg, int paginasDeseadas, int numeroTotalElementos){
-		int numeroPagina = pg-1;
-		if (numeroTotalElementos < 10){
+	private void validarPerfil() {
+
+		try {
+			Usuario usuario = new Usuario();
+
+			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+			String username = authentication.getName();
+			this.usuario = new Usuario(usuarioRepository.findByCVCedula(username));
+
+			List<UsuarioPerfil> usuarioPerfiles = usuarioPerfilRepository.findByUsuario(this.usuario);
+
+			this.perfil = new Perfil(
+					perfilService.getPerfilById(usuarioPerfiles.get(0).getPerfil().getCI_Id()));
+
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
+	}
+
+	private Pageable initPages(int pg, int paginasDeseadas, int numeroTotalElementos) {
+		int numeroPagina = pg - 1;
+		if (numeroTotalElementos < 10) {
 			paginasDeseadas = 1;
 		}
-		if (numeroTotalElementos < 1){
+		if (numeroTotalElementos < 1) {
 			numeroTotalElementos = 1;
 		}
 		int tamanoPagina = (int) Math.ceil(numeroTotalElementos / (double) paginasDeseadas);
@@ -90,9 +95,9 @@ TipoOrganismoService tipoOrganismoService, PaisesService paisesService, PerfilSe
 	}
 
 	@GetMapping("/tipoorganismo/{pg}")
-	public  String listOrganismo(Model model, @PathVariable Integer pg){
+	public String listOrganismo(Model model, @PathVariable Integer pg) {
 		this.validarPerfil();
-		if (pg < 1){
+		if (pg < 1) {
 			return "redirect:/tipoorganismo/1";
 		}
 
@@ -113,27 +118,27 @@ TipoOrganismoService tipoOrganismoService, PaisesService paisesService, PerfilSe
 	}
 
 	@GetMapping("/tipoOrganismo/new")
-	public String CreateTipoOrganismoForm (Model model) {
-		
+	public String CreateTipoOrganismoForm(Model model) {
+
 		try {
 			this.validarPerfil();
-			if(!this.perfil.getCVRol().equals("Consulta")) {
-				
-				
-                model.addAttribute("tipoOrganismo", new TipoOrganismo());
+			if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
+					|| usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
+
+				model.addAttribute("tipoOrganismo", new TipoOrganismo());
 				model.addAttribute("paises", paisesService.getAllPaises());
 				return "tipoOrganismo/create_tipoOrganismo";
-			}else {
+			} else {
 				return "SinAcceso";
 			}
-			
-		}catch (Exception e) {
+
+		} catch (Exception e) {
 			return "SinAcceso";
 		}
 	}
-	
+
 	@PostMapping("/tipoOrganismo")
-	public String saveTipoOrganismo (@ModelAttribute TipoOrganismo tipoOrganismo) {
+	public String saveTipoOrganismo(@ModelAttribute TipoOrganismo tipoOrganismo) {
 		this.validarPerfil();
 
 		tipoOrganismoService.saveTipoOrganismo(tipoOrganismo);
@@ -141,66 +146,67 @@ TipoOrganismoService tipoOrganismoService, PaisesService paisesService, PerfilSe
 		bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
 				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en tipos de organismos"));
 
-		return "redirect:/tipoOrganismo";	
+		return "redirect:/tipoOrganismo";
 	}
-	
 
 	@GetMapping("/tipoOrganismo/{Codigo}")
-	public String deleteTipoOrganismoByCodigo (@PathVariable Integer Codigo) {
-		
+	public String deleteTipoOrganismoByCodigo(@PathVariable Integer Codigo) {
+
 		try {
 			this.validarPerfil();
-			if(!this.perfil.getCVRol().equals("Consulta")) {
-				
+			if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
+					|| usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
+
 				bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en tipos de organismos"));
+						this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en tipos de organismos"));
 
 				tipoOrganismoService.deleteTipoOrganismoByCodigo(Codigo);
-				return "redirect:/tipoOrganismo";	
-			}else {
+				return "redirect:/tipoOrganismo";
+			} else {
 				return "SinAcceso";
 			}
-			
-		}catch (Exception e) {
+
+		} catch (Exception e) {
 			return "SinAcceso";
 		}
 	}
-	
 
 	@GetMapping("/tipoOrganismo/edit/{Codigo}")
-	public String editTipoOrganismoForm (@PathVariable Integer Codigo,Model model) {
-		
+	public String editTipoOrganismoForm(@PathVariable Integer Codigo, Model model) {
+
 		try {
 			this.validarPerfil();
-			if(!this.perfil.getCVRol().equals("Consulta")) {
-				
+			if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
+					|| usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
+
 				model.addAttribute("tipoOrganismo", tipoOrganismoService.getTipoOrganismoByCodigo(Codigo));
 				model.addAttribute("paises", paisesService.getAllPaises());
-				return "tipoOrganismo/edit_tipoOrganismo";	
-			}else {
+				return "tipoOrganismo/edit_tipoOrganismo";
+			} else {
 				return "SinAcceso";
 			}
-			
-		}catch (Exception e) {
+
+		} catch (Exception e) {
 			return "SinAcceso";
-		}	
+		}
 	}
-	
+
 	@PostMapping("/tipoOrganismo/{Codigo}")
-	public String updateOrganismoLugar (@PathVariable Integer Codigo ,@ModelAttribute TipoOrganismo tipoOrganismo, Model model) {
+	public String updateOrganismoLugar(@PathVariable Integer Codigo, @ModelAttribute TipoOrganismo tipoOrganismo,
+			Model model) {
 		this.validarPerfil();
 		TipoOrganismo existingTipoOrganismo = tipoOrganismoService.getTipoOrganismoByCodigo(Codigo);
 		model.addAttribute("paises", paisesService.getAllPaises());
-		
+
 		existingTipoOrganismo.setCI_Codigo(Codigo);
-	    existingTipoOrganismo.setCVTitulo(tipoOrganismo.getCVTitulo());
-	    existingTipoOrganismo.setCVDescripcion(tipoOrganismo.getCVDescripcion());
-	    existingTipoOrganismo.setCVPaises(tipoOrganismo.getCVPaises());
+		existingTipoOrganismo.setCVTitulo(tipoOrganismo.getCVTitulo());
+		existingTipoOrganismo.setCVDescripcion(tipoOrganismo.getCVDescripcion());
+		existingTipoOrganismo.setCVPaises(tipoOrganismo.getCVPaises());
 		tipoOrganismoService.updateTipoOrganismo(existingTipoOrganismo);
 
 		bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
 				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en tipos de organismos"));
 
-		return "redirect:/tipoOrganismo";	
+		return "redirect:/tipoOrganismo";
 	}
 }

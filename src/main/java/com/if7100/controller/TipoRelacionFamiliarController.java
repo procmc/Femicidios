@@ -21,16 +21,21 @@ import com.if7100.entity.Paises;
 import com.if7100.entity.Perfil;
 import com.if7100.entity.TipoRelacionFamiliar;
 import com.if7100.entity.Usuario;
+import com.if7100.entity.UsuarioPerfil;
+import com.if7100.repository.UsuarioPerfilRepository;
 import com.if7100.repository.UsuarioRepository;
 import com.if7100.service.BitacoraService;
 import com.if7100.service.PerfilService;
 import com.if7100.service.TipoRelacionFamiliarService;
+import com.if7100.service.UsuarioPerfilService;
 
 @Controller
 public class TipoRelacionFamiliarController {
 
 	private TipoRelacionFamiliarService tipoRelacionFamiliarService;
+	private UsuarioPerfilService usuarioPerfilService;
 	private UsuarioRepository usuarioRepository;
+	private UsuarioPerfilRepository usuarioPerfilRepository;
 	private Perfil perfil;
 	private PerfilService perfilService;
 	// instancias para control de bitacora
@@ -39,13 +44,15 @@ public class TipoRelacionFamiliarController {
 
 	public TipoRelacionFamiliarController(TipoRelacionFamiliarService tipoRelacionFamiliarService,
 			UsuarioRepository usuarioRepository, PerfilService perfilService,
-			BitacoraService bitacoraService) {
+			BitacoraService bitacoraService, UsuarioPerfilService usuarioPerfilService, UsuarioPerfilRepository usuarioPerfilRepository) {
 		super();
 		this.tipoRelacionFamiliarService = tipoRelacionFamiliarService;
 		this.usuarioRepository = usuarioRepository;
 
 		this.perfilService = perfilService;
 		this.bitacoraService = bitacoraService;
+		this.usuarioPerfilService = usuarioPerfilService;
+		this.usuarioPerfilRepository = usuarioPerfilRepository;
 
 	}
 
@@ -57,8 +64,10 @@ public class TipoRelacionFamiliarController {
 			String username = authentication.getName();
 			this.usuario = new Usuario(usuarioRepository.findByCVCedula(username));
 
-			this.perfil = new Perfil(
-					perfilService.getPerfilById(usuarioRepository.findByCVCedula(username).getCIPerfil()));
+			List<UsuarioPerfil> usuarioPerfiles = usuarioPerfilRepository.findByUsuario(this.usuario);
+
+            this.perfil = new Perfil(
+                    perfilService.getPerfilById(usuarioPerfiles.get(0).getPerfil().getCI_Id()));
 
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -116,7 +125,8 @@ public class TipoRelacionFamiliarController {
 
 		try {
 			this.validarPerfil();
-			if (!this.perfil.getCVRol().equals("Consulta")) {
+			if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
+            || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 				TipoRelacionFamiliar tipoRelacionFamiliar = new TipoRelacionFamiliar();
 				// Paises paises = new Paises();
 				model.addAttribute("tiporelacionfamiliar", tipoRelacionFamiliar);
@@ -148,7 +158,8 @@ public class TipoRelacionFamiliarController {
 	public String editTipoRelacionFamiliar(@PathVariable Integer id, Model model) {
 		try {
 			this.validarPerfil();
-			if (!this.perfil.getCVRol().equals("Consulta")) {
+			if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
+            || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 
 				model.addAttribute("tiporelacionfamiliar", tipoRelacionFamiliarService.getTipoRelacionFamiliarById(id));
 
@@ -183,7 +194,8 @@ public class TipoRelacionFamiliarController {
 	public String deleteTiporelacionfamiliar(@PathVariable Integer Id) {
 		try {
 			this.validarPerfil();
-			if (!this.perfil.getCVRol().equals("Consulta")) {
+			if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
+            || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 
 				bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
 						this.usuario.getCVNombre(), this.perfil.getCVRol(),

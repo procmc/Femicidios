@@ -2,15 +2,18 @@ package com.if7100.controller;
 
 import com.if7100.entity.Bitacora;
 import com.if7100.entity.Usuario;
+import com.if7100.entity.UsuarioPerfil;
 import com.if7100.service.BitacoraService;
 import com.if7100.service.PaisesService;
 import com.if7100.entity.Hecho;
 import com.if7100.entity.Paises;
 import com.if7100.entity.Perfil;
 import com.if7100.entity.TipoRelacion;
+import com.if7100.repository.UsuarioPerfilRepository;
 import com.if7100.repository.UsuarioRepository;
 import com.if7100.service.PerfilService;
 import com.if7100.service.TipoRelacionService;
+import com.if7100.service.UsuarioPerfilService;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -30,55 +33,60 @@ import java.util.stream.IntStream;
 @Controller
 public class TipoRelacionController {
 
-
     private TipoRelacionService tipoRelacionService;
-  //instancias para control de acceso
+    private UsuarioPerfilService usuarioPerfilService;
+    // instancias para control de acceso
     private UsuarioRepository usuarioRepository;
+    private UsuarioPerfilRepository usuarioPerfilRepository;
     private Perfil perfil;
     private PerfilService perfilService;
     private PaisesService paisesService;
 
-  //instancias para control de bitacora
+    // instancias para control de bitacora
     private BitacoraService bitacoraService;
     private Usuario usuario;
     private Paises paises;
 
-
-
     public TipoRelacionController(BitacoraService bitacoraService,
-TipoRelacionService tipoRelacionService, PerfilService perfilService, UsuarioRepository usuarioRepository, PaisesService paisesService) {
+            TipoRelacionService tipoRelacionService, PerfilService perfilService, UsuarioRepository usuarioRepository,
+            PaisesService paisesService,
+            UsuarioPerfilService usuarioPerfilService, UsuarioPerfilRepository usuarioPerfilRepository) {
         super();
         this.tipoRelacionService = tipoRelacionService;
         this.perfilService = perfilService;
         this.usuarioRepository = usuarioRepository;
-        this.bitacoraService= bitacoraService;
+        this.bitacoraService = bitacoraService;
         this.paisesService = paisesService;
-
+        this.usuarioPerfilService = usuarioPerfilService;
+        this.usuarioPerfilRepository = usuarioPerfilRepository;
 
     }
-    
+
     private void validarPerfil() {
-    	
-		try {
-			Usuario usuario=new Usuario();
-			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		    String username = authentication.getName();
-		    this.usuario= new Usuario(usuarioRepository.findByCVCedula(username));
 
-			this.perfil = new Perfil(perfilService.getPerfilById(usuarioRepository.findByCVCedula(username).getCIPerfil()));
-			
-		}catch (Exception e) {
-			// TODO: handle exception
-		}
-		
-	}
+        try {
+            Usuario usuario = new Usuario();
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName();
+            this.usuario = new Usuario(usuarioRepository.findByCVCedula(username));
 
-    private Pageable initPages(int pg, int paginasDeseadas, int numeroTotalElementos){
-        int numeroPagina = pg-1;
-        if (numeroTotalElementos < 10){
+            List<UsuarioPerfil> usuarioPerfiles = usuarioPerfilRepository.findByUsuario(this.usuario);
+
+            this.perfil = new Perfil(
+                    perfilService.getPerfilById(usuarioPerfiles.get(0).getPerfil().getCI_Id()));
+
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+
+    }
+
+    private Pageable initPages(int pg, int paginasDeseadas, int numeroTotalElementos) {
+        int numeroPagina = pg - 1;
+        if (numeroTotalElementos < 10) {
             paginasDeseadas = 1;
         }
-        if (numeroTotalElementos < 1){
+        if (numeroTotalElementos < 1) {
             numeroTotalElementos = 1;
         }
         int tamanoPagina = (int) Math.ceil(numeroTotalElementos / (double) paginasDeseadas);
@@ -86,15 +94,15 @@ TipoRelacionService tipoRelacionService, PerfilService perfilService, UsuarioRep
     }
 
     @GetMapping("/tiporelaciones")
-    public String listTipoRelaciones(Model model){
+    public String listTipoRelaciones(Model model) {
         this.validarPerfil();
         return "redirect:/tiporelacion/1";
     }
 
     @GetMapping("/tiporelacion/{pg}")
-    public String listTipoRelacion(Model model,@PathVariable Integer pg){
+    public String listTipoRelacion(Model model, @PathVariable Integer pg) {
         this.validarPerfil();
-        if (pg < 1){
+        if (pg < 1) {
             return "redirect:/tiporelaciones";
         }
 
@@ -115,86 +123,88 @@ TipoRelacionService tipoRelacionService, PerfilService perfilService, UsuarioRep
     }
 
     @GetMapping("/tiporelaciones/new")
-    public String createTipoRelacionForm(Model model){
-    	
-    	try {
-			this.validarPerfil();
-			if(!this.perfil.getCVRol().equals("Consulta")) {
-				
-				TipoRelacion tipoRelacion = new TipoRelacion();
-		        model.addAttribute("tipoRelacion", tipoRelacion);
-		        model.addAttribute("paises", paisesService.getAllPaises());
+    public String createTipoRelacionForm(Model model) {
 
-		        return "tipoRelaciones/create_tipoRelacion";
-			}else {
-				return "SinAcceso";
-			}
-			
-		}catch (Exception e) {
-			return "SinAcceso";
-		}     
+        try {
+            this.validarPerfil();
+            if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
+                    || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
+
+                TipoRelacion tipoRelacion = new TipoRelacion();
+                model.addAttribute("tipoRelacion", tipoRelacion);
+                model.addAttribute("paises", paisesService.getAllPaises());
+
+                return "tipoRelaciones/create_tipoRelacion";
+            } else {
+                return "SinAcceso";
+            }
+
+        } catch (Exception e) {
+            return "SinAcceso";
+        }
     }
 
     @PostMapping("/tiporelaciones")
-    public String saveTipoRelacion(@ModelAttribute TipoRelacion tipoRelacion){
+    public String saveTipoRelacion(@ModelAttribute TipoRelacion tipoRelacion) {
         this.validarPerfil();
         tipoRelacionService.saveTipoRelacion(tipoRelacion);
-        
+
         bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en tipos de relaciones"));
+                this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en tipos de relaciones"));
 
         return "redirect:/tiporelaciones";
     }
 
     @GetMapping("/tiporelaciones/{id}")
-    public String deleteTipoRelaciones(@PathVariable Integer id){
-    	
-    	try {
-			this.validarPerfil();
-			if(!this.perfil.getCVRol().equals("Consulta")) {
-				
-				bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en tipos de relaciones"));
+    public String deleteTipoRelaciones(@PathVariable Integer id) {
 
-				tipoRelacionService.deleteTipoRelacionById(id);
-		        return "redirect:/tiporelaciones";
-			}else {
-				return "SinAcceso";
-			}
-			
-		}catch (Exception e) {
-			return "SinAcceso";
-		}
+        try {
+            this.validarPerfil();
+            if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
+                    || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
+
+                bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+                        this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en tipos de relaciones"));
+
+                tipoRelacionService.deleteTipoRelacionById(id);
+                return "redirect:/tiporelaciones";
+            } else {
+                return "SinAcceso";
+            }
+
+        } catch (Exception e) {
+            return "SinAcceso";
+        }
     }
 
     @GetMapping("/tiporelaciones/edit/{id}")
-    public String editTipoRelacionForm(@PathVariable Integer id, Model model){
-    	try {
-			this.validarPerfil();
-			if(!this.perfil.getCVRol().equals("Consulta")) {
-				
-				model.addAttribute("tipoRelacion", tipoRelacionService.getTipoRelacionById(id));
-				model.addAttribute("paises", paisesService.getAllPaises());
+    public String editTipoRelacionForm(@PathVariable Integer id, Model model) {
+        try {
+            this.validarPerfil();
+            if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
+                    || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 
-		        return "tipoRelaciones/edit_tipoRelacion";
-			}else {
-				return "SinAcceso";
-			}
-			
-		}catch (Exception e) {
-			return "SinAcceso";
-		}
+                model.addAttribute("tipoRelacion", tipoRelacionService.getTipoRelacionById(id));
+                model.addAttribute("paises", paisesService.getAllPaises());
+
+                return "tipoRelaciones/edit_tipoRelacion";
+            } else {
+                return "SinAcceso";
+            }
+
+        } catch (Exception e) {
+            return "SinAcceso";
+        }
     }
 
     @PostMapping("/tiporelaciones/{id}")
-    public String updateTipoRelacion(@PathVariable Integer id, @ModelAttribute TipoRelacion tipoRelacion, Model model){
+    public String updateTipoRelacion(@PathVariable Integer id, @ModelAttribute TipoRelacion tipoRelacion, Model model) {
         this.validarPerfil();
 
         TipoRelacion existingTipoRelacion = tipoRelacionService.getTipoRelacionById(id);
-    	
-        bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en tipos de relaciones"));
 
+        bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+                this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en tipos de relaciones"));
 
         model.addAttribute("paises", paisesService.getAllPaises());
 

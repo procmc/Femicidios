@@ -2,6 +2,7 @@ package com.if7100.controller;
 
 import com.if7100.entity.Bitacora;
 import com.if7100.entity.Usuario;
+import com.if7100.entity.UsuarioPerfil;
 import com.if7100.entity.Paises;
 import com.if7100.service.BitacoraService;
 import com.if7100.service.PaisesService;
@@ -21,28 +22,34 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.if7100.entity.Hecho;
 import com.if7100.entity.NivelEducativo;
 import com.if7100.entity.Perfil;
+import com.if7100.repository.UsuarioPerfilRepository;
 import com.if7100.repository.UsuarioRepository;
 import com.if7100.service.NivelEducativoService;
 import com.if7100.service.PerfilService;
+import com.if7100.service.UsuarioPerfilService;
 
 import java.util.List;
 import java.util.stream.IntStream;
 
-
 @Controller
 public class NivelEducativoController {
     private NivelEducativoService nivelEducativoService;
-    //instancias para control de acceso
+    private UsuarioPerfilService usuarioPerfilService;
+    // instancias para control de acceso
     private UsuarioRepository usuarioRepository;
+    private UsuarioPerfilRepository usuarioPerfilRepository;
     private Perfil perfil;
     private PerfilService perfilService;
     private PaisesService paisesService;
-    //instancias para control de bitacora
+    // instancias para control de bitacora
     private BitacoraService bitacoraService;
     private Usuario usuario;
     private Paises paises;
+
     public NivelEducativoController(BitacoraService bitacoraService,
-                                    NivelEducativoService nivelEducativoService, PerfilService perfilService, UsuarioRepository usuarioRepository,PaisesService paisesService) {
+            NivelEducativoService nivelEducativoService, PerfilService perfilService,
+            UsuarioRepository usuarioRepository, PaisesService paisesService, UsuarioPerfilService usuarioPerfilService,
+            UsuarioPerfilRepository usuarioPerfilRepository) {
 
         super();
         this.nivelEducativoService = nivelEducativoService;
@@ -50,7 +57,8 @@ public class NivelEducativoController {
         this.usuarioRepository = usuarioRepository;
         this.bitacoraService = bitacoraService;
         this.paisesService = paisesService;
-
+        this.usuarioPerfilService = usuarioPerfilService;
+        this.usuarioPerfilRepository = usuarioPerfilRepository;
 
     }
 
@@ -63,7 +71,10 @@ public class NivelEducativoController {
             String username = authentication.getName();
             this.usuario = new Usuario(usuarioRepository.findByCVCedula(username));
 
-            this.perfil = new Perfil(perfilService.getPerfilById(usuarioRepository.findByCVCedula(username).getCIPerfil()));
+            List<UsuarioPerfil> usuarioPerfiles = usuarioPerfilRepository.findByUsuario(this.usuario);
+
+            this.perfil = new Perfil(
+                    perfilService.getPerfilById(usuarioPerfiles.get(0).getPerfil().getCI_Id()));
 
         } catch (Exception e) {
             // TODO: handle exception
@@ -118,7 +129,8 @@ public class NivelEducativoController {
 
         try {
             this.validarPerfil();
-            if (!this.perfil.getCVRol().equals("Consulta")) {
+            if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
+            || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 
                 NivelEducativo nivelEducativo = new NivelEducativo();
                 model.addAttribute("nivelEducativo", nivelEducativo);
@@ -137,13 +149,11 @@ public class NivelEducativoController {
     public String saveNivelEducativo(@ModelAttribute NivelEducativo nivelEducativo) {
         this.validarPerfil();
         nivelEducativoService.saveNivelEducativo(nivelEducativo);
-        
+
         bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en nivel educativo"));
+                this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en nivel educativo"));
 
-        
         return "redirect:/nivelEducativo";
-
 
     }
 
@@ -152,10 +162,11 @@ public class NivelEducativoController {
 
         try {
             this.validarPerfil();
-            if (!this.perfil.getCVRol().equals("Consulta")) {
+            if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
+            || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 
                 bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en nivel educativo"));
+                        this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en nivel educativo"));
 
                 nivelEducativoService.deleteNivelEducativoById(id);
                 return "redirect:/nivelEducativo";
@@ -173,10 +184,11 @@ public class NivelEducativoController {
 
         try {
             this.validarPerfil();
-            if (!this.perfil.getCVRol().equals("Consulta")) {
+            if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
+            || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 
                 model.addAttribute("nivelEducativo", nivelEducativoService.getNivelEducativoById(id));
-            	model.addAttribute("paises", paisesService.getAllPaises());
+                model.addAttribute("paises", paisesService.getAllPaises());
                 return "nivelEducativo/edit_nivelEduactivo";
             } else {
                 return "SinAcceso";
@@ -188,7 +200,8 @@ public class NivelEducativoController {
     }
 
     @PostMapping("/nivelEducativo/{id}")
-    public String updateNivelEducativo(@PathVariable Integer id, @ModelAttribute NivelEducativo nivelEducativo, Model model) {
+    public String updateNivelEducativo(@PathVariable Integer id, @ModelAttribute NivelEducativo nivelEducativo,
+            Model model) {
         this.validarPerfil();
         NivelEducativo existingNivelEducativo = nivelEducativoService.getNivelEducativoById(id);
         model.addAttribute("paises", paisesService.getAllPaises());
@@ -197,11 +210,10 @@ public class NivelEducativoController {
         existingNivelEducativo.setCVDescripcion(nivelEducativo.getCVDescripcion());
         existingNivelEducativo.setCVPais(nivelEducativo.getCVPais());
         bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en nivel educativo"));
+                this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en nivel educativo"));
 
         nivelEducativoService.updateNivelEducativo(existingNivelEducativo);
         return "redirect:/nivelEducativo";
     }
-
 
 }

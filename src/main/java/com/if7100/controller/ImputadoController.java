@@ -42,6 +42,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.if7100.repository.UsuarioPerfilRepository;
 import com.if7100.repository.UsuarioRepository;
 
 import java.util.List;
@@ -52,11 +53,13 @@ import java.util.stream.IntStream;
 public class ImputadoController {
 
 	private ImputadoService imputadoService;
+	private UsuarioPerfilService usuarioPerfilService;
 
 	@Autowired
 	private PaisesService paisesService;
 	@Autowired
 	private UsuarioRepository usuarioRepository;
+	private UsuarioPerfilRepository usuarioPerfilRepository;
 
 	private UsuarioService usuarioService;
 
@@ -90,7 +93,7 @@ public class ImputadoController {
 			ImputadoService imputadoService, PerfilService perfilService, UsuarioRepository usuarioRepository,
 			IdentidadGeneroService identidadGeneroService, OrientacionSexualService orientacionSexualService,
 			NivelEducativoService nivelEducativoService, SituacionJuridicaService situacionJuridicaService,
-			OrganismoService organismoService) {
+			OrganismoService organismoService, UsuarioPerfilService usuarioPerfilService, UsuarioPerfilRepository usuarioPerfilRepository) {
 		super();
 		this.imputadoService = imputadoService;
 		this.paisesService = paisesService;
@@ -102,6 +105,8 @@ public class ImputadoController {
 		this.nivelEducativoService = nivelEducativoService;
 		this.situacionJuridicaService = situacionJuridicaService;
 		this.organismoService = organismoService;
+		this.usuarioPerfilService = usuarioPerfilService;
+		this.usuarioPerfilRepository = usuarioPerfilRepository;
 	}
 
 	@GetMapping("/imputados/pdf")
@@ -382,8 +387,10 @@ public class ImputadoController {
 			String username = authentication.getName();
 			this.usuario = new Usuario(usuarioRepository.findByCVCedula(username));
 
-			this.perfil = new Perfil(
-					perfilService.getPerfilById(usuarioRepository.findByCVCedula(username).getCIPerfil()));
+			List<UsuarioPerfil> usuarioPerfiles = usuarioPerfilRepository.findByUsuario(this.usuario);
+
+            this.perfil = new Perfil(
+                    perfilService.getPerfilById(usuarioPerfiles.get(0).getPerfil().getCI_Id()));
 
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -448,7 +455,8 @@ public class ImputadoController {
 
 		try {
 			this.validarPerfil();
-			if (!this.perfil.getCVRol().equals("Consulta")) {
+			if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
+            || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 				// String descripcion="Elimino en XXX/Crea en XXX/ Actualiza en XXX";
 				// Bitacora bitacora = new Bitacora(this.usuario.getCI_Id(),
 				// this.usuario.getCVNombre(),this.perfil.getCVRol(),descripcion);
@@ -496,7 +504,8 @@ public class ImputadoController {
 
 		try {
 			this.validarPerfil();
-			if (!this.perfil.getCVRol().equals("Consulta")) {
+			if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
+            || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 
 				imputadoService.deleteImputadoById(id);
 				
@@ -523,7 +532,8 @@ public class ImputadoController {
 			response.setHeader("Pragma", "no-cache");
 			response.setHeader("Expires", "0");
 
-			if (!this.perfil.getCVRol().equals("Consulta")) {
+			if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
+            || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 
 				model.addAttribute("paises", paisesService.getAllPaises());
 				model.addAttribute("orientacionSexual", orientacionSexualService.getAllOrientacionesSexuales());

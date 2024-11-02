@@ -39,6 +39,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import com.if7100.service.PerfilService;
+import com.if7100.service.UsuarioPerfilService;
 
 /**
  * @author Hadji
@@ -60,6 +61,7 @@ import com.itextpdf.layout.property.UnitValue;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
 
+import com.if7100.repository.UsuarioPerfilRepository;
 import com.if7100.repository.UsuarioRepository;
 
 import java.util.List;
@@ -70,11 +72,13 @@ public class VictimaController {
 
 	@Autowired
 	private PaisesService paisesService;
-
+	private UsuarioPerfilService usuarioPerfilService;
 	private VictimaService victimaService;
 
 	// instancias para control de acceso
 	private UsuarioRepository usuarioRepository;
+	private UsuarioPerfilRepository usuarioPerfilRepository;
+
 	private Perfil perfil;
 	private PerfilService perfilService;
 	// instancias para control de bitacora
@@ -97,7 +101,8 @@ public class VictimaController {
 	public VictimaController(VictimaService victimaService, UsuarioRepository usuarioRepository,
 			PerfilService perfilService, BitacoraService bitacoraService, OrganismoService organismoService,
 			OrientacionSexualService orientacionSexualService, IdentidadGeneroService identidadGeneroService,
-			NivelEducativoService nivelEducativoService, PaisesService paisesService) {
+			NivelEducativoService nivelEducativoService, PaisesService paisesService, UsuarioPerfilService usuarioPerfilService,
+			UsuarioPerfilRepository usuarioPerfilRepository) {
 		super();
 		this.victimaService = victimaService;
 		this.usuarioRepository = usuarioRepository;
@@ -108,6 +113,8 @@ public class VictimaController {
 		this.identidadGeneroService = identidadGeneroService;
 		this.nivelEducativoService = nivelEducativoService;
 		this.paisesService = paisesService;
+		this.usuarioPerfilService = usuarioPerfilService;
+		this.usuarioPerfilRepository = usuarioPerfilRepository;
 	}
 
 	@GetMapping("/victima/pdf")
@@ -386,8 +393,10 @@ public class VictimaController {
 			String username = authentication.getName();
 			this.usuario = new Usuario(usuarioRepository.findByCVCedula(username));
 
-			this.perfil = new Perfil(
-					perfilService.getPerfilById(usuarioRepository.findByCVCedula(username).getCIPerfil()));
+			List<UsuarioPerfil> usuarioPerfiles = usuarioPerfilRepository.findByUsuario(this.usuario);
+
+            this.perfil = new Perfil(
+                    perfilService.getPerfilById(usuarioPerfiles.get(0).getPerfil().getCI_Id()));
 
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -463,7 +472,8 @@ public class VictimaController {
 
 		try {
 			this.validarPerfil();
-			if (!this.perfil.getCVRol().equals("Consulta")) {
+			if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
+            || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 
 				Victima victima = new Victima();
 
@@ -505,7 +515,8 @@ public class VictimaController {
 
 		try {
 			this.validarPerfil();
-			if (!this.perfil.getCVRol().equals("Consulta")) {
+			if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
+            || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 
 				victimaService.deleteVictimaById(Id);
 
@@ -527,7 +538,8 @@ public class VictimaController {
 
 		try {
 			this.validarPerfil();
-			if (!this.perfil.getCVRol().equals("Consulta")) {
+			if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
+            || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 
 				// List<Paises> paises = paisesService.getAllPaises(); // Obtiene la lista de
 				// países

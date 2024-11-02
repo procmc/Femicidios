@@ -3,15 +3,17 @@ package com.if7100.controller;
 import com.if7100.entity.Bitacora;
 
 import com.if7100.entity.Usuario;
+import com.if7100.entity.UsuarioPerfil;
 import com.if7100.entity.Modalidad;
 import com.if7100.entity.Paises;
 import com.if7100.entity.Perfil;
-
+import com.if7100.repository.UsuarioPerfilRepository;
 import com.if7100.repository.UsuarioRepository;
 import com.if7100.service.BitacoraService;
 import com.if7100.service.ModalidadService;
 import com.if7100.service.PaisesService;
 import com.if7100.service.PerfilService;
+import com.if7100.service.UsuarioPerfilService;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -32,8 +34,10 @@ import java.util.stream.IntStream;
 public class ModalidadController {
 
 	private ModalidadService modalidadService;
+	private UsuarioPerfilService usuarioPerfilService;
 	// instancias para control de acceso
 	private UsuarioRepository usuarioRepository;
+	private UsuarioPerfilRepository usuarioPerfilRepository;
 	private Perfil perfil;
 	private PerfilService perfilService;
 	private PaisesService paisesService;
@@ -45,13 +49,16 @@ public class ModalidadController {
 
 	public ModalidadController(ModalidadService modalidadService, PerfilService perfilService,
 			UsuarioRepository usuarioRepository,
-			BitacoraService bitacoraService, PaisesService paisesService) {
+			BitacoraService bitacoraService, PaisesService paisesService, UsuarioPerfilService usuarioPerfilService,
+			UsuarioPerfilRepository usuarioPerfilRepository) {
 		super();
 		this.modalidadService = modalidadService;
 		this.perfilService = perfilService;
 		this.usuarioRepository = usuarioRepository;
 		this.bitacoraService = bitacoraService;
 		this.paisesService = paisesService;
+		this.usuarioPerfilService = usuarioPerfilService;
+		this.usuarioPerfilRepository = usuarioPerfilRepository;
 	}
 
 	private void validarPerfil() {
@@ -61,8 +68,11 @@ public class ModalidadController {
 			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 			String username = authentication.getName();
 			this.usuario = new Usuario(usuarioRepository.findByCVCedula(username));
-			this.perfil = new Perfil(
-					perfilService.getPerfilById(usuarioRepository.findByCVCedula(username).getCIPerfil()));
+			
+			List<UsuarioPerfil> usuarioPerfiles = usuarioPerfilRepository.findByUsuario(this.usuario);
+
+            this.perfil = new Perfil(
+                    perfilService.getPerfilById(usuarioPerfiles.get(0).getPerfil().getCI_Id()));
 
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -124,7 +134,8 @@ public class ModalidadController {
 
 		try {
 			this.validarPerfil();
-			if (!this.perfil.getCVRol().equals("Consulta")) {
+			if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
+            || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 
 				Modalidad modalidad = new Modalidad();
 				model.addAttribute("modalidad", modalidad);
@@ -159,7 +170,8 @@ public class ModalidadController {
 
 		try {
 			this.validarPerfil();
-			if (!this.perfil.getCVRol().equals("Consulta")) {
+			if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
+            || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 
 				// INSERTAR EN BITACORA
 				bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
@@ -181,7 +193,8 @@ public class ModalidadController {
 
 		try {
 			this.validarPerfil();
-			if (!this.perfil.getCVRol().equals("Consulta")) {
+			if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
+            || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 
 				model.addAttribute("modalidad", modalidadService.getModalidadById(id));
 				model.addAttribute("paises", paisesService.getAllPaises());

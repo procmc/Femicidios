@@ -2,6 +2,7 @@ package com.if7100.controller;
 
 import com.if7100.entity.Bitacora;
 import com.if7100.entity.Usuario;
+import com.if7100.entity.UsuarioPerfil;
 import com.if7100.entity.Paises;
 import com.if7100.entity.PaisesidentIdadesgeneros;
 import com.if7100.service.BitacoraService;
@@ -15,6 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 
 import com.if7100.entity.Usuario;
+import com.if7100.repository.UsuarioPerfilRepository;
 import com.if7100.repository.UsuarioRepository;
 import com.if7100.entity.Hecho;
 import com.if7100.entity.IdentidadGenero;
@@ -23,6 +25,7 @@ import com.if7100.service.IdentidadGeneroService;
 import com.if7100.service.PaisesService;
 import com.if7100.service.PaisesidentIdadesgenerosService;
 import com.if7100.service.PerfilService;
+import com.if7100.service.UsuarioPerfilService;
 
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,8 +42,10 @@ import java.util.stream.IntStream;
 public class IdentidadGeneroController {
 
 	private IdentidadGeneroService identidadGeneroService;
+	private UsuarioPerfilService usuarioPerfilService;
 	// instancias para control de acceso
 	private UsuarioRepository usuarioRepository;
+	private UsuarioPerfilRepository usuarioPerfilRepository;
 	private Perfil perfil;
 	private PerfilService perfilService;
 	// instancias para control de bitacora
@@ -53,12 +58,15 @@ public class IdentidadGeneroController {
 	private PaisesService paisesService; // Servicio para manejar los países
 
 	public IdentidadGeneroController(BitacoraService bitacoraService, IdentidadGeneroService identidadGeneroService,
-			PerfilService perfilService, UsuarioRepository usuarioRepository) {
+			PerfilService perfilService, UsuarioRepository usuarioRepository, UsuarioPerfilService usuarioPerfilService,
+			UsuarioPerfilRepository usuarioPerfilRepository) {
 		super();
 		this.identidadGeneroService = identidadGeneroService;
 		this.perfilService = perfilService;
 		this.usuarioRepository = usuarioRepository;
 		this.bitacoraService = bitacoraService;
+		this.usuarioPerfilService = usuarioPerfilService;
+		this.usuarioPerfilRepository = usuarioPerfilRepository;
 
 	}
 
@@ -70,8 +78,10 @@ public class IdentidadGeneroController {
 			String username = authentication.getName();
 			this.usuario = new Usuario(usuarioRepository.findByCVCedula(username));
 
-			this.perfil = new Perfil(
-					perfilService.getPerfilById(usuarioRepository.findByCVCedula(username).getCIPerfil()));
+			List<UsuarioPerfil> usuarioPerfiles = usuarioPerfilRepository.findByUsuario(this.usuario);
+
+            this.perfil = new Perfil(
+                    perfilService.getPerfilById(usuarioPerfiles.get(0).getPerfil().getCI_Id()));
 
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -128,7 +138,8 @@ public class IdentidadGeneroController {
 
 		try {
 			this.validarPerfil();
-			if (!this.perfil.getCVRol().equals("Consulta")) {
+			if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
+            || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 				IdentidadGenero identidadgenero = new IdentidadGenero();
 				List<Paises> listaPaises = paisesService.getAllPaises();
 				model.addAttribute("identidadgenero", identidadgenero);
@@ -170,7 +181,8 @@ public class IdentidadGeneroController {
 	public String editIdentidadGenero(@PathVariable Integer id, Model model) {
 		try {
 			this.validarPerfil();
-			if (!this.perfil.getCVRol().equals("Consulta")) {
+			if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
+            || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 
 				model.addAttribute("identidadgenero", identidadGeneroService.getIdentidadGeneroById(id));
 
@@ -204,7 +216,8 @@ public class IdentidadGeneroController {
 	public String deleteidentidadgenero(@PathVariable Integer Id) {
 		try {
 			this.validarPerfil();
-			if (!this.perfil.getCVRol().equals("Consulta")) {
+			if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
+            || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 
 				bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
                     this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en identidadgenero"));

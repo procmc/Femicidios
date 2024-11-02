@@ -19,27 +19,35 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.if7100.entity.Bitacora;
 import com.if7100.entity.Perfil;
 import com.if7100.entity.Usuario;
+import com.if7100.entity.UsuarioPerfil;
+import com.if7100.repository.UsuarioPerfilRepository;
 import com.if7100.repository.UsuarioRepository;
 import com.if7100.service.BitacoraService;
 import com.if7100.service.PerfilService;
+import com.if7100.service.UsuarioPerfilService;
 
 @Controller
 public class BitacoraController {
 
     private BitacoraService bitacoraService;
+	private UsuarioPerfilService usuarioPerfilService;
     //instancias para control de acceso
     private UsuarioRepository usuarioRepository;
+	private UsuarioPerfilRepository usuarioPerfilRepository;
     private Perfil perfil;
     private PerfilService perfilService;
     //instancias para control de bitacora
     private Usuario usuario;
   //  private Bitacora bitacora1;
 
-    public BitacoraController(BitacoraService  bitacoraService, PerfilService perfilService, UsuarioRepository usuarioRepository) {
+    public BitacoraController(BitacoraService  bitacoraService, PerfilService perfilService, UsuarioRepository usuarioRepository,
+		UsuarioPerfilService usuarioPerfilService, UsuarioPerfilRepository usuarioPerfilRepository) {
         super();
         this.bitacoraService = bitacoraService;
         this.perfilService = perfilService;
         this.usuarioRepository = usuarioRepository;
+		this.usuarioPerfilService = usuarioPerfilService;
+		this.usuarioPerfilRepository = usuarioPerfilRepository;
       
        // this.bitacora1 = bitacora1;Bitacora bitacora1,
     }
@@ -51,7 +59,12 @@ private void validarPerfil() {
 			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 			String username = authentication.getName();
 			this.usuario = new Usuario(usuarioRepository.findByCVCedula(username));
-			this.perfil = new Perfil(perfilService.getPerfilById(usuarioRepository.findByCVCedula(username).getCIPerfil()));
+			
+			List<UsuarioPerfil> usuarioPerfiles = usuarioPerfilRepository.findByUsuario(this.usuario);
+
+            this.perfil = new Perfil(
+                    perfilService.getPerfilById(usuarioPerfiles.get(0).getPerfil().getCI_Id()));
+
 
 		}catch (Exception e) {
 			// TODO: handle exception
@@ -103,7 +116,8 @@ private void validarPerfil() {
     public String createBitacorasForm(Model model){
     	try {
 			this.validarPerfil();
-			if(!this.perfil.getCVRol().equals("Consulta")) {
+			if(usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
+            || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 				Bitacora bitacora= new Bitacora();
 		        model.addAttribute("bitacora", bitacora);
 		        return "bitacoras/create_bitacora";
@@ -128,7 +142,8 @@ private void validarPerfil() {
 
     	try {
 			this.validarPerfil();
-			if(!this.perfil.getCVRol().equals("Consulta")) {
+			if(usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
+            || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 
 				//INSERTAR EN BITACORA
 				//String descripcion="Elimino en Bitacora";
@@ -152,7 +167,8 @@ private void validarPerfil() {
 
     	try {
 			this.validarPerfil();
-			if(!this.perfil.getCVRol().equals("Consulta")) {
+			if(usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
+            || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 
 				model.addAttribute("bitacora", bitacoraService.getBitacoraById(id));
 		        return "bitacoras/edit_bitacora";

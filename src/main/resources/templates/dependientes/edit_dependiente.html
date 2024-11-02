@@ -45,20 +45,17 @@
 
 
 						<div class="col">
-							<div class="mb-3 mx-3">
-								<label class="form-label" for="name">Seleccione la victima</label>
-								<select id="victima" name="victima" class="form-select" required>
-									<optgroup label="Victima">
-										<option th:each="victima : ${victimas}" 
-												th:value="${victima.CI_Id}" 
-												th:text="${victima.CVNombre}"
-												th:selected="${victimasRelacionadas.contains(victima)}">
+							<div class="mb-3 mx-3"><label class="form-label" for="name">Seleccione la victima
+								</label><select th:name="victima" th:field="*{victima}"
+									onfocus="ocultarError()" id="name-2" class="form-select" required>
+									<optgroup label="Relacion del dependiente">
+										<option th:each="victima: ${victimas}"
+											th:value="${victima.CI_Id}"
+											th:text="${victima.CVNombre}">
 										</option>
 									</optgroup>
-								</select>
-							</div>
+								</select></div>
 						</div>
-
 
 					</div>
 					<div class="row align-items-end">

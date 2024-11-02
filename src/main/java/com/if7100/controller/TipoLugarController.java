@@ -2,6 +2,7 @@ package com.if7100.controller;
 
 import com.if7100.entity.Bitacora; 
 import com.if7100.entity.Usuario;
+import com.if7100.entity.UsuarioPerfil;
 import com.if7100.service.BitacoraService;
 
 import org.springframework.data.domain.Page;
@@ -23,9 +24,11 @@ import com.if7100.service.PerfilService;
  * Fecha: 11 de abril del 2023
  */
 import com.if7100.service.TipoLugarService;
+import com.if7100.service.UsuarioPerfilService;
 import com.if7100.entity.Hecho;
 import com.if7100.entity.Perfil;
 import com.if7100.entity.TipoLugar;
+import com.if7100.repository.UsuarioPerfilRepository;
 import com.if7100.repository.UsuarioRepository;
 
 import java.util.List;
@@ -35,8 +38,10 @@ import java.util.stream.IntStream;
 public class TipoLugarController {
 
     private TipoLugarService tipoLugarService;
+	private UsuarioPerfilService usuarioPerfilService;
   //instancias para control de acceso
     private UsuarioRepository usuarioRepository;
+	private UsuarioPerfilRepository usuarioPerfilRepository;
     private Perfil perfil;
     private PerfilService perfilService;
   //instancias para control de bitacora
@@ -45,12 +50,15 @@ public class TipoLugarController {
 
 
     public TipoLugarController(BitacoraService bitacoraService,
-TipoLugarService tipoLugarService, PerfilService perfilService, UsuarioRepository usuarioRepository) {
+TipoLugarService tipoLugarService, PerfilService perfilService, UsuarioRepository usuarioRepository,
+UsuarioPerfilService usuarioPerfilService, UsuarioPerfilRepository usuarioPerfilRepository) {
         super();
         this.tipoLugarService= tipoLugarService;
         this.perfilService = perfilService;
         this.usuarioRepository = usuarioRepository;
         this.bitacoraService= bitacoraService;
+		this.usuarioPerfilService = usuarioPerfilService;
+		this.usuarioPerfilRepository = usuarioPerfilRepository;
 
     }
     
@@ -63,8 +71,11 @@ TipoLugarService tipoLugarService, PerfilService perfilService, UsuarioRepositor
 		    String username = authentication.getName();
 		    this.usuario= new Usuario(usuarioRepository.findByCVCedula(username));
 
-			this.perfil = new Perfil(perfilService.getPerfilById(usuarioRepository.findByCVCedula(username).getCIPerfil()));
-			
+			List<UsuarioPerfil> usuarioPerfiles = usuarioPerfilRepository.findByUsuario(this.usuario);
+
+            this.perfil = new Perfil(
+                    perfilService.getPerfilById(usuarioPerfiles.get(0).getPerfil().getCI_Id()));
+
 		}catch (Exception e) {
 			// TODO: handle exception
 		}
@@ -119,7 +130,8 @@ TipoLugarService tipoLugarService, PerfilService perfilService, UsuarioRepositor
 		
 		try {
 			this.validarPerfil();
-			if(!this.perfil.getCVRol().equals("Consulta")) {
+			if((usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
+            || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2))) {
 				
 				TipoLugar tipoLugar= new TipoLugar();
 				model.addAttribute("tipoLugar", tipoLugar);
@@ -151,7 +163,8 @@ TipoLugarService tipoLugarService, PerfilService perfilService, UsuarioRepositor
 		
 		try {
 			this.validarPerfil();
-			if(!this.perfil.getCVRol().equals("Consulta")) {
+			if((usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
+            || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2))) {
 				
 				  //funcionalidad de bitacora
 				  bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
@@ -174,7 +187,8 @@ TipoLugarService tipoLugarService, PerfilService perfilService, UsuarioRepositor
 		
 		try {
 			this.validarPerfil();
-			if(!this.perfil.getCVRol().equals("Consulta")) {
+			if((usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
+            || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2))) {
 				
 				model.addAttribute("tipoLugar", tipoLugarService.getTipoLugarByCodigo(Codigo));
 				return "tipoLugares/edit_tipoLugar";
