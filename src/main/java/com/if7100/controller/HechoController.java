@@ -208,6 +208,8 @@ public class HechoController {
     @GetMapping("/hechos/excel")
     public void exportToExcel(HttpServletResponse response) throws IOException, java.io.IOException {
         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        this.validarPerfil();
+        
         String headerKey = "Content-Disposition";
         String headerValue = "attachment; filename=hechos_filtrados.xlsx";
         response.setHeader(headerKey, headerValue);
@@ -215,9 +217,6 @@ public class HechoController {
         // Crear un nuevo libro de trabajo de Excel
         XSSFWorkbook workbook = new XSSFWorkbook();
         XSSFSheet sheet = workbook.createSheet("Hechos Filtrados");
-
-        this.validarPerfil();
-
         
         // Crear el estilo para el encabezado (negrita y color de fondo)
         XSSFCellStyle headerStyle = workbook.createCellStyle();
