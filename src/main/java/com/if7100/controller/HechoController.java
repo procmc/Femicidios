@@ -100,7 +100,8 @@ public class HechoController {
             TipoVictimaService tipoVictimaService, TipoRelacionService tipoRelacionService,
             VictimaService victimaService, ProcesoJudicialService procesoJudicialService,
             OrganismoService organismoService, PerfilService perfilService, UsuarioRepository usuarioRepository,
-            BitacoraService bitacoraService, UsuarioPerfilService usuarioPerfilService, UsuarioPerfilRepository usuarioPerfilRepository) {
+            BitacoraService bitacoraService, UsuarioPerfilService usuarioPerfilService,
+            UsuarioPerfilRepository usuarioPerfilRepository) {
         super();
         this.hechoService = hechoService;
         this.paisesService = paisesService;
@@ -171,15 +172,19 @@ public class HechoController {
         for (Hecho hecho : hechos) {
             table.addCell(new Cell().add(new Paragraph(String.valueOf(hecho.getCI_Id())))
                     .setTextAlignment(TextAlignment.CENTER));
-            table.addCell(new Cell().add(new Paragraph(tipoVictimaService.getTipoVictimaById(hecho.getCITipoVictima()).getCVTitulo()))
+            table.addCell(new Cell()
+                    .add(new Paragraph(tipoVictimaService.getTipoVictimaById(hecho.getCITipoVictima()).getCVTitulo()))
                     .setTextAlignment(TextAlignment.CENTER));
-            table.addCell(new Cell().add(new Paragraph(tipoRelacionService.getTipoRelacionById(hecho.getCITipoRelacion()).getCVTitulo()))
+            table.addCell(new Cell()
+                    .add(new Paragraph(
+                            tipoRelacionService.getTipoRelacionById(hecho.getCITipoRelacion()).getCVTitulo()))
                     .setTextAlignment(TextAlignment.CENTER));
-            table.addCell(new Cell().add(new Paragraph(modalidadService.getModalidadById(hecho.getCIModalidad()).getCVTitulo()))
+            table.addCell(new Cell()
+                    .add(new Paragraph(modalidadService.getModalidadById(hecho.getCIModalidad()).getCVTitulo()))
                     .setTextAlignment(TextAlignment.CENTER));
             table.addCell(new Cell().add(new Paragraph(String.valueOf(hecho.getCVAgresionSexual())))
                     .setTextAlignment(TextAlignment.CENTER));
-          
+
             // Victima: Ajustar el contenido si es un objeto completo
             String victimaNombre = hecho.getVictima() != null ? hecho.getVictima().getCVDNI() : "No Disponible";
             table.addCell(new Cell().add(new Paragraph(victimaNombre))
@@ -204,134 +209,145 @@ public class HechoController {
         document.close();
     }
 
-
     @GetMapping("/hechos/excel")
     public void exportToExcel(HttpServletResponse response) throws IOException, java.io.IOException {
-        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-        this.validarPerfil();
-        
-        String headerKey = "Content-Disposition";
-        String headerValue = "attachment; filename=hechos_filtrados.xlsx";
-        response.setHeader(headerKey, headerValue);
 
-        // Crear un nuevo libro de trabajo de Excel
-        XSSFWorkbook workbook = new XSSFWorkbook();
-        XSSFSheet sheet = workbook.createSheet("Hechos Filtrados");
-        
-        // Crear el estilo para el encabezado (negrita y color de fondo)
-        XSSFCellStyle headerStyle = workbook.createCellStyle();
-        XSSFFont font = workbook.createFont();
-        font.setBold(true);
-        headerStyle.setFont(font);
-        headerStyle.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
-        headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-        headerStyle.setAlignment(HorizontalAlignment.CENTER);
-        headerStyle.setVerticalAlignment(VerticalAlignment.CENTER);
-        headerStyle.setBorderBottom(BorderStyle.THIN);
-        headerStyle.setBorderTop(BorderStyle.THIN);
-        headerStyle.setBorderLeft(BorderStyle.THIN);
-        headerStyle.setBorderRight(BorderStyle.THIN);
+        try {
+            this.validarPerfil();
 
-        // Crear el estilo para las celdas (bordes y alineación)
-        XSSFCellStyle cellStyle = workbook.createCellStyle();
-        cellStyle.setBorderBottom(BorderStyle.THIN);
-        cellStyle.setBorderTop(BorderStyle.THIN);
-        cellStyle.setBorderLeft(BorderStyle.THIN);
-        cellStyle.setBorderRight(BorderStyle.THIN);
-        cellStyle.setAlignment(HorizontalAlignment.LEFT);
-        cellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+            response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
 
-        // Crear el estilo para las fechas
-        XSSFCellStyle dateCellStyle = workbook.createCellStyle();
-        short dateFormat = workbook.createDataFormat().getFormat("yyyy-mm-dd");
-        dateCellStyle.cloneStyleFrom(cellStyle);
-        dateCellStyle.setDataFormat(dateFormat);
+            String headerKey = "Content-Disposition";
+            String headerValue = "attachment; filename=hechos_filtrados.xlsx";
+            response.setHeader(headerKey, headerValue);
 
-        // Crear la fila de encabezado
-        XSSFRow headerRow = sheet.createRow(0);
-        String[] headers = { "ID", "Tipo de Víctima", "Tipo de Relación", "Modalidad", "Agresión Sexual",
-                "Denuncia previa", "Generador",
-                "Victima", "Proceso Judicial", "País", "Fecha", "Detalles" };
-        for (int i = 0; i < headers.length; i++) {
-            XSSFCell cell = headerRow.createCell(i);
-            cell.setCellValue(headers[i]);
-            cell.setCellStyle(headerStyle); // Aplicar estilo de encabezado
-        }
+            // Crear un nuevo libro de trabajo de Excel
+            XSSFWorkbook workbook = new XSSFWorkbook();
+            XSSFSheet sheet = workbook.createSheet("Hechos Filtrados");
 
-        // Obtener la lista de hechos filtrados por país
-        Integer codigoPaisUsuario = this.usuario.getOrganizacion().getCodigoPais();
-        List<Hecho> hechos = hechoService.findByCodigoPais(codigoPaisUsuario);
-        Paises pais = paisesService.getPaisByID(codigoPaisUsuario);
+            // Crear el estilo para el encabezado (negrita y color de fondo)
+            XSSFCellStyle headerStyle = workbook.createCellStyle();
+            XSSFFont font = workbook.createFont();
+            font.setBold(true);
+            headerStyle.setFont(font);
+            headerStyle.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
+            headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+            headerStyle.setAlignment(HorizontalAlignment.CENTER);
+            headerStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+            headerStyle.setBorderBottom(BorderStyle.THIN);
+            headerStyle.setBorderTop(BorderStyle.THIN);
+            headerStyle.setBorderLeft(BorderStyle.THIN);
+            headerStyle.setBorderRight(BorderStyle.THIN);
 
-        // Rellenar las filas con los datos
-        int rowNum = 1;
-        for (Hecho hecho : hechos) {
-            XSSFRow row = sheet.createRow(rowNum++);
+            // Crear el estilo para las celdas (bordes y alineación)
+            XSSFCellStyle cellStyle = workbook.createCellStyle();
+            cellStyle.setBorderBottom(BorderStyle.THIN);
+            cellStyle.setBorderTop(BorderStyle.THIN);
+            cellStyle.setBorderLeft(BorderStyle.THIN);
+            cellStyle.setBorderRight(BorderStyle.THIN);
+            cellStyle.setAlignment(HorizontalAlignment.LEFT);
+            cellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
 
-            // ID
-            row.createCell(0).setCellValue(hecho.getCI_Id());
-            row.getCell(0).setCellStyle(cellStyle); // Aplicar estilo de celda
+            // Crear el estilo para las fechas
+            XSSFCellStyle dateCellStyle = workbook.createCellStyle();
+            short dateFormat = workbook.createDataFormat().getFormat("yyyy-mm-dd");
+            dateCellStyle.cloneStyleFrom(cellStyle);
+            dateCellStyle.setDataFormat(dateFormat);
 
-            // Tipo de Víctima
-            row.createCell(1).setCellValue(tipoVictimaService.getTipoVictimaById(hecho.getCITipoVictima()).getCVTitulo());
-            row.getCell(1).setCellStyle(cellStyle);
+            // Crear la fila de encabezado
+            XSSFRow headerRow = sheet.createRow(0);
+            String[] headers = { "ID", "Tipo de Víctima", "Tipo de Relación", "Modalidad", "Agresión Sexual",
+                    "Denuncia previa", "Generador",
+                    "Victima", "Proceso Judicial", "País", "Fecha", "Detalles" };
+            for (int i = 0; i < headers.length; i++) {
+                XSSFCell cell = headerRow.createCell(i);
+                cell.setCellValue(headers[i]);
+                cell.setCellStyle(headerStyle); // Aplicar estilo de encabezado
+            }
 
-            // Tipo de Relación
-            row.createCell(2).setCellValue(tipoRelacionService.getTipoRelacionById(hecho.getCITipoRelacion()).getCVTitulo());
-            row.getCell(2).setCellStyle(cellStyle);
+            // Obtener la lista de hechos filtrados por país
+            Integer codigoPaisUsuario = this.usuario.getOrganizacion().getCodigoPais();
+            List<Hecho> hechos = hechoService.findByCodigoPais(codigoPaisUsuario);
+            Paises pais = paisesService.getPaisByID(codigoPaisUsuario);
 
-            // Modalidad
-            row.createCell(3).setCellValue(modalidadService.getModalidadById(hecho.getCIModalidad()).getCVTitulo());
-            row.getCell(3).setCellStyle(cellStyle);
+            // Rellenar las filas con los datos
+            int rowNum = 1;
+            for (Hecho hecho : hechos) {
+                XSSFRow row = sheet.createRow(rowNum++);
 
-            // Agresión Sexual
-            row.createCell(4).setCellValue(String.valueOf(hecho.getCVAgresionSexual()));
-            row.getCell(4).setCellStyle(cellStyle);
+                // ID
+                row.createCell(0).setCellValue(hecho.getCI_Id());
+                row.getCell(0).setCellStyle(cellStyle); // Aplicar estilo de celda
 
-            // Denuncia previa
-            row.createCell(5).setCellValue(String.valueOf(hecho.getCVDenunciaPrevia()));
-            row.getCell(5).setCellStyle(cellStyle);
+                // Tipo de Víctima
+                row.createCell(1)
+                        .setCellValue(tipoVictimaService.getTipoVictimaById(hecho.getCITipoVictima()).getCVTitulo());
+                row.getCell(1).setCellStyle(cellStyle);
 
-            // Generador
-            row.createCell(6).setCellValue(organismoService.getOrganismoById(hecho.getCIIdGenerador()).getCVNombre());
-            row.getCell(6).setCellStyle(cellStyle);
+                // Tipo de Relación
+                row.createCell(2)
+                        .setCellValue(tipoRelacionService.getTipoRelacionById(hecho.getCITipoRelacion()).getCVTitulo());
+                row.getCell(2).setCellStyle(cellStyle);
 
-            // Victima
-            String victimaNombre = hecho.getVictima() != null ? hecho.getVictima().getCVDNI() : "No Disponible";
-            row.createCell(7).setCellValue(victimaNombre);
-            row.getCell(7).setCellStyle(cellStyle);
+                // Modalidad
+                row.createCell(3).setCellValue(modalidadService.getModalidadById(hecho.getCIModalidad()).getCVTitulo());
+                row.getCell(3).setCellStyle(cellStyle);
 
-            // Proceso Judicial
-            row.createCell(8).setCellValue(hecho.getProcesoJudicial().getCVEstado());
-            row.getCell(8).setCellStyle(cellStyle);
+                // Agresión Sexual
+                row.createCell(4).setCellValue(String.valueOf(hecho.getCVAgresionSexual()));
+                row.getCell(4).setCellStyle(cellStyle);
 
-            // País
-            row.createCell(9).setCellValue(pais.getSpanish());
-            row.getCell(9).setCellStyle(cellStyle);
+                // Denuncia previa
+                row.createCell(5).setCellValue(String.valueOf(hecho.getCVDenunciaPrevia()));
+                row.getCell(5).setCellStyle(cellStyle);
 
-            // Fecha (formato de fecha)
-            XSSFCell fechaCell = row.createCell(10);
-            fechaCell.setCellValue(hecho.getCDFecha());
-            fechaCell.setCellStyle(dateCellStyle);
+                // Generador
+                row.createCell(6)
+                        .setCellValue(organismoService.getOrganismoById(hecho.getCIIdGenerador()).getCVNombre());
+                row.getCell(6).setCellStyle(cellStyle);
 
-            // Observaciones
-            row.createCell(11).setCellValue(hecho.getCVDetalles());
-            row.getCell(11).setCellStyle(cellStyle);
-        }
+                // Victima
+                String victimaNombre = hecho.getVictima() != null ? hecho.getVictima().getCVDNI() : "No Disponible";
+                row.createCell(7).setCellValue(victimaNombre);
+                row.getCell(7).setCellStyle(cellStyle);
 
-        // Ajustar automáticamente el ancho de las columnas
-        for (int i = 0; i < headers.length; i++) {
-            sheet.autoSizeColumn(i);
-        }
+                // Proceso Judicial
+                row.createCell(8).setCellValue(hecho.getProcesoJudicial().getCVEstado());
+                row.getCell(8).setCellStyle(cellStyle);
 
-        // Escribir el archivo Excel a la respuesta
-        try (ServletOutputStream outputStream = response.getOutputStream()) {
-            workbook.write(outputStream);
-        }
-        workbook.close();
+                // País
+                row.createCell(9).setCellValue(pais.getSpanish());
+                row.getCell(9).setCellStyle(cellStyle);
+
+                // Fecha (formato de fecha)
+                XSSFCell fechaCell = row.createCell(10);
+                fechaCell.setCellValue(hecho.getCDFecha());
+                fechaCell.setCellStyle(dateCellStyle);
+
+                // Observaciones
+                row.createCell(11).setCellValue(hecho.getCVDetalles());
+                row.getCell(11).setCellStyle(cellStyle);
+            }
+
+            // Ajustar automáticamente el ancho de las columnas
+            for (int i = 0; i < headers.length; i++) {
+                sheet.autoSizeColumn(i);
+            }
+
+            // Escribir el archivo Excel a la respuesta
+            try (ServletOutputStream outputStream = response.getOutputStream()) {
+                workbook.write(outputStream);
+                 outputStream.flush();
+            }
+
+            workbook.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error al generar el archivo Excel.");
+        } 
     }
 
-    
     private void validarPerfil() {
 
         try {
@@ -340,7 +356,6 @@ public class HechoController {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String username = authentication.getName();
             this.usuario = new Usuario(usuarioRepository.findByCVCedula(username));
-
 
             List<UsuarioPerfil> usuarioPerfiles = usuarioPerfilRepository.findByUsuario(this.usuario);
 
@@ -367,7 +382,7 @@ public class HechoController {
 
     @GetMapping("/hechos")
     public String listHechos(Model model) {
-       this.validarPerfil();
+        this.validarPerfil();
         return "redirect:/hecho/1";
     }
 
@@ -376,10 +391,10 @@ public class HechoController {
 
         this.validarPerfil();
 
-        //obtiene la organizacion del usuario
+        // obtiene la organizacion del usuario
         Organizacion organizacion = this.usuario.getOrganizacion();
 
-        //obtiene el id del pais del hecho segun el pais de la organizacion del usuario
+        // obtiene el id del pais del hecho segun el pais de la organizacion del usuario
         List<Hecho> hechosFiltrados = hechoService.findByCodigoPais(organizacion.getCodigoPais());
 
         // Buscar el país por el código del país almacenado en Hecho
@@ -422,7 +437,7 @@ public class HechoController {
             this.validarPerfil();
 
             if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
-            || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
+                    || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 
                 Hecho hecho = new Hecho();
                 model.addAttribute("hecho", hecho);
@@ -456,7 +471,7 @@ public class HechoController {
     public String saveHecho(@ModelAttribute Hecho hecho, Model model) {
         try {
             this.validarPerfil();
-            //guarda codigo pais internamente
+            // guarda codigo pais internamente
             hecho.setCodigoPais(this.usuario.getOrganizacion().getCodigoPais());
             hechoService.saveHecho(hecho);
 
@@ -478,14 +493,13 @@ public class HechoController {
         try {
             this.validarPerfil();
             if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
-            || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
+                    || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 
                 try {
                     hechoService.deleteHechoById(id);
-                    
-                    bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en hechos"));
 
+                    bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+                            this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en hechos"));
 
                 } catch (DataIntegrityViolationException e) {
 
@@ -510,7 +524,7 @@ public class HechoController {
         try {
             this.validarPerfil();
             if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
-            || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
+                    || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 
                 model.addAttribute("victima", victimaService.getAllVictima());
                 model.addAttribute("ProcesoJudicial", procesoJudicialService.getAllProcesosJudiciales());
@@ -552,7 +566,7 @@ public class HechoController {
             bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
                     this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en hechos"));
 
-           return "redirect:/hechos";
+            return "redirect:/hechos";
         } catch (DataIntegrityViolationException e) {
             String mensaje = "No se puede guardar el hecho debido a un error de integridad de datos.";
             model.addAttribute("error_message", mensaje);
