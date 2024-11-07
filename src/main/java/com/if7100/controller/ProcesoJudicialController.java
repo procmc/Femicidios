@@ -385,7 +385,7 @@ public class ProcesoJudicialController {
             procesoJudicialService.saveProcesoJudicial(procesoJudicial);
 
             bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en proceso judicial"));
+                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en proceso judicial", this.usuario.getOrganizacion().getCodigoPais()));
 
             return "redirect:/procesosJudiciales";
 
@@ -409,7 +409,7 @@ public class ProcesoJudicialController {
                 procesoJudicialService.deleteProcesoJudicialById(id);
 
                 bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en proceso judicial"));
+                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en proceso judicial", this.usuario.getOrganizacion().getCodigoPais()));
 
                 return "redirect:/procesosJudiciales";
             } else {
@@ -459,7 +459,7 @@ public class ProcesoJudicialController {
         procesoJudicialService.updateProcesoJudicial(existingProcesoJudicial);
 
         bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en proceso judicial"));
+                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en proceso judicial", this.usuario.getOrganizacion().getCodigoPais()));
 
         return "redirect:/procesosJudiciales";
     }

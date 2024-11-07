@@ -331,7 +331,7 @@ public class LugarController {
             || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 				
 				bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en lugares"));
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en lugares", this.usuario.getOrganizacion().getCodigoPais()));
 
 				
 				lugarService.deleteLugarById(Id);
@@ -353,7 +353,7 @@ public class LugarController {
 				lugarService.deleteLugarById(id);
 				
 				bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en lugares"));
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en lugares", this.usuario.getOrganizacion().getCodigoPais()));
 
 
 				return "redirect:/hecholugar/".concat(String.valueOf(idLugar));
@@ -406,7 +406,7 @@ public class LugarController {
 			lugarService.updateLugar(existingLugar);
 			
 			bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en lugares"));
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en lugares", this.usuario.getOrganizacion().getCodigoPais()));
 
 			
 			return "redirect:/lugares";
@@ -571,7 +571,7 @@ public class LugarController {
 			lugarService.saveLugar(lugar);
 			
 			bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en lugares"));
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en lugares", this.usuario.getOrganizacion().getCodigoPais()));
 
 			
 			return "redirect:/lugares";
@@ -591,7 +591,7 @@ public class LugarController {
 			lugarService.saveLugar(lugar);
 			
 			bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en lugares"));
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en lugares", this.usuario.getOrganizacion().getCodigoPais()));
 
 			
 			return "redirect:/hecholugar/".concat(String.valueOf(lugar.getCIHecho()));

@@ -204,7 +204,7 @@ public class UsuarioController {
 			usuarioService.saveUsuario(usuario);
 
 			bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en usuarios"));
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en usuarios", this.usuario.getOrganizacion().getCodigoPais()));
 		
 			return "redirect:/usuarios";
 		}
@@ -220,7 +220,7 @@ public class UsuarioController {
 
 				
 				bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en usuarios"));
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en usuarios", this.usuario.getOrganizacion().getCodigoPais()));
 		
 				usuarioService.deleteUsuarioById(Id);
 				return "redirect:/usuarios?Exito";
@@ -274,7 +274,7 @@ public class UsuarioController {
 		usuarioService.updateUsuario(existingUsuario);
 		
 		bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Atualiza en usuarios"));
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Atualiza en usuarios", this.usuario.getOrganizacion().getCodigoPais()));
 		
 		
 		return "redirect:/usuarios";

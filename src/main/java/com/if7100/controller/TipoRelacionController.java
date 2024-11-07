@@ -150,7 +150,7 @@ public class TipoRelacionController {
         tipoRelacionService.saveTipoRelacion(tipoRelacion);
 
         bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-                this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en tipos de relaciones"));
+                this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en tipos de relaciones", this.usuario.getOrganizacion().getCodigoPais()));
 
         return "redirect:/tiporelaciones";
     }
@@ -164,7 +164,7 @@ public class TipoRelacionController {
                     || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 
                 bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-                        this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en tipos de relaciones"));
+                        this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en tipos de relaciones", this.usuario.getOrganizacion().getCodigoPais()));
 
                 tipoRelacionService.deleteTipoRelacionById(id);
                 return "redirect:/tiporelaciones";
@@ -204,7 +204,7 @@ public class TipoRelacionController {
         TipoRelacion existingTipoRelacion = tipoRelacionService.getTipoRelacionById(id);
 
         bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-                this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en tipos de relaciones"));
+                this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en tipos de relaciones", this.usuario.getOrganizacion().getCodigoPais()));
 
         model.addAttribute("paises", paisesService.getAllPaises());
 

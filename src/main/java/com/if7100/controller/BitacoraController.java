@@ -2,6 +2,7 @@ package com.if7100.controller;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import org.springframework.data.domain.Page;
@@ -17,6 +18,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.if7100.entity.Bitacora;
+import com.if7100.entity.Hecho;
+import com.if7100.entity.Organizacion;
+import com.if7100.entity.Paises;
 import com.if7100.entity.Perfil;
 import com.if7100.entity.Usuario;
 import com.if7100.entity.UsuarioPerfil;
@@ -86,29 +90,43 @@ private void validarPerfil() {
 
     @GetMapping("/bitacoras")
     public String listBitacoras(Model model){
+		this.validarPerfil();
         return "redirect:/bitacora/1";
     }
 
 	@GetMapping("/bitacora/{pg}")
 	public String listBiracora(Model model, @PathVariable Integer pg){
 
+		this.validarPerfil();
 		if (pg < 1){
 			return "redirect:/bitacora/1";
 		}
 
-		int numeroTotalElementos = bitacoraService.getAllBitacoras().size();
+		 // obtiene la organizacion del usuario
+        Organizacion organizacion = this.usuario.getOrganizacion();
 
-		Pageable pageable = initPages(pg, 5, numeroTotalElementos);
+        // obtiene el id del pais del hecho segun el pais de la organizacion del usuario
+        List<Bitacora> bitacoraFiltrados = bitacoraService.findByCodigoPais(organizacion.getCodigoPais());
 
-		Page<Bitacora> bitacoraPage = bitacoraService.getAllBitacorasPage(pageable);
+        int numeroTotalElementos = bitacoraFiltrados.size();
 
-		List<Integer> nPaginas = IntStream.rangeClosed(1, bitacoraPage.getTotalPages())
-				.boxed()
-				.toList();
+        Pageable pageable = initPages(pg, 5, numeroTotalElementos);
+
+        int tamanoPagina = pageable.getPageSize();
+        int numeroPagina = pageable.getPageNumber();
+
+        List<Bitacora> bitacoraPaginados = bitacoraFiltrados.stream()
+                .skip((long) numeroPagina * tamanoPagina)
+                .limit(tamanoPagina)
+                .collect(Collectors.toList());
+
+        List<Integer> nPaginas = IntStream.rangeClosed(1, (int) Math.ceil((double) numeroTotalElementos / tamanoPagina))
+                .boxed()
+                .toList();
 
 		model.addAttribute("PaginaActual", pg);
 		model.addAttribute("nPaginas", nPaginas);
-		model.addAttribute("bitacoras", bitacoraPage.getContent());
+		model.addAttribute("bitacoras", bitacoraPaginados);
 		return "bitacoras/bitacoras";
 	}
 

@@ -56,4 +56,7 @@ public class IdentidadGeneroImplement implements IdentidadGeneroService {
 		
 	}
 
+	public List<IdentidadGenero> getIdentidadesGeneroByCodigoPais(Integer codigoPais) {
+        return identidadGeneroRepository.findAllByCodigoPais(codigoPais);
+    }
 }

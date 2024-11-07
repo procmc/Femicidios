@@ -231,7 +231,7 @@ public class HechoOrganismoController {
                 hechoOrganismoService.deleteHechoOrganismoById(id);
 
                 bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-                        this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en hecho_organismo"));
+                        this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en hecho_organismo", this.usuario.getOrganizacion().getCodigoPais()));
 
                 return "redirect:/hechoorganismo";
             } else {
@@ -252,7 +252,7 @@ public class HechoOrganismoController {
             || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
                 hechoOrganismoService.deleteHechoOrganismoById(id);
                 bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-                        this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en hecho_organismo"));
+                        this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en hecho_organismo", this.usuario.getOrganizacion().getCodigoPais()));
 
                 return "redirect:/hechosorganismo/".concat(String.valueOf(idhecho));
             } else {
@@ -273,7 +273,7 @@ public class HechoOrganismoController {
             || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
                 hechoOrganismoService.deleteHechoOrganismoById(id);
                 bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-                        this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en hecho_organismo"));
+                        this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en hecho_organismo", this.usuario.getOrganizacion().getCodigoPais()));
 
                 return "redirect:/hechoorganismos/".concat(String.valueOf(idhecho));
             } else {
@@ -291,7 +291,7 @@ public class HechoOrganismoController {
             hechoOrganismoService.saveHechoOrganismo(hechoOrganismo);
 
             bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en hecho_organismo"));
+                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en hecho_organismo", this.usuario.getOrganizacion().getCodigoPais()));
 
             return "redirect:/hechosorganismo/" + hechoOrganismo.getCIHecho();
         } catch (DataIntegrityViolationException e) {
@@ -307,7 +307,7 @@ public class HechoOrganismoController {
         try {
             hechoOrganismoService.saveHechoOrganismo(hechoOrganismo);
             bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en hecho_organismo"));
+                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en hecho_organismo", this.usuario.getOrganizacion().getCodigoPais()));
 
             return "redirect:/hechoorganismos/" + hechoOrganismo.getCIOrganismo();
         } catch (DataIntegrityViolationException e) {
@@ -350,7 +350,7 @@ public class HechoOrganismoController {
             hechoOrganismoService.updateHechoOrganismo(existingHechoOrganismo);
 
             bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en hecho_organismo"));
+                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en hecho_organismo", this.usuario.getOrganizacion().getCodigoPais()));
 
             return "redirect:/hechoorganismo";
         } catch (DataIntegrityViolationException e) {

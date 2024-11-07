@@ -144,7 +144,7 @@ public class TipoOrganismoController {
 		tipoOrganismoService.saveTipoOrganismo(tipoOrganismo);
 
 		bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en tipos de organismos"));
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en tipos de organismos", this.usuario.getOrganizacion().getCodigoPais()));
 
 		return "redirect:/tipoOrganismo";
 	}
@@ -158,7 +158,7 @@ public class TipoOrganismoController {
 					|| usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 
 				bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-						this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en tipos de organismos"));
+						this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en tipos de organismos", this.usuario.getOrganizacion().getCodigoPais()));
 
 				tipoOrganismoService.deleteTipoOrganismoByCodigo(Codigo);
 				return "redirect:/tipoOrganismo";
@@ -205,7 +205,7 @@ public class TipoOrganismoController {
 		tipoOrganismoService.updateTipoOrganismo(existingTipoOrganismo);
 
 		bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en tipos de organismos"));
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en tipos de organismos", this.usuario.getOrganizacion().getCodigoPais()));
 
 		return "redirect:/tipoOrganismo";
 	}

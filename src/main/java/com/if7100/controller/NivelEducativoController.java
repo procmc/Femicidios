@@ -151,7 +151,7 @@ public class NivelEducativoController {
         nivelEducativoService.saveNivelEducativo(nivelEducativo);
 
         bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-                this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en nivel educativo"));
+                this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en nivel educativo", this.usuario.getOrganizacion().getCodigoPais()));
 
         return "redirect:/nivelEducativo";
 
@@ -166,7 +166,7 @@ public class NivelEducativoController {
             || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 
                 bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-                        this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en nivel educativo"));
+                        this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en nivel educativo", this.usuario.getOrganizacion().getCodigoPais()));
 
                 nivelEducativoService.deleteNivelEducativoById(id);
                 return "redirect:/nivelEducativo";
@@ -210,7 +210,7 @@ public class NivelEducativoController {
         existingNivelEducativo.setCVDescripcion(nivelEducativo.getCVDescripcion());
         existingNivelEducativo.setCVPais(nivelEducativo.getCVPais());
         bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-                this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en nivel educativo"));
+                this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en nivel educativo", this.usuario.getOrganizacion().getCodigoPais()));
 
         nivelEducativoService.updateNivelEducativo(existingNivelEducativo);
         return "redirect:/nivelEducativo";

@@ -143,7 +143,7 @@ public class SituacionJuridicaController {
                 situacionJuridicaService.saveSituacionJuridica(situacionJuridica);
 
                 bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-                        this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en situacion juridica"));
+                        this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en situacion juridica", this.usuario.getOrganizacion().getCodigoPais()));
 
                 return "redirect:/situacionesjuridicas";
             } else {
@@ -166,7 +166,7 @@ public class SituacionJuridicaController {
                 situacionJuridicaService.deleteSituacionJuridicaById(id);
 
                 bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-                        this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en situacion juridica"));
+                        this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en situacion juridica", this.usuario.getOrganizacion().getCodigoPais()));
 
                 return "redirect:/situacionesjuridicas";
             } else {
@@ -211,7 +211,7 @@ public class SituacionJuridicaController {
                 situacionJuridicaService.updateSituacionJuridica(existingSituacionJuridica);
 
                 bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-                        this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en situacion juridica"));
+                        this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en situacion juridica", this.usuario.getOrganizacion().getCodigoPais()));
 
                 return "redirect:/situacionesjuridicas";
             } else {

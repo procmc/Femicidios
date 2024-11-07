@@ -170,7 +170,7 @@ public class OrganismoController {
 			organismoService.saveOrganismo(organismo);
 
 			bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-					this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en organismos"));
+					this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en organismos", this.usuario.getOrganizacion().getCodigoPais()));
 			return "redirect:/organismos";
 		}
 
@@ -187,7 +187,7 @@ public class OrganismoController {
             || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 
 				bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-						this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en organismos"));
+						this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en organismos", this.usuario.getOrganizacion().getCodigoPais()));
 
 				organismoService.deleteOrganismoById(id);
 				return "redirect:/organismos";
@@ -237,7 +237,7 @@ public class OrganismoController {
 		organismoService.updateOrganismo(existingOrganismo);
 
 		bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en organismos"));
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en organismos", this.usuario.getOrganizacion().getCodigoPais()));
 
 		return "redirect:/organismos";
 	}

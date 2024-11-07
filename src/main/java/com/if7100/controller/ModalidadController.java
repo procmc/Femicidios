@@ -159,7 +159,7 @@ public class ModalidadController {
 				modalidad.getCVDescripcion();
 
 		bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en modalidades"));
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en modalidades", this.usuario.getOrganizacion().getCodigoPais()));
 
 		modalidadService.saveModalidad(modalidad);
 		return "redirect:/modalidades";
@@ -175,7 +175,7 @@ public class ModalidadController {
 
 				// INSERTAR EN BITACORA
 				bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en modalidades"));
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en modalidades", this.usuario.getOrganizacion().getCodigoPais()));
 				
 				modalidadService.deleteModalidadById(id);
 				return "redirect:/modalidades";
@@ -215,7 +215,7 @@ public class ModalidadController {
 		Modalidad existingModalidad = modalidadService.getModalidadById(id);
 		
 		bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en modalidades"));
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en modalidades", this.usuario.getOrganizacion().getCodigoPais()));
 
 		
 		model.addAttribute("paises", paisesService.getAllPaises());

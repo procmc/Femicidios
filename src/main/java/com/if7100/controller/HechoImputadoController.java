@@ -234,7 +234,7 @@ public class HechoImputadoController {
                 hechoImputadoService.deleteHechoImputadoById(id);
 
                 bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-                        this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en hecho_imputado"));
+                        this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en hecho_imputado", this.usuario.getOrganizacion().getCodigoPais()));
 
                 return "redirect:/hechoimputado";
             } else {
@@ -256,7 +256,7 @@ public class HechoImputadoController {
                 hechoImputadoService.deleteHechoImputadoById(id);
 
                 bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-                        this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en hecho_imputado"));
+                        this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en hecho_imputado", this.usuario.getOrganizacion().getCodigoPais()));
 
                 return "redirect:/hechosimputado/".concat(String.valueOf(idhecho));
             } else {
@@ -278,7 +278,7 @@ public class HechoImputadoController {
                 hechoImputadoService.deleteHechoImputadoById(id);
 
                 bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-                        this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en hecho_imputado"));
+                        this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en hecho_imputado", this.usuario.getOrganizacion().getCodigoPais()));
 
                 return "redirect:/hechoimputados/".concat(String.valueOf(idhecho));
             } else {
@@ -296,7 +296,7 @@ public class HechoImputadoController {
             hechoImputadoService.saveHechoImputado(hechoImputado);
 
             bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en hecho_imputado"));
+                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en hecho_imputado", this.usuario.getOrganizacion().getCodigoPais()));
 
             return "redirect:/hechosimputado/" + hechoImputado.getCIHecho();
         } catch (DataIntegrityViolationException e) {
@@ -312,7 +312,7 @@ public class HechoImputadoController {
         try {
             hechoImputadoService.saveHechoImputado(hechoImputado);
             bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en hecho_imputado"));
+                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en hecho_imputado", this.usuario.getOrganizacion().getCodigoPais()));
 
             return "redirect:/hechoimputados/" + hechoImputado.getCIImputado();
         } catch (DataIntegrityViolationException e) {
@@ -355,7 +355,7 @@ public class HechoImputadoController {
             hechoImputadoService.updateHechoImputado(existingHechoImputado);
 
             bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en hecho_imputado"));
+                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en hecho_imputado", this.usuario.getOrganizacion().getCodigoPais()));
 
             return "redirect:/hechoimputado";
         } catch (DataIntegrityViolationException e) {

@@ -149,7 +149,7 @@ public class TipoRelacionFamiliarController {
 		tipoRelacionFamiliarService.saveTipoRelacionFamiliar(tipoRelacionFamiliar);
 
 		bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en tipos de relaciones familiares"));
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en tipos de relaciones familiares", this.usuario.getOrganizacion().getCodigoPais()));
 
 		return "redirect:/tiporelacionfamiliar";
 	}
@@ -185,7 +185,7 @@ public class TipoRelacionFamiliarController {
 		tipoRelacionFamiliarService.updateTipoRelacionFamiliar(existingTipoRelacionFamiliar);
 
 		bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en tipos de relaciones familiares"));
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en tipos de relaciones familiares", this.usuario.getOrganizacion().getCodigoPais()));
 
 		return "redirect:/tiporelacionfamiliar";
 	}
@@ -199,7 +199,7 @@ public class TipoRelacionFamiliarController {
 
 				bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
 						this.usuario.getCVNombre(), this.perfil.getCVRol(),
-						"Elimina en tipos de relaciones familiares"));
+						"Elimina en tipos de relaciones familiares", this.usuario.getOrganizacion().getCodigoPais()));
 
 				tipoRelacionFamiliarService.deleteTipoRelacionFamiliarById(Id);
 				return "redirect:/tiporelacionfamiliar";

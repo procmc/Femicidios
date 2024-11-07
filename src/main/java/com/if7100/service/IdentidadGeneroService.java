@@ -19,4 +19,6 @@ public interface IdentidadGeneroService {
 	
 
 	void deleteIdentidadGeneroById(Integer Id);
+
+	List<IdentidadGenero> getIdentidadesGeneroByCodigoPais(Integer codigoPais);
 }

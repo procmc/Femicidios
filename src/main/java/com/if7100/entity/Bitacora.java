@@ -26,20 +26,23 @@ public class Bitacora {
 	public Bitacora() {
 
 	}
-	public Bitacora(String CVCedulaUsuario, String CV_DNI_Usuario, String CV_Rol, String CV_Descripcion) {
+	public Bitacora(String CVCedulaUsuario, String CV_DNI_Usuario, String CV_Rol, String CV_Descripcion, Integer codigoPais) {
 		this.CVCedulaUsuario = CVCedulaUsuario; 
 		this.CVUsuario = CV_DNI_Usuario;
 		this.CVRol= CV_Rol;
 		this.CVDescripcion = CV_Descripcion;
 		this.CTFecha = new Date();
+		this.codigoPais = codigoPais;
 	}
-	public Bitacora(String CVCedulaUsuario, String CV_DNI_Usuario, String CV_Rol, String CV_Descripcion, Date CT_Fecha) {
+	public Bitacora(String CVCedulaUsuario, String CV_DNI_Usuario, String CV_Rol, String CV_Descripcion, Date CT_Fecha,  Integer codigoPais) {
 		super();
 		this.CVCedulaUsuario = CVCedulaUsuario; 
 		this.CVUsuario = CV_DNI_Usuario;
 		this.CVRol= CV_Rol;
 		this.CVDescripcion = CV_Descripcion;
 		this.CTFecha = new Date();
+		this.codigoPais = codigoPais;
+
 	}
 
 	@Id
@@ -63,6 +66,10 @@ public class Bitacora {
 	@Column (name = "CT_Fecha", nullable = false)
 	private Date CTFecha;
 
+	@Column(name = "ci_codigo_pais", nullable = false)
+    private Integer codigoPais;
+
+	////////////////////////
 
 	public Integer getCIIdBitacora() {
 		return CI_Id_Bitacora;
@@ -117,6 +124,14 @@ public class Bitacora {
 
 	public void setCTFecha(Date cTFecha) {
 		CTFecha = cTFecha;
+	}
+
+	public Integer getCodigoPais() {
+		return codigoPais;
+	}
+
+	public void setCodigoPais(Integer codigoPais) {
+		this.codigoPais = codigoPais;
 	}
 
 

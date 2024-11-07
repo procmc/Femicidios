@@ -476,7 +476,7 @@ public class HechoController {
             hechoService.saveHecho(hecho);
 
             bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en hechos"));
+                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en hechos", this.usuario.getOrganizacion().getCodigoPais()));
 
             return "redirect:/hechos";
         } catch (DataIntegrityViolationException e) {
@@ -499,7 +499,7 @@ public class HechoController {
                     hechoService.deleteHechoById(id);
 
                     bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-                            this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en hechos"));
+                            this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en hechos", this.usuario.getOrganizacion().getCodigoPais()));
 
                 } catch (DataIntegrityViolationException e) {
 
@@ -564,7 +564,7 @@ public class HechoController {
             hechoService.updateHecho(existingHecho);
 
             bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en hechos"));
+                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en hechos", this.usuario.getOrganizacion().getCodigoPais()));
 
             return "redirect:/hechos";
         } catch (DataIntegrityViolationException e) {

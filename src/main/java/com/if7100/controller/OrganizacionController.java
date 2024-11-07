@@ -166,7 +166,7 @@ public class OrganizacionController {
 		organizacionService.saveOrganizacion(organizacion);
 
 		bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en organizacion"));
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en organizacion", this.usuario.getOrganizacion().getCodigoPais()));
 
 		return "redirect:/organizacion";
 	}
@@ -209,7 +209,7 @@ public class OrganizacionController {
 		organizacionService.updateOrganizacion(existingOrganizacion);
 
 		bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en organizacion"));
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en organizacion", this.usuario.getOrganizacion().getCodigoPais()));
 
 		return "redirect:/organizacion";
 	}
@@ -224,7 +224,7 @@ public class OrganizacionController {
 				try {
 
 					bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-							this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en organizacion"));
+							this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en organizacion", this.usuario.getOrganizacion().getCodigoPais()));
 
 					organizacionService.deleteOrganizacionById(id);
 

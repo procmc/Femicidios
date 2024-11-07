@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.if7100.entity.Bitacora;
+import com.if7100.entity.Hecho;
 import com.if7100.repository.BitacoraRepository;
 import com.if7100.service.BitacoraService;
 
@@ -70,5 +71,8 @@ public class BitacoraServiceImpl implements BitacoraService{
 		return bitacoraRepository.findByCVUsuario(CVUsuario);
 	}
 	
-	
+	@Override
+    public List<Bitacora> findByCodigoPais(Integer codigoPais) {
+        return bitacoraRepository.findByCodigoPais(codigoPais);
+    }
 }

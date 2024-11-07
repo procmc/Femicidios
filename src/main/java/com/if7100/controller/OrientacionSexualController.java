@@ -171,7 +171,7 @@ public class OrientacionSexualController {
 		orientacionService.saveOrientacionSexual(orientacion);
 
 		bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en orientacion sexual"));
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en orientacion sexual", this.usuario.getOrganizacion().getCodigoPais()));
 
 		return "redirect:/orientacionesSexuales";
 	}
@@ -187,7 +187,7 @@ public class OrientacionSexualController {
 				orientacionService.getOrientacionSexualByCodigo(id).getCVTitulo();
 
 				bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-						this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en orientacion sexual"));
+						this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en orientacion sexual", this.usuario.getOrganizacion().getCodigoPais()));
 
 				orientacionService.deleteOrientacionSexualByCodigo(id);
 				return "redirect:/orientacionesSexuales";
@@ -233,12 +233,12 @@ public class OrientacionSexualController {
 			orientacionService.getOrientacionSexualByCodigo(id).getCVTitulo();
 
 			bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-					this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en orientacion sexual"));
+					this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en orientacion sexual", this.usuario.getOrganizacion().getCodigoPais()));
 
 		} else {
 			orientacionService.getOrientacionSexualByCodigo(id).getCVTitulo();
 			bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-					this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en orientacion sexual"));
+					this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en orientacion sexual", this.usuario.getOrganizacion().getCodigoPais()));
 
 		}
 

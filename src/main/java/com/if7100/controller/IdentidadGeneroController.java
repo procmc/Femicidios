@@ -36,6 +36,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Controller
@@ -114,24 +115,40 @@ public class IdentidadGeneroController {
 	public String listIdentidadesGeneros(Model model, @PathVariable Integer pg) {
 
 		this.validarPerfil();
+	
 		if (pg < 1) {
 			return "redirect:/identidadesgenero/1";
 		}
+	
+		// Obtener el código de país del usuario logueado
+		Integer codigoPaisUsuario = this.usuario.getOrganizacion().getCodigoPais();
+	
+		// obtiene el id del pais del hecho segun el pais de la organizacion del usuario
+        List<IdentidadGenero> identidadGeneroFiltrados = identidadGeneroService.getIdentidadesGeneroByCodigoPais(codigoPaisUsuario);
 
-		int numeroTotalElementos = identidadGeneroService.getAllIdentidadGenero().size();
-		Pageable pageable = initPages(pg, 5, numeroTotalElementos);
+		  int numeroTotalElementos = identidadGeneroFiltrados.size();
 
-		Page<IdentidadGenero> identidadGeneroPage = identidadGeneroService.getAllIdentidadGeneroPage(pageable);
+        Pageable pageable = initPages(pg, 5, numeroTotalElementos);
 
-		List<Integer> nPaginas = IntStream.rangeClosed(1, identidadGeneroPage.getTotalPages())
-				.boxed()
-				.toList();
+        int tamanoPagina = pageable.getPageSize();
+        int numeroPagina = pageable.getPageNumber();
 
+        List<IdentidadGenero> identidadGeneroPaginados = identidadGeneroFiltrados.stream()
+                .skip((long) numeroPagina * tamanoPagina)
+                .limit(tamanoPagina)
+                .collect(Collectors.toList());
+
+        List<Integer> nPaginas = IntStream.rangeClosed(1, (int) Math.ceil((double) numeroTotalElementos / tamanoPagina))
+                .boxed()
+                .toList();
+	
 		model.addAttribute("PaginaActual", pg);
 		model.addAttribute("nPaginas", nPaginas);
-		model.addAttribute("identidadesGenero", identidadGeneroPage.getContent());
+		model.addAttribute("identidadesGenero", identidadGeneroPaginados);
+		
 		return "identidadGeneros/identidadgenero";
 	}
+	
 
 	@GetMapping("/identidadgenero/new")
 	public String createIdentidadGenero(Model model) {
@@ -172,7 +189,7 @@ public class IdentidadGeneroController {
 			}
 		}
 		bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en identidadgenero"));
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en identidadgenero", this.usuario.getOrganizacion().getCodigoPais()));
 
 		return "redirect:/identidadgenero";
 	}
@@ -207,7 +224,7 @@ public class IdentidadGeneroController {
 		identidadGeneroService.updateIdentidadGenero(identidadgenero);
 		
 		bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en identidadgenero"));
+                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en identidadgenero", this.usuario.getOrganizacion().getCodigoPais()));
 
 		return "redirect:/identidadgenero";
 	}
@@ -220,7 +237,7 @@ public class IdentidadGeneroController {
             || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 
 				bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en identidadgenero"));
+                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en identidadgenero", this.usuario.getOrganizacion().getCodigoPais()));
 
 				identidadGeneroService.deleteIdentidadGeneroById(Id);
 				return "redirect:/identidadgenero";

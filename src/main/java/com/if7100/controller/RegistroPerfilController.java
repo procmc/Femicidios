@@ -153,7 +153,7 @@ UsuarioPerfilRepository usuarioPerfilRepository) {
 		perfilService.savePerfil(perfil);
 		
 		bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en registro de perfil"));
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en registro de perfil", this.usuario.getOrganizacion().getCodigoPais()));
 
 		return "redirect:/perfiles";
 	}
@@ -166,7 +166,7 @@ UsuarioPerfilRepository usuarioPerfilRepository) {
 			if(usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)) {
 				
 				bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en registro de perfil"));
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en registro de perfil", this.usuario.getOrganizacion().getCodigoPais()));
 
 				perfilService.deletePerfilById(id);
 				return "redirect:/perfiles";
@@ -208,7 +208,7 @@ UsuarioPerfilRepository usuarioPerfilRepository) {
 		perfilService.updatePerfil(existingUsuario);
 		
 		bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en registro de perfil"));
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en registro de perfil", this.usuario.getOrganizacion().getCodigoPais()));
 
 		return "redirect:/perfiles";
 	}

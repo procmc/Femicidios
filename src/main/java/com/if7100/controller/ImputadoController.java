@@ -487,7 +487,7 @@ public class ImputadoController {
 			imputadoService.saveImputado(imputado);
 
 			bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en imputados"));
+                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en imputados", this.usuario.getOrganizacion().getCodigoPais()));
 
 			return "redirect:/imputados";
 
@@ -510,7 +510,7 @@ public class ImputadoController {
 				imputadoService.deleteImputadoById(id);
 				
 				bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en imputados"));
+                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en imputados", this.usuario.getOrganizacion().getCodigoPais()));
 
 				return "redirect:/imputados";
 			} else {
@@ -585,7 +585,7 @@ public class ImputadoController {
 		imputadoService.updateImputado(existingImputado);
 		
 		bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en imputados"));
+                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en imputados", this.usuario.getOrganizacion().getCodigoPais()));
 
 		return "redirect:/imputados";
 	}

@@ -152,7 +152,7 @@ UsuarioPerfilService usuarioPerfilService, UsuarioPerfilRepository usuarioPerfil
 	    
 	    //funcionalidad de bitacora
 	    bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en tipos de lugares"));
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en tipos de lugares", this.usuario.getOrganizacion().getCodigoPais()));
 
 		return "redirect:/tipolugares";
 	}
@@ -168,7 +168,7 @@ UsuarioPerfilService usuarioPerfilService, UsuarioPerfilRepository usuarioPerfil
 				
 				  //funcionalidad de bitacora
 				  bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-				  this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en tipos de lugares"));
+				  this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en tipos de lugares", this.usuario.getOrganizacion().getCodigoPais()));
   
 				tipoLugarService.deleteTipoLugarByCodigo(Codigo);
 				return "redirect:/tipolugares";
@@ -213,7 +213,7 @@ UsuarioPerfilService usuarioPerfilService, UsuarioPerfilRepository usuarioPerfil
 		//funcionalidad bitacora
 		
 		bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en tipos de lugares"));
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en tipos de lugares", this.usuario.getOrganizacion().getCodigoPais()));
 
 		return "redirect:/tipolugares";
 	}

@@ -33,13 +33,14 @@ public class BitacoraControllerTest {
     private final String rol = "Convencional";
     private final String descripcion = "Elimino en Test";
     private final Date fecha = Date.valueOf("2024-10-25");
+    private final Integer codigoPais = 52;
 
     private Bitacora bitacora;
     private  Bitacora bitacoraConsultada;
 
     @BeforeAll
     public void setUp() {
-        bitacora = new Bitacora(CVCedulaUsuario, CV_DNI_Usuario, rol, descripcion, fecha);
+        bitacora = new Bitacora(CVCedulaUsuario, CV_DNI_Usuario, rol, descripcion, fecha, codigoPais);
     }
 
     @Test

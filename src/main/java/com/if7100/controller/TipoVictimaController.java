@@ -141,7 +141,7 @@ UsuarioPerfilService usuarioPerfilService, UsuarioPerfilRepository usuarioPerfil
         tipoVictimaService.saveTipoVictima(tipoVictima);
         
         bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en tipos de victimas"));
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en tipos de victimas", this.usuario.getOrganizacion().getCodigoPais()));
 		
         
         return "redirect:/tipovictimas";
@@ -156,7 +156,7 @@ UsuarioPerfilService usuarioPerfilService, UsuarioPerfilRepository usuarioPerfil
             || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 				
 				bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en tipos de victimas"));
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en tipos de victimas", this.usuario.getOrganizacion().getCodigoPais()));
 		
 				tipoVictimaService.deleteTipoVictimaById(id);
 		        return "redirect:/tipovictimas";
@@ -199,7 +199,7 @@ UsuarioPerfilService usuarioPerfilService, UsuarioPerfilRepository usuarioPerfil
         tipoVictimaService.updateTipoVictima(existingTipoVictima);
         
         bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en tipos de victimas"));
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en tipos de victimas", this.usuario.getOrganizacion().getCodigoPais()));
 		
         
         return "redirect:/tipovictimas";

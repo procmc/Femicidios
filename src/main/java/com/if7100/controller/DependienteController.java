@@ -396,7 +396,7 @@ public class DependienteController {
 			dependienteService.saveDependiente(dependiente);
 
 			bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-					this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en dependientes"));
+					this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en dependientes", this.usuario.getOrganizacion().getCodigoPais()));
 
 		} else {
 			model.addAttribute("error", "La víctima seleccionada no es válida.");
@@ -415,7 +415,7 @@ public class DependienteController {
             || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 
 				bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-						this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en dependientes"));
+						this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en dependientes", this.usuario.getOrganizacion().getCodigoPais()));
 
 				dependienteService.deleteDependienteById(Id);
 
@@ -474,7 +474,7 @@ public class DependienteController {
 		Victima victima = victimaService.getVictimaById(idVictima);
 
 		bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en dependientes"));
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en dependientes", this.usuario.getOrganizacion().getCodigoPais()));
 
 		return "redirect:/dependientes";
 

@@ -505,7 +505,7 @@ public class VictimaController {
 		victimaService.saveVictima(victima);
 
 		bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en victimas"));
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en victimas", this.usuario.getOrganizacion().getCodigoPais()));
 
 		return "redirect:/victimas";
 	}
@@ -521,7 +521,7 @@ public class VictimaController {
 				victimaService.deleteVictimaById(Id);
 
 				bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en victimas"));
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en victimas", this.usuario.getOrganizacion().getCodigoPais()));
 
 				return "redirect:/victimas";
 			} else {
@@ -597,7 +597,7 @@ public class VictimaController {
 		victimaService.updateVictima(existingVictima);
 
 		bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en victimas"));
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en victimas", this.usuario.getOrganizacion().getCodigoPais()));
 	
 		return "redirect:/victimas";
 
