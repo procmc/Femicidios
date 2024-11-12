@@ -16,7 +16,7 @@ public interface IdentidadGeneroRepository extends JpaRepository<IdentidadGenero
 
 	//IdentidadGenero findByCedula(String cedula);
 
-	@Query("SELECT ig FROM IdentidadGenero ig JOIN PaisesidentIdadesgeneros pig ON ig.Id = pig.identidadGenero.Id WHERE pig.pais.Id = :codigoPais")
+	@Query("SELECT ig FROM IdentidadGenero ig JOIN IdentidadGeneroPais igp ON ig.Id = igp.identidadGenero.Id WHERE igp.pais.Id = :codigoPais")
     List<IdentidadGenero> findAllByCodigoPais(@Param("codigoPais") Integer codigoPais);
 
 

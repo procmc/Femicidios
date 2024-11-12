@@ -85,7 +85,7 @@ public class RedireccionController {
             case "organizacion" -> {
                 return "redirect:/organizacion";
             }
-          
+
             default -> {
                 return "redirect:/error";
             }
@@ -167,7 +167,6 @@ public class RedireccionController {
             default -> {
                 return "redirect:/error";
             }
-
         }
 
     }
@@ -182,12 +181,33 @@ public class RedireccionController {
             case "hechoorganismo" -> {
                 return "redirect:/hechoorganismo";
             }
+
             default -> {
                 return "redirect:/error";
             }
 
         }
 
+    }
+
+    @PostMapping("/redireccionarRelacionPais")
+    public String redireccionarRelacionPais(@RequestParam String opcion) {
+
+        String[] prueba = opcion.split("-");
+        String accion = prueba[1];
+        String id = prueba[0];
+
+        String redirectUrl = "";
+
+        switch (accion) {
+            case "agregarPais" -> {
+                return "redirect:" + redirectUrl + id;
+            }
+
+            default -> {
+                return "redirect:/error";
+            }
+        }
     }
 
 }

@@ -3,8 +3,8 @@ package com.if7100.controller;
 import com.if7100.entity.Bitacora;
 import com.if7100.entity.Usuario;
 import com.if7100.entity.UsuarioPerfil;
+import com.if7100.entity.relacionesEntity.IdentidadGeneroPais;
 import com.if7100.entity.Paises;
-import com.if7100.entity.PaisesidentIdadesgeneros;
 import com.if7100.service.BitacoraService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +23,9 @@ import com.if7100.entity.IdentidadGenero;
 import com.if7100.entity.Perfil;
 import com.if7100.service.IdentidadGeneroService;
 import com.if7100.service.PaisesService;
-import com.if7100.service.PaisesidentIdadesgenerosService;
 import com.if7100.service.PerfilService;
 import com.if7100.service.UsuarioPerfilService;
+import com.if7100.service.relacionesService.IdentidadGeneroPaisService;
 
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -54,7 +54,7 @@ public class IdentidadGeneroController {
 	private Usuario usuario;
 
 	@Autowired
-	private PaisesidentIdadesgenerosService paisesIdentidadGeneroService; // Servicio para manejar la relación
+	private IdentidadGeneroPaisService identidadGeneroPaisService; // Servicio para manejar la relación
 	@Autowired
 	private PaisesService paisesService; // Servicio para manejar los países
 
@@ -182,10 +182,10 @@ public class IdentidadGeneroController {
 		for (String iso2 : paisesSeleccionados) {
 			Paises pais = paisesService.getPaisByISO2(iso2); // Obtener el país por ISO2
 			if (pais != null) {
-				PaisesidentIdadesgeneros relacion = new PaisesidentIdadesgeneros();
+				IdentidadGeneroPais relacion = new IdentidadGeneroPais();
 				relacion.setIdentidadGenero(identidadgenero);
 				relacion.setPais(pais);
-				paisesIdentidadGeneroService.save(relacion);
+				identidadGeneroPaisService.saveIdentidadGeneroPais(relacion);
 			}
 		}
 		bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),

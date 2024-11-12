@@ -1,12 +1,15 @@
-package com.if7100.entity;
+package com.if7100.entity.relacionesEntity;
 
 import java.util.Optional;
+
+import com.if7100.entity.IdentidadGenero;
+import com.if7100.entity.Paises;
 
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "ta_paisesidentidadesgeneros")
-public class PaisesidentIdadesgeneros {
+public class IdentidadGeneroPais {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
