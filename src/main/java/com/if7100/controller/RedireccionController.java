@@ -203,6 +203,9 @@ public class RedireccionController {
             case "agregarPais" -> {
                 return "redirect:" + redirectUrl + id;
             }
+            case "mostrarPais" -> {
+                return "redirect:" + redirectUrl + id;
+            }
 
             default -> {
                 return "redirect:/error";

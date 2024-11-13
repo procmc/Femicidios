@@ -1,6 +1,8 @@
 package com.if7100.controller.relacionesController;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -14,11 +16,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.if7100.entity.Bitacora;
-import com.if7100.entity.Hecho;
 import com.if7100.entity.IdentidadGenero;
 import com.if7100.entity.Lugar;
+import com.if7100.entity.Organizacion;
 import com.if7100.entity.Paises;
 import com.if7100.entity.Perfil;
 import com.if7100.entity.Usuario;
@@ -36,6 +39,7 @@ import com.if7100.service.UsuarioPerfilService;
 import com.if7100.service.relacionesService.IdentidadGeneroPaisService;
 
 import io.micrometer.core.instrument.Meter.Id;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class IdentidadGeneroPaisesController {
@@ -103,11 +107,43 @@ public class IdentidadGeneroPaisesController {
         return PageRequest.of(numeroPagina, tamanoPagina);
     }
 
-    @GetMapping("/identidadGeneroPais/{Id}")
+
+    @GetMapping("/identidadGeneroPais/{id}")
     public String listIdentidadGeneroPais(Model model, @PathVariable Integer id) {
         this.validarPerfil();
         return "redirect:/identidadGeneroPais/".concat(String.valueOf(id)).concat("/1");
     }
+
+    @GetMapping("/identidadGeneroPais/{id}/{pg}")
+	public String listidentidadGeneroPais(Model model, @PathVariable Integer id, @PathVariable Integer pg) {
+		this.validarPerfil();
+
+        IdentidadGenero identidadGenero = identidadGeneroService.getIdentidadGeneroById(id);
+
+		// Obtener los procesos judiciales filtrados por el código de país
+		List<IdentidadGeneroPais> identidadGeneroPaisFiltrados = identidadGeneroPaisService.getRelacionesByIdentidadGenero(identidadGenero);
+
+		int numeroTotalElementos = identidadGeneroPaisFiltrados.size();
+
+		Pageable pageable = initPages(pg, 5, numeroTotalElementos);
+
+		int tamanoPagina = pageable.getPageSize();
+		int numeroPagina = pageable.getPageNumber();
+
+		List<IdentidadGeneroPais> identidadGeneroPaisPaginados = identidadGeneroPaisFiltrados.stream()
+				.skip((long) numeroPagina * tamanoPagina)
+				.limit(tamanoPagina)
+				.collect(Collectors.toList());
+
+		List<Integer> nPaginas = IntStream.rangeClosed(1, (int) Math.ceil((double) numeroTotalElementos / tamanoPagina))
+				.boxed()
+				.toList();
+
+		model.addAttribute("PaginaActual", pg);
+		model.addAttribute("nPaginas", nPaginas);
+		model.addAttribute("identidadGeneroPais", identidadGeneroPaisPaginados);
+		return "relacionesTemplates/identidadGeneroPais/identidadGeneroPais";
+	}
 
     // crear paises
     @GetMapping("/identidadGeneroPais/new/{Id}")
@@ -119,22 +155,23 @@ public class IdentidadGeneroPaisesController {
             if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
                     || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 
-                // Obtener lista de países y enviarla al modelo
+                IdentidadGenero identidadGenero = new IdentidadGenero();
                 IdentidadGeneroPais identidadGeneroPais = new IdentidadGeneroPais();
+
+                identidadGeneroPais.setIdentidadGenero(identidadGenero);
                 identidadGeneroPais.getIdentidadGenero().setId(Id);
 
                 model.addAttribute("identidadGeneroPais", identidadGeneroPais);
 
                 model.addAttribute("paises", paisesService.getAllPaises());
                 model.addAttribute("identidadGenero", identidadGeneroService.getAllIdentidadGenero());
-
+                
                 return "relacionesTemplates/identidadGeneroPais/create_identidadGeneroPais";
             } else {
                 return "SinAcceso";
             }
 
         } catch (Exception e) {
-            System.out.println("Errorsa: " + e);
 
             return "SinAcceso";
         }
@@ -142,22 +179,58 @@ public class IdentidadGeneroPaisesController {
     }
 
     @PostMapping("/identidadGeneroPais")
-    public String saveHecho(@ModelAttribute IdentidadGeneroPais identidadGeneroPais, Model model) {
+    public String saveHecho(@ModelAttribute IdentidadGeneroPais identidadGeneroPais,
+     @RequestParam List<String> paisesSeleccionados,
+    Model model) {
         try {
             this.validarPerfil();
             // guarda codigo pais internamente
 
-            identidadGeneroPaisService.saveIdentidadGeneroPais(identidadGeneroPais);
+            for (String iso2 : paisesSeleccionados) {
+			Paises pais = paisesService.getPaisByISO2(iso2); // Obtener el país por ISO2
+			if (pais != null) {
+				IdentidadGeneroPais relacion = new IdentidadGeneroPais();
+				relacion.setIdentidadGenero(identidadGeneroPais.getIdentidadGenero());
+				relacion.setPais(pais);
+				identidadGeneroPaisService.saveIdentidadGeneroPais(relacion);
+			}
+		}
 
             bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
                     this.usuario.getCVNombre(), this.perfil.getCVRol(), "Agrega país a identidad de genero",
                     this.usuario.getOrganizacion().getCodigoPais()));
 
-            return "redirect:/relacionesTemplates/identidadGeneroPais/"
-                    .concat(String.valueOf(identidadGeneroPais.getId()));
+            return "redirect:/identidadGeneroPais/".concat(String.valueOf(identidadGeneroPais.getIdentidadGenero().getId())).concat("/1");
+
         } catch (Exception e) {
             return "SinAcceso";
         }
     }
+
+
+    
+	@GetMapping("/deletidentidadGeneroPais/{id}/{pais}")
+	public String deleteIdentidadGeneroPais(@PathVariable Long id, HttpSession session, @PathVariable Long pais) {
+		try {
+			this.validarPerfil();
+			if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
+            || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
+				
+                System.out.println("id ver "+ id);
+				bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en identidad de genero / país", this.usuario.getOrganizacion().getCodigoPais()));
+
+				
+				identidadGeneroPaisService.deleteRelacionById(id);
+
+                return "redirect:/identidadGeneroPais/19/1";
+			} else {
+				return "SinAcceso";
+			}
+		} catch (Exception e) {
+            System.out.println("ERRORELIM "+e);
+			return "SinAcceso";
+		}
+	}
 
 }

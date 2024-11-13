@@ -350,6 +350,7 @@ public class LugarController {
 			this.validarPerfil();
 			if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
             || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
+				
 				lugarService.deleteLugarById(id);
 				
 				bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),

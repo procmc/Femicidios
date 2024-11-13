@@ -3,6 +3,7 @@ package com.if7100.service.impl.relacionesServiceImp;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
+import com.if7100.entity.IdentidadGenero;
 import com.if7100.entity.relacionesEntity.IdentidadGeneroPais;
 import com.if7100.repository.relacionesRepository.IdentidadGeneroPaisRepository;
 import com.if7100.service.relacionesService.IdentidadGeneroPaisService;
@@ -31,4 +32,8 @@ public class IdentidadGeneroPaisServiceImp implements IdentidadGeneroPaisService
         identidadGeneroPaisRepository.deleteById(id);
     }
 
+    @Override
+    public List<IdentidadGeneroPais> getRelacionesByIdentidadGenero(IdentidadGenero identidadGenero) {
+        return identidadGeneroPaisRepository.findByIdentidadGenero(identidadGenero);
+    }
 }

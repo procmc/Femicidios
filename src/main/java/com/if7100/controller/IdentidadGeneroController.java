@@ -159,6 +159,7 @@ public class IdentidadGeneroController {
             || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 				IdentidadGenero identidadgenero = new IdentidadGenero();
 				List<Paises> listaPaises = paisesService.getAllPaises();
+				
 				model.addAttribute("identidadgenero", identidadgenero);
 				model.addAttribute("listaPaises", listaPaises);
 

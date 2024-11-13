@@ -2,6 +2,7 @@ package com.if7100.service.relacionesService;
 
 import java.util.List;
 
+import com.if7100.entity.IdentidadGenero;
 import com.if7100.entity.relacionesEntity.IdentidadGeneroPais;
 
 public interface IdentidadGeneroPaisService {
@@ -11,5 +12,7 @@ public interface IdentidadGeneroPaisService {
     void deleteRelacionById(Long id);
 
     IdentidadGeneroPais saveIdentidadGeneroPais(IdentidadGeneroPais identidadGeneroPais);
+
+    List<IdentidadGeneroPais> getRelacionesByIdentidadGenero(IdentidadGenero identidadGenero);
 
 }

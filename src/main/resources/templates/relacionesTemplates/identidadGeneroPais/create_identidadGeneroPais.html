@@ -27,6 +27,7 @@
               <input
                 id="name"
                 th:field="*{identidadGenero.Id}"
+                name="identidadgenero"
                 class="form-control item"
                 type="text"
                 placeholder=""
@@ -87,10 +88,31 @@
               </div>
             </div>
 
+            <script>
+              function filtrarPaises() {
+                // Obtener el valor ingresado en la barra de búsqueda
+                let input = document.getElementById('filtrar').value.toLowerCase();
+          
+                // Obtener todos los elementos que contienen los nombres de los países
+                let items = document.querySelectorAll('#countryList .form-check');
+          
+                items.forEach(function (item) {
+                  let label = item.querySelector('label').innerText.toLowerCase();
+                  if (label.includes(input)) {
+                    item.style.display = ''; // Mostrar si coincide
+                  } else {
+                    item.style.display = 'none'; // Ocultar si no coincide
+                  }
+                });
+              }
+          
+            </script>
             <button class="btn btn-primary" type="submit">Agregar</button>
           </form>
         </div>
       </section>
     </main>
+    
   </body>
+
 </html>
