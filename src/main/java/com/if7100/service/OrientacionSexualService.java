@@ -14,17 +14,19 @@ import org.springframework.data.domain.Pageable;
  *
  */
 public interface OrientacionSexualService {
- List<OrientacionSexual> getAllOrientacionesSexuales();
+    List<OrientacionSexual> getAllOrientacionesSexuales();
 
- OrientacionSexual saveOrientacionSexual(OrientacionSexual usuario);
- 
- OrientacionSexual getOrientacionSexualByCodigo(Integer codigo);
+    OrientacionSexual saveOrientacionSexual(OrientacionSexual usuario);
 
- OrientacionSexual updateOrientacionSexual(OrientacionSexual orientacion);
- 
- void deleteOrientacionSexualByCodigo(Integer codigo);
- 
- OrientacionSexual getOrientacionSexualByCVTitulo(String CV_Titulo);
+    OrientacionSexual getOrientacionSexualByCodigo(Integer codigo);
+
+    OrientacionSexual updateOrientacionSexual(OrientacionSexual orientacion);
+
+    void deleteOrientacionSexualByCodigo(Integer codigo);
+
+    OrientacionSexual getOrientacionSexualByCVTitulo(String CV_Titulo);
 
     Page<OrientacionSexual> getAllOrientacionesSexualesPage(Pageable pageable);
+
+    List<OrientacionSexual> getOrientacionSexualByCodigoPais(Integer codigoPais);
 }

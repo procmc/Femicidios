@@ -37,9 +37,7 @@
 
             <!-- Selección de países -->
             <div class="mb-3">
-              <label class="form-label" for="dropdownCheckBox"
-                >Seleccione los países</label
-              >
+              <label class="form-label" for="dropdownCheckBox">Seleccione los países</label>
               <div class="dropdown">
                 <button
                   class="btn btn-secondary dropdown-toggle"
@@ -50,10 +48,7 @@
                 >
                   Seleccione países
                 </button>
-                <div
-                  class="dropdown-menu p-3"
-                  aria-labelledby="dropdownCheckBox"
-                >
+                <div class="dropdown-menu p-3" aria-labelledby="dropdownCheckBox">
                   <!-- Barra de búsqueda -->
                   <input
                     type="text"
@@ -63,10 +58,7 @@
                     onkeyup="filtrarPaises()"
                   />
                   <!-- Contenedor de la lista con scroll -->
-                  <div
-                    id="countryList"
-                    style="max-height: 200px; overflow-y: auto"
-                  >
+                  <div id="countryList" style="max-height: 200px; overflow-y: auto">
                     <div th:each="pais : ${paises}">
                       <div class="form-check">
                         <input
@@ -74,7 +66,9 @@
                           type="checkbox"
                           name="paisesSeleccionados"
                           th:value="${pais.ISO2}"
-                          id="pais-checkbox-${pais.ISO2}"
+                          th:id="'pais-checkbox-' + ${pais.ISO2}"
+                          th:checked="${paisesSeleccionados.contains(pais.ISO2)}"
+                          th:disabled="${paisesSeleccionados.contains(pais.ISO2)}"
                         />
                         <label
                           class="form-check-label"
@@ -87,6 +81,7 @@
                 </div>
               </div>
             </div>
+            
 
             <script>
               function filtrarPaises() {

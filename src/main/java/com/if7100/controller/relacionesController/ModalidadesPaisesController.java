@@ -17,29 +17,27 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.if7100.entity.Bitacora;
-import com.if7100.entity.IdentidadGenero;
+import com.if7100.entity.Modalidad;
 import com.if7100.entity.Paises;
 import com.if7100.entity.Perfil;
 import com.if7100.entity.Usuario;
 import com.if7100.entity.UsuarioPerfil;
-import com.if7100.entity.relacionesEntity.IdentidadGeneroPais;
+import com.if7100.entity.relacionesEntity.ModalidadesPaises;
 import com.if7100.repository.UsuarioPerfilRepository;
 import com.if7100.repository.UsuarioRepository;
 import com.if7100.service.BitacoraService;
-import com.if7100.service.IdentidadGeneroService;
-import com.if7100.service.LugarService;
+import com.if7100.service.ModalidadService;
 import com.if7100.service.PaisesService;
 import com.if7100.service.PerfilService;
-import com.if7100.service.TipoLugarService;
 import com.if7100.service.UsuarioPerfilService;
-import com.if7100.service.relacionesService.IdentidadGeneroPaisService;
+import com.if7100.service.relacionesService.ModalidadesPaisesService;
 
 import jakarta.servlet.http.HttpSession;
 
 @Controller
-public class IdentidadGeneroPaisesController {
-
-    private UsuarioPerfilService usuarioPerfilService;
+public class ModalidadesPaisesController {
+    
+     private UsuarioPerfilService usuarioPerfilService;
 
     private PaisesService paisesService;
     // instancias para control de acceso
@@ -50,17 +48,20 @@ public class IdentidadGeneroPaisesController {
     // instancias para control de bitacora
     private BitacoraService bitacoraService;
     private Usuario usuario;
-    private IdentidadGeneroService identidadGeneroService;
-    private IdentidadGeneroPaisService identidadGeneroPaisService;
 
-    public IdentidadGeneroPaisesController(IdentidadGeneroService identidadGeneroService,
-            IdentidadGeneroPaisService identidadGeneroPaisService,
+    // instancias para control de relaciones
+    private ModalidadService modalidadService;
+    private ModalidadesPaisesService modalidadesPaisesService;
+
+    public ModalidadesPaisesController(ModalidadService modalidadService,
+    ModalidadesPaisesService modalidadesPaisesService,
             UsuarioRepository usuarioRepository, UsuarioPerfilRepository usuarioPerfilRepository,
             PerfilService perfilService,
             BitacoraService bitacoraService, UsuarioPerfilService usuarioPerfilService,
             PaisesService paisesService) {
-        this.identidadGeneroService = identidadGeneroService;
-        this.identidadGeneroPaisService = identidadGeneroPaisService;
+
+        this.modalidadService = modalidadService;
+        this.modalidadesPaisesService = modalidadesPaisesService;
         this.usuarioRepository = usuarioRepository;
         this.usuarioPerfilRepository = usuarioPerfilRepository;
         this.perfilService = perfilService;
@@ -99,30 +100,31 @@ public class IdentidadGeneroPaisesController {
         return PageRequest.of(numeroPagina, tamanoPagina);
     }
 
-    @GetMapping("/identidadGeneroPais/{id}")
-    public String listIdentidadGeneroPais(Model model, @PathVariable Integer id) {
+     @GetMapping("/modalidadesPaises/{id}")
+    public String listmodalidadesPaises(Model model, @PathVariable Integer id) {
         this.validarPerfil();
-        return "redirect:/identidadGeneroPais/".concat(String.valueOf(id)).concat("/1");
+        return "redirect:/modalidadesPaises/".concat(String.valueOf(id)).concat("/1");
     }
 
-    @GetMapping("/identidadGeneroPais/{id}/{pg}")
-    public String listidentidadGeneroPais(Model model, @PathVariable Integer id, @PathVariable Integer pg) {
+    @GetMapping("/modalidadesPaises/{id}/{pg}")
+    public String listModalidadesPaises(Model model, @PathVariable Integer id, @PathVariable Integer pg) {
         this.validarPerfil();
 
-        IdentidadGenero identidadGenero = identidadGeneroService.getIdentidadGeneroById(id);
+        Modalidad modalidad = modalidadService.getModalidadById(id);
 
         // Obtener los procesos judiciales filtrados por el código de país
-        List<IdentidadGeneroPais> identidadGeneroPaisFiltrados = identidadGeneroPaisService
-                .getRelacionesByIdentidadGenero(identidadGenero);
+        List<ModalidadesPaises> modalidadesPaisesFiltrados = modalidadesPaisesService
+                .getRelacionesByModalidad(modalidad);
 
-        int numeroTotalElementos = identidadGeneroPaisFiltrados.size();
+        int numeroTotalElementos = modalidadesPaisesFiltrados.size();
 
         Pageable pageable = initPages(pg, 5, numeroTotalElementos);
 
         int tamanoPagina = pageable.getPageSize();
         int numeroPagina = pageable.getPageNumber();
 
-        List<IdentidadGeneroPais> identidadGeneroPaisPaginados = identidadGeneroPaisFiltrados.stream()
+        List<ModalidadesPaises> modalidadesPaisesPaginados = modalidadesPaisesFiltrados
+                .stream()
                 .skip((long) numeroPagina * tamanoPagina)
                 .limit(tamanoPagina)
                 .collect(Collectors.toList());
@@ -133,14 +135,14 @@ public class IdentidadGeneroPaisesController {
 
         model.addAttribute("PaginaActual", pg);
         model.addAttribute("nPaginas", nPaginas);
-        model.addAttribute("identidadGeneroPais", identidadGeneroPaisPaginados);
+        model.addAttribute("modalidadesPaises", modalidadesPaisesPaginados);
 
-        return "relacionesTemplates/identidadGeneroPais/identidadGeneroPais";
+        return "relacionesTemplates/modalidadesPaises/modalidadesPaises";
     }
 
-    // crear paises
-    @GetMapping("/identidadGeneroPais/new/{Id}")
-    public String createIdentidadGeneroPaisForm(Model model, @PathVariable Integer Id) {
+  
+    @GetMapping("/modalidadesPaises/new/{Id}")
+    public String createMdalidadesPaises(Model model, @PathVariable Integer Id) {
 
         try {
             this.validarPerfil();
@@ -148,42 +150,43 @@ public class IdentidadGeneroPaisesController {
             if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
                     || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 
-                IdentidadGenero identidadGenero = new IdentidadGenero();
-                IdentidadGeneroPais identidadGeneroPais = new IdentidadGeneroPais();
+                Modalidad modalidad = new Modalidad();
+                ModalidadesPaises modalidadesPaises = new ModalidadesPaises();
 
-                identidadGeneroPais.setIdentidadGenero(identidadGenero);
-                identidadGeneroPais.getIdentidadGenero().setId(Id);
+                modalidadesPaises.setModalidad(modalidad);
+                modalidadesPaises.getModalidad().setCI_Codigo(Id);
 
                 // Obtener los procesos judiciales filtrados por el código de país
-                List<IdentidadGeneroPais> identidadGeneroPaisFiltrados = identidadGeneroPaisService
-                        .getRelacionesByIdentidadGenero(identidadGeneroPais.getIdentidadGenero());
+                List<ModalidadesPaises> modalidadesPaisesFiltrados = modalidadesPaisesService
+                        .getRelacionesByModalidad(modalidadesPaises.getModalidad());
 
-                // Obtener los países seleccionados desde la base de datos por identidadGenero
-                List<String> paisesSeleccionados = identidadGeneroPaisFiltrados.stream()
+                // Obtener los países seleccionados desde la base de datos por 
+                List<String> paisesSeleccionados = modalidadesPaisesFiltrados.stream()
                         .map(igp -> igp.getPais().getISO2())
                         .collect(Collectors.toList());
 
-                model.addAttribute("identidadGeneroPais", identidadGeneroPais);
+                model.addAttribute("modalidadesPaises", modalidadesPaises);
 
                 model.addAttribute("paises", paisesService.getAllPaises());
-                model.addAttribute("identidadGenero", identidadGeneroService.getAllIdentidadGenero());
+                model.addAttribute("modalidad", modalidadService.getAllModalidades());
 
                 model.addAttribute("paisesSeleccionados", paisesSeleccionados); // Lista de países seleccionados
 
-                return "relacionesTemplates/identidadGeneroPais/create_identidadGeneroPais";
+                return "relacionesTemplates/modalidadesPaises/create_modalidadesPaises";
             } else {
                 return "SinAcceso";
             }
 
         } catch (Exception e) {
 
+            System.out.println("erro cre "+e);
             return "SinAcceso";
         }
 
     }
 
-    @PostMapping("/identidadGeneroPais")
-    public String saveHecho(@ModelAttribute IdentidadGeneroPais identidadGeneroPais,
+     @PostMapping("/modalidadesPaises")
+    public String saveModalidadesPaises(@ModelAttribute ModalidadesPaises modalidadesPaises,
             @RequestParam List<String> paisesSeleccionados,
             Model model) {
         try {
@@ -192,40 +195,41 @@ public class IdentidadGeneroPaisesController {
             for (String iso2 : paisesSeleccionados) {
                 Paises pais = paisesService.getPaisByISO2(iso2); // Obtener el país por ISO2
                 if (pais != null) {
-                    IdentidadGeneroPais relacion = new IdentidadGeneroPais();
-                    relacion.setIdentidadGenero(identidadGeneroPais.getIdentidadGenero());
+                    ModalidadesPaises relacion = new ModalidadesPaises();
+                    relacion.setModalidad(modalidadesPaises.getModalidad());
                     relacion.setPais(pais);
-                    identidadGeneroPaisService.saveIdentidadGeneroPais(relacion);
+                    modalidadesPaisesService.saveModalidadesPaises(relacion);
                 }
             }
 
             bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Agrega país a identidad de genero",
+                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Agrega país a modalidad",
                     this.usuario.getOrganizacion().getCodigoPais()));
 
-            return "redirect:/identidadGeneroPais/"
-                    .concat(String.valueOf(identidadGeneroPais.getIdentidadGenero().getId())).concat("/1");
+            return "redirect:/modalidadesPaises/"
+                    .concat(String.valueOf(modalidadesPaises.getModalidad().getCI_Codigo())).concat("/1");
 
         } catch (Exception e) {
             return "SinAcceso";
         }
     }
 
-    @GetMapping("/deletidentidadGeneroPais/{id}/{identidadGenero}")
-    public String deleteIdentidadGeneroPais(@PathVariable Long id, HttpSession session,
-            @PathVariable Integer identidadGenero) {
+    @GetMapping("/deletmodalidadesPaises/{id}/{modalidad}")
+    public String deleteModalidadesPaises(@PathVariable Integer id, HttpSession session,
+            @PathVariable Integer modalidad) {
         try {
             this.validarPerfil();
             if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
                     || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
                 bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-                        this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en identidad de genero / país",
+                        this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en modalidad / país",
                         this.usuario.getOrganizacion().getCodigoPais()));
 
-                identidadGeneroPaisService.deleteRelacionById(id);
+                modalidadesPaisesService.deleteRelacionById(id);
 
-                return "redirect:/identidadGeneroPais/".concat(String.valueOf(identidadGenero)).concat("/1");
-            } else {
+                return "redirect:/modalidadesPaises/"
+                .concat(String.valueOf(modalidad)).concat("/1");
+        } else {
                 return "SinAcceso";
             }
         } catch (Exception e) {
@@ -233,5 +237,6 @@ public class IdentidadGeneroPaisesController {
             return "SinAcceso";
         }
     }
+
 
 }

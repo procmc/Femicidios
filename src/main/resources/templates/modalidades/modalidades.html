@@ -33,7 +33,6 @@
                 <tr>
                   <th class="text-center">Titulo</th>
                   <th class="text-center">Descripción</th>
-                  <th class="text-center">Pais</th>
                   <th class="text-center">Acciones</th>
                 </tr>
                 </thead>
@@ -41,8 +40,24 @@
                 <tr th:each="modalidad: ${modalidades}">
                   <td th:text="${modalidad.CVTitulo}"></td>
                   <td th:text="${modalidad.CVDescripcion}"></td>
-                  <td th:text="${modalidad.CVPais}"></td>
-                  <td class="text-center align-middle h-50"><a
+                  <td class="text-center align-middle h-50">
+                    
+
+                    <form th:action="@{/redireccionarRelacionPais}" method="post">
+											<select class="form-control" name="opcion"
+												onchange="this.form.submit()">
+												<option value="" disabled selected>Países</option>
+												<option th:value="${'/modalidadesPaises/new/' + modalidad.CI_Codigo} + '-agregarMostrarPais'"> Agregar
+												</option>
+												<option th:value="${'/modalidadesPaises/' + modalidad.CI_Codigo} + '-agregarMostrarPais'"> Mostrar
+												</option>
+												
+											</select>
+										</form>
+
+                    
+                    
+                    <a
                           class="btn btnMaterial btn-flat success" role="button"
                           th:href="@{/modalidades/edit/{id}(id=${modalidad.CI_Codigo})}"><i
                           class="fas fa-pen"></i></a><a

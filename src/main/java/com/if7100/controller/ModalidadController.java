@@ -4,7 +4,10 @@ import com.if7100.entity.Bitacora;
 
 import com.if7100.entity.Usuario;
 import com.if7100.entity.UsuarioPerfil;
+import com.if7100.entity.relacionesEntity.ModalidadesPaises;
+import com.if7100.entity.relacionesEntity.OrientacionesSexualesPaises;
 import com.if7100.entity.Modalidad;
+import com.if7100.entity.OrientacionSexual;
 import com.if7100.entity.Paises;
 import com.if7100.entity.Perfil;
 import com.if7100.repository.UsuarioPerfilRepository;
@@ -14,6 +17,7 @@ import com.if7100.service.ModalidadService;
 import com.if7100.service.PaisesService;
 import com.if7100.service.PerfilService;
 import com.if7100.service.UsuarioPerfilService;
+import com.if7100.service.relacionesService.ModalidadesPaisesService;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -26,8 +30,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Controller
@@ -46,11 +52,12 @@ public class ModalidadController {
 	private BitacoraService bitacoraService;
 	private Usuario usuario;
 	private Paises paises;
+	private ModalidadesPaisesService modalidadesPaisesService;
 
 	public ModalidadController(ModalidadService modalidadService, PerfilService perfilService,
 			UsuarioRepository usuarioRepository,
 			BitacoraService bitacoraService, PaisesService paisesService, UsuarioPerfilService usuarioPerfilService,
-			UsuarioPerfilRepository usuarioPerfilRepository) {
+			UsuarioPerfilRepository usuarioPerfilRepository, ModalidadesPaisesService modalidadesPaisesService) {
 		super();
 		this.modalidadService = modalidadService;
 		this.perfilService = perfilService;
@@ -59,6 +66,7 @@ public class ModalidadController {
 		this.paisesService = paisesService;
 		this.usuarioPerfilService = usuarioPerfilService;
 		this.usuarioPerfilRepository = usuarioPerfilRepository;
+		this.modalidadesPaisesService = modalidadesPaisesService;
 	}
 
 	private void validarPerfil() {
@@ -113,19 +121,31 @@ public class ModalidadController {
 			return "redirect:/modalidad/1";
 		}
 
-		int numeroTotalElementos = modalidadService.getAllModalidades().size();
+		Integer codigoPaisUsuario = this.usuario.getOrganizacion().getCodigoPais();
+
+		// obtiene el id del pais del hecho segun el pais de la organizacion del usuario
+		List<Modalidad> modalidadFiltrados = modalidadService
+				.getModalidadByCodigoPais(codigoPaisUsuario);
+
+		int numeroTotalElementos = modalidadFiltrados.size();
 
 		Pageable pageable = initPages(pg, 5, numeroTotalElementos);
 
-		Page<Modalidad> modalidadPage = modalidadService.getAllModalidadesPage(pageable);
+		int tamanoPagina = pageable.getPageSize();
+		int numeroPagina = pageable.getPageNumber();
 
-		List<Integer> nPaginas = IntStream.rangeClosed(1, modalidadPage.getTotalPages())
+		List<Modalidad> modalidadPaginados = modalidadFiltrados.stream()
+				.skip((long) numeroPagina * tamanoPagina)
+				.limit(tamanoPagina)
+				.collect(Collectors.toList());
+
+		List<Integer> nPaginas = IntStream.rangeClosed(1, (int) Math.ceil((double) numeroTotalElementos / tamanoPagina))
 				.boxed()
 				.toList();
 
 		model.addAttribute("PaginaActual", pg);
 		model.addAttribute("nPaginas", nPaginas);
-		model.addAttribute("modalidades", modalidadPage.getContent());
+		model.addAttribute("modalidades", modalidadPaginados);
 		return "modalidades/modalidades";
 	}
 
@@ -139,7 +159,8 @@ public class ModalidadController {
 
 				Modalidad modalidad = new Modalidad();
 				model.addAttribute("modalidad", modalidad);
-				model.addAttribute("paises", paisesService.getAllPaises());
+				model.addAttribute("listaPaises", paisesService.getAllPaises());
+
 				return "modalidades/create_modalidad";
 			} else {
 				return "SinAcceso";
@@ -152,16 +173,25 @@ public class ModalidadController {
 	}
 
 	@PostMapping("/modalidades")
-	public String saveModalidad(@ModelAttribute Modalidad modalidad) {
+	public String saveModalidad(@ModelAttribute Modalidad modalidad, @RequestParam List<String> paisesSeleccionados) {
 		// INSERTAR EN BITACORA
 		this.validarPerfil();
-		String descripcion = "Creo en Modalidad: " + modalidad.getCI_Codigo() + modalidad.getCVTitulo() +
-				modalidad.getCVDescripcion();
 
 		bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
 				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en modalidades", this.usuario.getOrganizacion().getCodigoPais()));
 
 		modalidadService.saveModalidad(modalidad);
+
+		for (String iso2 : paisesSeleccionados) {
+			Paises pais = paisesService.getPaisByISO2(iso2); // Obtener el país por ISO2
+			if (pais != null) {
+				ModalidadesPaises relacion = new ModalidadesPaises();
+				relacion.setModalidad(modalidad);
+				relacion.setPais(pais); 
+				modalidadesPaisesService.saveModalidadesPaises(relacion);
+			}
+		}
+
 		return "redirect:/modalidades";
 	}
 
@@ -178,6 +208,7 @@ public class ModalidadController {
 				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en modalidades", this.usuario.getOrganizacion().getCodigoPais()));
 				
 				modalidadService.deleteModalidadById(id);
+
 				return "redirect:/modalidades";
 			} else {
 				return "SinAcceso";
@@ -197,7 +228,6 @@ public class ModalidadController {
             || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 
 				model.addAttribute("modalidad", modalidadService.getModalidadById(id));
-				model.addAttribute("paises", paisesService.getAllPaises());
 				return "modalidades/edit_modalidad";
 			} else {
 				return "SinAcceso";
@@ -222,7 +252,6 @@ public class ModalidadController {
 		existingModalidad.setCI_Codigo(id);
 		existingModalidad.setCVTitulo(modalidad.getCVTitulo());
 		existingModalidad.setCVDescripcion(modalidad.getCVDescripcion());
-		existingModalidad.setCVPais(modalidad.getCVPais());
 		modalidadService.updateModalidad(existingModalidad);
 		return "redirect:/modalidades";
 	}

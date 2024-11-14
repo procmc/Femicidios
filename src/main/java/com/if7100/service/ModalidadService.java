@@ -1,6 +1,8 @@
 package com.if7100.service;
 
 import com.if7100.entity.Modalidad;
+import com.if7100.entity.OrientacionSexual;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -23,4 +25,7 @@ public interface ModalidadService {
     Modalidad getModalidadByDescripcion(String CVDescripcion);
 
     Page<Modalidad> getAllModalidadesPage(Pageable pageable);
+
+    List<Modalidad> getModalidadByCodigoPais(Integer codigoPais);
+
 }

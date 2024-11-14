@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.if7100.entity.IdentidadGenero;
 import com.if7100.entity.OrientacionSexual;
 import com.if7100.repository.OrientacionSexualRepository;
 import com.if7100.service.OrientacionSexualService;
@@ -70,4 +71,11 @@ public class OrientacionSexualServiceImpl implements OrientacionSexualService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
+	//////
+	public List<OrientacionSexual> getOrientacionSexualByCodigoPais(Integer codigoPais) {
+        return orientacionRepository.findAllByCodigoPais(codigoPais);
+    }
+
 }

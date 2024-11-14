@@ -200,10 +200,7 @@ public class RedireccionController {
         String redirectUrl = "";
 
         switch (accion) {
-            case "agregarPais" -> {
-                return "redirect:" + redirectUrl + id;
-            }
-            case "mostrarPais" -> {
+            case "agregarMostrarPais" -> {
                 return "redirect:" + redirectUrl + id;
             }
 

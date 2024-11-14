@@ -4,16 +4,21 @@ import com.if7100.entity.Bitacora;
 
 import com.if7100.entity.Usuario;
 import com.if7100.entity.UsuarioPerfil;
+import com.if7100.entity.relacionesEntity.OrientacionesSexualesPaises;
 import com.if7100.service.BitacoraService;
 
 import com.if7100.entity.Hecho;
+
 import com.if7100.entity.OrientacionSexual;
+import com.if7100.entity.Paises;
 import com.if7100.entity.Perfil;
 import com.if7100.repository.UsuarioPerfilRepository;
 import com.if7100.repository.UsuarioRepository;
 import com.if7100.service.OrientacionSexualService;
+import com.if7100.service.PaisesService;
 import com.if7100.service.PerfilService;
 import com.if7100.service.UsuarioPerfilService;
+import com.if7100.service.relacionesService.OrientacionesSexualesPaisesService;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -26,11 +31,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.if7100.entity.OrientacionSexual;
 import com.if7100.service.OrientacionSexualService;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Controller
@@ -46,10 +53,14 @@ public class OrientacionSexualController {
 	// instancias para control de bitacora
 	private BitacoraService bitacoraService;
 	private Usuario usuario;
+	private PaisesService paisesService; // Servicio para manejar los países
+	private OrientacionesSexualesPaisesService orientacionesSexualesPaisesService;
 
 	public OrientacionSexualController(BitacoraService bitacoraService,
 			OrientacionSexualService orientacionService, PerfilService perfilService,
-			UsuarioRepository usuarioRepository, UsuarioPerfilService usuarioPerfilService, UsuarioPerfilRepository usuarioPerfilRepository) {
+			UsuarioRepository usuarioRepository, UsuarioPerfilService usuarioPerfilService,
+			UsuarioPerfilRepository usuarioPerfilRepository,
+			OrientacionesSexualesPaisesService orientacionesSexualesPaisesService, PaisesService paisesService) {
 		super();
 		this.orientacionService = orientacionService;
 		this.perfilService = perfilService;
@@ -57,7 +68,8 @@ public class OrientacionSexualController {
 		this.bitacoraService = bitacoraService;
 		this.usuarioPerfilService = usuarioPerfilService;
 		this.usuarioPerfilRepository = usuarioPerfilRepository;
-
+		this.orientacionesSexualesPaisesService = orientacionesSexualesPaisesService;
+		this.paisesService = paisesService;
 	}
 
 	private void validarPerfil() {
@@ -71,8 +83,8 @@ public class OrientacionSexualController {
 
 			List<UsuarioPerfil> usuarioPerfiles = usuarioPerfilRepository.findByUsuario(this.usuario);
 
-            this.perfil = new Perfil(
-                    perfilService.getPerfilById(usuarioPerfiles.get(0).getPerfil().getCI_Id()));
+			this.perfil = new Perfil(
+					perfilService.getPerfilById(usuarioPerfiles.get(0).getPerfil().getCI_Id()));
 
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -105,19 +117,31 @@ public class OrientacionSexualController {
 			return "redirect:/orientacionessexuales/1";
 		}
 
-		int numeroTotalElementos = orientacionService.getAllOrientacionesSexuales().size();
+		Integer codigoPaisUsuario = this.usuario.getOrganizacion().getCodigoPais();
+
+		// obtiene el id del pais del hecho segun el pais de la organizacion del usuario
+		List<OrientacionSexual> orientacionSexualFiltrados = orientacionService
+				.getOrientacionSexualByCodigoPais(codigoPaisUsuario);
+
+		int numeroTotalElementos = orientacionSexualFiltrados.size();
 
 		Pageable pageable = initPages(pg, 5, numeroTotalElementos);
 
-		Page<OrientacionSexual> orientacionSexualPage = orientacionService.getAllOrientacionesSexualesPage(pageable);
+		int tamanoPagina = pageable.getPageSize();
+		int numeroPagina = pageable.getPageNumber();
 
-		List<Integer> nPaginas = IntStream.rangeClosed(1, orientacionSexualPage.getTotalPages())
+		List<OrientacionSexual> orientacionSexualPaginados = orientacionSexualFiltrados.stream()
+				.skip((long) numeroPagina * tamanoPagina)
+				.limit(tamanoPagina)
+				.collect(Collectors.toList());
+
+		List<Integer> nPaginas = IntStream.rangeClosed(1, (int) Math.ceil((double) numeroTotalElementos / tamanoPagina))
 				.boxed()
 				.toList();
 
 		model.addAttribute("PaginaActual", pg);
 		model.addAttribute("nPaginas", nPaginas);
-		model.addAttribute("orientacionessexuales", orientacionSexualPage.getContent());
+		model.addAttribute("orientacionessexuales", orientacionSexualPaginados);
 		return "orientacionesSexuales/orientacionesSexuales";
 	}
 
@@ -127,15 +151,18 @@ public class OrientacionSexualController {
 		try {
 			this.validarPerfil();
 			if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
-            || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
+					|| usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 
 				model.addAttribute("orientacionSexual", new OrientacionSexual());
+				model.addAttribute("listaPaises", paisesService.getAllPaises());
+
 				return "orientacionesSexuales/create_orientacionSexual";
 			} else {
 				return "SinAcceso";
 			}
 
 		} catch (Exception e) {
+			System.out.println("Erro cr1 " + e);
 			return "SinAcceso";
 		}
 	}
@@ -153,25 +180,42 @@ public class OrientacionSexualController {
 		try {
 			this.validarPerfil();
 			if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
-            || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
+					|| usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
+
 				model.addAttribute("orientacion", new OrientacionSexual());
+				model.addAttribute("listaPaises", paisesService.getAllPaises());
+
 				return "orientacionesSexuales/create_orientacionesSexuales";
 			} else {
 				return "SinAcceso";
 			}
 
 		} catch (Exception e) {
+			System.out.println("Erro cr2 " + e);
+
 			return "SinAcceso";
 		}
 	}
 
 	@PostMapping("/orientacionesSexuales")
-	public String saveOrientacion(@ModelAttribute OrientacionSexual orientacion) {
+	public String saveOrientacion(@ModelAttribute OrientacionSexual orientacion,
+			@RequestParam List<String> paisesSeleccionados) {
 		this.validarPerfil();
 		orientacionService.saveOrientacionSexual(orientacion);
 
+		for (String iso2 : paisesSeleccionados) {
+			Paises pais = paisesService.getPaisByISO2(iso2); // Obtener el país por ISO2
+			if (pais != null) {
+				OrientacionesSexualesPaises relacion = new OrientacionesSexualesPaises();
+				relacion.setOrientacionSexual(orientacion);
+				relacion.setPais(pais);
+				orientacionesSexualesPaisesService.saveOrientacionesSexualesPaises(relacion);
+			}
+		}
+
 		bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en orientacion sexual", this.usuario.getOrganizacion().getCodigoPais()));
+				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en orientacion sexual",
+				this.usuario.getOrganizacion().getCodigoPais()));
 
 		return "redirect:/orientacionesSexuales";
 	}
@@ -182,12 +226,13 @@ public class OrientacionSexualController {
 		try {
 			this.validarPerfil();
 			if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
-            || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
+					|| usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 
 				orientacionService.getOrientacionSexualByCodigo(id).getCVTitulo();
 
 				bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-						this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en orientacion sexual", this.usuario.getOrganizacion().getCodigoPais()));
+						this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en orientacion sexual",
+						this.usuario.getOrganizacion().getCodigoPais()));
 
 				orientacionService.deleteOrientacionSexualByCodigo(id);
 				return "redirect:/orientacionesSexuales";
@@ -205,7 +250,7 @@ public class OrientacionSexualController {
 		try {
 			this.validarPerfil();
 			if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
-            || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
+					|| usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 
 				model.addAttribute("orientacion", orientacionService.getOrientacionSexualByCodigo(id));
 				return "orientacionesSexuales/edit_orientacionesSexuales";
@@ -233,12 +278,14 @@ public class OrientacionSexualController {
 			orientacionService.getOrientacionSexualByCodigo(id).getCVTitulo();
 
 			bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-					this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en orientacion sexual", this.usuario.getOrganizacion().getCodigoPais()));
+					this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en orientacion sexual",
+					this.usuario.getOrganizacion().getCodigoPais()));
 
 		} else {
 			orientacionService.getOrientacionSexualByCodigo(id).getCVTitulo();
 			bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-					this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en orientacion sexual", this.usuario.getOrganizacion().getCodigoPais()));
+					this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en orientacion sexual",
+					this.usuario.getOrganizacion().getCodigoPais()));
 
 		}
 

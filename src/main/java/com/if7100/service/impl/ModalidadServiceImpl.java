@@ -1,6 +1,7 @@
 package com.if7100.service.impl;
 
 import com.if7100.entity.Modalidad;
+import com.if7100.entity.OrientacionSexual;
 import com.if7100.repository.ModalidadRepository;
 import com.if7100.service.ModalidadService;
 import org.springframework.data.domain.Page;
@@ -58,4 +59,10 @@ public class ModalidadServiceImpl implements ModalidadService {
     public Modalidad getModalidadByDescripcion(String CVDescripcion) {
         return modalidadRepository.findByCVDescripcion(CVDescripcion);
     }
+
+    //////
+	public List<Modalidad> getModalidadByCodigoPais(Integer codigoPais) {
+        return modalidadRepository.findAllByCodigoPais(codigoPais);
+    }
+
 }
