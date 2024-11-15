@@ -1,91 +1,193 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Tipo Lugar Mantenimiento</title>
-  <th th:insert="~{header}"></th>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tipo Lugar Mantenimiento</title>
+    <th th:insert="~{header}"></th>
+  </head>
+  <body>
+    <main class="page registration-page">
+      <section class="clean-block clean-form dark">
+        <div class="container">
+          <div class="block-heading">
+            <h2 class="text-info">Crear Tipo Lugar</h2>
+          </div>
+          <form
+            th:action="@{/tipolugares}"
+            th:object="${tipoLugar}"
+            method="POST"
+          >
+            <div class="mb-3">
+              <label class="form-label" for="name">Título de tipo lugar</label
+              ><input
+                id="name"
+                th:field="*{CVTitulo}"
+                class="form-control item"
+                type="text"
+                placeholder="Digite el titulo de tipo lugar"
+                required
+                minlength="1"
+                maxlength="50"
+              />
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="name"
+                >Descripción de tipo lugar</label
+              ><input
+                id="name-1"
+                th:field="*{CVDescripcion}"
+                class="form-control item"
+                type="text"
+                placeholder="Digite la descripcion de tipo lugar"
+                required
+                minlength="1"
+                maxlength="75"
+              />
+            </div>
 
-<main class="page registration-page">
-  <section class="clean-block clean-form dark">
-    <div class="container">
-      <div class="block-heading">
-        <h2 class="text-info">Crear Tipo Lugar</h2>
-      </div>
-      <form th:action="@{/tipolugares}" th:object="${tipoLugar}" method="POST">
-        <div class="mb-3"><label class="form-label" for="name">Título de tipo lugar</label><input
-                id="name" th:field="*{CVTitulo}" class="form-control item" type="text"
-                placeholder="Digite el titulo de tipo lugar" required minlength="1" maxlength="50"/></div>
-        <div class="mb-3"><label class="form-label" for="name">Descripción de tipo lugar</label><input
-                id="name-1" th:field="*{CVDescripcion}" class="form-control item" type="text"
-                placeholder="Digite la descripcion de tipo lugar" required minlength="1" maxlength="75"/></div>
-        <button class="btn btn-primary" type="submit">Agregar</button>
-      </form>
-    </div>
-  </section>
-</main>
+            <div class="mb-3">
+              <label class="form-label" for="dropdownCheckBox"
+                >Seleccione los países</label
+              >
+              <div class="dropdown">
+                <button
+                  class="btn btn-secondary dropdown-toggle"
+                  type="button"
+                  id="dropdownCheckBox"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  Seleccione países
+                </button>
+                <div
+                  class="dropdown-menu p-3"
+                  aria-labelledby="dropdownCheckBox"
+                >
+                  <!-- Barra de búsqueda -->
+                  <input
+                    type="text"
+                    class="form-control mb-2"
+                    id="filtrar"
+                    placeholder="Buscar país..."
+                    onkeyup="filtrarPaises()"
+                  />
+                  <!-- Contenedor de la lista con scroll -->
+                  <div
+                    id="countryList"
+                    style="max-height: 200px; overflow-y: auto"
+                  >
+                    <div th:each="pais : ${listaPaises}">
+                      <div class="form-check">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          name="paisesSeleccionados"
+                          th:value="${pais.ISO2}"
+                          id="pais-checkbox-${pais.ISO2}"
+                        />
+                        <label
+                          class="form-check-label"
+                          th:for="'pais-checkbox-' + ${pais.ISO2}"
+                          th:text="${pais.spanish}"
+                        ></label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-<!--<div class="row">-->
-<!--  <div class="col-md-12">-->
-<!--    <ul class="nav nav-pills flex-column flex-sm-row">-->
-<!--      <li class="nav-item">-->
-<!--        <a class="nav-link active" href="#">Inicio</a>-->
-<!--      </li>-->
-<!--      <li class="nav-item">-->
-<!--        <a class="nav-link" th:href="@{/tipolugares}">TipoLugares</a>-->
-<!--      </li>-->
+            <script>
+              function filtrarPaises() {
+                // Obtener el valor ingresado en la barra de búsqueda
+                let input = document
+                  .getElementById("filtrar")
+                  .value.toLowerCase();
 
-<!--    </ul>-->
-<!--  </div>-->
-<!--</div>-->
+                // Obtener todos los elementos que contienen los nombres de los países
+                let items = document.querySelectorAll(
+                  "#countryList .form-check"
+                );
 
-<!--<br>-->
-<!--<br>-->
-<!--<div class = "container">-->
-<!--  <div class = "row">-->
-<!--    <div class ="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">-->
-<!--      <h1 class = "text-center">Crear tipo de lugar</h1>-->
-<!--      <div class = "card-body">-->
-<!--        <form th:action="@{/tipolugares}" th:object = "${tipoLugar}" method="POST">-->
+                items.forEach(function (item) {
+                  let label = item
+                    .querySelector("label")
+                    .innerText.toLowerCase();
+                  if (label.includes(input)) {
+                    item.style.display = ""; // Mostrar si coincide
+                  } else {
+                    item.style.display = "none"; // Ocultar si no coincide
+                  }
+                });
+              }
+            </script>
 
-<!--          <div class ="form-group">-->
-<!--            <label>Titulo del tipo de lugar</label>-->
-<!--            <input-->
-<!--                    type = "text"-->
-<!--                    name = "titulo"-->
-<!--                    th:field = "*{CVTitulo}"-->
-<!--                    class = "form-control"-->
-<!--                    placeholder="Digite el titulo del tipo de lugar"-->
-<!--                    maxlength="30"-->
-<!--                    required -->
-<!--            />-->
-<!--          </div>-->
+            <button class="btn btn-primary" type="submit">Agregar</button>
+          </form>
+        </div>
+      </section>
+    </main>
 
-<!--          <div class ="form-group">-->
-<!--            <label>Descripcion del tipo de lugar</label>-->
-<!--            <input-->
-<!--                    type = "text"-->
-<!--                    name = "descripcion"-->
-<!--                    th:field = "*{CVDescripcion}"-->
-<!--                    class = "form-control"-->
-<!--                    placeholder="Digite la descripcion del tipo de lugar"-->
-<!--                    maxlength="80"-->
-<!--                    -->
-<!--            />-->
-<!--          </div>-->
+    <!--<div class="row">-->
+    <!--  <div class="col-md-12">-->
+    <!--    <ul class="nav nav-pills flex-column flex-sm-row">-->
+    <!--      <li class="nav-item">-->
+    <!--        <a class="nav-link active" href="#">Inicio</a>-->
+    <!--      </li>-->
+    <!--      <li class="nav-item">-->
+    <!--        <a class="nav-link" th:href="@{/tipolugares}">TipoLugares</a>-->
+    <!--      </li>-->
 
-<!--          <div class = "box-footer">-->
-<!--            <button type="submit" class = "btn btn-primary">-->
-<!--              Agregar-->
-<!--            </button>-->
-<!--          </div>-->
-<!--        </form>-->
+    <!--    </ul>-->
+    <!--  </div>-->
+    <!--</div>-->
 
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--</div>-->
-</body>
+    <!--<br>-->
+    <!--<br>-->
+    <!--<div class = "container">-->
+    <!--  <div class = "row">-->
+    <!--    <div class ="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">-->
+    <!--      <h1 class = "text-center">Crear tipo de lugar</h1>-->
+    <!--      <div class = "card-body">-->
+    <!--        <form th:action="@{/tipolugares}" th:object = "${tipoLugar}" method="POST">-->
+
+    <!--          <div class ="form-group">-->
+    <!--            <label>Titulo del tipo de lugar</label>-->
+    <!--            <input-->
+    <!--                    type = "text"-->
+    <!--                    name = "titulo"-->
+    <!--                    th:field = "*{CVTitulo}"-->
+    <!--                    class = "form-control"-->
+    <!--                    placeholder="Digite el titulo del tipo de lugar"-->
+    <!--                    maxlength="30"-->
+    <!--                    required -->
+    <!--            />-->
+    <!--          </div>-->
+
+    <!--          <div class ="form-group">-->
+    <!--            <label>Descripcion del tipo de lugar</label>-->
+    <!--            <input-->
+    <!--                    type = "text"-->
+    <!--                    name = "descripcion"-->
+    <!--                    th:field = "*{CVDescripcion}"-->
+    <!--                    class = "form-control"-->
+    <!--                    placeholder="Digite la descripcion del tipo de lugar"-->
+    <!--                    maxlength="80"-->
+    <!--                    -->
+    <!--            />-->
+    <!--          </div>-->
+
+    <!--          <div class = "box-footer">-->
+    <!--            <button type="submit" class = "btn btn-primary">-->
+    <!--              Agregar-->
+    <!--            </button>-->
+    <!--          </div>-->
+    <!--        </form>-->
+
+    <!--      </div>-->
+    <!--    </div>-->
+    <!--  </div>-->
+    <!--</div>-->
+  </body>
 </html>

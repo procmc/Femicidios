@@ -19,9 +19,6 @@ public class TipoRelacion {
 
     @Column(name = "CV_Descripcion", nullable = false)
     private String CVDescripcion;
-    
-    @Column(name = "CV_Pais", nullable = false)
-    private String CVPais;
 
     public TipoRelacion() {
     }
@@ -35,7 +32,6 @@ public class TipoRelacion {
     public TipoRelacion(String CVTitulo, String CVDescripcion,String CV_Pais) {
     	this.CVTitulo = CVTitulo;
         this.CVDescripcion = CVDescripcion;
-        this.CVPais= CV_Pais;
 
     }
 
@@ -62,14 +58,5 @@ public class TipoRelacion {
     public void setCVDescripcion(String CVDescripcion) {
         this.CVDescripcion = CVDescripcion;
     }
-
-	public String getCVPais() {
-		return CVPais;
-	}
-
-	public void setCVPais(String cVPais) {
-		CVPais = cVPais;
-	}
-    
     
 }

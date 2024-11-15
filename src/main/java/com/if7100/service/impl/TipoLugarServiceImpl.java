@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;// para el implements
 
 import java.util.List;
 import com.if7100.service.TipoLugarService;
+import com.if7100.entity.Modalidad;
 import com.if7100.entity.TipoLugar;
 import com.if7100.repository.TipoLugarRepository;
 
@@ -66,5 +67,9 @@ public class TipoLugarServiceImpl implements TipoLugarService{
     }
 
 
+       //////
+	public List<TipoLugar> getTipoLugarByCodigoPais(Integer codigoPais) {
+        return tipoLugarRepository.findAllByCodigoPais(codigoPais);
+    }
 
 }

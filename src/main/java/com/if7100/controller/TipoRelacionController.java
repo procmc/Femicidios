@@ -3,9 +3,9 @@ package com.if7100.controller;
 import com.if7100.entity.Bitacora;
 import com.if7100.entity.Usuario;
 import com.if7100.entity.UsuarioPerfil;
+import com.if7100.entity.relacionesEntity.TipoRelacionPaises;
 import com.if7100.service.BitacoraService;
 import com.if7100.service.PaisesService;
-import com.if7100.entity.Hecho;
 import com.if7100.entity.Paises;
 import com.if7100.entity.Perfil;
 import com.if7100.entity.TipoRelacion;
@@ -14,8 +14,8 @@ import com.if7100.repository.UsuarioRepository;
 import com.if7100.service.PerfilService;
 import com.if7100.service.TipoRelacionService;
 import com.if7100.service.UsuarioPerfilService;
+import com.if7100.service.relacionesService.TipoRelacionPaisesService;
 
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
@@ -26,8 +26,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Controller
@@ -46,11 +48,13 @@ public class TipoRelacionController {
     private BitacoraService bitacoraService;
     private Usuario usuario;
     private Paises paises;
+    private TipoRelacionPaisesService tipoRelacionPaisesService;
 
     public TipoRelacionController(BitacoraService bitacoraService,
             TipoRelacionService tipoRelacionService, PerfilService perfilService, UsuarioRepository usuarioRepository,
             PaisesService paisesService,
-            UsuarioPerfilService usuarioPerfilService, UsuarioPerfilRepository usuarioPerfilRepository) {
+            UsuarioPerfilService usuarioPerfilService, UsuarioPerfilRepository usuarioPerfilRepository,
+            TipoRelacionPaisesService tipoRelacionPaisesService) {
         super();
         this.tipoRelacionService = tipoRelacionService;
         this.perfilService = perfilService;
@@ -59,6 +63,7 @@ public class TipoRelacionController {
         this.paisesService = paisesService;
         this.usuarioPerfilService = usuarioPerfilService;
         this.usuarioPerfilRepository = usuarioPerfilRepository;
+        this.tipoRelacionPaisesService = tipoRelacionPaisesService;
 
     }
 
@@ -106,19 +111,31 @@ public class TipoRelacionController {
             return "redirect:/tiporelaciones";
         }
 
-        int numeroTotalElementos = tipoRelacionService.getAllTipoRelaciones().size();
+        Integer codigoPaisUsuario = this.usuario.getOrganizacion().getCodigoPais();
 
-        Pageable pageable = initPages(pg, 5, numeroTotalElementos);
+		// obtiene el id del pais del hecho segun el pais de la organizacion del usuario
+		List<TipoRelacion> tipoRelacionFiltrados = tipoRelacionService
+				.getTipoRelacionByCodigoPais(codigoPaisUsuario);
 
-        Page<TipoRelacion> tipoRelacionPage = tipoRelacionService.getAllTipoRelacionesPage(pageable);
+		int numeroTotalElementos = tipoRelacionFiltrados.size();
 
-        List<Integer> nPaginas = IntStream.rangeClosed(1, tipoRelacionPage.getTotalPages())
-                .boxed()
-                .toList();
+		Pageable pageable = initPages(pg, 5, numeroTotalElementos);
+
+		int tamanoPagina = pageable.getPageSize();
+		int numeroPagina = pageable.getPageNumber();
+
+		List<TipoRelacion> tipoRelacionPaginados = tipoRelacionFiltrados.stream()
+				.skip((long) numeroPagina * tamanoPagina)
+				.limit(tamanoPagina)
+				.collect(Collectors.toList());
+
+		List<Integer> nPaginas = IntStream.rangeClosed(1, (int) Math.ceil((double) numeroTotalElementos / tamanoPagina))
+				.boxed()
+				.toList();
 
         model.addAttribute("PaginaActual", pg);
         model.addAttribute("nPaginas", nPaginas);
-        model.addAttribute("tiporelaciones", tipoRelacionPage.getContent());
+        model.addAttribute("tiporelaciones", tipoRelacionPaginados);
         return "tipoRelaciones/tipoRelaciones";
     }
 
@@ -132,7 +149,7 @@ public class TipoRelacionController {
 
                 TipoRelacion tipoRelacion = new TipoRelacion();
                 model.addAttribute("tipoRelacion", tipoRelacion);
-                model.addAttribute("paises", paisesService.getAllPaises());
+				model.addAttribute("listaPaises", paisesService.getAllPaises());
 
                 return "tipoRelaciones/create_tipoRelacion";
             } else {
@@ -145,9 +162,19 @@ public class TipoRelacionController {
     }
 
     @PostMapping("/tiporelaciones")
-    public String saveTipoRelacion(@ModelAttribute TipoRelacion tipoRelacion) {
+    public String saveTipoRelacion(@ModelAttribute TipoRelacion tipoRelacion, @RequestParam List<String> paisesSeleccionados) {
         this.validarPerfil();
         tipoRelacionService.saveTipoRelacion(tipoRelacion);
+
+        for (String iso2 : paisesSeleccionados) {
+			Paises pais = paisesService.getPaisByISO2(iso2); // Obtener el país por ISO2
+			if (pais != null) {
+				TipoRelacionPaises relacion = new TipoRelacionPaises();
+				relacion.setTipoRelacion(tipoRelacion);
+				relacion.setPais(pais);
+				tipoRelacionPaisesService.saveTipoRelacionPaises(relacion);
+			}
+		}
 
         bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
                 this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en tipos de relaciones", this.usuario.getOrganizacion().getCodigoPais()));
@@ -185,7 +212,6 @@ public class TipoRelacionController {
                     || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 
                 model.addAttribute("tipoRelacion", tipoRelacionService.getTipoRelacionById(id));
-                model.addAttribute("paises", paisesService.getAllPaises());
 
                 return "tipoRelaciones/edit_tipoRelacion";
             } else {
@@ -206,12 +232,9 @@ public class TipoRelacionController {
         bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
                 this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en tipos de relaciones", this.usuario.getOrganizacion().getCodigoPais()));
 
-        model.addAttribute("paises", paisesService.getAllPaises());
-
         existingTipoRelacion.setCI_Codigo(id);
         existingTipoRelacion.setCVTitulo(tipoRelacion.getCVTitulo());
         existingTipoRelacion.setCVDescripcion(tipoRelacion.getCVDescripcion());
-        existingTipoRelacion.setCVPais(tipoRelacion.getCVPais());
 
         tipoRelacionService.updateTipoRelacion(existingTipoRelacion);
         return "redirect:/tiporelaciones";
