@@ -1,5 +1,6 @@
 package com.if7100.service.impl;
 
+import com.if7100.entity.Modalidad;
 import com.if7100.entity.NivelEducativo;
 import com.if7100.repository.NivelEducativoRepository;
 import com.if7100.service.NivelEducativoService;
@@ -57,5 +58,10 @@ public class NivelEducativoServiceImpl implements NivelEducativoService {
     @Override
     public NivelEducativo getNivelEducativoByDescripcion(String CV_Descripcion) {
         return nivelEducativoRepository.findByCVDescripcion(CV_Descripcion);
+    }
+
+    //////
+	public List<NivelEducativo> getNivelEducativoByCodigoPais(Integer codigoPais) {
+        return nivelEducativoRepository.findAllByCodigoPais(codigoPais);
     }
 }

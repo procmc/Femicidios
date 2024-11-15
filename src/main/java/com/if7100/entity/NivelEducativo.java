@@ -22,17 +22,16 @@ public class NivelEducativo {
 
 	/**
 	 * esta es la clase para el JPA entity de la table femicidios.ta_niveleducativo
-	 */
+	 */ 
 	public NivelEducativo() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public NivelEducativo(String CV_Titulo, String CV_Descripcion,String CV_Pais) {
+	public NivelEducativo(String CV_Titulo, String CV_Descripcion) {
 		
 		super();
 		this.CVTitulo = CV_Titulo;
 		this.CVDescripcion = CV_Descripcion;
-		 this.CVPais= CV_Pais;
 		
 	}
 	@Id
@@ -44,10 +43,6 @@ public class NivelEducativo {
 	
 	@Column (name = "CV_Descripcion", nullable = false)
 	private String CVDescripcion;
-	
-	@Column(name = "CV_Pais", nullable = false)
-    private String CVPais;
-
 	
 	public Integer getCI_Id() {
 		return CI_Id;
@@ -67,16 +62,6 @@ public class NivelEducativo {
 	public void setCVDescripcion(String cV_Descripcion) {
 		CVDescripcion = cV_Descripcion;
 	}
-	
-	public String getCVPais() {
-		return CVPais;
-	}
-
-	public void setCVPais(String cVPais) {
-		CVPais = cVPais;
-	}
-    
-		
 		
 	}
 

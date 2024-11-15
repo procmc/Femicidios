@@ -25,14 +25,13 @@ public class NivelEducativoControllerTest {
 
 	private String Titulo = "prueba uni";
 	private String Descripion = "descripcion de prueba uni";
-	private String Pais = "Costa Rica";
 
 	private NivelEducativo nivelEducativo;
 	private NivelEducativo nivelEducativoConsultada;
 
 	@BeforeAll
 	public void setUp() {
-		nivelEducativo = new NivelEducativo(Titulo, Descripion, Pais);
+		nivelEducativo = new NivelEducativo(Titulo, Descripion);
 	}
 
 	@Test

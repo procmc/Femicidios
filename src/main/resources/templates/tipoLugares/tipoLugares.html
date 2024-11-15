@@ -40,7 +40,23 @@
                 <tr th:each="tipoLugar: ${tipoLugares}">
                   <td th:text="${tipoLugar.CVTitulo}"></td>
                   <td th:text="${tipoLugar.CVDescripcion}"></td>
-                  <td class="text-center align-middle h-50"><a
+                  <td class="text-center align-middle h-50">
+                    
+                    
+                    <form th:action="@{/redireccionarRelacionPais}" method="post">
+											<select class="form-control" name="opcion"
+												onchange="this.form.submit()">
+												<option value="" disabled selected>Países</option>
+												<option th:value="${'/tipoLugarPaises/new/' + tipoLugar.CI_Codigo} + '-agregarMostrarPais'"> Agregar
+												</option>
+												<option th:value="${'/tipoLugarPaises/' + tipoLugar.CI_Codigo} + '-agregarMostrarPais'"> Mostrar
+												</option>
+												
+											</select>
+										</form>
+                    
+                    
+                    <a
                           class="btn btnMaterial btn-flat success" role="button"
                           th:href="@{/tipolugares/edit/{id}(id=${tipoLugar.CI_Codigo})}"><i
                           class="fas fa-pen"></i></a><a

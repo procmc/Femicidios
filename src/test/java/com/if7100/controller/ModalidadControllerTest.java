@@ -23,14 +23,13 @@ public class ModalidadControllerTest {
 
     private String titulo = "Golpes";
     private String descripcion = "Asesinada por golpes";
-    private String pais = "Costa Rica";
 
     private Modalidad modalidad;
     private  Modalidad modalidadConsultada;
 
         @BeforeAll
     public void setUp() {
-        modalidad = new Modalidad( titulo, descripcion, pais);
+        modalidad = new Modalidad( titulo, descripcion);
     }
 
     @Test

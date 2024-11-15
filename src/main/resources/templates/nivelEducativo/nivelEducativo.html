@@ -32,7 +32,6 @@
                                 <tr>
                                     <th class="text-center">Titulo</th>
                                     <th class="text-center">Descripción</th>
-                                    <th class="text-center">Pais</th>
                                     <th class="text-center">Acciones</th>
                                 </tr>
                                 </thead>
@@ -40,8 +39,24 @@
                                 <tr th:each="niveleducativo: ${nivelesEducativos}">
                                     <td th:text="${niveleducativo.CVTitulo}"></td>
                                     <td th:text="${niveleducativo.CVDescripcion}"></td>
-                                    <td th:text="${niveleducativo.CVPais}"></td>
-                                    <td class="text-center align-middle h-50"><a
+
+                                    <td class="text-center align-middle h-50">
+                                        
+
+                                        <form th:action="@{/redireccionarRelacionPais}" method="post">
+											<select class="form-control" name="opcion"
+												onchange="this.form.submit()">
+												<option value="" disabled selected>Países</option>
+												<option th:value="${'/nivelEducativoPaises/new/' + niveleducativo.CI_Id} + '-agregarMostrarPais'"> Agregar
+												</option>
+												<option th:value="${'/nivelEducativoPaises/' + niveleducativo.CI_Id} + '-agregarMostrarPais'"> Mostrar
+												</option>
+												
+											</select>
+										</form>
+                                        
+                                        
+                                        <a
                                             class="btn btnMaterial btn-flat success" role="button"
                                             th:href="@{/nivelEducativo/edit/{id}(id=${niveleducativo.CI_Id})}"><i
                                             class="fas fa-pen"></i></a><a

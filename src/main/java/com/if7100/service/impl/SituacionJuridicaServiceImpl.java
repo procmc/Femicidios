@@ -1,5 +1,6 @@
 package com.if7100.service.impl;
 
+import com.if7100.entity.NivelEducativo;
 import com.if7100.entity.SituacionJuridica;
 import com.if7100.repository.SituacionJuridicaRepository;
 import com.if7100.service.SituacionJuridicaService;
@@ -57,5 +58,10 @@ public class SituacionJuridicaServiceImpl implements SituacionJuridicaService {
     @Override
     public SituacionJuridica getSituacionJuridicaByDescripcion(String descripcion) {
         return situacionJuridicaRepository.findByCVDescripcion(descripcion);
+    }
+
+      //////
+	public List<SituacionJuridica> getSituacionJuridicaByCodigoPais(Integer codigoPais) {
+        return situacionJuridicaRepository.findAllByCodigoPais(codigoPais);
     }
 }

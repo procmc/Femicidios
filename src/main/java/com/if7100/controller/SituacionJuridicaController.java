@@ -1,12 +1,16 @@
 package com.if7100.controller;
 
 import com.if7100.entity.*;
+import com.if7100.entity.relacionesEntity.NivelEducativoPaises;
+import com.if7100.entity.relacionesEntity.SituacionJuridicaPaises;
 import com.if7100.repository.UsuarioPerfilRepository;
 import com.if7100.repository.UsuarioRepository;
 import com.if7100.service.BitacoraService;
+import com.if7100.service.PaisesService;
 import com.if7100.service.PerfilService;
 import com.if7100.service.SituacionJuridicaService;
 import com.if7100.service.UsuarioPerfilService;
+import com.if7100.service.relacionesService.SituacionJuridicaPaisesService;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -39,10 +43,13 @@ public class SituacionJuridicaController {
     private Usuario usuario;
 
     private Perfil perfil;
+    private PaisesService paisesService;
+    private SituacionJuridicaPaisesService situacionJuridicaPaisesService;
 
     public SituacionJuridicaController(SituacionJuridicaService situacionJuridicaService,
             UsuarioRepository usuarioRepository, PerfilService perfilService, BitacoraService bitacoraService,
-            UsuarioPerfilService usuarioPerfilService, UsuarioPerfilRepository usuarioPerfilRepository) {
+            UsuarioPerfilService usuarioPerfilService, UsuarioPerfilRepository usuarioPerfilRepository,
+            PaisesService paisesService, SituacionJuridicaPaisesService situacionJuridicaPaisesService) {
         super();
         this.situacionJuridicaService = situacionJuridicaService;
         this.usuarioRepository = usuarioRepository;
@@ -50,6 +57,8 @@ public class SituacionJuridicaController {
         this.bitacoraService = bitacoraService;
         this.usuarioPerfilService = usuarioPerfilService;
         this.usuarioPerfilRepository = usuarioPerfilRepository;
+        this.paisesService = paisesService;
+        this.situacionJuridicaPaisesService = situacionJuridicaPaisesService;
     }
 
     private void validarPerfil() {
@@ -59,7 +68,7 @@ public class SituacionJuridicaController {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String username = authentication.getName();
             this.usuario = new Usuario(usuarioRepository.findByCVCedula(username));
-            
+
             List<UsuarioPerfil> usuarioPerfiles = usuarioPerfilRepository.findByUsuario(this.usuario);
 
             this.perfil = new Perfil(
@@ -96,19 +105,31 @@ public class SituacionJuridicaController {
             return "redirect:/situacionjuridica/1";
         }
 
-        int numeroTotalElementos = situacionJuridicaService.getAllSituacionJuridica().size();
+        Integer codigoPaisUsuario = this.usuario.getOrganizacion().getCodigoPais();
+
+        // obtiene el id del pais del hecho segun el pais de la organizacion del usuario
+        List<SituacionJuridica> situacionJuridicaFiltrados = situacionJuridicaService
+                .getSituacionJuridicaByCodigoPais(codigoPaisUsuario);
+
+        int numeroTotalElementos = situacionJuridicaFiltrados.size();
 
         Pageable pageable = initPages(pg, 5, numeroTotalElementos);
 
-        Page<SituacionJuridica> situacionJuridicaPage = situacionJuridicaService.getAllSituacionJuridicaPage(pageable);
+        int tamanoPagina = pageable.getPageSize();
+        int numeroPagina = pageable.getPageNumber();
 
-        List<Integer> nPaginas = IntStream.rangeClosed(1, situacionJuridicaPage.getTotalPages())
+        List<SituacionJuridica> situacionJuridicaPaginados = situacionJuridicaFiltrados.stream()
+                .skip((long) numeroPagina * tamanoPagina)
+                .limit(tamanoPagina)
+                .collect(Collectors.toList());
+
+        List<Integer> nPaginas = IntStream.rangeClosed(1, (int) Math.ceil((double) numeroTotalElementos / tamanoPagina))
                 .boxed()
                 .toList();
 
         model.addAttribute("PaginaActual", pg);
         model.addAttribute("nPaginas", nPaginas);
-        model.addAttribute("situacionesJuridicas", situacionJuridicaPage.getContent());
+        model.addAttribute("situacionesJuridicas", situacionJuridicaPaginados);
         return "situacionJuridica/situacionJuridica";
     }
 
@@ -122,6 +143,8 @@ public class SituacionJuridicaController {
 
                 SituacionJuridica situacionJuridica = new SituacionJuridica();
                 model.addAttribute("situacionJuridica", situacionJuridica);
+                model.addAttribute("listaPaises", paisesService.getAllPaises());
+
                 return "situacionJuridica/create_situacionJuridica";
             } else {
                 return "SinAcceso";
@@ -134,7 +157,8 @@ public class SituacionJuridicaController {
     }
 
     @PostMapping("/situacionesjuridicas")
-    public String saveSituacionJuridica(@ModelAttribute SituacionJuridica situacionJuridica) {
+    public String saveSituacionJuridica(@ModelAttribute SituacionJuridica situacionJuridica,
+            @RequestParam List<String> paisesSeleccionados) {
 
         try {
             this.validarPerfil();
@@ -142,8 +166,19 @@ public class SituacionJuridicaController {
                     || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
                 situacionJuridicaService.saveSituacionJuridica(situacionJuridica);
 
+                for (String iso2 : paisesSeleccionados) {
+                    Paises pais = paisesService.getPaisByISO2(iso2); // Obtener el país por ISO2
+                    if (pais != null) {
+                        SituacionJuridicaPaises relacion = new SituacionJuridicaPaises();
+                        relacion.setSituacionJuridica(situacionJuridica);
+                        relacion.setPais(pais);
+                        situacionJuridicaPaisesService.saveSituacionJuridicaPaises(relacion);
+                    }
+                }
+
                 bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-                        this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en situacion juridica", this.usuario.getOrganizacion().getCodigoPais()));
+                        this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en situacion juridica",
+                        this.usuario.getOrganizacion().getCodigoPais()));
 
                 return "redirect:/situacionesjuridicas";
             } else {
@@ -166,7 +201,8 @@ public class SituacionJuridicaController {
                 situacionJuridicaService.deleteSituacionJuridicaById(id);
 
                 bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-                        this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en situacion juridica", this.usuario.getOrganizacion().getCodigoPais()));
+                        this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en situacion juridica",
+                        this.usuario.getOrganizacion().getCodigoPais()));
 
                 return "redirect:/situacionesjuridicas";
             } else {
@@ -211,7 +247,8 @@ public class SituacionJuridicaController {
                 situacionJuridicaService.updateSituacionJuridica(existingSituacionJuridica);
 
                 bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-                        this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en situacion juridica", this.usuario.getOrganizacion().getCodigoPais()));
+                        this.usuario.getCVNombre(), this.perfil.getCVRol(), "Actualiza en situacion juridica",
+                        this.usuario.getOrganizacion().getCodigoPais()));
 
                 return "redirect:/situacionesjuridicas";
             } else {

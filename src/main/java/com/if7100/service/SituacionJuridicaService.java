@@ -1,5 +1,6 @@
 package com.if7100.service;
 
+import com.if7100.entity.NivelEducativo;
 import com.if7100.entity.SituacionJuridica;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,5 +24,7 @@ public interface SituacionJuridicaService {
     SituacionJuridica getSituacionJuridicaByTitulo(String titulo);
 
     SituacionJuridica getSituacionJuridicaByDescripcion(String descripcion);
+
+    List<SituacionJuridica> getSituacionJuridicaByCodigoPais(Integer codigoPais);
 
 }
