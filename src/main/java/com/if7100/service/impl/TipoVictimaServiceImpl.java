@@ -1,5 +1,6 @@
 package com.if7100.service.impl;
 
+import com.if7100.entity.TipoRelacion;
 import com.if7100.entity.TipoVictima;
 import com.if7100.repository.TipoVictimaRepository;
 import com.if7100.service.TipoVictimaService;
@@ -57,5 +58,10 @@ public class TipoVictimaServiceImpl implements TipoVictimaService {
     @Override
     public TipoVictima getTipoVictimaByDescripcion(String CVDescripcion) {
         return tipoVictimaRepository.findByCVDescripcion(CVDescripcion);
+    }
+
+         //////
+	public List<TipoVictima> getTipoVictimaByCodigoPais(Integer codigoPais) {
+        return tipoVictimaRepository.findAllByCodigoPais(codigoPais);
     }
 }

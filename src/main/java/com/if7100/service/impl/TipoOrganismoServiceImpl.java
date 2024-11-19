@@ -63,6 +63,9 @@ public class TipoOrganismoServiceImpl implements TipoOrganismoService{
 		return tipoOrganismoRepository.findByCVTitulo(CVTitulo);
 	}
  	
-	
+	     //////
+	public List<TipoOrganismo> getTipoOrganismoByCodigoPais(Integer codigoPais) {
+        return tipoOrganismoRepository.findAllByCodigoPais(codigoPais);
+    }
 	
 }

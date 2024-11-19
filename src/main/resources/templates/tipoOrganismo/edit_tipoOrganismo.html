@@ -21,13 +21,7 @@
 				<div class="mb-3"><label class="form-label" for="name">Descripción de tipo organismo</label><input
 						id="name-1" th:field="*{CVDescripcion}" class="form-control item" type="text"
 						placeholder="Digite la descripcion de tipo organismo" required minlength="1" maxlength="75"/></div>
-						<div class="mb-3"><label class="form-label" for="name">Seleccione el pais</label><select th:name="paises" th:field="*{CVPaises}"
-                                                    id="name-2" class="form-select" required>
-                            <optgroup label="Lista de paises">
-                                <option th:each="pais: ${paises}" th:value="${pais.spanish}"
-                                        th:text="${pais.spanish} + ' - ' + ${pais.telefonoPais}"></option>
-                            </optgroup>
-                        </select></div>
+
 				<button class="btn btn-primary" type="submit">Actualizar</button>
 			</form>
 		</div>

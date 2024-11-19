@@ -38,7 +38,22 @@
 								<tr th:each="tiporelacionFamiliar,iterStat: ${tiporelacionfamiliar}">
 									<td th:text="${tiporelacionFamiliar.nombre}"></td>
 									<td th:text="${tiporelacionFamiliar.descripcion}"></td>
-									<td class="text-center align-middle h-50"><a
+									<td class="text-center align-middle h-50">
+										
+
+										<form th:action="@{/redireccionarRelacionPais}" method="post">
+											<select class="form-control" name="opcion"
+												onchange="this.form.submit()">
+												<option value="" disabled selected>Países</option>
+												<option th:value="${'/tipoRelacionFamiliarPaises/new/' + tiporelacionFamiliar.CI_Codigo} + '-agregarMostrarPais'"> Agregar
+												</option>
+												<option th:value="${'/tipoRelacionFamiliarPaises/' + tiporelacionFamiliar.CI_Codigo} + '-agregarMostrarPais'"> Mostrar
+												</option> 
+											</select>
+										</form>
+										
+										
+										<a
 											class="btn btnMaterial btn-flat success" role="button"
 											th:href="@{/tiporelacionfamiliar/edit/{id}(id=${tiporelacionFamiliar.CI_Codigo})}"><i
 											class="fas fa-pen"></i></a><a

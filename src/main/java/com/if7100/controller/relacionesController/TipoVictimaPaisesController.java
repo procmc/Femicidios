@@ -19,25 +19,25 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.if7100.entity.Bitacora;
 import com.if7100.entity.Paises;
 import com.if7100.entity.Perfil;
-import com.if7100.entity.TipoRelacion;
+import com.if7100.entity.TipoVictima;
 import com.if7100.entity.Usuario;
 import com.if7100.entity.UsuarioPerfil;
-import com.if7100.entity.relacionesEntity.TipoRelacionPaises;
+import com.if7100.entity.relacionesEntity.TipoVictimaPaises;
 import com.if7100.repository.UsuarioPerfilRepository;
 import com.if7100.repository.UsuarioRepository;
 import com.if7100.service.BitacoraService;
 import com.if7100.service.PaisesService;
 import com.if7100.service.PerfilService;
-import com.if7100.service.TipoRelacionService;
+import com.if7100.service.TipoVictimaService;
 import com.if7100.service.UsuarioPerfilService;
-import com.if7100.service.relacionesService.TipoRelacionPaisesService;
+import com.if7100.service.relacionesService.TipoVictimaPaisesService;
 
 import jakarta.servlet.http.HttpSession;
 
 @Controller
-public class TipoRelacionPaisesController {
+public class TipoVictimaPaisesController {
     
-       private UsuarioPerfilService usuarioPerfilService;
+      private UsuarioPerfilService usuarioPerfilService;
 
     private PaisesService paisesService;
     // instancias para control de acceso
@@ -50,18 +50,18 @@ public class TipoRelacionPaisesController {
     private Usuario usuario;
 
     // instancias para control de relaciones
-    private TipoRelacionService tipoRelacionService;
-    private TipoRelacionPaisesService tipoRelacionPaisesService;
+    private TipoVictimaService tipoVictimaService;
+    private TipoVictimaPaisesService tipoVictimaPaisesService;
 
-    public TipoRelacionPaisesController(TipoRelacionService tipoRelacionService,
-    TipoRelacionPaisesService tipoRelacionPaisesService,
+    public TipoVictimaPaisesController(TipoVictimaService tipoVictimaService,
+    TipoVictimaPaisesService tipoVictimaPaisesService,
             UsuarioRepository usuarioRepository, UsuarioPerfilRepository usuarioPerfilRepository,
             PerfilService perfilService,
             BitacoraService bitacoraService, UsuarioPerfilService usuarioPerfilService,
             PaisesService paisesService) {
 
-        this.tipoRelacionService = tipoRelacionService;
-        this.tipoRelacionPaisesService = tipoRelacionPaisesService;
+        this.tipoVictimaService = tipoVictimaService;
+        this.tipoVictimaPaisesService = tipoVictimaPaisesService;
         this.usuarioRepository = usuarioRepository;
         this.usuarioPerfilRepository = usuarioPerfilRepository;
         this.perfilService = perfilService;
@@ -88,7 +88,6 @@ public class TipoRelacionPaisesController {
 
     }
 
-
      private Pageable initPages(int pg, int paginasDeseadas, int numeroTotalElementos) {
         int numeroPagina = pg - 1;
         if (numeroTotalElementos < 10) {
@@ -100,31 +99,31 @@ public class TipoRelacionPaisesController {
         int tamanoPagina = (int) Math.ceil(numeroTotalElementos / (double) paginasDeseadas);
         return PageRequest.of(numeroPagina, tamanoPagina);
     }
- 
-    @GetMapping("/tipoRelacionPaises/{id}")
-    public String listtipoRelacionPaises(Model model, @PathVariable Integer id) {
+
+     @GetMapping("/tipoVictimaPaises/{id}")
+    public String listtipoVictimaPaises(Model model, @PathVariable Integer id) {
         this.validarPerfil();
-        return "redirect:/tipoRelacionPaises/".concat(String.valueOf(id)).concat("/1");
+        return "redirect:/tipoVictimaPaises/".concat(String.valueOf(id)).concat("/1");
     }
 
-     @GetMapping("/tipoRelacionPaises/{id}/{pg}")
-    public String listTipoRelacionPaises(Model model, @PathVariable Integer id, @PathVariable Integer pg) {
+     @GetMapping("/tipoVictimaPaises/{id}/{pg}")
+    public String listTipoVictimaPaises(Model model, @PathVariable Integer id, @PathVariable Integer pg) {
         this.validarPerfil();
 
-        TipoRelacion tipoRelacion = tipoRelacionService.getTipoRelacionById(id);
+        TipoVictima tipoVictima = tipoVictimaService.getTipoVictimaById(id);
 
         // Obtener los procesos judiciales filtrados por el código de país
-        List<TipoRelacionPaises> tipoRelacionPaisesFiltrados = tipoRelacionPaisesService
-                .getRelacionesByTipoRelacion(tipoRelacion);
+        List<TipoVictimaPaises> tipoVictimaPaisesFiltrados = tipoVictimaPaisesService
+                .getRelacionesByTipoVictima(tipoVictima);
 
-        int numeroTotalElementos = tipoRelacionPaisesFiltrados.size();
+        int numeroTotalElementos = tipoVictimaPaisesFiltrados.size();
 
         Pageable pageable = initPages(pg, 5, numeroTotalElementos);
 
         int tamanoPagina = pageable.getPageSize();
         int numeroPagina = pageable.getPageNumber();
 
-        List<TipoRelacionPaises> tipoRelacionPaisesPaginados = tipoRelacionPaisesFiltrados
+        List<TipoVictimaPaises> tipoVictimaPaisesPaginados = tipoVictimaPaisesFiltrados
                 .stream()
                 .skip((long) numeroPagina * tamanoPagina)
                 .limit(tamanoPagina)
@@ -136,13 +135,13 @@ public class TipoRelacionPaisesController {
 
         model.addAttribute("PaginaActual", pg);
         model.addAttribute("nPaginas", nPaginas);
-        model.addAttribute("tipoRelacionPaises", tipoRelacionPaisesPaginados);
+        model.addAttribute("tipoVictimaPaises", tipoVictimaPaisesPaginados);
 
-        return "relacionesTemplates/tipoRelacionPaises/tipoRelacionPaises";
+        return "relacionesTemplates/tipoVictimaPaises/tipoVictimaPaises";
     }
 
-    @GetMapping("/tipoRelacionPaises/new/{Id}")
-    public String createTipoRelacionPaises(Model model, @PathVariable Integer Id) {
+    @GetMapping("/tipoVictimaPaises/new/{Id}")
+    public String createTipoVictimaPaises(Model model, @PathVariable Integer Id) {
 
         try {
             this.validarPerfil();
@@ -150,29 +149,29 @@ public class TipoRelacionPaisesController {
             if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
                     || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
 
-                TipoRelacion tipoRelacion = new TipoRelacion();
-                TipoRelacionPaises tipoRelacionPaises = new TipoRelacionPaises();
+                TipoVictima tipoVictima = new TipoVictima();
+                TipoVictimaPaises tipoVictimaPaises = new TipoVictimaPaises();
 
-                tipoRelacionPaises.setTipoRelacion(tipoRelacion);
-                tipoRelacionPaises.getTipoRelacion().setCI_Codigo(Id);
+                tipoVictimaPaises.setTipoVictima(tipoVictima);
+                tipoVictimaPaises.getTipoVictima().setCI_Codigo(Id);
 
                 // Obtener los procesos judiciales filtrados por el código de país
-                List<TipoRelacionPaises> tipoRelacionPaisesFiltrados = tipoRelacionPaisesService
-                        .getRelacionesByTipoRelacion(tipoRelacionPaises.getTipoRelacion());
+                List<TipoVictimaPaises> tipoVictimaPaisesFiltrados = tipoVictimaPaisesService
+                        .getRelacionesByTipoVictima(tipoVictimaPaises.getTipoVictima());
 
                 // Obtener los países seleccionados desde la base de datos por 
-                List<String> paisesSeleccionados = tipoRelacionPaisesFiltrados.stream()
+                List<String> paisesSeleccionados = tipoVictimaPaisesFiltrados.stream()
                         .map(igp -> igp.getPais().getISO2())
                         .collect(Collectors.toList());
 
-                model.addAttribute("tipoRelacionPaises", tipoRelacionPaises);
+                model.addAttribute("tipoVictimaPaises", tipoVictimaPaises);
 
                 model.addAttribute("paises", paisesService.getAllPaises());
-                model.addAttribute("tipoRelacion", tipoRelacionService.getAllTipoRelaciones());
+                model.addAttribute("tipoVictima", tipoVictimaService.getAllTipoVictimas());
 
                 model.addAttribute("paisesSeleccionados", paisesSeleccionados); // Lista de países seleccionados
 
-                return "relacionesTemplates/tipoRelacionPaises/create_tipoRelacionPaises"; 
+                return "relacionesTemplates/tipoVictimaPaises/create_tipoVictimaPaises"; 
             } else {
                 return "SinAcceso";
             }
@@ -184,8 +183,8 @@ public class TipoRelacionPaisesController {
 
     }
 
-     @PostMapping("/tipoRelacionPaises")
-    public String saveTipoRelacionPaises(@ModelAttribute TipoRelacionPaises tipoRelacionPaises,
+     @PostMapping("/tipoVictimaPaises")
+    public String saveTipoVictimaPaises(@ModelAttribute TipoVictimaPaises tipoVictimaPaises,
             @RequestParam List<String> paisesSeleccionados,
             Model model) {
         try {
@@ -194,28 +193,28 @@ public class TipoRelacionPaisesController {
             for (String iso2 : paisesSeleccionados) {
                 Paises pais = paisesService.getPaisByISO2(iso2); // Obtener el país por ISO2
                 if (pais != null) {
-                    TipoRelacionPaises relacion = new TipoRelacionPaises();
-                    relacion.setTipoRelacion(tipoRelacionPaises.getTipoRelacion());
+                    TipoVictimaPaises relacion = new TipoVictimaPaises();
+                    relacion.setTipoVictima(tipoVictimaPaises.getTipoVictima());
                     relacion.setPais(pais);
-                    tipoRelacionPaisesService.saveTipoRelacionPaises(relacion);
+                    tipoVictimaPaisesService.saveTipoVictimaPaises(relacion);
                 }
             }
 
             bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
-                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Agrega país a tipo de relacion",
+                    this.usuario.getCVNombre(), this.perfil.getCVRol(), "Agrega país a tipo de victima",
                     this.usuario.getOrganizacion().getCodigoPais()));
 
-            return "redirect:/tipoRelacionPaises/"
-                    .concat(String.valueOf(tipoRelacionPaises.getTipoRelacion().getCI_Codigo())).concat("/1");
+            return "redirect:/tipoVictimaPaises/"
+                    .concat(String.valueOf(tipoVictimaPaises.getTipoVictima().getCI_Codigo())).concat("/1");
 
         } catch (Exception e) {
             return "SinAcceso";
         }
     }
 
-    @GetMapping("/delettipoRelacionPaises/{id}/{tipoRelacion}")
-    public String deleteNivelEducativoPaises(@PathVariable Integer id, HttpSession session,
-            @PathVariable Integer tipoRelacion) {
+     @GetMapping("/delettipoVictimaPaises/{id}/{tipoVictima}")
+    public String deleteTipoVictimaPaises(@PathVariable Integer id, HttpSession session,
+            @PathVariable Integer tipoVictima) {
         try {
             this.validarPerfil();
             if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
@@ -224,10 +223,10 @@ public class TipoRelacionPaisesController {
                         this.usuario.getCVNombre(), this.perfil.getCVRol(), "Elimina en tipo de relacion / país",
                         this.usuario.getOrganizacion().getCodigoPais()));
 
-                tipoRelacionPaisesService.deleteRelacionById(id);
+                tipoVictimaPaisesService.deleteRelacionById(id);
 
-                return "redirect:/tipoRelacionPaises/"
-                .concat(String.valueOf(tipoRelacion)).concat("/1");
+                return "redirect:/tipoVictimaPaises/"
+                .concat(String.valueOf(tipoVictima)).concat("/1");
         } else {
                 return "SinAcceso";
             }
@@ -236,6 +235,5 @@ public class TipoRelacionPaisesController {
             return "SinAcceso";
         }
     }
-
 
 }

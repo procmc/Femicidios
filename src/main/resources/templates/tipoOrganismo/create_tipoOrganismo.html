@@ -1,104 +1,197 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>TipoOrganismo Mantenimiento</title>
-	<th th:insert="~{header}"></th>
-</head>
-<body>
-<main class="page registration-page">
-	<section class="clean-block clean-form dark">
-		<div class="container">
-			<div class="block-heading">
-				<h2 class="text-info">Crear Tipo Organismo</h2>
-			</div>
-			<form th:action="@{/tipoOrganismo}" th:object="${tipoOrganismo}" method="POST">
-			
-				<div class="mb-3"><label class="form-label" for="name">Título de tipo organismo</label><input
-						id="name" th:field="*{CVTitulo}" class="form-control item" type="text"
-						placeholder="Digite el titulo de tipo organismo" required minlength="1" maxlength="50"/></div>
-				<div class="mb-3"><label class="form-label" for="name">Descripción de tipo organismo</label><input
-						id="name-1" th:field="*{CVDescripcion}" class="form-control item" type="text"
-						placeholder="Digite la descripcion de tipo organismo" required minlength="1" maxlength="75"/></div>
-				
-				<div class="mb-3"><label class="form-label" for="name">Seleccione el pais</label><select th:name="paises" th:field="*{CVPaises}"
-                                                    id="name-2" class="form-select" required>
-                            <optgroup label="Lista de paises">
-                                <option th:each="pais: ${paises}" th:value="${pais.spanish}"
-                                        th:text="${pais.spanish} + ' - ' + ${pais.telefonoPais}"></option>
-                            </optgroup>
-                        </select></div>
-                        
-				<button class="btn btn-primary" type="submit">Agregar</button>
-				
-			</form>
-		</div>
-	</section>
-</main>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TipoOrganismo Mantenimiento</title>
+    <th th:insert="~{header}"></th>
+  </head>
+  <body>
+    <main class="page registration-page">
+      <section class="clean-block clean-form dark">
+        <div class="container">
+          <div class="block-heading">
+            <h2 class="text-info">Crear Tipo Organismo</h2>
+          </div>
+          <form
+            th:action="@{/tipoOrganismo}"
+            th:object="${tipoOrganismo}"
+            method="POST"
+          >
+            <div class="mb-3">
+              <label class="form-label" for="name"
+                >Título de tipo organismo</label
+              ><input
+                id="name"
+                th:field="*{CVTitulo}"
+                class="form-control item"
+                type="text"
+                placeholder="Digite el titulo de tipo organismo"
+                required
+                minlength="1"
+                maxlength="50"
+              />
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="name"
+                >Descripción de tipo organismo</label
+              ><input
+                id="name-1"
+                th:field="*{CVDescripcion}"
+                class="form-control item"
+                type="text"
+                placeholder="Digite la descripcion de tipo organismo"
+                required
+                minlength="1"
+                maxlength="75"
+              />
+            </div>
 
-<!--	<div class="row">-->
-<!--		<div class="col-md-12">-->
-<!--			<ul class="nav nav-pills flex-column flex-sm-row">-->
-<!--				<li class="nav-item"><a class="nav-organismo-->
-<!--link active" href="#">Inicio</a>-->
-<!--				</li>-->
-<!--				<li class="nav-item"><a class="nav-link"-->
-<!--					th:href="@{/tipoOrganismo}">Tipo Organismos</a></li>-->
+            <div class="mb-3">
+              <label class="form-label" for="dropdownCheckBox"
+                >Seleccione los países</label
+              >
+              <div class="dropdown">
+                <button
+                  class="btn btn-secondary dropdown-toggle"
+                  type="button"
+                  id="dropdownCheckBox"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  Seleccione países
+                </button>
+                <div
+                  class="dropdown-menu p-3"
+                  aria-labelledby="dropdownCheckBox"
+                >
+                  <!-- Barra de búsqueda -->
+                  <input
+                    type="text"
+                    class="form-control mb-2"
+                    id="filtrar"
+                    placeholder="Buscar país..."
+                    onkeyup="filtrarPaises()"
+                  />
+                  <!-- Contenedor de la lista con scroll -->
+                  <div
+                    id="countryList"
+                    style="max-height: 200px; overflow-y: auto"
+                  >
+                    <div th:each="pais : ${listaPaises}">
+                      <div class="form-check">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          name="paisesSeleccionados"
+                          th:value="${pais.ISO2}"
+                          id="pais-checkbox-${pais.ISO2}"
+                        />
+                        <label
+                          class="form-check-label"
+                          th:for="'pais-checkbox-' + ${pais.ISO2}"
+                          th:text="${pais.spanish}"
+                        ></label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-<!--			</ul>-->
-<!--		</div>-->
-<!--	</div>-->
+            <script>
+              function filtrarPaises() {
+                // Obtener el valor ingresado en la barra de búsqueda
+                let input = document
+                  .getElementById("filtrar")
+                  .value.toLowerCase();
 
-<!--	<br>-->
-<!--	<br>-->
-<!--	<div class="container">-->
-<!--		<div class="row">-->
-<!--			<div-->
-<!--				class="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">-->
-<!--				<h1 class="text-center">Crear tipo organismo</h1>-->
-<!--				<div class="card-body">-->
-<!--					<form th:action="@{/tipoOrganismo}" th:object = "${tipoOrganismo}" method="POST">-->
-<!--						<div class ="form-group">-->
-<!--							<label>Titulo </label>-->
-<!--							<input-->
-<!--							type = "text"-->
-<!--							name = "titulo"-->
-<!--							th:field = "*{CVTitulo}"-->
-<!--							class = "form-control"-->
-<!--							placeholder="Digite el titulo del tipo de Organismo" -->
-<!--							required="El campo titulo es requerido"-->
-<!--								minlenght="1"-->
-<!--								maxlength="80"-->
-<!--							/>-->
-<!--						</div>-->
-<!--						-->
-<!--						<div class ="form-group">-->
-<!--							<label>Descripcion</label>-->
-<!--							<input-->
-<!--							type = "text"-->
-<!--							name = "descripcion"-->
-<!--							th:field = "*{CVDescripcion}"-->
-<!--							class = "form-control"-->
-<!--							placeholder="Digite la descripcion del tipo de Organismo" -->
-<!--							required="El campo descripcion es requerido"-->
-<!--								minlenght="1"-->
-<!--								maxlength="80"-->
-<!--							/>-->
-<!--						</div>-->
-<!--						-->
-<!--				-->
-<!--						-->
-<!--						<div class = "box-footer">-->
-<!--							<button type="submit" class = "btn btn-primary">-->
-<!--								Agregar-->
-<!--							</button>-->
-<!--						</div>-->
-<!--					</form>-->
+                // Obtener todos los elementos que contienen los nombres de los países
+                let items = document.querySelectorAll(
+                  "#countryList .form-check"
+                );
 
-<!--				</div>-->
-<!--			</div>-->
-<!--		</div>-->
-<!--	</div>-->
-</body>
+                items.forEach(function (item) {
+                  let label = item
+                    .querySelector("label")
+                    .innerText.toLowerCase();
+                  if (label.includes(input)) {
+                    item.style.display = ""; // Mostrar si coincide
+                  } else {
+                    item.style.display = "none"; // Ocultar si no coincide
+                  }
+                });
+              }
+            </script>
+
+            <button class="btn btn-primary" type="submit">Agregar</button>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <!--	<div class="row">-->
+    <!--		<div class="col-md-12">-->
+    <!--			<ul class="nav nav-pills flex-column flex-sm-row">-->
+    <!--				<li class="nav-item"><a class="nav-organismo-->
+    <!--link active" href="#">Inicio</a>-->
+    <!--				</li>-->
+    <!--				<li class="nav-item"><a class="nav-link"-->
+    <!--					th:href="@{/tipoOrganismo}">Tipo Organismos</a></li>-->
+
+    <!--			</ul>-->
+    <!--		</div>-->
+    <!--	</div>-->
+
+    <!--	<br>-->
+    <!--	<br>-->
+    <!--	<div class="container">-->
+    <!--		<div class="row">-->
+    <!--			<div-->
+    <!--				class="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">-->
+    <!--				<h1 class="text-center">Crear tipo organismo</h1>-->
+    <!--				<div class="card-body">-->
+    <!--					<form th:action="@{/tipoOrganismo}" th:object = "${tipoOrganismo}" method="POST">-->
+    <!--						<div class ="form-group">-->
+    <!--							<label>Titulo </label>-->
+    <!--							<input-->
+    <!--							type = "text"-->
+    <!--							name = "titulo"-->
+    <!--							th:field = "*{CVTitulo}"-->
+    <!--							class = "form-control"-->
+    <!--							placeholder="Digite el titulo del tipo de Organismo" -->
+    <!--							required="El campo titulo es requerido"-->
+    <!--								minlenght="1"-->
+    <!--								maxlength="80"-->
+    <!--							/>-->
+    <!--						</div>-->
+    <!--						-->
+    <!--						<div class ="form-group">-->
+    <!--							<label>Descripcion</label>-->
+    <!--							<input-->
+    <!--							type = "text"-->
+    <!--							name = "descripcion"-->
+    <!--							th:field = "*{CVDescripcion}"-->
+    <!--							class = "form-control"-->
+    <!--							placeholder="Digite la descripcion del tipo de Organismo" -->
+    <!--							required="El campo descripcion es requerido"-->
+    <!--								minlenght="1"-->
+    <!--								maxlength="80"-->
+    <!--							/>-->
+    <!--						</div>-->
+    <!--						-->
+    <!--				-->
+    <!--						-->
+    <!--						<div class = "box-footer">-->
+    <!--							<button type="submit" class = "btn btn-primary">-->
+    <!--								Agregar-->
+    <!--							</button>-->
+    <!--						</div>-->
+    <!--					</form>-->
+
+    <!--				</div>-->
+    <!--			</div>-->
+    <!--		</div>-->
+    <!--	</div>-->
+  </body>
 </html>

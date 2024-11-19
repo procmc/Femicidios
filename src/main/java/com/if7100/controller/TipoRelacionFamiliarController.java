@@ -1,6 +1,7 @@
 package com.if7100.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import org.springframework.data.domain.Page;
@@ -14,20 +15,26 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.if7100.entity.Bitacora;
 
 import com.if7100.entity.Paises;
 import com.if7100.entity.Perfil;
+import com.if7100.entity.TipoRelacion;
 import com.if7100.entity.TipoRelacionFamiliar;
 import com.if7100.entity.Usuario;
 import com.if7100.entity.UsuarioPerfil;
+import com.if7100.entity.relacionesEntity.TipoRelacionFamiliarPaises;
+import com.if7100.entity.relacionesEntity.TipoRelacionPaises;
 import com.if7100.repository.UsuarioPerfilRepository;
 import com.if7100.repository.UsuarioRepository;
 import com.if7100.service.BitacoraService;
+import com.if7100.service.PaisesService;
 import com.if7100.service.PerfilService;
 import com.if7100.service.TipoRelacionFamiliarService;
 import com.if7100.service.UsuarioPerfilService;
+import com.if7100.service.relacionesService.TipoRelacionFamiliarPaisesService;
 
 @Controller
 public class TipoRelacionFamiliarController {
@@ -41,10 +48,13 @@ public class TipoRelacionFamiliarController {
 	// instancias para control de bitacora
 	private BitacoraService bitacoraService;
 	private Usuario usuario;
+	private PaisesService paisesService;
+	private TipoRelacionFamiliarPaisesService tipoRelacionFamiliarPaisesService;
 
 	public TipoRelacionFamiliarController(TipoRelacionFamiliarService tipoRelacionFamiliarService,
 			UsuarioRepository usuarioRepository, PerfilService perfilService,
-			BitacoraService bitacoraService, UsuarioPerfilService usuarioPerfilService, UsuarioPerfilRepository usuarioPerfilRepository) {
+			BitacoraService bitacoraService, UsuarioPerfilService usuarioPerfilService, UsuarioPerfilRepository usuarioPerfilRepository,
+			PaisesService paisesService, TipoRelacionFamiliarPaisesService tipoRelacionFamiliarPaisesService) {
 		super();
 		this.tipoRelacionFamiliarService = tipoRelacionFamiliarService;
 		this.usuarioRepository = usuarioRepository;
@@ -53,6 +63,8 @@ public class TipoRelacionFamiliarController {
 		this.bitacoraService = bitacoraService;
 		this.usuarioPerfilService = usuarioPerfilService;
 		this.usuarioPerfilRepository = usuarioPerfilRepository;
+		this.paisesService = paisesService;
+		this.tipoRelacionFamiliarPaisesService = tipoRelacionFamiliarPaisesService;
 
 	}
 
@@ -103,20 +115,32 @@ public class TipoRelacionFamiliarController {
 		if (pg < 1) {
 			return "redirect:/tiporelacionfamiliar/1";
 		}
+		
+		 Integer codigoPaisUsuario = this.usuario.getOrganizacion().getCodigoPais();
 
-		int numeroTotalElementos = tipoRelacionFamiliarService.getAllTipoRelacionFamiliar().size();
+		// obtiene el id del pais del hecho segun el pais de la organizacion del usuario
+		List<TipoRelacionFamiliar> tipoRelacionFamiliarFiltrados = tipoRelacionFamiliarService
+				.getTipoRelacionFamiliarByCodigoPais(codigoPaisUsuario);
+
+		int numeroTotalElementos = tipoRelacionFamiliarFiltrados.size();
+
 		Pageable pageable = initPages(pg, 5, numeroTotalElementos);
 
-		Page<TipoRelacionFamiliar> tipoRelacionFamiliarPage = tipoRelacionFamiliarService
-				.getAllTipoRelacionFamiliar(pageable);
+		int tamanoPagina = pageable.getPageSize();
+		int numeroPagina = pageable.getPageNumber();
 
-		List<Integer> nPaginas = IntStream.rangeClosed(1, tipoRelacionFamiliarPage.getTotalPages())
+		List<TipoRelacionFamiliar> tipoRelacionFamiliarPaginados = tipoRelacionFamiliarFiltrados.stream()
+				.skip((long) numeroPagina * tamanoPagina)
+				.limit(tamanoPagina)
+				.collect(Collectors.toList());
+
+		List<Integer> nPaginas = IntStream.rangeClosed(1, (int) Math.ceil((double) numeroTotalElementos / tamanoPagina))
 				.boxed()
 				.toList();
 
 		model.addAttribute("PaginaActual", pg);
 		model.addAttribute("nPaginas", nPaginas);
-		model.addAttribute("tiporelacionfamiliar", tipoRelacionFamiliarPage.getContent());
+		model.addAttribute("tiporelacionfamiliar", tipoRelacionFamiliarPaginados);
 		return "tipoRelacionFamiliar/tiporelacionfamiliar";
 	}
 
@@ -130,6 +154,7 @@ public class TipoRelacionFamiliarController {
 				TipoRelacionFamiliar tipoRelacionFamiliar = new TipoRelacionFamiliar();
 				// Paises paises = new Paises();
 				model.addAttribute("tiporelacionfamiliar", tipoRelacionFamiliar);
+				model.addAttribute("listaPaises", paisesService.getAllPaises());
 
 				return "tipoRelacionFamiliar/crear_tipo_relacion_familiar";
 			} else {
@@ -143,10 +168,21 @@ public class TipoRelacionFamiliarController {
 
 	@PostMapping("/tiporelacionfamiliar")
 	public String saveTiporelacionfamiliar(
-			@ModelAttribute("tiporelacionfamiliar") TipoRelacionFamiliar tipoRelacionFamiliar) {
+			@ModelAttribute("tiporelacionfamiliar") TipoRelacionFamiliar tipoRelacionFamiliar,
+			@RequestParam List<String> paisesSeleccionados) {
 		this.validarPerfil();
 
 		tipoRelacionFamiliarService.saveTipoRelacionFamiliar(tipoRelacionFamiliar);
+
+		for (String iso2 : paisesSeleccionados) {
+			Paises pais = paisesService.getPaisByISO2(iso2); // Obtener el país por ISO2
+			if (pais != null) {
+				TipoRelacionFamiliarPaises relacion = new TipoRelacionFamiliarPaises();
+				relacion.setTipoRelacionFamiliar(tipoRelacionFamiliar);
+				relacion.setPais(pais);
+				tipoRelacionFamiliarPaisesService.saveTipoRelacionFamiliarPaises(relacion);
+			}
+		}
 
 		bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
 				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en tipos de relaciones familiares", this.usuario.getOrganizacion().getCodigoPais()));

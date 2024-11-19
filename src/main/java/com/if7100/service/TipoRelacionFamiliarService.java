@@ -7,7 +7,6 @@ import org.springframework.data.domain.Pageable;
 
 import com.if7100.entity.TipoRelacionFamiliar;
 
-
 public interface TipoRelacionFamiliarService {
 	List<TipoRelacionFamiliar> getAllTipoRelacionFamiliar();
 
@@ -18,7 +17,9 @@ public interface TipoRelacionFamiliarService {
 	TipoRelacionFamiliar getTipoRelacionFamiliarById(Integer Id);
 
 	TipoRelacionFamiliar updateTipoRelacionFamiliar(TipoRelacionFamiliar tiporelacion);
-	
 
 	void deleteTipoRelacionFamiliarById(Integer Id);
+
+	List<TipoRelacionFamiliar> getTipoRelacionFamiliarByCodigoPais(Integer codigoPais);
+
 }

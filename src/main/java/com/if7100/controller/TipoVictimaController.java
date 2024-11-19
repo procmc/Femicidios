@@ -1,12 +1,16 @@
 package com.if7100.controller;
 
 import com.if7100.entity.*;
+import com.if7100.entity.relacionesEntity.TipoRelacionPaises;
+import com.if7100.entity.relacionesEntity.TipoVictimaPaises;
 import com.if7100.service.BitacoraService;
+import com.if7100.service.PaisesService;
 import com.if7100.repository.UsuarioPerfilRepository;
 import com.if7100.repository.UsuarioRepository;
 import com.if7100.service.PerfilService;
 import com.if7100.service.TipoVictimaService;
 import com.if7100.service.UsuarioPerfilService;
+import com.if7100.service.relacionesService.TipoVictimaPaisesService;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,8 +23,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Controller
@@ -36,11 +42,13 @@ public class TipoVictimaController {
   //instancias para control de bitacora
     private BitacoraService bitacoraService;
     private Usuario usuario;
-
+    private PaisesService paisesService;
+    private TipoVictimaPaisesService tipoVictimaPaisesService;
 
     public TipoVictimaController(BitacoraService bitacoraService,
 TipoVictimaService tipoVictimaService, PerfilService perfilService, UsuarioRepository usuarioRepository,
-UsuarioPerfilService usuarioPerfilService, UsuarioPerfilRepository usuarioPerfilRepository) {
+UsuarioPerfilService usuarioPerfilService, UsuarioPerfilRepository usuarioPerfilRepository, PaisesService paisesService,
+TipoVictimaPaisesService tipoVictimaPaisesService) {
         super();
         this.tipoVictimaService = tipoVictimaService;
         this.perfilService = perfilService;
@@ -48,7 +56,8 @@ UsuarioPerfilService usuarioPerfilService, UsuarioPerfilRepository usuarioPerfil
         this.bitacoraService= bitacoraService;
         this.usuarioPerfilService = usuarioPerfilService;
         this.usuarioPerfilRepository = usuarioPerfilRepository;
-
+        this.paisesService = paisesService;
+        this.tipoVictimaPaisesService = tipoVictimaPaisesService;
     }
     
     private void validarPerfil() {
@@ -98,19 +107,30 @@ UsuarioPerfilService usuarioPerfilService, UsuarioPerfilRepository usuarioPerfil
             return "redirect:/tipovictima/1";
         }
 
-        int numeroTotalElementos = tipoVictimaService.getAllTipoVictimas().size();
+         Integer codigoPaisUsuario = this.usuario.getOrganizacion().getCodigoPais();
 
-        Pageable pageable = initPages(pg, 5, numeroTotalElementos);
+		List<TipoVictima> tipoVictimaFiltrados = tipoVictimaService
+				.getTipoVictimaByCodigoPais(codigoPaisUsuario);
 
-        Page<TipoVictima> tipoVictimasPage = tipoVictimaService.getAllTipoVictimasPage(pageable);
+		int numeroTotalElementos = tipoVictimaFiltrados.size();
 
-        List<Integer> nPaginas = IntStream.rangeClosed(1, tipoVictimasPage.getTotalPages())
-                .boxed()
-                .toList();
+		Pageable pageable = initPages(pg, 5, numeroTotalElementos);
+
+		int tamanoPagina = pageable.getPageSize();
+		int numeroPagina = pageable.getPageNumber();
+
+		List<TipoVictima> tipoVictimaPaginados = tipoVictimaFiltrados.stream()
+				.skip((long) numeroPagina * tamanoPagina)
+				.limit(tamanoPagina)
+				.collect(Collectors.toList());
+
+		List<Integer> nPaginas = IntStream.rangeClosed(1, (int) Math.ceil((double) numeroTotalElementos / tamanoPagina))
+				.boxed()
+				.toList();
 
         model.addAttribute("PaginaActual", pg);
         model.addAttribute("nPaginas", nPaginas);
-        model.addAttribute("tipoVictimas", tipoVictimasPage.getContent());
+        model.addAttribute("tipoVictimas", tipoVictimaPaginados);
         return "tipoVictimas/tipoVictimas";
     }
 
@@ -124,6 +144,8 @@ UsuarioPerfilService usuarioPerfilService, UsuarioPerfilRepository usuarioPerfil
 				
 				TipoVictima tipoVictima = new TipoVictima();
 		        model.addAttribute("tipoVictima", tipoVictima);
+                model.addAttribute("listaPaises", paisesService.getAllPaises());
+
 		        return "tipoVictimas/create_tipoVictima";
 			}else {
 				return "SinAcceso";
@@ -135,11 +157,21 @@ UsuarioPerfilService usuarioPerfilService, UsuarioPerfilRepository usuarioPerfil
     }
 
     @PostMapping("/tipovictimas")
-    public String saveTipoVictima(@ModelAttribute TipoVictima tipoVictima){
+    public String saveTipoVictima(@ModelAttribute TipoVictima tipoVictima, @RequestParam List<String> paisesSeleccionados){
         this.validarPerfil();
 
         tipoVictimaService.saveTipoVictima(tipoVictima);
         
+        for (String iso2 : paisesSeleccionados) {
+			Paises pais = paisesService.getPaisByISO2(iso2); // Obtener el país por ISO2
+			if (pais != null) {
+				TipoVictimaPaises relacion = new TipoVictimaPaises();
+				relacion.setTipoVictima(tipoVictima);
+				relacion.setPais(pais);
+				tipoVictimaPaisesService.saveTipoVictimaPaises(relacion);
+			}
+		}
+
         bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
 				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en tipos de victimas", this.usuario.getOrganizacion().getCodigoPais()));
 		

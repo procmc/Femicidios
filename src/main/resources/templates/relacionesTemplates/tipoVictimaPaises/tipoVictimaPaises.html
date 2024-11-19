@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tipo Victima - país</title>
+    <th th:insert="~{header}"></th>
+  </head>
+
+  <body>
+    <main class="page">
+      <section class="p-5">
+        <div class="container-fluid">
+          <div class="card">
+            <div class="card-header py-3">
+              <div class="row align-items-center">
+                <div class="col-12 col-sm-5 col-md-6 text-start pt-1 pb-1">
+                  <p class="text-primary m-0 fw-bold">Tipo Victima paises</p>
+                </div>
+
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <div class="table-responsive max-height-table">
+                  <table class="table table-striped" id="ipi-table">
+                    <thead class="thead-dark">
+                      <tr>
+                        <th class="text-center">Tipo Victima</th>
+                        <th class="text-center">País</th>
+                        <!--<th class="text-center">Código país</th>-->
+                        <th class="text-center">Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody class="text-center">
+                      <tr
+                        th:each="tipoVictimaPaises: ${tipoVictimaPaises}"
+                      >
+                        <td th:text="${tipoVictimaPaises.tipoVictima.CI_Codigo}"></td>
+                        <td th:text="${tipoVictimaPaises.pais.spanish}"></td>
+        
+                            <td th:if="${tipoVictimaPaises}" class="text-center align-middle h-50">
+                                <a class="btn btnMaterial btn-flat accent btnNoBorders checkboxHover ms-1"
+                                    role="button"
+                                    th:href="@{/delettipoVictimaPaises/{id}/{tipoVictima}(id=${tipoVictimaPaises.id_tipovictimapais}, tipoVictima=${tipoVictimaPaises.tipoVictima.CI_Codigo})}"><i
+                                        class="fas fa-trash btnNoBorders"></i></a>
+                            </td>
+
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            
+            <div th:if="${tipoVictimaPaises}" class="card-footer">
+                <nav>
+                    <ul class="pagination pagination-sm mb-0 justify-content-center">
+                        <li class="page-item"><a class="page-link" aria-label="Previous"
+                                th:href="@{/tipoVictimaPaises}"><span aria-hidden="true">«</span></a></li>
+                        <li th:each="nPagina : ${nPaginas}" class="page-item"
+                            th:class="${PaginaActual == nPaginaStat.count ? 'active' : ''}"><a
+                                th:text="${nPaginaStat.count}" class="page-link" aria-label="Next"
+                                th:href="@{/tipoVictimaPaises/{pg}(pg=${nPaginaStat.count})}"><span
+                                    aria-hidden="true"></span></a>
+                        </li>
+                        <li class="page-item"><a class="page-link" aria-label="Next"
+                                th:href="@{/tipoVictimaPaises/{pg}(pg=${nPaginas.size()})}"><span
+                                    aria-hidden="true">»</span></a></li>
+                    </ul>
+                </nav>
+            </div>
+
+          </div>
+        </div>
+      </section>
+    </main>
+
+  </body>
+</html>

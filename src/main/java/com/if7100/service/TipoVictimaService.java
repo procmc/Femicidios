@@ -1,6 +1,6 @@
 package com.if7100.service;
 
-
+import com.if7100.entity.TipoRelacion;
 import com.if7100.entity.TipoVictima;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,4 +24,7 @@ public interface TipoVictimaService {
     TipoVictima getTipoVictimaByDescripcion(String CVDescripcion);
 
     Page<TipoVictima> getAllTipoVictimasPage(Pageable pageable);
+
+    List<TipoVictima> getTipoVictimaByCodigoPais(Integer codigoPais);
+
 }
