@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Rol usuario</title>
+    <th th:insert="~{header}"></th>
+  </head>
+
+  <body>
+    <main class="page">
+      <section class="p-5">
+        <div class="container-fluid">
+          <div class="card">
+            <div class="card-header py-3">
+              <div class="row align-items-center">
+                <div class="col-12 col-sm-5 col-md-6 text-start pt-1 pb-1">
+                  <p class="text-primary m-0 fw-bold">Rol usuario</p>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <div class="table-responsive max-height-table">
+                  <table class="table table-striped" id="ipi-table">
+                    <thead class="thead-dark">
+                      <tr>
+                        <th class="text-center">Usuario</th>
+                        <th class="text-center">Rol</th>
+                        <th class="text-center">Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody class="text-center">
+                      <tr th:each="usuarioPerfil: ${usuarioPerfil}">
+                        <td th:text="${usuarioPerfil.usuario.CVCedula}"></td>
+                        <td th:text="${usuarioPerfil.perfil.CVRol}"></td>
+
+                        <td
+                          th:if="${usuarioPerfil}"
+                          class="text-center align-middle h-50"
+                        >
+                          <a
+                            class="btn btnMaterial btn-flat accent btnNoBorders checkboxHover ms-1"
+                            role="button"
+                            th:href="@{/deleteusuarioPerfil/eliminar/{id}/{usuario}(id=${usuarioPerfil.ci_id_usuarioperfil}, usuario=${usuarioPerfil.usuario.CVCedula})}"
+                            ><i class="fas fa-trash btnNoBorders"></i
+                          ></a>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div th:if="${usuarioPerfil}" class="card-footer">
+              <nav>
+                <ul
+                  class="pagination pagination-sm mb-0 justify-content-center"
+                >
+                  <li class="page-item">
+                    <a
+                      class="page-link"
+                      aria-label="Previous"
+                      th:href="@{/usuarioPerfil}"
+                      ><span aria-hidden="true">«</span></a
+                    >
+                  </li>
+                  <li
+                    th:each="nPagina : ${nPaginas}"
+                    class="page-item"
+                    th:class="${PaginaActual == nPaginaStat.count ? 'active' : ''}"
+                  >
+                    <a
+                      th:text="${nPaginaStat.count}"
+                      class="page-link"
+                      aria-label="Next"
+                      th:href="@{/usuarioPerfil/{pg}(pg=${nPaginaStat.count})}"
+                      ><span aria-hidden="true"></span
+                    ></a>
+                  </li>
+                  <li class="page-item">
+                    <a
+                      class="page-link"
+                      aria-label="Next"
+                      th:href="@{/usuarioPerfil/{pg}(pg=${nPaginas.size()})}"
+                      ><span aria-hidden="true">»</span></a
+                    >
+                  </li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

@@ -41,9 +41,6 @@ public class Usuario{
 	@Column(name = "CV_Apellidos", nullable = false)
 	private String CVApellidos;
 	
-	@Column(name = "CI_Perfil", nullable = false)
-	private int CIPerfil;
-	
 	@Column(name = "TC_Clave", nullable = false)
 	private String TCClave;
 	
@@ -72,20 +69,17 @@ public class Usuario{
 		this.CVCedula = usuario.CVCedula;
 		this.CVNombre = usuario.CVNombre;
 		this.CVApellidos = usuario.CVApellidos;
-		this.CIPerfil = usuario.CIPerfil;
 		//this.codigoPais = usuario.codigoPais;
 		this.TCClave = usuario.TCClave;
 		this.organizacion = usuario.organizacion;
 	}
 	
 
-	public Usuario(String cVCedula, String cVNombre, String cVApellidos, int cIPerfil, String tCClave, Organizacion organizacion) {
+	public Usuario(String cVCedula, String cVNombre, String cVApellidos, String tCClave, Organizacion organizacion) {
 		super();
 		CVCedula = cVCedula;
 		CVNombre = cVNombre;
 		CVApellidos = cVApellidos;
-		CIPerfil = cIPerfil;
-		//this.codigoPais = codigoPais;
 		TCClave = tCClave;
 		this.organizacion = organizacion;
 	}
@@ -131,14 +125,6 @@ public class Usuario{
 		TCClave = tCClave;
 	}
 
-	public int getCIPerfil() {
-		return CIPerfil;
-	}
-
-	public void setCIPerfil(int cIPerfil) {
-		CIPerfil = cIPerfil;
-	}
-	
 	//pais
 	/*public Integer getCodigoPais() {
 		return this.codigoPais;

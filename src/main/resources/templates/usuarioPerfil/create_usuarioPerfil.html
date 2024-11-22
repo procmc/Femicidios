@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>roles Mantenimiento</title>
+    <th th:insert="~{header}"></th>
+  </head>
+
+  <body>
+    <main class="page registration-page">
+      <section class="clean-block clean-form dark">
+        <div class="container">
+          <div class="block-heading">
+            <h2 class="text-info">Agregar rol a usuario</h2>
+          </div>
+
+          <form
+            th:action="@{/usuarioPerfil}"
+            th:object="${usuarioPerfil}"
+            method="POST"
+          >
+            <div class="mb-3">
+              <label class="form-label" for="name"
+                >Usuario</label
+              >
+
+              <input
+                id="name"
+                th:field="*{usuario.CVCedula}"
+                name="usuario"
+                class="form-control item" 
+                type="text"
+                placeholder=""
+                readonly
+              />
+            </div>
+
+            <!-- Selección de usuario -->
+            <div class="mb-3">
+              <label class="form-label" for="dropdownCheckBox"
+                >Seleccione los roles</label
+              >
+              <div class="dropdown">
+                <button
+                  class="btn btn-secondary dropdown-toggle"
+                  type="button"
+                  id="dropdownCheckBox"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  Seleccione rol
+                </button>
+                <div
+                  class="dropdown-menu p-3"
+                  aria-labelledby="dropdownCheckBox"
+                >
+                  <!-- Barra de búsqueda -->
+                  <input
+                    type="text"
+                    class="form-control mb-2"
+                    id="filtrar"
+                    placeholder="Buscar país..."
+                    onkeyup="filtrarPaises()"
+                  />
+                  <!-- Contenedor de la lista con scroll -->
+                  <div
+                    id="countryList"
+                    style="max-height: 200px; overflow-y: auto"
+                  >
+                    <div th:each="perfil : ${perfiles}">
+                      <div class="form-check">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          name="perfilesSeleccionados"
+                          th:value="${perfil.CI_Id}"
+                          id="pais-checkbox-${perfil.CI_Id}"
+                        />
+                        <label
+                          class="form-check-label"
+                          th:for="'pais-checkbox-' + ${perfil.CI_Id}"
+                          th:text="${perfil.CVRol}"
+                        ></label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <script>
+              function filtrarPaises() {
+                // Obtener el valor ingresado en la barra de búsqueda
+                let input = document
+                  .getElementById("filtrar")
+                  .value.toLowerCase();
+
+                // Obtener todos los elementos que contienen los nombres de los países
+                let items = document.querySelectorAll(
+                  "#countryList .form-check"
+                );
+
+                items.forEach(function (item) {
+                  let label = item
+                    .querySelector("label")
+                    .innerText.toLowerCase();
+                  if (label.includes(input)) {
+                    item.style.display = ""; // Mostrar si coincide
+                  } else {
+                    item.style.display = "none"; // Ocultar si no coincide
+                  }
+                });
+              }
+            </script>
+            
+            <button class="btn btn-primary" type="submit">Agregar</button>
+          </form>
+        </div>
+      </section>
+    </main>
+    
+  </body>
+  
+</html>

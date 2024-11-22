@@ -7,7 +7,7 @@ import com.if7100.entity.Bitacora;
 import com.if7100.entity.Organizacion;
 import com.if7100.entity.Usuario;
 import com.if7100.entity.UsuarioPerfil;
-import com.if7100.entity.UsuarioPerfil.UsuarioPerfilId;
+import com.if7100.entity.relacionesEntity.TipoVictimaPaises;
 import com.if7100.service.BitacoraService;
 import com.if7100.service.OrganizacionService;
 import com.if7100.service.PaisesService;
@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.if7100.entity.Paises;
 import com.if7100.entity.Perfil;
@@ -57,7 +58,6 @@ public class UsuarioController {
 	@Autowired
 	private PaisesService paisesService;
 	private OrganizacionService organizacionService;
-
 	// prueba
 	// private SessionRegistry sessionRegistry;
 
@@ -116,6 +116,7 @@ public class UsuarioController {
 	public String listUsuario(Model model, @PathVariable Integer pg) {
 		try {
 			this.validarPerfil();
+
 			if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)) {
 
 				// Obtener el código de país del usuario logueado
@@ -156,10 +157,10 @@ public class UsuarioController {
 
 				return "usuarios/usuarios";
 			} else {
+
 				return "SinAcceso";
 			}
 		} catch (Exception e) {
-			System.out.println("ver el error " + e);
 			return "SinAcceso";
 		}
 	}
@@ -174,10 +175,7 @@ public class UsuarioController {
 
 				Usuario usuario = new Usuario();
 				model.addAttribute("usuario", usuario);
-
-				// Obtener lista de países y enviarla al modelo
-				List<Paises> paises = paisesService.getAllPaises();
-				model.addAttribute("paises", paises);
+				model.addAttribute("perfiles", perfilService.getAllPerfiles());
 
 				// Obtener lista de países y enviarla al modelo
 				List<Organizacion> organizacion = organizacionService.getAllOrganizacion();
@@ -194,7 +192,7 @@ public class UsuarioController {
 	}
 
 	@PostMapping("/usuarios")
-	public String saveUsuario(@Valid @ModelAttribute Usuario usuario, BindingResult result) {
+	public String saveUsuario(@Valid @ModelAttribute Usuario usuario, @RequestParam List<Integer> perfilesSeleccionados, BindingResult result) {
 		this.validarPerfil();
 
 		if (result.hasErrors()) {
@@ -203,12 +201,23 @@ public class UsuarioController {
 
 			usuarioService.saveUsuario(usuario);
 
+			 for (Integer idPerfil : perfilesSeleccionados) {
+			Perfil perfil = perfilService.getPerfilById(idPerfil); // Obtener el país por ISO2
+			if (perfil != null) {
+				UsuarioPerfil relacion = new UsuarioPerfil();
+				relacion.setUsuario(usuario);
+				relacion.setPerfil(perfil);
+				usuarioPerfilService.saveUsuarioPerfil(relacion);
+			}
+		}
+
+
 			bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
 				this.usuario.getCVNombre(), this.perfil.getCVRol(), "Crea en usuarios", this.usuario.getOrganizacion().getCodigoPais()));
 		
 			return "redirect:/usuarios";
 		}
-	}
+	} 
 
 	// Eliminar Usuario
 	@GetMapping("/usuarios/{Id}")
@@ -266,7 +275,6 @@ public class UsuarioController {
 		existingUsuario.setCVCedula(usuario.getCVCedula());
 		existingUsuario.setCVNombre(usuario.getCVNombre());
 		existingUsuario.setCVApellidos(usuario.getCVApellidos());
-		existingUsuario.setCIPerfil(usuario.getCIPerfil());
 		existingUsuario.setTCClave(usuario.getTCClave());
 		//existingUsuario.setCodigoPais(usuario.getCodigoPais()); // Actualiza el país seleccionado
 		existingUsuario.setOrganizacion(usuario.getOrganizacion());

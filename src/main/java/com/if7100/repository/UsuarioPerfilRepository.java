@@ -10,10 +10,12 @@ import com.if7100.entity.Usuario;
 import com.if7100.entity.UsuarioPerfil;
 
 @Repository
-public interface UsuarioPerfilRepository extends JpaRepository<UsuarioPerfil, UsuarioPerfil.UsuarioPerfilId>{
+public interface UsuarioPerfilRepository extends JpaRepository<UsuarioPerfil, Integer>{
     
     @Query("SELECT up.perfil.CI_Id FROM UsuarioPerfil up WHERE up.usuario.CVCedula = :cvcedulausuario")
     List<Integer> findRolesByUsuarioId(@Param("cvcedulausuario") String cvcedulausuario);
 
     List<UsuarioPerfil> findByUsuario(Usuario usuario);
+    
 }
+ 

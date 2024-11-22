@@ -26,4 +26,7 @@ public interface UsuarioService {
     void deleteUsuarioById(Integer Id);
 
     Page<Usuario> getAllUsuariosPage(Pageable pageable);
+
+    Usuario getUsuarioByCVCedula(String Id);
+
 }

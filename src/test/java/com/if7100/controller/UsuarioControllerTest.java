@@ -34,7 +34,6 @@ public class UsuarioControllerTest {
 	private String Cedula = "0011223344";
 	private String Nombre = "David";
 	private String Apellido = "Jimene";
-	private int perfil = 1;
 	private String Contrasena = "Liss";
 	private Organizacion organizacion = new Organizacion( "nombreO", "DireccionO", "TelefonoO", "CorreoO", 52);
 
@@ -45,7 +44,7 @@ public class UsuarioControllerTest {
 	public void setUp() {
 		organizacionRepository.save(organizacion);
 		
-		usuario = new Usuario(Cedula, Nombre, Apellido, perfil, Contrasena, organizacion);
+		usuario = new Usuario(Cedula, Nombre, Apellido, Contrasena, organizacion);
 	}
 
 	@Test

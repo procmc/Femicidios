@@ -210,4 +210,24 @@ public class RedireccionController {
         }
     }
 
+    @PostMapping("/redireccionarUsuarioPerfil")
+    public String redireccionarUsuarioPerfil(@RequestParam String opcion) {
+
+        String[] prueba = opcion.split("-");
+        String accion = prueba[1];
+        String id = prueba[0];
+
+        String redirectUrl = "";
+
+        switch (accion) {
+            case "agregarMostrarRoles" -> {
+                return "redirect:" + redirectUrl + id;
+            }
+
+            default -> {
+                return "redirect:/error";
+            }
+        }
+    }
+
 }

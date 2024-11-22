@@ -29,15 +29,6 @@
                         title="La contraseña debe de tener al menos 8 caracteres, incluyendo al menos 1 numero, una mayuscula y un caracter especial como !@#$%^&*"
                         pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,}$" required minlength="1"
                         maxlength="60"/></div>
-                <div class="mb-3"><label class="form-label" for="name">Contraseña del usuario</label><select
-                        th:name="perfil" th:field="*{CIPerfil}"
-                        id="name-4" class="form-select" required>
-                    <optgroup label="Perfiles">
-                        <option th:value="1" th:text="Administrador"></option>
-                        <option th:value="2" th:text="Convencional"></option>
-                        <option th:value="3" th:text="Consulta"></option>
-                    </optgroup>
-                </select></div>
 
 
                 <div class="form-group">
@@ -47,6 +38,86 @@
                         <option th:each="organizacion : ${organizacion}" th:value="${organizacion.CI_Codigo_Organizacion}" th:text="${organizacion.CVNombre}"></option>
                     </select>                    
                 </div>
+
+
+
+
+                <div class="mb-3">
+                    <label class="form-label" for="dropdownCheckBox"
+                      >Seleccione los roles</label
+                    >
+                    <div class="dropdown">
+                      <button
+                        class="btn btn-secondary dropdown-toggle"
+                        type="button"
+                        id="dropdownCheckBox"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                      >
+                        Seleccione rol
+                      </button>
+                      <div
+                        class="dropdown-menu p-3"
+                        aria-labelledby="dropdownCheckBox"
+                      >
+                        <!-- Barra de búsqueda -->
+                        <input
+                          type="text"
+                          class="form-control mb-2"
+                          id="filtrar"
+                          placeholder="Buscar país..."
+                          onkeyup="filtrarPaises()"
+                        />
+                        <!-- Contenedor de la lista con scroll -->
+                        <div
+                          id="countryList"
+                          style="max-height: 200px; overflow-y: auto"
+                        >
+                          <div th:each="perfil : ${perfiles}">
+                            <div class="form-check">
+                              <input
+                                class="form-check-input"
+                                type="checkbox"
+                                name="perfilesSeleccionados"
+                                th:value="${perfil.CI_Id}"
+                                id="pais-checkbox-${perfil.CI_Id}"
+                              />
+                              <label
+                                class="form-check-label"
+                                th:for="'pais-checkbox-' + ${perfil.CI_Id}"
+                                th:text="${perfil.CVRol}"
+                              ></label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+      
+                  <script>
+                    function filtrarPaises() {
+                      // Obtener el valor ingresado en la barra de búsqueda
+                      let input = document
+                        .getElementById("filtrar")
+                        .value.toLowerCase();
+      
+                      // Obtener todos los elementos que contienen los nombres de los países
+                      let items = document.querySelectorAll(
+                        "#countryList .form-check"
+                      );
+      
+                      items.forEach(function (item) {
+                        let label = item
+                          .querySelector("label")
+                          .innerText.toLowerCase();
+                        if (label.includes(input)) {
+                          item.style.display = ""; // Mostrar si coincide
+                        } else {
+                          item.style.display = "none"; // Ocultar si no coincide
+                        }
+                      });
+                    }
+                  </script>
 
 
 

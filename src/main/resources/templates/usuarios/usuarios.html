@@ -33,7 +33,6 @@
 											<th class="text-center">Cedula</th>
 											<th class="text-center">Nombre</th>
 											<th class="text-center">Apellidos</th>
-											<th class="text-center">Perfil</th>
 											<th class="text-center">Contraseña</th>
 											<th class="text-center">Organizacion</th>
 											<th class="text-center">Acciones</th>
@@ -45,11 +44,25 @@
 											<td th:text="${usuario.CVCedula}"></td>
 											<td th:text="${usuario.CVNombre}"></td>
 											<td th:text="${usuario.CVApellidos}"></td>
-											<td th:text="${usuario.CIPerfil}"></td>
 											<td th:text="${usuario.TCClave}"></td>
 											<td th:text="${usuario.organizacion.CVNombre}"></td>
 											
-											<td class="text-center align-middle h-50"><a
+											<td class="text-center align-middle h-50">
+												
+												
+												<form th:action="@{/redireccionarUsuarioPerfil}" method="post">
+													<select class="form-control" name="opcion"
+														onchange="this.form.submit()">
+														<option value="" disabled selected>Roles</option>
+														<option th:value="${'/usuarioPerfil/new/' + usuario.CVCedula} + '-agregarMostrarRoles'"> Agregar
+														</option>
+														<option th:value="${'/usuarioPerfil/' + usuario .CVCedula} + '-agregarMostrarRoles'"> Mostrar
+														</option> 
+													</select>
+												</form>
+												
+												
+												<a
 													class="btn btnMaterial btn-flat success" role="button"
 													th:href="@{/usuarios/edit/{id}(id=${usuario.CI_Id})}"><i
 														class="fas fa-pen"></i></a><a

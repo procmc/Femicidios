@@ -72,4 +72,9 @@ public class UsuarioServiceImpl implements UsuarioService {
         usuarioRepository.deleteById(Id);
     }
 
+    @Override
+    public Usuario getUsuarioByCVCedula(String Id) {
+        return usuarioRepository.findByCVCedula(Id);
+    }
+
 }

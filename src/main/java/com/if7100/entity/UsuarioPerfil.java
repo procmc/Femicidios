@@ -9,34 +9,36 @@ import java.util.Objects;
 @Table(name = "ti_usuario_perfil")
 public class UsuarioPerfil {
 
-    @EmbeddedId
-    private UsuarioPerfilId id;
+    @Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer ci_id_usuarioperfil;
+
 
     @ManyToOne
-    @MapsId("CVCedulaUsuario") // Mapea usuarioId de UsuarioPerfilId a Usuario
-    @JoinColumn(name = "CV_Cedula_Usuario", referencedColumnName = "CV_Cedula")
+    //@MapsId("cvcedulausurio") 
+    @JoinColumn(name = "cv_cedula_usuario", referencedColumnName = "CV_Cedula")
     private Usuario usuario;
     
     @ManyToOne
-    @MapsId("CIIdPerfil") // Mapea perfilId de UsuarioPerfilId a Perfil
-    @JoinColumn(name = "CI_Id_perfil", referencedColumnName = "CI_Id")
+    //@MapsId("ciidperfil") 
+    @JoinColumn(name = "ci_id_perfil", referencedColumnName = "CI_Id")
     private Perfil perfil;
 
     // Constructor, getters y setters
     public UsuarioPerfil() {}
 
-    public UsuarioPerfil(Usuario usuario, Perfil perfil) {
-        this.id = new UsuarioPerfilId(usuario.getCVCedula(), perfil.getCI_Id());
+    public UsuarioPerfil(Integer ci_id_usuarioperfil, Usuario usuario, Perfil perfil) {
+        this.ci_id_usuarioperfil = ci_id_usuarioperfil;
         this.usuario = usuario;
         this.perfil = perfil;
     }
 
-    public UsuarioPerfilId getId() {
-        return id;
+    public Integer getCi_id_usuarioperfil() {
+        return ci_id_usuarioperfil;
     }
 
-    public void setId(UsuarioPerfilId id) {
-        this.id = id;
+    public void setCi_id_usuarioperfil(Integer ci_id_usuarioperfil) {
+        this.ci_id_usuarioperfil = ci_id_usuarioperfil;
     }
 
     public Usuario getUsuario() {
@@ -55,63 +57,4 @@ public class UsuarioPerfil {
         this.perfil = perfil;
     }
 
-    // Clase estática interna para la clave compuesta
-    @Embeddable
-    public static class UsuarioPerfilId implements Serializable {
-
-        @Column(name = "CV_Cedula_Usuario")
-        private String CVCedulaUsuario;
-
-        @Column(name = "CI_Id_Perfil")
-        private Integer CIIdPerfil;
-
-        public UsuarioPerfilId() {}
-
-        public UsuarioPerfilId(String CVCedulaUsuario, Integer CIIdPerfil) {
-            this.CVCedulaUsuario = CVCedulaUsuario;
-            this.CIIdPerfil = CIIdPerfil;
-        }
-
-        public String getCVCedulaUsuario() {
-            return CVCedulaUsuario;
-        }
-
-        public void setCVCedulaUsuario(String CVCedulaUsuario) {
-            this.CVCedulaUsuario = CVCedulaUsuario;
-        }
-
-        public Integer getCIIdPerfil() {
-            return CIIdPerfil;
-        }
-
-        public void setCIIdPerfil(Integer CIIdPerfil) {
-            this.CIIdPerfil = CIIdPerfil;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            UsuarioPerfilId that = (UsuarioPerfilId) o;
-            return Objects.equals(CIIdPerfil, that.CIIdPerfil) && Objects.equals(CIIdPerfil, that.CIIdPerfil);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(CIIdPerfil, CIIdPerfil);
-        }
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        UsuarioPerfil that = (UsuarioPerfil) o;
-        return Objects.equals(id, that.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
 }
