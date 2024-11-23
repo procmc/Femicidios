@@ -32,25 +32,15 @@
 								<tr>
 									<th class="text-center"> DNI</th>
 									<th class="text-center"> Nombre</th>
-									<th class="text-center"> Genero</th>
-									<th class="text-center"> Orientacion sexual</th>
 									<th class="text-center"> Sexo</th>
 									<th class="text-center"> Edad</th>
-									<th class="text-center"> Lugar de nacimiento</th>
 									<th class="text-center"> Nacionalidad</th>
-									<th class="text-center"> Educacion</th>
-									<th class="text-center"> Ocupacion</th>
-									<th class="text-center"> Domicilio</th>
-									<th class="text-center"> Residencia</th>
 									<th class="text-center"> Condicion Migratoria</th>
 									<th class="text-center"> Etnia</th>
 									<th class="text-center"> Situacion Juridica</th>
 									<th class="text-center"> Estado Conyugal</th>
-									<th class="text-center"> Permiso de Portacion de Armas</th>
-									<th class="text-center"> Pertenencia a Fuerzas de Seguridad</th>
 									<th class="text-center"> Antecedentes</th>
 									<th class="text-center"> Suicidio</th>
-									<th class="text-center"> Generador</th>
 									<th class="text-center"> Acciones</th>
 								</tr>
 								</thead>
@@ -58,26 +48,15 @@
 								<tr th:each="imputado: ${imputados}">
 									<td th:text="${imputado.CVDni}"></td>
 									<td th:text="${imputado.CVNombre}"></td>
-									<td th:text="${imputado.CVGenero}"></td>
-									<td th:text="${imputado.CVOrientacionSexual}"></td>
 									<td th:text="${imputado.CVSexo}"></td>
 									<td th:text="${imputado.CIEdad}"></td>
-									<td th:text="${imputado.CVLugarNacimiento}"></td>
 									<td th:text="${imputado.CVNacionalidad}"></td>
-									<td th:text="${imputado.CVEducacion}"></td>
-									<td th:text="${imputado.CVOcupacion}"></td>
-									<td th:text="${imputado.CVDomicilio}"></td>
-									<td th:text="${imputado.CVLugarResidencia}"></td>
 									<td th:text="${imputado.CVCondicionMigratoria}"></td>
 									<td th:text="${imputado.CVEtnia}"></td>
 									<td th:text="${imputado.CVSituacionJuridica}"></td>
 									<td th:text="${imputado.CVEstadoConyugal}"></td>
-									<td th:text="${imputado.CVPermisoPortacionArmas}"></td>
-									<td th:text="${imputado.CVPertenenciaFuerzaSeguridad}"></td>
 									<td th:text="${imputado.CVAntecedentes}"></td>
 									<td th:text="${imputado.CVSuicidio}"></td>
-									<td th:text="${imputado.CVGenerador}"></td>
-
 									<td class="text-center align-middle h-50">
 <!--										<form th:action="@{/redireccionarAccionesHecho}" method="post">-->
 <!--											<select class="form-control" name="opcion" onchange="this.form.submit()">-->

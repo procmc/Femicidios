@@ -42,13 +42,9 @@
                                             <th class="text-center">TipoRelacion</th>
                                             <th class="text-center">Modalidad o Método</th>
                                             <th class="text-center">Victima</th>
-                                            <th class="text-center">Proceso</th>
-                                            <th class="text-center">Pais</th>
                                             <th class="text-center">AgresionSexual</th>
                                             <th class="text-center">DenunciaPrevia</th>
-                                            <th class="text-center">Generador</th>
                                             <th class="text-center">Fecha</th>
-                                            <th class="text-center">Observaciones adicionales</th>
                                             <th class="text-center">Acciones</th>
                                         </tr>
                                     </thead>
@@ -58,16 +54,10 @@
                                             <td th:text="${tipoRelaciones.get(hechoStat.index).CVTitulo}"></td>
                                             <td th:text="${modalidades.get(hechoStat.index).CVTitulo}"></td>
                                             <td th:text="${victimas.get(hechoStat.index).CVDNI}"></td>
-                                            <td th:text="${procesosJudiciales.get(hechoStat.index).CVEstado}"></td>
-                                            <td
-                                                th:text="${nombrePais}">
-                                            </td>
-                                           
+
                                             <td th:text="${hecho.CVAgresionSexual}"></td>
                                             <td th:text="${hecho.CVDenunciaPrevia}"></td>
-                                            <td th:text="${organismos.get(hechoStat.index).CVNombre}"></td>
                                             <td th:text="${hecho.CDFecha}"></td>
-                                            <td th:text="${hecho.CVDetalles}"></td>
 
                                             <td class="text-center align-middle h-50">
                                                 <form th:action="@{/redireccionarAccionesHecho}" method="post">

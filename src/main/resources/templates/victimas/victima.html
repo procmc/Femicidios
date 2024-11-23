@@ -32,17 +32,8 @@
                                 <tr>
                                     <th class="text-center"> Identificación  de la victima </th>
                                     <th class="text-center"> Nombre</th>
-                                    <th class="text-center"> Apellido_P</th>
-                                    <th class="text-center"> Apellido_M</th>
                                     <th class="text-center"> Edad </th>
-                                    <th class="text-center"> Genero </th>
-                                    <th class="text-center"> Lugar de nacimiento</th>
-                                    <th class="text-center"> Orientacion </th>
                                     <th class="text-center"> Nacionalidad </th>
-                                    <th class="text-center"> Educacion</th>
-                                    <th class="text-center"> Ocupacion</th>
-                                    <th class="text-center"> Domicilio</th>
-                                    <th class="text-center"> Residencia </th>
                                     <th class="text-center"> Discapacidad </th>
                                     <th class="text-center"> Condicion Migratoria</th>
                                     <th class="text-center"> Etnia</th>
@@ -57,17 +48,8 @@
                                 <tr th:each="victima: ${victimas}">
                                     <td th:text="${victima.CVDNI}"></td>
                                     <td th:text="${victima.CVNombre}"></td>
-                                    <td th:text="${victima.CVApellidoPaterno}"></td>
-                                    <td th:text="${victima.CVApellidoMaterno}"></td>
                                     <td th:text="${victima.CIEdad}"></td>
-                                    <td th:text="${identidadgenero.get(victimaStat.index).nombre}"></td>
-                                    <td th:text="${victima.CVLugarNac}"></td>
-                                    <td th:text="${orientacionSexual.get(victimaStat.index).CVTitulo}"></td>
                                     <td th:text="${victima.CVNacionalidad}"></td>
-                                    <td th:text="${nivelEducativo.get(victimaStat.index).CVTitulo}"></td>
-                                    <td th:text="${victima.CVOcupacion}"></td>
-                                    <td th:text="${victima.CVDomicilio}"></td>
-                                    <td th:text="${victima.CVLugarResidencia}"></td>
                                     <td th:text="${victima.CVDiscapacidad}"></td>
                                     <td th:text="${victima.CVCondicionMigratoria}"></td>
                                     <td th:text="${victima.CVEtnia}"></td>

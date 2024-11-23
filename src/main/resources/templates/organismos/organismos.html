@@ -33,8 +33,6 @@
                                     <th class="text-center">Nombre</th>
                                     <th class="text-center">Rol</th>
                                     <th class="text-center">Tipo</th>
-                                    <th class="text-center">País</th>
-                                    <th class="text-center">Contacto</th>
                                     <th class="text-center">Acciones</th>
                                 </tr>
                                 </thead>
@@ -43,8 +41,6 @@
                                     <td th:text="${organismo.CVNombre}"></td>
                                     <td th:text="${organismo.CVRol}"></td>
                                     <td th:text="${organismo.CVTipo_Organismo}"></td>
-                                    <td th:text="${nombrePais}"></td>
-                                    <td th:text="${organismo.CVContacto}"></td>
                                     <td class="text-center align-middle h-50">
                                         <form th:action="@{/redireccionarAccionesOrganismo}" method="post">
                                             <select class="form-control" name="opcion" onchange="this.form.submit()">

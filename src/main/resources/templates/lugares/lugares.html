@@ -32,28 +32,20 @@
                                     <thead class="thead-dark">
                                         <tr>
                                             <th class="text-center">Hecho</th>
-                                            <th class="text-center">Descripción</th>
                                             <th class="text-center">Tipo Lugar</th>
                                             <th class="text-center">Provincia</th>
                                             <th class="text-center">Canton</th>
                                             <th class="text-center">Distrito</th>
-                                            <th class="text-center">Direccion</th>
-                                            <th class="text-center">Ciudad</th>
-                                            <th class="text-center">Codigo Postal</th>
                                             <th class="text-center">Acciones</th>
                                         </tr>
                                     </thead>
                                     <tbody class="text-center">
                                         <tr th:each="lug: ${lugares}">
                                             <td th:text="${lug.CIHecho}"></td>
-                                            <td th:text="${lug.CV_Descripcion}"></td>
                                             <td th:text="${tipoLugares.get(lugStat.index).CVTitulo}"></td>
                                             <td th:text="${lug.CVProvincia}"></td>
                                             <td th:text="${lug.CVCanton}"></td>
                                             <td th:text="${lug.CVDistrito}"></td>
-                                            <td th:text="${lug.CV_Direccion}"></td>
-                                            <td th:text="${lug.CV_Ciudad}"></td>
-                                            <td th:text="${lug.CI_Codigo_Postal}"></td>
                                             <td th:if="${lugar}" class="text-center align-middle h-50"><a
                                                     class="btn btnMaterial btn-flat success" role="button"
                                                     th:href="@{/lugares/edit/{id}(id=${lug.CI_Codigo})}"><i
