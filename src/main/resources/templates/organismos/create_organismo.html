@@ -30,13 +30,6 @@
                     </optgroup>
                 </select></div>
 
-                <div class="mb-3"><label class="form-label" for="name">País</label>
-                    <select th:field="*{codigoPais}" class="form-select" required>
-                        <option value="" disabled selected>Seleccione un país</option>
-                        <option th:each="pais : ${paises}" th:value="${pais.id}" th:text="${pais.spanish}"></option>
-                    </select> 
-                </div>
-
                 <div class="mb-3"><label class="form-label" for="name">Contacto</label><input
                         id="name-4" th:field="*{CVContacto}" class="form-control item" type="text"
                         placeholder="Digite el contacto del organismo" required minlength="1" maxlength="50"/></div>

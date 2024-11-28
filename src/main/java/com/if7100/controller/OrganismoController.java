@@ -167,6 +167,8 @@ public class OrganismoController {
         this.validarPerfil();
 		if (!organismo.getCVNombre().equals("") && !organismo.getCVRol().equals("") &&
 				!organismo.getCVContacto().equals("")) {
+
+			organismo.setCodigoPais(this.usuario.getOrganizacion().getCodigoPais());
 			organismoService.saveOrganismo(organismo);
 
 			bitacoraService.saveBitacora(new Bitacora(this.usuario.getCVCedula(),
@@ -206,9 +208,7 @@ public class OrganismoController {
 			this.validarPerfil();
 			if (usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 1)
             || usuarioPerfilService.usuarioTieneRol(this.usuario.getCVCedula(), 2)) {
-				List<Paises> paises = paisesService.getAllPaises(); // Obtiene la lista de países
-				model.addAttribute("paises", paises); // Envía la lista de países al modelo
-
+				
 				model.addAttribute("organismo", organismoService.getOrganismoById(id));
 				model.addAttribute("tipoOrganismo", tipoOrganismoService.getAllTipoOrganismos());
 				return "organismos/edit_organismo";
@@ -227,7 +227,6 @@ public class OrganismoController {
 		Organismo existingOrganismo = organismoService.getOrganismoById(id);
 		model.addAttribute("tipoOrganismo", tipoOrganismoService.getAllTipoOrganismos());
 
-		existingOrganismo.setCodigoPais(organismo.getCodigoPais());// actualiza codigo pais
 		existingOrganismo.setCI_Id(id);
 		existingOrganismo.setCVNombre(organismo.getCVNombre());
 		existingOrganismo.setCVRol(organismo.getCVRol());

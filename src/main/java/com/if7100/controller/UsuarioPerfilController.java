@@ -196,10 +196,11 @@ public String saveusuarioPerfil(@ModelAttribute UsuarioPerfil usuarioPerfil,
         this.validarPerfil();
 
         for (Integer idPerfil : perfilesSeleccionados) {
-			Perfil perfil = perfilService.getPerfilById(idPerfil); // Obtener el país por ISO2
+			Perfil perfil = perfilService.getPerfilById(idPerfil); 
 			if (perfil != null) {
 				UsuarioPerfil relacion = new UsuarioPerfil();
-				relacion.setUsuario(usuarioPerfil.getUsuario());
+                System.out.println("relacionUsuario "+usuarioPerfil.getUsuario().getCVCedula());
+				relacion.setUsuario(usuarioService.getUsuarioByCVCedula(usuarioPerfil.getUsuario().getCVCedula()));
 				relacion.setPerfil(perfil);
 				usuarioPerfilService.saveUsuarioPerfil(relacion);
 			}
